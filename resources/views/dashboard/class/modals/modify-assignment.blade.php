@@ -1,0 +1,246 @@
+
+
+<div class="modal fade" id="modify-assignment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 id="modify-assignment-title" class="modal-title">Assignments</h4>
+            </div>
+
+            <div class="modal-body">
+                <div id="modify-assignment-error-div" class="alert alert-danger" role="alert"></div>
+                <form class="form-horizontal" id="form-modify-assignment" role="form" method="POST" enctype="multipart/form-data" action="">
+                    <div class="row">
+                        <div class="col-lg-12 ma-10">
+                            @csrf
+                            <input id="txt_assignment_id" type="hidden" value="0" />
+                            <div class="form-wrap">
+                                
+                                <div class="col-sm-12">
+
+                                    <!-- Assignment Number Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_assignment_number">Assignment Number</label>
+                                        <div class="col-sm-2">
+                                            {!! Form::number('txt_assignment_assignment_number', null, ['id'=>'txt_assignment_assignment_number', 'class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Title Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_title">Title</label>
+                                        <div class="col-sm-7">
+                                            {!! Form::text('txt_assignment_title', null, ['id'=>'txt_assignment_title', 'class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+
+                                    <!-- Description Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_description">Description</label>
+                                        <div class="col-sm-7">
+                                            {!! Form::textarea('txt_assignment_description', null, ['id'=>'txt_assignment_description', 'class' => 'form-control', 'rows'=>'4']) !!}
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Due Date Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_due_date">Due Date</label>
+                                        <div class="col-sm-2">
+                                            {!! Form::text('txt_assignment_due_date', null, ['id'=>'txt_assignment_due_date', 'class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+
+                                    <!-- Upload File Path Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_upload_file_path">Assignment File</label>
+                                        <div class="col-sm-7">
+                                            {!! Form::file('txt_assignment_upload_file_path', ['id'=>'txt_assignment_upload_file_path', 'class' => 'custom-file-input']) !!}
+                                        </div>
+                                    </div>
+
+                                    <!-- Reference Material Url Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_reference_material_url">Website URL Link</label>
+                                        <div class="col-sm-7">
+                                            {!! Form::text('txt_assignment_reference_material_url', null, ['id'=>'txt_assignment_reference_material_url', 'class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-modify-assignment" value="add">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section('js-130')
+<script type="text/javascript">
+$(document).ready(function() {
+
+    $('#txt_assignment_due_date').datetimepicker({
+        //format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
+        useCurrent: true,
+        sideBySide: true
+    });
+
+    //Show Modal
+    $('#btn-show-modify-assignment-modal').click(function(){
+        $('#modify-assignment-error-div').hide();
+        $('#modify-assignment-modal').modal('show');
+        $('#form-modify-assignment').trigger("reset");
+        $('#txt_assignment_id').val(0);
+    });
+
+    //Show Modal for Edit Entry
+    $('.btn-edit-modify-assignment-modal').click(function(){
+        $('#modify-assignment-error-div').hide();
+        $('#modify-assignment-modal').modal('show');
+        $('#form-modify-assignment').trigger("reset");
+
+        let itemId = $(this).attr('data-val');
+        $('#txt_assignment_id').val(itemId);
+
+        //Set title and url
+        $('#txt_assignment_title').val($('#spn_ass_'+itemId+'_title').html());
+        $('#txt_assignment_description').val($('#spn_ass_'+itemId+'_desc').html());
+        $('#txt_assignment_assignment_number').val($('#spn_ass_'+itemId+'_num').html());
+
+        $('#txt_assignment_due_date').val($('#spn_ass_'+itemId+'_date').html());
+        $('#txt_assignment_reference_material_url').val($('#spn_ass_'+itemId+'_url').html());
+    });
+
+    //Delete action
+    $('.btn-delete-assignment').click(function(e){
+        e.preventDefault();
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+        let itemId = $(this).attr('data-val');
+        if (confirm("Are you sure you want to delete this assignment?")){
+
+            let actionType = "DELETE";
+            let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
+
+            let formData = new FormData();
+            formData.append('_token', $('input[name="_token"]').val());
+            formData.append('_method', actionType);
+            
+            $.ajax({
+                url:endPointUrl,
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData:false,
+                contentType: false,
+                dataType: 'json',
+                success: function(result){
+                    if(result.errors){
+                        console.log(result.errors)
+                    }else{
+                        window.alert("The Lecture has been deleted.");
+                        location.reload(true);
+                    }
+                },
+            });
+        }        
+    });
+
+
+    function save_assignments_details(fileDetails){
+
+        let actionType = "POST";
+        let endPointUrl = "{{ route('classMaterials.store') }}";
+        let primaryId = $('#txt_assignment_id').val();
+
+        if (primaryId>0){
+            actionType = "PUT";
+            endPointUrl = "{{ route('classMaterials.update',0) }}"+primaryId;
+        }
+
+        let formData = new FormData();
+        formData.append('_token', $('input[name="_token"]').val());
+        formData.append('_method', actionType);
+        formData.append('type', 'class-assignments');
+        formData.append('course_class_id', {{$courseClass->id}});
+        formData.append('assignment_number', $('#txt_assignment_assignment_number').val());
+        formData.append('title', $('#txt_assignment_title').val());
+        formData.append('description', $('#txt_assignment_description').val());
+        formData.append('due_date', $('#txt_assignment_due_date').val());
+        formData.append('reference_material_url', $('#txt_assignment_reference_material_url').val());
+        formData.append('upload_file_path', fileDetails[0]);
+        formData.append('upload_file_type', fileDetails[1]);
+
+        $.ajax({
+            url:endPointUrl,
+            type: "POST",
+            data: formData,
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(result){
+                if(result.errors){
+
+                    $('#modify-assignment-error-div').html('');
+                    $('#modify-assignment-error-div').show();
+                    
+                    $.each(result.errors, function(key, value){
+                        $('#modify-assignment-error-div').append('<li class="">'+value+'</li>');
+                    });
+
+                }else{
+                    $('#modify-assignment-error-div').hide();
+                    window.setTimeout( function(){
+                        window.alert("Assignment saved successfully.");
+                        $('#modify-assignment-modal').modal('hide');
+                        location.reload(true);
+                    }, 50);
+                }
+            },
+        });
+
+    }
+
+
+    //Save assignment
+    $('#btn-modify-assignment').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+ 
+        var formData = new FormData();
+        formData.append('file', $('#txt_assignment_upload_file_path')[0].files[0]);
+
+        $.ajax({
+            url: "{{ route('attachment-upload') }}",
+            type: 'POST', processData: false,
+            contentType: false, data: formData,
+            success: function(data){
+                console.log(data); 
+                save_assignments_details(data.message);
+            },
+            error: function(data){ console.log(data); }
+        });    
+
+    });
+
+
+
+});
+</script>
+@endsection

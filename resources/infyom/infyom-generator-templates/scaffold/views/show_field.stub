@@ -1,0 +1,11 @@
+<!-- $FIELD_NAME_TITLE$ Field -->
+<div id="div_$MODEL_NAME_CAMEL$_$FIELD_NAME$" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$:', ['class'=>'control-label']) !!} 
+        <span id="spn_$MODEL_NAME_CAMEL$_$FIELD_NAME$">
+        @if (isset($$MODEL_NAME_CAMEL$->$FIELD_NAME$))
+            {!! $$MODEL_NAME_CAMEL$->$FIELD_NAME$ !!}
+        @endif
+        </span>
+    </p>
+</div>

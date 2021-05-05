@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Events;
+
+use App\Models\$MODEL_NAME$;
+use Illuminate\Broadcasting\Channel;
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+
+class $MODEL_NAME$Created
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public $$MODEL_NAME_CAMEL$;
+
+    /**
+     * Create a new event instance.
+     *
+     * @return void
+     */
+    public function __construct($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
+    {
+        $this->$MODEL_NAME_CAMEL$ = $$MODEL_NAME_CAMEL$;
+    }
+
+}

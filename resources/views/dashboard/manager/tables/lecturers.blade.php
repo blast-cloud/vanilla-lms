@@ -1,0 +1,64 @@
+@extends('layouts.app')
+
+@section('title_postfix')
+@if (isset($department) && $department!=null)
+{{ $department->name }} - Lecturers
+@endif
+@stop
+
+@section('page_title')
+@if (isset($department) && $department!=null)
+{{ $department->name }}
+@endif
+@stop
+
+
+@section('app_css')
+    @include('layouts.datatables_css')
+@endsection
+
+
+@section('content')
+    
+    <div class="col-sm-9">
+
+        <div class="panel panel-default card-view panel-refresh">
+            <div class="panel-heading" style="padding: 10px 15px;">
+                <div class="pull-left">
+                    <h4 class="txt-primary mt-5">Lecturers</h4>
+                </div>
+                <div class="pull-right">
+                    <div class="pull-left inline-block dropdown">
+                        <a id="" href="#" class="btn btn-primary btn-xs btn-new-mdl-lecturer-modal"><i class="icon wb-reply" aria-hidden="true"></i>Add New</a>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="panel-body">
+                {!! $dataTable->table(['width' => '100%', 'class' => 'table table-striped table-bordered']) !!}
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-sm-3">
+
+        @include("dashboard.partials.side-panel")
+
+    </div>
+
+    @include('dashboard.manager.modals.modify-lecturer')
+
+@endsection
+
+
+
+@push('app_js')
+
+    @include('layouts.datatables_js')
+    {!! $dataTable->scripts() !!}
+
+    <script src="{{ asset('vendors/bower_components/waypoints/lib/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('vendors/bower_components/jquery.counterup/jquery.counterup.min.js') }}"></script>
+
+@endpush
+

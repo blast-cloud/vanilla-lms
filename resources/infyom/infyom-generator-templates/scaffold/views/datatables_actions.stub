@@ -1,0 +1,12 @@
+    
+    <a href="#" data-val='{{$id}}' class='btn-show-$MODAL_NAME_ID$'>
+        {!! Form::button('<i class="fa fa-eye"></i>', ['type'=>'button']) !!}
+    </a>
+    
+    <a href="#" data-val='{{$id}}' class='btn-edit-$MODAL_NAME_ID$'>
+        {!! Form::button('<i class="fa fa-edit"></i>', ['type'=>'button']) !!}
+    </a>
+    
+    <a href="#" data-val='{{$id}}' class='btn-delete-$MODAL_NAME_ID$'>
+        {!! Form::button('<i class="fa fa-trash"></i>', ['type'=>'button']) !!}
+    </a>

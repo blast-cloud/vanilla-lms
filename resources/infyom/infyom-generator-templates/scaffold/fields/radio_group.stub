@@ -1,0 +1,8 @@
+<!-- $FIELD_NAME_TITLE$ Field -->
+<div id="div-$FIELD_NAME$" class="form-group">
+    <label class="control-label mb-10 col-sm-2" for="$FIELD_NAME$">$FIELD_NAME_TITLE$:</label>
+    <div class="col-sm-10">
+        {!! Form::radio('$FIELD_NAME$', "", null, ['class' => 'form-check-input']) !!}
+        $RADIO_BUTTONS$
+    </div>
+</div>
