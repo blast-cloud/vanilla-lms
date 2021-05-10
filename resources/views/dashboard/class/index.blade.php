@@ -2,12 +2,12 @@
 
 
 @section('title_postfix')
-{{ $courseClass->code }} :: {{ $courseClass->name }}
+{{ ($courseClass) ?  $courseClass->code : '' }} :: {{ ($courseClass) ? $courseClass->name : '' }}
 @stop
 
 @section('page_title')
-{{ $courseClass->code }} :: {{ $courseClass->name }}<br/>
-<small class="muted text-primary"><i>Taught by {{ $courseClass->lecturer->job_title }} {{ $courseClass->lecturer->first_name }} {{ $courseClass->lecturer->last_name }}</i></small>
+{{ ($courseClass) ? $courseClass->code : '' }} :: {{ ($courseClass) ? $courseClass->name : '' }}<br/>
+<small class="muted text-primary"><i>Taught by {{ ($courseClass) ? $courseClass->lecturer->job_title : '' }} {{ ($courseClass) ? $courseClass->lecturer->first_name : '' }} {{ ($courseClass) ? $courseClass->lecturer->last_name : '' }}</i></small>
 <br/>
 @stop
 

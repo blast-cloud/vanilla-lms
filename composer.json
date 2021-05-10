@@ -11,7 +11,7 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "infyomlabs/adminlte-templates": "^2.0",
-        "infyomlabs/laravel-generator2": "@dev",
+        "infyomlabs/laravel-generator": "^8.0.0",
         "infyomlabs/swagger-generator": "dev-master",
         "joisarjignesh/bigbluebutton": "^1.1",
         "laravel/framework": "^8.12",
@@ -34,9 +34,6 @@
         {
             "type": "vcs",
             "url":  "git@github.com:InfyOmLabs/swaggervel.git"
-        },{
-            "type": "path",
-            "url": "C:\\Users\\Bosah.BOSAH-X13\\Desktop\\workspace\\laravel-generator2"
         }
     ],
     "autoload": {

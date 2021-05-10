@@ -25,7 +25,7 @@
             <br/>
             <h6>Class Dates</h6>
             <ul class="list-icons" style="font-size:95%">
-            @if (count($courseClass->calendarEntries)>0)
+            @if (($courseClass) && count($courseClass->calendarEntries)>0)
             @foreach($courseClass->calendarEntries as $calendarEntry)
                 <li class="ml-10"><i class="text-primary fa fa-check mr-5"></i> 
                     <span id="spn_dt_{{$calendarEntry->id}}_date">{{$calendarEntry->due_date->format('d-M-Y')}}</span> - <span id="spn_dt_{{$calendarEntry->id}}_title">{{$calendarEntry->title}}</span> 
@@ -94,7 +94,7 @@
             @endif
             </h6>
             <hr class="light-grey-hr mb-5"/>
-            @if ( $courseClass->announcements!=null & count($courseClass->announcements)>0)
+            @if ( ($courseClass) && $courseClass->announcements!=null && count($courseClass->announcements)>0)
             @foreach($courseClass->announcements as $item)
                 <dl>
                     <dt class="mb-0"><i class="text-primary fa fa-bullhorn mr-5"></i><span id="spn_announcement_{{$item->id}}_title">{{ $item->title }}</span>

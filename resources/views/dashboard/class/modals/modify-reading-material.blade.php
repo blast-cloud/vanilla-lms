@@ -141,7 +141,7 @@ $(document).ready(function() {
         formData.append('_method', actionType);
         formData.append('type', 'reading-materials');
         formData.append('title', $('#txt_reading_material_title').val());
-        formData.append('course_class_id', {{ $courseClass->id }});
+        formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : '' }});
         formData.append('upload_file_path', fileDetails[0]);
         formData.append('upload_file_type', fileDetails[1]);
         formData.append('reference_material_url', $('#txt_reading_material_reference_material_url').val());

@@ -177,7 +177,7 @@ $(document).ready(function() {
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
         formData.append('type', 'class-assignments');
-        formData.append('course_class_id', {{$courseClass->id}});
+        formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
         formData.append('assignment_number', $('#txt_assignment_assignment_number').val());
         formData.append('title', $('#txt_assignment_title').val());
         formData.append('description', $('#txt_assignment_description').val());

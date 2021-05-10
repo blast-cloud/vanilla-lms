@@ -99,6 +99,8 @@ class ClassDashboardController extends AppBaseController
     
         }else if ($current_user->lecturer_id != null){
             $class_schedules = $this->courseClassRepository->all(['lecturer_id'=>$current_user->lecturer_id]);
+        }else{
+            $class_schedules = null;
         }
 
         return view("dashboard.class.index")

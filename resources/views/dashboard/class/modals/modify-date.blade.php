@@ -145,7 +145,7 @@ $(document).ready(function() {
         let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
-        formData.append('course_class_id', {{$courseClass->id}});
+        formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
         formData.append('title', $('#txt_due_date_title').val());
         formData.append('due_date', $('#txt_due_date_date').val());
 

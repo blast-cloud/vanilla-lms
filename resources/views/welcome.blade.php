@@ -137,7 +137,7 @@
                                                     <hr class="mb-10">
                                                     <ul class="list-group mb-0 text-center">
                                                         <li class="list-group-item">
-                                                            <b>Username</b><br/>admin@vanilla-lms.edu.ng<br/>
+                                                            <b>Username</b><br/>admin@zambezi.edu.ng<br/>
                                                             <b>Password</b><br/>password
                                                         </li>
                                                         <li><hr class="mt-5 mb-5"></li>

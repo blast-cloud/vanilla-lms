@@ -151,7 +151,7 @@ $(document).ready(function() {
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
         formData.append('type', 'lecture-classes');
-        formData.append('course_class_id', {{$courseClass->id}});
+        formData.append('course_class_id', {{($courseClass) ? $courseClass->id : ''}});
         formData.append('lecture_number', $('#txt_start_lecture_number').val());
         formData.append('title', $('#txt_start_lecture_title').val());
         formData.append('description', $('#txt_start_lecture_description').val());

@@ -64,10 +64,10 @@ $(document).ready(function() {
         let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', 'PUT');
-        formData.append('id', {{$courseClass->id}});
+        formData.append('id', {{ ($courseClass) ?  $courseClass->id : ''}});
         formData.append('outline', $('#txt_outline_description').val());
 
-        let artifact_url = "{{ route('courseClasses.update', $courseClass->id) }}";
+        let artifact_url = "{{ route('courseClasses.update', ($courseClass) ? $courseClass->id : '') }}";
         $.ajax({
             url:artifact_url,
             type: "POST",

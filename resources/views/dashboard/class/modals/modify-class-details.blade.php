@@ -147,13 +147,13 @@ $(document).ready(function() {
         let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', 'PUT');
-        formData.append('id', {{$courseClass->id}});
+        formData.append('id', {{ ($courseClass) ?  $courseClass->id : ''}});
         formData.append('email_address', $('#txt_class_email').val());
         formData.append('telephone', $('#txt_class_phone').val());
         formData.append('next_lecture_date', $('#txt_class_next_lecture_date').val());
         formData.append('next_exam_date', $('#txt_class_next_exam_date').val());
 
-        let artifact_url = "{{ route('courseClasses.update', $courseClass->id) }}";
+        let artifact_url = "{{ route('courseClasses.update', ($courseClass) ? $courseClass->id: '') }}";
         $.ajax({
             url:artifact_url,
             type: "POST",
