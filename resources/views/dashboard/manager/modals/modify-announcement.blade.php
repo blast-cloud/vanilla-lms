@@ -170,12 +170,12 @@ $(document).ready(function() {
             processData:false,
             contentType: false,
             dataType: 'json',
-            success: function(result){
-                if(result.errors){
+            success: function(data){
+                if(data.errors){
 					$('#div-announcement-modal-error').html('');
 					$('#div-announcement-modal-error').show();
                     
-                    $.each(result.errors, function(key, value){
+                    $.each(data.errors, function(key, value){
                         $('#div-announcement-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
@@ -191,7 +191,7 @@ $(document).ready(function() {
                 $('#div-announcement-modal-error').show();
 
                 if (data.responseJSON && data.responseJSON.errors){
-                    $.each(result.errors, function(key, value){
+                    $.each(data.responseJSON.errors, function(key, value){
                         $('#div-announcement-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }

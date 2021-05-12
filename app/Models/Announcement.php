@@ -91,7 +91,8 @@ class Announcement extends Model
      * @var array
      */
     public static $rules = [
-        'title' => 'required'
+        'title' => 'required',
+        'description' => 'required'
     ];
 
     /**

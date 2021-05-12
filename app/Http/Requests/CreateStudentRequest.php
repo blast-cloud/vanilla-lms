@@ -2,9 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Contracts\Validation\Validator;
-
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Student;
 
@@ -20,16 +17,6 @@ class CreateStudentRequest extends FormRequest
     {
         return true;
     }
-
-
-    /**
-     * Over-rding the HTTP ERROR Code returned.
-     *
-     * @return array
-     */
-    protected function failedValidation(Validator $validator){
-        throw new HttpResponseException(response()->json($validator->errors(), 200)); 
-      }
 
     /**
      * Get the validation rules that apply to the request.

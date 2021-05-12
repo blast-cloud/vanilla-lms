@@ -200,7 +200,7 @@ $(document).ready(function() {
                 $('#div-student-modal-error').show();
 
                 if (data.responseJSON && data.responseJSON.errors){
-                    $.each(result.errors, function(key, value){
+                    $.each(data.responseJSON.errors, function(key, value){
                         $('#div-student-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }

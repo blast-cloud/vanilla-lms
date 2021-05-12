@@ -75,20 +75,25 @@ class ACLController extends Controller
     }
 
     public function updateUserAccount(Request $request, $id){
-        $current_user = User::find($id);
+       
+        if($id != '0'){
+            $current_user = User::find($id);
+        }else{
+            $current_user = new User;
+        }
 
-        if ($current_user->manager_id != null){
+        if ( ($current_user) && $current_user->manager_id != null){
             $current_user->manager->first_name = $request->first_name;
             $current_user->manager->last_name = $request->last_name;
             $current_user->manager->save();
 
-        }else if ($current_user->student_id != null){
+        }else if ( ($current_user) && $current_user->student_id != null){
             $current_user->student->matriculation_number = $request->matric_num;
             $current_user->student->first_name = $request->first_name;
             $current_user->student->last_name = $request->last_name;
             $current_user->student->save();
     
-        }else if ($current_user->lecturer_id != null){
+        }else if ( ($current_user) && $current_user->lecturer_id != null){
             $current_user->lecturer->first_name = $request->first_name;
             $current_user->lecturer->last_name = $request->last_name;
             $current_user->lecturer->save();

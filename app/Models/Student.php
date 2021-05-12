@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Validation\Rule;
 
 /**
  * @SWG\Definition(
@@ -119,7 +120,10 @@ class Student extends Model
      */
     public static $rules = [
         'first_name' => 'required',
-        'last_name' => 'required'
+        'last_name' => 'required',
+        'matriculation_number' => 'required',
+        'email' => 'required',
+        'telephone' => 'required',
     ];
 
     /**
