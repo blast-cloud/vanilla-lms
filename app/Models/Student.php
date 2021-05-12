@@ -123,9 +123,9 @@ class Student extends Model
     public static $rules = [
         'first_name' => 'required',
         'last_name' => 'required',
-        'matriculation_number' => "required|unique:students,matriculation_number|max:191",
-        'email' => 'required|unique:students,email|max:191',
-        'telephone' => 'required|unique:students,telephone|max:191',
+        'matriculation_number' => "required|max:191",
+        'email' => 'required|max:191',
+        'telephone' => 'required|max:191',
     ];
 
     /**
