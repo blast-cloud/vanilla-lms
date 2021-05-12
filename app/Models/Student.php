@@ -5,7 +5,6 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Validation\Rule;
 
 /**
  * @SWG\Definition(
@@ -79,9 +78,12 @@ class Student extends Model
     use HasFactory;
 
     public $table = 'students';
+
     
 
     protected $dates = ['deleted_at'];
+
+
 
 
 
@@ -121,9 +123,9 @@ class Student extends Model
     public static $rules = [
         'first_name' => 'required',
         'last_name' => 'required',
-        'matriculation_number' => 'required',
-        'email' => 'required',
-        'telephone' => 'required',
+        'matriculation_number' => "required|unique:students,matriculation_number|max:191",
+        'email' => 'required|unique:students,email|max:191',
+        'telephone' => 'required|unique:students,telephone|max:191',
     ];
 
     /**

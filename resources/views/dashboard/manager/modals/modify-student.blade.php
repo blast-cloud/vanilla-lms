@@ -166,6 +166,7 @@ $(document).ready(function() {
         formData.append('_method', actionType);
         formData.append('email', $('#email').val());
         formData.append('first_name', $('#first_name').val());
+        formData.append('txt_student_primary_id', $('#txt-student-primary-id').val());
         formData.append('last_name', $('#last_name').val());
         formData.append('telephone', $('#telephone').val());
         formData.append('matriculation_number', $('#matriculation_number').val());
