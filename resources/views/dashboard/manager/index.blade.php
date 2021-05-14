@@ -44,8 +44,7 @@
         @include("dashboard.partials.side-panel")
     </div>
 
-    @include('dashboard.manager.modals.modify-class')
-   
+    
     @include('dashboard.manager.modals.modify-announcement')
 
 @endsection
