@@ -96,7 +96,11 @@ class Setting extends Model
      * @var array
      */
     public static $rules = [
-        'key' => 'required'
+        'key' => 'required',
+        'value' => 'required',
+        'group_name' => 'required',
+        'model_type' => 'required',
+        'model_value' => 'required'
     ];
 
     
