@@ -165,6 +165,7 @@ $(document).ready(function() {
         formData.append('department_id', {{$department->id}});
         formData.append('code', $('#code').val());
         formData.append('name', $('#name').val());
+        formData.append('txt_course_primary_id', $('#txt-course-primary-id').val());
         formData.append('description', $('#description').val());
         formData.append('credit_hours', $('#credit_hours').val());
 
@@ -197,7 +198,7 @@ $(document).ready(function() {
                 $('#div-course-modal-error').show();
 
                 if (data.responseJSON && data.responseJSON.errors){
-                    $.each(result.errors, function(key, value){
+                    $.each(data.responseJSON.errors, function(key, value){
                         $('#div-course-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }
