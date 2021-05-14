@@ -61,7 +61,7 @@ class CreateStudentRequest extends FormRequest
     {
         $validator->after(function ($validator) {
             if ($this->email != null && count($this->emailAlreadyExist()) != 0) {
-                $validator->errors()->add('email', 'The Email number has already been taken');
+                $validator->errors()->add('email', 'The Email has already been taken');
             }
         });
 

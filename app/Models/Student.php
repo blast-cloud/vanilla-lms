@@ -125,7 +125,7 @@ class Student extends Model
         'last_name' => 'required',
         'matriculation_number' => "required|max:191",
         'email' => 'required|max:191',
-        'telephone' => 'required|max:191',
+        'telephone' => 'required|min:11',
     ];
 
     /**
