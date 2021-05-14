@@ -119,7 +119,9 @@ class Lecturer extends Model
      */
     public static $rules = [
         'first_name' => 'required',
-        'last_name' => 'required'
+        'last_name' => 'required',
+        'email' => 'required|email',
+        'telephone' => 'required|min:11'
     ];
 
     /**

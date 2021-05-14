@@ -166,6 +166,7 @@ $(document).ready(function() {
         formData.append('email', $('#email').val());
         formData.append('telephone', $('#telephone').val());
         formData.append('job_title', $('#job_title').val());
+        formData.append('txt_lecturer_primary_id', $('#txt-lecturer-primary-id').val());
         formData.append('first_name', $('#first_name').val());
         formData.append('last_name', $('#last_name').val());
         formData.append('department_id', {{ $department->id }});
