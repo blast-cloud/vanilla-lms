@@ -14,7 +14,7 @@
                 <div class="pull-left inline-block dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false" role="button"><i class="zmdi zmdi-more-vert"></i></a>
                     <ul class="dropdown-menu bullet dropdown-menu-right" role="menu">
-                        <li role="presentation"><a id="btn-show-modify-calendar-modal" href="#" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Add Item</a></li>
+                        <li role="presentation"><a id="btn-show-modify-calendar-modal" class="btn-new-mdl-calendarEntry-modal" href="#" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Add Item</a></li>
                         <li role="presentation"><a href="{{ route('dashboard.manager.calendars') }}" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>Manage</a></li>
                     </ul>
                 </div>                
@@ -54,3 +54,4 @@
             </div>
         </div>
     </div>
+    @include('dashboard.manager.modals.modify-calendar')

@@ -45,7 +45,7 @@
     </div>
 
     @include('dashboard.manager.modals.modify-class')
-    @include('dashboard.manager.modals.modify-calendar')
+   
     @include('dashboard.manager.modals.modify-announcement')
 
 @endsection
