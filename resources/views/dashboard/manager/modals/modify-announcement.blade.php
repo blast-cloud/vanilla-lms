@@ -46,7 +46,7 @@
     </div>
 </div>
 
-@section('js-113')
+@section('js-112')
 <script type="text/javascript">
 $(document).ready(function() {
 
