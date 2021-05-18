@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Submission;
 
-class CreateSubmissionRequest extends FormRequest
+class CreateSubmissionRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,6 +25,10 @@ class CreateSubmissionRequest extends FormRequest
      */
     public function rules()
     {
-        return Submission::$rules;
+        //return Submission::$rules;
+
+        return [
+            'title' => 'required'
+        ];
     }
 }

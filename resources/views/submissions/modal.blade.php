@@ -186,14 +186,7 @@ $(document).ready(function() {
                     },20);
                 }
             }, error: function(data){
-                $('#div-submission-modal-error').html('');
-                $('#div-submission-modal-error').show();
-
-                if (data.responseJSON && data.responseJSON.errors){
-                    $.each(result.errors, function(key, value){
-                        $('#div-submission-modal-error').append('<li class="">'+value+'</li>');
-                    });
-                }
+                console.log(data);
             }
         });
     });

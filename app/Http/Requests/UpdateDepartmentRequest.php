@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Department;
 
-class UpdateDepartmentRequest extends FormRequest
+class UpdateDepartmentRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,8 +25,15 @@ class UpdateDepartmentRequest extends FormRequest
      */
     public function rules()
     {
+        /*
         $rules = Department::$rules;
         
         return $rules;
+        */
+
+        return [
+            'code' => 'required',
+        'name' => 'required'
+        ];
     }
 }

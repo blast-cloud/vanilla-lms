@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Grade;
 
-class CreateGradeRequest extends FormRequest
+class CreateGradeRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,6 +25,10 @@ class CreateGradeRequest extends FormRequest
      */
     public function rules()
     {
-        return Grade::$rules;
+        //return Grade::$rules;
+
+        return [
+            'grade_title' => 'required'
+        ];
     }
 }

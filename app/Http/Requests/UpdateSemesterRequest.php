@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Semester;
 
-class UpdateSemesterRequest extends FormRequest
+class UpdateSemesterRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,8 +25,16 @@ class UpdateSemesterRequest extends FormRequest
      */
     public function rules()
     {
+        /*
         $rules = Semester::$rules;
         
         return $rules;
+        */
+
+        return [
+            'code' => 'required',
+        'start_date' => 'required',
+        'end_date' => 'required'
+        ];
     }
 }

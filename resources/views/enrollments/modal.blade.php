@@ -186,14 +186,7 @@ $(document).ready(function() {
                     },20);
                 }
             }, error: function(data){
-                $('#div-enrollment-modal-error').html('');
-                $('#div-enrollment-modal-error').show();
-
-                if (data.responseJSON && data.responseJSON.errors){
-                    $.each(result.errors, function(key, value){
-                        $('#div-enrollment-modal-error').append('<li class="">'+value+'</li>');
-                    });
-                }
+                console.log(data);
             }
         });
     });

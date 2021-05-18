@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Manager;
 
-class UpdateManagerRequest extends FormRequest
+class UpdateManagerRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,8 +25,15 @@ class UpdateManagerRequest extends FormRequest
      */
     public function rules()
     {
+        /*
         $rules = Manager::$rules;
         
         return $rules;
+        */
+
+        return [
+            'first_name' => 'required',
+        'last_name' => 'required'
+        ];
     }
 }

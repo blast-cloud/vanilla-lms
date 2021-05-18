@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\CalendarEntry;
 
-class CreateCalendarEntryRequest extends FormRequest
+class CreateCalendarEntryRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,6 +25,10 @@ class CreateCalendarEntryRequest extends FormRequest
      */
     public function rules()
     {
-        return CalendarEntry::$rules;
+        //return CalendarEntry::$rules;
+
+        return [
+            'title' => 'required'
+        ];
     }
 }

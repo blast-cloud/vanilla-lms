@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Setting;
 
-class UpdateSettingRequest extends FormRequest
+class UpdateSettingRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,8 +25,14 @@ class UpdateSettingRequest extends FormRequest
      */
     public function rules()
     {
+        /*
         $rules = Setting::$rules;
         
         return $rules;
+        */
+
+        return [
+            'key' => 'required'
+        ];
     }
 }

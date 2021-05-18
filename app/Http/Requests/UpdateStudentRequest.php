@@ -1,11 +1,11 @@
-w3<?php
+<?php
 
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Student;
 
-class UpdateStudentRequest extends FormRequest
+class UpdateStudentRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,8 +25,15 @@ class UpdateStudentRequest extends FormRequest
      */
     public function rules()
     {
+        /*
         $rules = Student::$rules;
         
         return $rules;
+        */
+
+        return [
+            'first_name' => 'required',
+        'last_name' => 'required'
+        ];
     }
 }

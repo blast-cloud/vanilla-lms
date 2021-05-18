@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Forum;
 
-class UpdateForumRequest extends FormRequest
+class UpdateForumRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,8 +25,14 @@ class UpdateForumRequest extends FormRequest
      */
     public function rules()
     {
+        /*
         $rules = Forum::$rules;
         
         return $rules;
+        */
+
+        return [
+            'group_name' => 'required'
+        ];
     }
 }

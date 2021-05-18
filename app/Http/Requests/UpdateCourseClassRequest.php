@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\CourseClass;
 
-class UpdateCourseClassRequest extends FormRequest
+class UpdateCourseClassRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,8 +25,16 @@ class UpdateCourseClassRequest extends FormRequest
      */
     public function rules()
     {
+        /*
         $rules = CourseClass::$rules;
         
         return $rules;
+        */
+
+        return [
+            'code' => 'required',
+        'name' => 'required',
+        'credit_hours' => 'required'
+        ];
     }
 }

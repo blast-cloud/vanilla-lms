@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Announcement;
 
-class CreateAnnouncementRequest extends FormRequest
+class CreateAnnouncementRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,6 +25,10 @@ class CreateAnnouncementRequest extends FormRequest
      */
     public function rules()
     {
-        return Announcement::$rules;
+        //return Announcement::$rules;
+
+        return [
+            'title' => 'required'
+        ];
     }
 }

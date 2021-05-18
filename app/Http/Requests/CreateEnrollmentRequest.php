@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Enrollment;
 
-class CreateEnrollmentRequest extends FormRequest
+class CreateEnrollmentRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,6 +25,10 @@ class CreateEnrollmentRequest extends FormRequest
      */
     public function rules()
     {
-        return Enrollment::$rules;
+        //return Enrollment::$rules;
+
+        return [
+            'status' => 'required'
+        ];
     }
 }

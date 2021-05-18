@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\ClassMaterial;
 
-class CreateClassMaterialRequest extends FormRequest
+class CreateClassMaterialRequest extends AppBaseFormRequest
 {
 
     /**
@@ -25,6 +25,11 @@ class CreateClassMaterialRequest extends FormRequest
      */
     public function rules()
     {
-        return ClassMaterial::$rules;
+        //return ClassMaterial::$rules;
+
+        return [
+            'type' => 'required',
+        'title' => 'required'
+        ];
     }
 }

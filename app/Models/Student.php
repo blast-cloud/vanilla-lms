@@ -78,12 +78,9 @@ class Student extends Model
     use HasFactory;
 
     public $table = 'students';
-
     
 
     protected $dates = ['deleted_at'];
-
-
 
 
 
@@ -122,10 +119,7 @@ class Student extends Model
      */
     public static $rules = [
         'first_name' => 'required',
-        'last_name' => 'required',
-        'matriculation_number' => "required|max:191",
-        'email' => 'required|max:191',
-        'telephone' => 'required|min:11',
+        'last_name' => 'required'
     ];
 
     /**

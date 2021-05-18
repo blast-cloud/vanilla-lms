@@ -99,9 +99,7 @@ class CalendarEntry extends Model
      * @var array
      */
     public static $rules = [
-        'title' => 'required',
-        'due_date' => 'required|date',
-        'description' => 'required'
+        'title' => 'required'
     ];
 
     /**

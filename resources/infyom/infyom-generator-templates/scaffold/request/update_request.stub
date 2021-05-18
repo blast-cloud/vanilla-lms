@@ -5,7 +5,7 @@ namespace $NAMESPACE_REQUEST$;
 use Illuminate\Foundation\Http\FormRequest;
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 
-class Update$MODEL_NAME$Request extends FormRequest
+class Update$MODEL_NAME$Request extends AppBaseFormRequest
 {
 
     /**
@@ -25,8 +25,14 @@ class Update$MODEL_NAME$Request extends FormRequest
      */
     public function rules()
     {
+        /*
         $rules = $MODEL_NAME$::$rules;
         $UNIQUE_RULES$
         return $rules;
+        */
+
+        return [
+            $RULES$
+        ];
     }
 }

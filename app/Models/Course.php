@@ -100,8 +100,7 @@ class Course extends Model
     public static $rules = [
         'code' => 'required',
         'name' => 'required',
-        'credit_hours' => 'required',
-        'description' => 'required'
+        'credit_hours' => 'required'
     ];
 
     /**
