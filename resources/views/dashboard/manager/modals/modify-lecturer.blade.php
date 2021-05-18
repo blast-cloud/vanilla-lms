@@ -159,8 +159,17 @@ $(document).ready(function() {
         // let endPointUrl = "{{URL::to('/')}}/api/lecturers";
         let endPointUrl = "{{ route('lecturers.store') }}";
         let primaryId = $('#txt-lecturer-primary-id').val();
+
         
         let formData = new FormData();
+
+        if (primaryId>0){
+            actionType = "PUT";
+            // let endPointUrl = "{{URL::to('/')}}/api/lecturers/"+itemId;
+            endPointUrl = "{{ route('lecturers.update',0) }}"+primaryId;
+            formData.append('id', primaryId);
+        }
+
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
         formData.append('email', $('#email').val());
@@ -170,12 +179,7 @@ $(document).ready(function() {
         formData.append('last_name', $('#last_name').val());
         formData.append('department_id', {{ $department->id }});
 
-        if (primaryId>0){
-            actionType = "PUT";
-            // let endPointUrl = "{{URL::to('/')}}/api/lecturers/"+itemId;
-            let endPointUrl = "{{ route('lecturers.update',0) }}"+primaryId;
-            formData.append('id', primaryId);
-        }
+
         
         $.ajax({
             url:endPointUrl,
