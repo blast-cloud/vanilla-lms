@@ -36,7 +36,7 @@ class DepartmentStudentsDataTable extends StudentDataTable
             return "{$query->first_name} {$query->last_name}";
         });
 
-        $dataTable->addColumn('action', 'calendar_entries.datatables_actions');
+        $dataTable->addColumn('action', 'students.datatables_actions');
         $dataTable->rawColumns(['matriculation_number','action']);
 
         return $dataTable;
