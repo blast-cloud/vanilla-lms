@@ -31,7 +31,7 @@ class UpdateDepartmentAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:departments,id',
             'code' => 'required',
             'name' => 'required'
         ];

@@ -32,7 +32,7 @@ class UpdateCourseClassRequest extends AppBaseFormRequest
         */
 
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:course_classes,id',
             'code' => 'required',
             'name' => 'required',
             'credit_hours' => 'required',

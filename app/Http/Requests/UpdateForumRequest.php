@@ -32,7 +32,7 @@ class UpdateForumRequest extends AppBaseFormRequest
         */
 
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:forums,id',
             'group_name' => 'required'
         ];
     }

@@ -31,7 +31,7 @@ class UpdateSubmissionAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:submissions,id',
             'title' => 'required'
         ];
     }

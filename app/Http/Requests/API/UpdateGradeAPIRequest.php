@@ -31,7 +31,7 @@ class UpdateGradeAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:grades,id',
             'grade_title' => 'required',
             'student_id' => 'required',
             'course_class_id' => 'required',

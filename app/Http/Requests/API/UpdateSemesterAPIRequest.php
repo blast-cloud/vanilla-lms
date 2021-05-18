@@ -31,7 +31,7 @@ class UpdateSemesterAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:semesters,id',
             'code' => 'required',
             'start_date' => 'required',
             'end_date' => 'required'

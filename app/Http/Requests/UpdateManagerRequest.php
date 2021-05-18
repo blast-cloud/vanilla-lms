@@ -32,7 +32,7 @@ class UpdateManagerRequest extends AppBaseFormRequest
         */
 
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:managers,id',
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => "required|email|max:100|unique:managers,email,{$this->id}",

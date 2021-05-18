@@ -32,7 +32,7 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
         */
 
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:class_materials,id',
             'type' => 'required',
             'title' => 'required',
             'description' => 'required'

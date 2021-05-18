@@ -32,7 +32,7 @@ class UpdateSettingRequest extends AppBaseFormRequest
         */
 
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:settings,id',
             'key' => 'required',
             'value' => 'nullable',
             'group_name' => 'nullable',

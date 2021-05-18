@@ -31,7 +31,7 @@ class UpdateCourseClassAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
-            'id' => 'required|numeric',
+            'id' => 'required|numeric|exists:course_classes,id',
             'code' => 'required',
             'name' => 'required',
             'credit_hours' => 'required',
