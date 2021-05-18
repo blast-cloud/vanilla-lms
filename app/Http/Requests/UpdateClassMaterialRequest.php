@@ -32,6 +32,7 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
         */
 
         return [
+            'id' => 'required|numeric',
             'type' => 'required',
             'title' => 'required',
             'description' => 'required'

@@ -32,6 +32,7 @@ class UpdateAnnouncementRequest extends AppBaseFormRequest
         */
 
         return [
+            'id' => 'required|numeric',
             'title' => 'required',
             'description' => 'required',
         ];

@@ -31,6 +31,7 @@ class UpdateStudentAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
+            'id' => 'required|numeric',
             'matriculation_number' => "required|max:191|unique:students,matriculation_number,{$this->id}",
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',

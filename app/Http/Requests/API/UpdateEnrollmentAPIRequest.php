@@ -31,6 +31,7 @@ class UpdateEnrollmentAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
+            'id' => 'required|numeric',
             'status' => 'required',
             'student_id' => 'required',
             'course_class_id' => 'required'

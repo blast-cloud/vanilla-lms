@@ -31,6 +31,7 @@ class UpdateSettingAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
+            'id' => 'required|numeric',
             'key' => 'required',
             'value' => 'nullable',
             'group_name' => 'nullable',

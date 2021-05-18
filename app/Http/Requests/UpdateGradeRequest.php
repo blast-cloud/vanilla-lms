@@ -32,6 +32,7 @@ class UpdateGradeRequest extends AppBaseFormRequest
         */
 
         return [
+            'id' => 'required|numeric',
             'grade_title' => 'required',
             'student_id' => 'required',
             'course_class_id' => 'required',

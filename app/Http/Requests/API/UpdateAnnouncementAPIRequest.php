@@ -31,6 +31,7 @@ class UpdateAnnouncementAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
+            'id' => 'required|numeric',
             'title' => 'required',
             'description' => 'required',
         ];

@@ -31,6 +31,7 @@ class UpdateLecturerAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
+            'id' => 'required|numeric',
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
             'email' => "required|email|max:100|unique:lecturers,email,{$this->id}",

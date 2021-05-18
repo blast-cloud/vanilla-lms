@@ -32,6 +32,7 @@ class UpdateEnrollmentRequest extends AppBaseFormRequest
         */
 
         return [
+            'id' => 'required|numeric',
             'status' => 'required',
             'student_id' => 'required',
             'course_class_id' => 'required'

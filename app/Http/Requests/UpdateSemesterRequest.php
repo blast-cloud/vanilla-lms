@@ -32,6 +32,7 @@ class UpdateSemesterRequest extends AppBaseFormRequest
         */
 
         return [
+            'id' => 'required|numeric',
             'code' => 'required',
             'start_date' => 'required',
             'end_date' => 'required'

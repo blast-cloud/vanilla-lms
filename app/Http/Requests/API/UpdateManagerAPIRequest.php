@@ -31,6 +31,7 @@ class UpdateManagerAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
+            'id' => 'required|numeric',
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => "required|email|max:100|unique:managers,email,{$this->id}",

@@ -31,6 +31,7 @@ class UpdateClassMaterialAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
+            'id' => 'required|numeric',
             'type' => 'required',
             'title' => 'required',
             'description' => 'required'

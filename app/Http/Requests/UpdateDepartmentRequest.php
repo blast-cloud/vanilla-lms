@@ -32,6 +32,7 @@ class UpdateDepartmentRequest extends AppBaseFormRequest
         */
 
         return [
+            'id' => 'required|numeric',
             'code' => 'required',
             'name' => 'required'
         ];
