@@ -4,8 +4,10 @@ namespace App\Http\Requests\API;
 
 use App\Models\Enrollment;
 use InfyOm\Generator\Request\APIRequest;
+use App\Http\Requests\AppBaseFormRequest;
 
-class CreateEnrollmentAPIRequest extends APIRequest
+
+class CreateEnrollmentAPIRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +26,9 @@ class CreateEnrollmentAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return Enrollment::$rules;
+        // return Enrollment::$rules;
+        return [
+            'status' => 'required'
+        ];
     }
 }

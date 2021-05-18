@@ -4,8 +4,10 @@ namespace App\Http\Requests\API;
 
 use App\Models\Setting;
 use InfyOm\Generator\Request\APIRequest;
+use App\Http\Requests\AppBaseFormRequest;
 
-class CreateSettingAPIRequest extends APIRequest
+
+class CreateSettingAPIRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +26,9 @@ class CreateSettingAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return Setting::$rules;
+        // return Setting::$rules;
+        return [
+            'key' => 'required'
+        ];
     }
 }

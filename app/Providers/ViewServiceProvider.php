@@ -58,6 +58,10 @@ class ViewServiceProvider extends ServiceProvider
             $StudentItems = Student::pluck('first_name','id')->toArray();
             $view->with('StudentItems', $StudentItems);
         });
+        View::composer(['enrollments.fields'], function ($view) {
+            $StudentItems = Student::pluck('first_name','id')->toArray();
+            $view->with('StudentItems', $StudentItems);
+        });
         View::composer(['submissions.fields'], function ($view) {
             $ClassMaterialItems = ClassMaterial::pluck('title','id')->toArray();
             $view->with('ClassMaterialItems', $ClassMaterialItems);

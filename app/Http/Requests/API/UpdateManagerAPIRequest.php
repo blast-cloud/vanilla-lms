@@ -4,8 +4,9 @@ namespace App\Http\Requests\API;
 
 use App\Models\Manager;
 use InfyOm\Generator\Request\APIRequest;
+use App\Http\Requests\AppBaseFormRequest;
 
-class UpdateManagerAPIRequest extends APIRequest
+class UpdateManagerAPIRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,14 @@ class UpdateManagerAPIRequest extends APIRequest
      */
     public function rules()
     {
+        /*
         $rules = Manager::$rules;
         
         return $rules;
+        */
+        return [
+            'first_name' => 'required',
+        'last_name' => 'required'
+        ];
     }
 }

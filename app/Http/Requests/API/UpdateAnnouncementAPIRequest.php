@@ -4,8 +4,9 @@ namespace App\Http\Requests\API;
 
 use App\Models\Announcement;
 use InfyOm\Generator\Request\APIRequest;
+use App\Http\Requests\AppBaseFormRequest;
 
-class UpdateAnnouncementAPIRequest extends APIRequest
+class UpdateAnnouncementAPIRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,13 @@ class UpdateAnnouncementAPIRequest extends APIRequest
      */
     public function rules()
     {
+        /*
         $rules = Announcement::$rules;
         
         return $rules;
+        */
+        return [
+            'title' => 'required'
+        ];
     }
 }

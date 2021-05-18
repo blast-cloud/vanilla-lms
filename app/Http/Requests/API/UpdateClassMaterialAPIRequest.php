@@ -4,8 +4,9 @@ namespace App\Http\Requests\API;
 
 use App\Models\ClassMaterial;
 use InfyOm\Generator\Request\APIRequest;
+use App\Http\Requests\AppBaseFormRequest;
 
-class UpdateClassMaterialAPIRequest extends APIRequest
+class UpdateClassMaterialAPIRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,14 @@ class UpdateClassMaterialAPIRequest extends APIRequest
      */
     public function rules()
     {
+        /*
         $rules = ClassMaterial::$rules;
         
         return $rules;
+        */
+        return [
+            'type' => 'required',
+        'title' => 'required'
+        ];
     }
 }

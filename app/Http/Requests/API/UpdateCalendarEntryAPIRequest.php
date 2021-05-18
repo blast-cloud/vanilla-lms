@@ -4,8 +4,9 @@ namespace App\Http\Requests\API;
 
 use App\Models\CalendarEntry;
 use InfyOm\Generator\Request\APIRequest;
+use App\Http\Requests\AppBaseFormRequest;
 
-class UpdateCalendarEntryAPIRequest extends APIRequest
+class UpdateCalendarEntryAPIRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,13 @@ class UpdateCalendarEntryAPIRequest extends APIRequest
      */
     public function rules()
     {
+        /*
         $rules = CalendarEntry::$rules;
         
         return $rules;
+        */
+        return [
+            'title' => 'required'
+        ];
     }
 }

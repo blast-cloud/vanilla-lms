@@ -4,8 +4,10 @@ namespace App\Http\Requests\API;
 
 use App\Models\CourseClass;
 use InfyOm\Generator\Request\APIRequest;
+use App\Http\Requests\AppBaseFormRequest;
 
-class CreateCourseClassAPIRequest extends APIRequest
+
+class CreateCourseClassAPIRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +26,11 @@ class CreateCourseClassAPIRequest extends APIRequest
      */
     public function rules()
     {
-        return CourseClass::$rules;
+        // return CourseClass::$rules;
+        return [
+            'code' => 'required',
+        'name' => 'required',
+        'credit_hours' => 'required'
+        ];
     }
 }

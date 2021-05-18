@@ -4,8 +4,9 @@ namespace App\Http\Requests\API;
 
 use App\Models\Grade;
 use InfyOm\Generator\Request\APIRequest;
+use App\Http\Requests\AppBaseFormRequest;
 
-class UpdateGradeAPIRequest extends APIRequest
+class UpdateGradeAPIRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,13 @@ class UpdateGradeAPIRequest extends APIRequest
      */
     public function rules()
     {
+        /*
         $rules = Grade::$rules;
         
         return $rules;
+        */
+        return [
+            'grade_title' => 'required'
+        ];
     }
 }
