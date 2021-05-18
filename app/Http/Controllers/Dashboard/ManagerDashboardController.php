@@ -15,6 +15,7 @@ use App\Http\Requests;
 use App\Http\Requests\CreateAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 
+use DB;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
@@ -88,8 +89,13 @@ class ManagerDashboardController extends AppBaseController
             'department_id'=>$current_user->department_id
         ]);
 
-        $courseItems = Course::pluck('name','id')->toArray();
-        $lecturerItems = Lecturer::pluck('first_name','id')->toArray();
+        $courseItems = Course::select(DB::raw("CONCAT(name,' - ',code) AS full_name"),'id')
+                            ->pluck('full_name','id')
+                            ->toArray();
+
+        $lecturerItems = Lecturer::select(DB::raw("CONCAT(job_title,' ',last_name,', ',first_name) AS name"),'id')
+                            ->pluck('name','id')
+                            ->toArray();
 
         return view("dashboard.manager.index")
                     ->with('department', $department)
@@ -135,8 +141,13 @@ class ManagerDashboardController extends AppBaseController
             return $class_schedulesDataTable->ajax();
         }
 
-        $courseItems = Course::pluck('name','id')->toArray();
-        $lecturerItems = Lecturer::pluck('first_name','id')->toArray();
+        $courseItems = Course::select(DB::raw("CONCAT(name,' - ',code) AS full_name"),'id')
+                            ->pluck('full_name','id')
+                            ->toArray();
+
+        $lecturerItems = Lecturer::select(DB::raw("CONCAT(job_title,' ',last_name,', ',first_name) AS name"),'id')
+                            ->pluck('name','id')
+                            ->toArray();
 
         return view("dashboard.manager.tables.class_schedules")
                     ->with('department', $department)
