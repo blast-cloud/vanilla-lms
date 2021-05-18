@@ -94,15 +94,6 @@ class Submission extends Model
     ];
 
     /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'title' => 'required'
-    ];
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      **/
     public function student()

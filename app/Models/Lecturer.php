@@ -112,15 +112,6 @@ class Lecturer extends Model
         'department_id' => 'integer'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'first_name' => 'required',
-        'last_name' => 'required'
-    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -128,5 +119,13 @@ class Lecturer extends Model
     public function user()
     {
         return $this->hasOne(\App\Models\User::class, 'lecturer_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function department()
+    {
+        return $this->hasOne(\App\Models\Department::class, 'id', 'department_id');
     }
 }

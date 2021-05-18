@@ -85,14 +85,6 @@ class Announcement extends Model
         'department_id' => 'integer'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'title' => 'required'
-    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

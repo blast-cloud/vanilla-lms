@@ -104,15 +104,6 @@ class Manager extends Model
         'profile_external_url' => 'string'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'first_name' => 'required',
-        'last_name' => 'required'
-    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

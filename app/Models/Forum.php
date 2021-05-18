@@ -93,14 +93,6 @@ class Forum extends Model
         'parent_forum_id' => 'integer'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'group_name' => 'required'
-    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

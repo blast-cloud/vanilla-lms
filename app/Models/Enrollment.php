@@ -94,14 +94,6 @@ class Enrollment extends Model
         'department_id' => 'integer'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'status' => 'required'
-    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

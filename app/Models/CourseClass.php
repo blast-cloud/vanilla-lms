@@ -200,16 +200,6 @@ class CourseClass extends Model
         'lecturer_id' => 'integer'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'code' => 'required',
-        'name' => 'required',
-        'credit_hours' => 'required'
-    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

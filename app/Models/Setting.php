@@ -90,14 +90,5 @@ class Setting extends Model
         'model_value' => 'string'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'key' => 'required'
-    ];
-
     
 }

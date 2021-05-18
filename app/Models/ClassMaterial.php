@@ -139,15 +139,6 @@ class ClassMaterial extends Model
         'course_class_id' => 'integer'
     ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'type' => 'required',
-        'title' => 'required'
-    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne

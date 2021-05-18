@@ -91,16 +91,6 @@ class Department extends Model
     ];
 
     /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'code' => 'required',
-        'name' => 'required'
-    ];
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function courses()

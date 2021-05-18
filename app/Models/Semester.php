@@ -79,17 +79,6 @@ class Semester extends Model
     ];
 
     /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'code' => 'required',
-        'start_date' => 'required',
-        'end_date' => 'required'
-    ];
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function courseClasses()

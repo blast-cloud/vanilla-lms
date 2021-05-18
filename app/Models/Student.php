@@ -113,16 +113,6 @@ class Student extends Model
     ];
 
     /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'first_name' => 'required',
-        'last_name' => 'required'
-    ];
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      **/
     public function user()

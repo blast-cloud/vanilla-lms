@@ -102,15 +102,6 @@ class Grade extends Model
     ];
 
     /**
-     * Validation rules
-     *
-     * @var array
-     */
-    public static $rules = [
-        'grade_title' => 'required'
-    ];
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      **/
     public function student()
