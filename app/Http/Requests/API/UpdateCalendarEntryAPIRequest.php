@@ -31,7 +31,8 @@ class UpdateCalendarEntryAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
-            'title' => 'required'
+            'title' => 'required',
+            'description' => 'required'
         ];
     }
 }

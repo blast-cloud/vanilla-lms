@@ -28,8 +28,10 @@ class CreateManagerAPIRequest extends AppBaseFormRequest
     {
         // return Manager::$rules;
         return [
-            'first_name' => 'required',
-        'last_name' => 'required'
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'email' => "required|email|max:100|unique:managers,email",
+            'telephone' => "required|digits:11|unique:managers,telephone"
         ];
     }
 }

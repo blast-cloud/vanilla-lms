@@ -32,7 +32,11 @@ class UpdateSettingRequest extends AppBaseFormRequest
         */
 
         return [
-            'key' => 'required'
+            'key' => 'required',
+            'value' => 'nullable',
+            'group_name' => 'nullable',
+            'model_type' => 'nullable',
+            'model_value' => 'nullable'
         ];
     }
 }

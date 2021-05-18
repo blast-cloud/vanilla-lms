@@ -32,7 +32,8 @@ class UpdateClassMaterialAPIRequest extends AppBaseFormRequest
         */
         return [
             'type' => 'required',
-        'title' => 'required'
+            'title' => 'required',
+            'description' => 'required'
         ];
     }
 }

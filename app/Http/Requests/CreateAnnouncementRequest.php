@@ -28,7 +28,8 @@ class CreateAnnouncementRequest extends AppBaseFormRequest
         //return Announcement::$rules;
 
         return [
-            'title' => 'required'
+            'title' => 'required',
+            'description' => 'required',
         ];
     }
 }

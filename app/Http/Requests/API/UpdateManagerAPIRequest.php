@@ -32,7 +32,9 @@ class UpdateManagerAPIRequest extends AppBaseFormRequest
         */
         return [
             'first_name' => 'required',
-        'last_name' => 'required'
+            'last_name' => 'required',
+            'email' => "required|email|max:100|unique:managers,email,{$this->id}",
+            'telephone' => "required|digits:11|unique:managers,telephone,{$this->id}"
         ];
     }
 }

@@ -29,8 +29,8 @@ class CreateSemesterRequest extends AppBaseFormRequest
 
         return [
             'code' => 'required',
-        'start_date' => 'required',
-        'end_date' => 'required'
+            'start_date' => 'required',
+            'end_date' => 'required'
         ];
     }
 }

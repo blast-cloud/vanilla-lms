@@ -29,7 +29,7 @@ class CreateDepartmentAPIRequest extends AppBaseFormRequest
         // return Department::$rules;
         return [
             'code' => 'required',
-        'name' => 'required'
+            'name' => 'required'
         ];
     }
 }

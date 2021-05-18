@@ -29,8 +29,8 @@ class CreateCourseRequest extends AppBaseFormRequest
 
         return [
             'code' => 'required',
-        'name' => 'required',
-        'credit_hours' => 'required'
+            'name' => 'required',
+            'credit_hours' => 'required'
         ];
     }
 }

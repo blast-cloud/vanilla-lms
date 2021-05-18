@@ -28,7 +28,11 @@ class CreateSettingAPIRequest extends AppBaseFormRequest
     {
         // return Setting::$rules;
         return [
-            'key' => 'required'
+            'key' => 'required',
+            'value' => 'nullable',
+            'group_name' => 'nullable',
+            'model_type' => 'nullable',
+            'model_value' => 'nullable'
         ];
     }
 }

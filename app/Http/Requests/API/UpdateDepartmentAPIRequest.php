@@ -32,7 +32,7 @@ class UpdateDepartmentAPIRequest extends AppBaseFormRequest
         */
         return [
             'code' => 'required',
-        'name' => 'required'
+            'name' => 'required'
         ];
     }
 }

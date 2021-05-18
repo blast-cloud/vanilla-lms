@@ -29,7 +29,7 @@ class CreateDepartmentRequest extends AppBaseFormRequest
 
         return [
             'code' => 'required',
-        'name' => 'required'
+            'name' => 'required'
         ];
     }
 }

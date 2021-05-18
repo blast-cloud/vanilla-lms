@@ -28,7 +28,11 @@ class CreateGradeRequest extends AppBaseFormRequest
         //return Grade::$rules;
 
         return [
-            'grade_title' => 'required'
+            'grade_title' => 'required',
+            'student_id' => 'required',
+            'course_class_id' => 'required',
+            'score' => 'required',
+            'grade_letter' => 'required'
         ];
     }
 }

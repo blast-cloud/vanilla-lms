@@ -28,8 +28,11 @@ class CreateStudentAPIRequest extends AppBaseFormRequest
     {
         // return Student::$rules;
         return [
-            'first_name' => 'required',
-        'last_name' => 'required'
+            'matriculation_number' => "required|max:191|unique:students,matriculation_number",
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'email' => "required|email|max:100|unique:students,email",
+            'telephone' => "required|digits:11|unique:students,telephone"
         ];
     }
 }

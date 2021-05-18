@@ -29,7 +29,8 @@ class CreateClassMaterialAPIRequest extends AppBaseFormRequest
         // return ClassMaterial::$rules;
         return [
             'type' => 'required',
-        'title' => 'required'
+            'title' => 'required',
+            'description' => 'required'
         ];
     }
 }

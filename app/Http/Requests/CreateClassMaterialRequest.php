@@ -29,7 +29,8 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
 
         return [
             'type' => 'required',
-        'title' => 'required'
+            'title' => 'required',
+            'description' => 'required'
         ];
     }
 }

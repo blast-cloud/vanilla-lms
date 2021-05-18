@@ -32,7 +32,9 @@ class UpdateEnrollmentRequest extends AppBaseFormRequest
         */
 
         return [
-            'status' => 'required'
+            'status' => 'required',
+            'student_id' => 'required',
+            'course_class_id' => 'required'
         ];
     }
 }
