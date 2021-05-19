@@ -29,9 +29,12 @@ class DepartmentStudentEnrollmentDataTable extends EnrollmentDataTable
     {
         $dataTable = new EloquentDataTable($query);
         $dataTable->addColumn('Course', function ($query) {
-            $link = route('dashboard.class',$query->course_class_id);
-            $course_name = "{$query->courseClass->code} :: {$query->courseClass->name}";
-            return "<a href='{$link}'>$course_name</a>";
+            if ($query->courseClass != null){
+                $link = route('dashboard.class',$query->course_class_id);
+                $course_name = "{$query->courseClass->code} :: {$query->courseClass->name}";
+                return "<a href='{$link}'>$course_name</a>";
+            }
+            return "N/A";
         });
         $dataTable->addColumn('Lecturer', function ($query) {
             return "{$query->courseClass->lecturer->first_name} {$query->courseClass->lecturer->last_name} ({$query->courseClass->lecturer->job_title})";
