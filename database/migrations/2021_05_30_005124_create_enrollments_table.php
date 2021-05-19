@@ -16,7 +16,7 @@ class CreateEnrollmentsTable extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('status');
+            $table->string('status')->nullable();
             $table->integer('student_id')->unsigned();
             $table->integer('course_class_id')->unsigned();
             $table->integer('semester_id')->unsigned()->nullable();
