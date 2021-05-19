@@ -8,11 +8,10 @@ use Session;
 use Validator;
 
 use App\Models\User;
-use App\Models\Student;
-use App\Models\Manager;
-use App\Models\Lecturer;
+use App\Models\Department;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -22,8 +21,37 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdateUserRequest;
 
-class ACLController extends Controller
+use App\Repositories\StudentRepository;
+use App\Repositories\ManagerRepository;
+use App\Repositories\LecturerRepository;
+
+use App\Events\StudentCreated;
+use App\Events\ManagerCreated;
+use App\Events\LecturerCreated;
+
+class ACLController extends AppBaseController
 {
+
+    /** @var  LecturerRepository */
+    private $lecturerRepository;
+
+    /** @var  StudentRepository */
+    private $studentRepository;
+
+    /** @var  ManagerRepository */
+    private $managerRepository;
+
+
+    public function __construct(
+        StudentRepository $studentRepo,
+        ManagerRepository $managerRepo,
+        LecturerRepository $lecturerRepo)
+    {
+        $this->lecturerRepository = $lecturerRepo;
+        $this->managerRepository = $managerRepo;
+        $this->studentRepository = $studentRepo;
+    }
+
 
     public function getUser(Request $request, $id){
         
@@ -78,71 +106,108 @@ class ACLController extends Controller
         return $current_user;
     }
 
-    public function updateUserAccount(UpdateUserRequest $request, $id){
-        
-        $user_type = $request->user_type;
-        $lms_user_type = null;
+    public function validateUserDetailsFormInput(Request $request, $id){
+
+        $validation_rules = array(
+            'email'=>"required|email|unique:users,email",
+            'telephone'=>"required|numeric|digits:11|unique:users,telephone",
+            // 'password1'=>'nullable|string|min:8|confirmed|regex:/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            'first_name' =>'required|string|max:50',
+            'department_id' =>'required|string|max:50',
+            'last_name' =>'required|string|max:50',
+            'matriculation_number' =>"required_if:account_type,student|max:20|unique:students,matriculation_number,{$request->student_id}",
+        );
+
+        if ($id>0){
+            $validation_rules['email'] = "required|email|unique:users,email,{$id}";
+            $validation_rules['telephone'] = "required|numeric|digits:11|unique:users,telephone,{$id}";
+        }
+
+        $validation_messages = array(
+            'required' => 'The :attribute field is required.'
+        );
+
+        $attributes = array(
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
+            'department_id' => 'Department',
+            'telephone' => 'Phone Number',
+            'email' => 'Email Address',
+            'matriculation_number' => 'Matric Number'
+        );
+
+        //Create a validator for the data in the request
+        $validator = Validator::make($request->all(), $validation_rules, $validation_messages, $attributes);
+        $validator->after(function ($validator) {});
+
+        return $validator;
+    }
+
+    public function updateUserAccount(Request $request, $id){
+       
+        $validator = $this->validateUserDetailsFormInput($request, $id);
+        if ($validator->fails()){
+            return response()->json(['errors' => $validator->errors()],200);
+        }
+
         if($id != '0'){
             $current_user = User::find($id);
-        }else{
-            $current_user = new User;
-            if($user_type == 'student'){
-                $lms_user_type = new Student;
-            }elseif($user_type == 'lecturer'){
-                $lms_user_type = new Lecturer;
-            }if($user_type == 'manager'){
-                $lms_user_type = new Manager;
-            }
-        }
 
-
-
-        if ( ($current_user) && $current_user->manager_id != null){
-            $current_user->manager = $request->first_name;
-            $current_user->manager = $request->last_name;
-            $user_type->save();
-
-        }else if ( ($current_user) && $current_user->student_id != null){
-            $current_user->student->matriculation_number = $request->matriculation_number;
-            $current_user->student->first_name = $request->first_name;
-            $current_user->student->last_name = $request->last_name;
-            $current_user->student->save();
+            if ( ($current_user) && $current_user->manager_id != null){
+                $current_user->manager->first_name = $request->first_name;
+                $current_user->manager->last_name = $request->last_name;
+                $current_user->department_id = $request->department_id;
+                $current_user->manager->save();
     
-        }else if ( ($current_user) && $current_user->lecturer_id != null){
-            $current_user->lecturer->first_name = $request->first_name;
-            $current_user->lecturer->last_name = $request->last_name;
-            $current_user->lecturer->save();
-        }else {
-            $lms_user_type->first_name = $request->first_name;
-            $lms_user_type->last_name = $request->last_name;
-            $lms_user_type->email = $request->email;
-            $lms_user_type->telephone = $request->telephone;
-            if($user_type == 'student'){
-                $lms_user_type->matriculation_number = $request->matriculation_number;
-            }
-            $lms_user_type->save();
-
-        }
+            }else if ( ($current_user) && $current_user->student_id != null){
+                $current_user->student->matriculation_number = $request->matriculation_number;
+                $current_user->student->first_name = $request->first_name;
+                $current_user->student->last_name = $request->last_name;
+                $current_user->student->department_id = $request->department_id;
+                $current_user->department_id = $request->department_id;
+                $current_user->student->save();
         
-        if($id == 0){
-             
-            $current_user->password = bcrypt('password');
-            if($request->user_type == 'student'){
-                $current_user->student_id = $lms_user_type->id;
-            }elseif($request->user_type == 'manager'){
-                $current_user->manager_id = $lms_user_type->id;
-            }elseif($request->user_type == 'lecturer'){
-                $current_user->lecturer_id = $lms_user_type->id;
+            }else if ( ($current_user) && $current_user->lecturer_id != null){
+                $current_user->lecturer->first_name = $request->first_name;
+                $current_user->lecturer->last_name = $request->last_name;
+                $current_user->lecturer->department_id = $request->department_id;
+                $current_user->department_id = $request->department_id;
+                $current_user->lecturer->save();
             }
-                
-        }
+    
+            if (!empty($request->email) && $request->email!=null){
+                $current_user->email = $request->email;
+            }
+    
+            if (!empty($request->telephone) && $request->telephone!=null){
+                $current_user->telephone = $request->telephone;
+            }
 
-            $current_user->email = $request->email;
-            $current_user->telephone = $request->telephone;
-            $current_user->name = $request->first_name.' '.$request->last_name;
             $current_user->save();
-        
-        return $current_user;
+            return $current_user;
+
+        }else{
+            //$current_user = new User();
+            if ($request->account_type == "student"){
+                $input = $request->all();
+                $student = $this->studentRepository->create($input);
+                StudentCreated::dispatch($student);
+                return $student->user;
+
+            }else if ($request->account_type == "manager"){
+                $input = $request->all();
+                $manager = $this->managerRepository->create($input);
+                ManagerCreated::dispatch($manager);
+                return $manager->user;
+
+            }else if ($request->account_type == "lecturer"){
+                $input = $request->all();
+                $lecturer = $this->lecturerRepository->create($input);
+                LecturerCreated::dispatch($lecturer);
+                return $lecturer->user;
+            }
+        }
+        return null;
     }
 
     public function displayUserAccounts(Request $request){
@@ -156,8 +221,11 @@ class ACLController extends Controller
             return $userAccountsDataTable->ajax();
         }
 
+        $departmentItems = Department::pluck('name','id')->toArray();
+
         return view('acl.user-accounts')
                     ->with("current_user", $current_user)
+                    ->with("departmentItems", $departmentItems)
                     ->with('dataTable', $userAccountsDataTable->html());
     }
 

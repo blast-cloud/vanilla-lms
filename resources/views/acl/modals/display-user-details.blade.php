@@ -36,6 +36,27 @@
                                 </div>
                             </div>
                     
+                            <div id="div_account_type" class="form-group">
+                                <label class="control-label mb-10 col-sm-3" for="code">Account Type</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group mb-3">
+                                        <select id="sel_account_type" class="form-control">
+                                            <option value="lecturer">Lecturer</option>
+                                            <option value="student">Student</option>
+                                            <option value="manager">Department Admin</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Department Field -->
+                            <div id="div-department_id" class="form-group">
+                                <label class="control-label mb-10 col-sm-3" for="department_id">Department</label>
+                                <div class="col-sm-8">
+                                    {!! Form::select('department_id', $departmentItems, null, ['id'=>'department_id','class'=>'form-control select2']) !!}
+                                </div>
+                            </div>
+
                             <div id="div_registration_num" class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="code">Registration#</label>
                                 <div class="col-sm-9">
@@ -137,6 +158,16 @@
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
+    
+    $('#department_id').select2();
+    $('#div_registration_num').hide();
+    
+    $('#sel_account_type').on('change', function() {
+        $('#div_registration_num').hide();
+        if (this.value == "student"){
+            $('#div_registration_num').show();
+        }
+    });
 
     let user_type = null
     $( "#user_type" ).change(function() {
@@ -156,6 +187,9 @@ $(document).ready(function() {
         $('#modify-user-details-modal').modal('show');
         $('#form-modify-user-details').trigger("reset");
         $('#txt_user_account_id').val(0);
+        $('#div_account_type').show();
+
+        $('#modify-user-details-title').html("Create User Account");
     });
 
     //Show Modal for Edit
@@ -165,6 +199,9 @@ $(document).ready(function() {
 
         let itemId = $(this).attr('data-val');
         $('#txt_user_account_id').val(itemId);
+        $('#div_account_type').hide();
+
+        $('#modify-user-details-title').html("Modify User Account");
 
         $.get( "{{ route('dashboard.user',0) }}"+itemId).done(function( data ) {
 
@@ -306,21 +343,21 @@ $(document).ready(function() {
         if (primaryId>0){
             actionType = "POST";
             endPointUrl = "{{ route('dashboard.user-update',0) }}"+primaryId;
+            
         }
 
         let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
+        formData.append('id', primaryId);
         formData.append('first_name', $('#first_name').val());
         formData.append('last_name', $('#last_name').val());
         formData.append('email', $('#email').val());
         formData.append('telephone', $('#telephone').val());
-        formData.append('user_type', $('#user_type').val());
-        if(user_type == 'student'  || $('#matric_num').val() != null) {
-            formData.append('matriculation_number', $('#matric_num').val());
-            formData.append('student_id', $('#txt_student_account_id').val());
-        }
-        
+        formData.append('student_id', $('#txt_student_account_id').val());
+        formData.append('department_id', $('#department_id').val());
+        formData.append('matriculation_number', $('#matric_num').val());
+        formData.append('account_type', $('#sel_account_type').val());
 
         $.ajax({
             url:endPointUrl,
@@ -331,6 +368,7 @@ $(document).ready(function() {
             contentType: false,
             dataType: 'json',
             success: function(result){
+
                 if(result.errors){
 
                     $('#modify-user-details-error-div').html('');
