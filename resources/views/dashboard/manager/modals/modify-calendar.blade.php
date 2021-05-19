@@ -68,6 +68,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-calendarEntry-primary-id').show();
         $('#div-edit-txt-calendarEntry-primary-id').hide();
+        $('.modal-footer').hide();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/calendar_entries/"+itemId).done(function( data ) {
@@ -90,6 +91,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-calendarEntry-primary-id').hide();
         $('#div-edit-txt-calendarEntry-primary-id').show();
+        $('.modal-footer').show();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/calendar_entries/"+itemId).done(function( data ) {

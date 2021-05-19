@@ -17,6 +17,24 @@
                             @csrf
 
                             <input type="hidden" id="txt_user_account_id" value="0" />
+                            <input type="hidden" id="txt_student_account_id" value="0" />
+
+                            <div id="div_user_type" class="form-group">
+                                <label class="control-label mb-10 col-sm-3" for="user_type">User Type</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group mb-3">
+                                        <select name="user_type" id="user_type" class="form-control @error('user_type') is-invalid @enderror" >
+                                            <option >Choose User Type...</option>
+                                            <option value="manager">Manager</option>
+                                            <option value="lecturer">Lecturer</option>
+                                            <option value="student">Student</option>
+                                          </select>
+                                        @error('user_type')
+                                        <span class="error invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
                     
                             <div id="div_registration_num" class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="code">Registration#</label>
@@ -120,9 +138,21 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
+    let user_type = null
+    $( "#user_type" ).change(function() {
+        user_type = $(this).val();
+        if(user_type == 'student'){
+            $('#div_registration_num').show();
+        }else{
+            $('#div_registration_num').hide();
+        }
+    });
+
     //Show Modal for New Entry
     $('#btn-show-modify-user-details-modal').click(function(){
         $('#modify-user-details-error-div').hide();
+        $('#div_registration_num').hide();
+        $('.modal-footer').show();
         $('#modify-user-details-modal').modal('show');
         $('#form-modify-user-details').trigger("reset");
         $('#txt_user_account_id').val(0);
@@ -140,11 +170,14 @@ $(document).ready(function() {
 
             $('#modify-user-details-modal').modal('show');
             $('#form-modify-user-details').trigger("reset");
+            $('#div_registration_num').hide();
+            $('.modal-footer').show();
             $('#modify-user-details-error-div').hide();
 
             if (data.student_id!=null){
                 $('#div_registration_num').show();
                 $('#matric_num').val(data.matric_number);
+                $('#txt_student_account_id').val(data.student_id);
             } else {
                 $('#div_registration_num').hide();
             }
@@ -282,7 +315,12 @@ $(document).ready(function() {
         formData.append('last_name', $('#last_name').val());
         formData.append('email', $('#email').val());
         formData.append('telephone', $('#telephone').val());
-        formData.append('matric_num', $('#matric_num').val());
+        formData.append('user_type', $('#user_type').val());
+        if(user_type == 'student'  || $('#matric_num').val() != null) {
+            formData.append('matriculation_number', $('#matric_num').val());
+            formData.append('student_id', $('#txt_student_account_id').val());
+        }
+        
 
         $.ajax({
             url:endPointUrl,

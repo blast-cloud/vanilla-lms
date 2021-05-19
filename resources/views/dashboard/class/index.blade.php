@@ -7,7 +7,7 @@
 
 @section('page_title')
 {{ ($courseClass) ? $courseClass->code : '' }} :: {{ ($courseClass) ? $courseClass->name : '' }}<br/>
-<small class="muted text-primary"><i>Taught by {{ ($courseClass) ? $courseClass->lecturer->job_title : '' }} {{ ($courseClass) ? $courseClass->lecturer->first_name : '' }} {{ ($courseClass) ? $courseClass->lecturer->last_name : '' }}</i></small>
+<small class="muted text-primary"><i>Taught by {{ ($courseClass && $courseClass->lecturer) ? $courseClass->lecturer->job_title : '' }} {{ ($courseClass && $courseClass->lecturer) ? $courseClass->lecturer->first_name : '' }} {{ ($courseClass && $courseClass->lecturer) ? $courseClass->lecturer->last_name : '' }}</i></small>
 <br/>
 @stop
 

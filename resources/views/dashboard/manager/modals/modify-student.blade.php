@@ -59,6 +59,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-student-primary-id').hide();
         $('#div-edit-txt-student-primary-id').show();
+        $('.modal-footer').show();
     });
 
     //Show Modal for View
@@ -68,6 +69,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-student-primary-id').show();
         $('#div-edit-txt-student-primary-id').hide();
+        $('.modal-footer').hide();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/students/"+itemId).done(function( data ) {
@@ -93,6 +95,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-student-primary-id').hide();
         $('#div-edit-txt-student-primary-id').show();
+        $('.modal-footer').show();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/students/"+itemId).done(function( data ) {
