@@ -37,7 +37,10 @@ class DepartmentStudentEnrollmentDataTable extends EnrollmentDataTable
             return "N/A";
         });
         $dataTable->addColumn('Lecturer', function ($query) {
-            return "{$query->courseClass->lecturer->first_name} {$query->courseClass->lecturer->last_name} ({$query->courseClass->lecturer->job_title})";
+            if ($query->courseClass != null){
+                return "{$query->courseClass->lecturer->first_name} {$query->courseClass->lecturer->last_name} ({$query->courseClass->lecturer->job_title})";
+            }
+            return "N/A";
         });
 
         // $dataTable->addColumn('action', 'calendar_entries.datatables_actions');
