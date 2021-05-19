@@ -75,7 +75,7 @@ abstract class BaseRepository
         return $query->paginate($perPage, $columns);
     }
 
-    /**
+        /**
      * Build a query for retrieving all records.
      *
      * @param array $search
@@ -91,6 +91,37 @@ abstract class BaseRepository
             foreach($search as $key => $value) {
                 if (in_array($key, $this->getFieldsSearchable())) {
                     $query->where($key, $value);
+                }
+            }
+        }
+
+        if (!is_null($skip)) {
+            $query->skip($skip);
+        }
+
+        if (!is_null($limit)) {
+            $query->limit($limit);
+        }
+
+        return $query;
+    }
+
+    /**
+     * Build a where in query for retrieving all records.
+     *
+     * @param array $search
+     * @param int|null $skip
+     * @param int|null $limit
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function allWhereInQuery($search = [], $skip = null, $limit = null)
+    {
+        $query = $this->model->newQuery();
+
+        if (count($search)) {
+            foreach($search as $key => $value) {
+                if (in_array($key, $this->getFieldsSearchable())) {
+                    $query->whereIn($key, $value);
                 }
             }
         }

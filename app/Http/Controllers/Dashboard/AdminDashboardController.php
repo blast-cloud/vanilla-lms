@@ -14,6 +14,7 @@ use App\DataTables\DepartmentStudentEnrollmentDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
+use App\Http\Requests\UpdateApplicationSettings;
 
 use Flash;
 use App\Http\Controllers\AppBaseController;
@@ -24,6 +25,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Repositories\CourseRepository;
 use App\Repositories\StudentRepository;
 use App\Repositories\ManagerRepository;
+use App\Repositories\SettingRepository;
 use App\Repositories\LecturerRepository;
 use App\Repositories\SemesterRepository;
 use App\Repositories\DepartmentRepository;
@@ -66,6 +68,32 @@ class AdminDashboardController extends AppBaseController
     /** @var  ManagerRepository */
     private $managerRepository;
 
+    /** @var  SettingRepository */
+    private $settingRepository;
+
+    /** @var Array  */
+    private $setting_keys = [
+        'txt_app_name',
+        'txt_long_name',
+        'txt_short_name',
+        'txt_official_website',
+        'txt_official_email',
+        'cbx_display_course_list',
+        'cbx_display_lecturer_profiles',
+        'cbx_require_enrollment_confirmation',
+        'cbx_allow_lecturer_registration',
+        'cbx_allow_student_registration',
+        'cbx_class_enrollment',
+        'txt_welcome_text',
+        'txt_registration_text',
+        'txt_enrollment_text',
+        'file_high_res_picture',
+        'file_icon_picture',
+        'txt_portal_contact_phone',
+        'txt_portal_contact_name',
+        'txt_portal_contact_email',
+    ];
+
     public function __construct(DepartmentRepository $departmentRepo, 
                                     CourseClassRepository $courseClassRepo, 
                                     AnnouncementRepository $announcementRepo,
@@ -74,9 +102,11 @@ class AdminDashboardController extends AppBaseController
                                     SemesterRepository $semesterRepo,
                                     LecturerRepository $lecturerRepo,
                                     ManagerRepository $managerRepo,
-                                    CalendarEntryRepository $calendarEntryRepo)
+                                    CalendarEntryRepository $calendarEntryRepo,
+                                    SettingRepository $settingRepo)
     {
         $this->courseRepository = $courseRepo;
+        $this->settingRepository = $settingRepo;
         $this->managerRepository = $managerRepo;
         $this->studentRepository = $studentRepo;
         $this->lecturerRepository = $lecturerRepo;
@@ -86,7 +116,6 @@ class AdminDashboardController extends AppBaseController
         $this->announcementRepository = $announcementRepo;
         $this->calendarEntryRepository = $calendarEntryRepo;        
     }
-
 
     public function index(Request $request)
     {
@@ -108,7 +137,87 @@ class AdminDashboardController extends AppBaseController
                 ->with('departments', $departments);
     }
 
+    public function displayApplicationSettings(Request $request){
 
+        $current_user = Auth()->user();
+
+        //Get the settings records
+        $db_settings = $this->settingRepository
+                            ->allWhereInQuery(['key'=>$this->setting_keys],null,100)
+                            ->pluck('value','key')
+                            ->toArray();
+
+        return view("dashboard.admin.settings")
+                ->with('current_user', $current_user)
+                ->with('db_settings', $db_settings);
+    }
+
+    public function processApplicationSettings(UpdateApplicationSettings $request){
+
+        //Get the settings records
+        $db_settings = $this->settingRepository
+                                ->allWhereInQuery(['key'=>$this->setting_keys],null,100)
+                                ->pluck('id','key')
+                                ->toArray();
+        
+        foreach($this->setting_keys as $key){
+            //If the record does not exist, then create it
+            if (isset($db_settings[$key])==false){
+                $this->settingRepository->create([   
+                    'key' => $key,
+                    'value' => $request->$key
+                ]);
+            } else {
+                //If the record exists, then update it
+                $setting_value = $request->$key;
+
+
+                if ($key=="file_icon_picture" || $key=="file_high_res_picture"){
+
+                    //Handle logo file upload
+                    $file_upload = null;
+                    if ($key=="file_icon_picture" && isset($request->file_icon_picture)){
+                        $file_upload = $request->file_icon_picture;
+                    }
+                    if ($key=="file_high_res_picture" && isset($request->file_high_res_picture)){
+                        $file_upload = $request->file_high_res_picture;
+                    }
+
+                    //Handle icon file upload
+                    if ($file_upload != null){
+                        $file_type = $file_upload->getClientOriginalExtension();
+                        $rndFileName = time().'.'.$file_type;
+                        $file_upload->move(public_path('uploads'), $rndFileName);
+                        $setting_value = "uploads/{$rndFileName}";
+
+                        //Update the settings value.
+                        $this->settingRepository->update(['value'=>$setting_value],$db_settings[$key]);
+                    }
+
+                } else {
+                    //Update the settings value.
+                    $this->settingRepository->update(['value'=>$setting_value],$db_settings[$key]);
+                }
+                
+            }
+        }
+
+
+        Flash::success("Application settings have been saved.");
+        return redirect(route('dashboard.admin-settings'));
+    }
+
+    public function deleteApplicationSettings(Request $request, $key){
+        $current_user = Auth()->user();
+        if ($current_user->is_platform_admin){
+            
+            //Find the setting from the key and delete it.
+            $db_settings = $this->settingRepository->all(['key'=>$key]);
+            foreach($db_settings as $setting){
+                $this->settingRepository->delete($setting->id);
+            }
+        }
+    }
 
 }
 

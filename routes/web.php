@@ -55,6 +55,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('dashboard/user-disable/{id}', [App\Http\Controllers\ACL\ACLController::class, 'disableUserAccount'])->name('dashboard.user-disable-account');
         Route::post('dashboard/user-delete/{id}', [App\Http\Controllers\ACL\ACLController::class, 'deleteUserAccount'])->name('dashboard.user-delete-account');
         Route::post('dashboard/user-reset/{id}', [App\Http\Controllers\ACL\ACLController::class, 'resetPwdUserAccount'])->name('dashboard.user-pwd-reset');
+        Route::get('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'displayApplicationSettings'])->name('dashboard.admin-settings');
+        Route::post('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'processApplicationSettings'])->name('dashboard.admin-settings');
+        Route::get('dashboard/admin/delete-settings/{key}', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'deleteApplicationSettings'])->name('dashboard.admin-delete-setting');
+
     });
 
     Route::resource('semesters', App\Http\Controllers\SemesterController::class);

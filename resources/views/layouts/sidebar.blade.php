@@ -171,7 +171,7 @@
 					<i class="zmdi zmdi-more"></i>
 				</li>
                 <li class="">
-                    <a href="{{ route('settings.index') }}" class="{{ Request::is('settings*') ? 'active' : '' }}">
+                    <a href="{{ route('dashboard.admin-settings') }}" class="{{ Request::is('dashboard/admin/settings*') ? 'active' : '' }}">
                         <div class="pull-left"><i class="zmdi zmdi-border-color mr-20"></i><span class="right-nav-text">Settings</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
