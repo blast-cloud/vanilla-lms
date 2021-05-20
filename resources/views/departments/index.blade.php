@@ -18,6 +18,15 @@ Departments
     <div class="col-sm-9">
         <div class="panel panel-default card-view">
 
+
+            <div class="panel-heading" style="padding: 10px 15px;">
+                <div class="pull-left"></div>
+                <div class="pull-right">
+                    <a id="btn-new-department" href="#" class="btn btn-xs btn-default btn-new-mdl-department-modal"><i class="zmdi zmdi-home"></i>&nbsp;New Department</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
 

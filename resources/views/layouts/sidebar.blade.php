@@ -176,6 +176,12 @@
                     </a>
                 </li>
 
+                <li class="">
+                    <a href="{{ route('departments.index') }}" class="{{ Request::is('departments*') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="zmdi zmdi-home mr-20"></i><span class="right-nav-text">Departments</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    </a>
+                </li>
+
                 <!-- <li><hr class="light-grey-hr mb-10"/></li> -->
                 <li class="">
                     <a href="{{ route('dashboard.users') }}" class="{{ Request::is('dashboard/users*') ? 'active' : '' }}">

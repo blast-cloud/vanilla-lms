@@ -70,15 +70,18 @@ $(document).ready(function() {
         $('#div-edit-txt-department-primary-id').hide();
         let itemId = $(this).attr('data-val');
 
-        // $.get( "{{URL::to('/')}}/api/departments/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/departments/"+itemId).done(function( response ) {
 			$('#div-department-modal-error').hide();
 			$('#mdl-department-modal').modal('show');
 			$('#frm-department-modal').trigger("reset");
 			$('#txt-department-primary-id').val(response.data.id);
 
-            // $('#spn_department_').html(response.data.);
-            // $('#spn_department_').html(response.data.);   
+            $('#spn_department_code').html(response.data.code);
+            $('#spn_department_name').html(response.data.name);   
+            $('#spn_department_email_address').html(response.data.email_address);
+            $('#spn_department_website_url').html(response.data.website_url);   
+            $('#spn_department_contact_phone').html(response.data.contact_phone);
+
         });
     });
 
@@ -91,15 +94,18 @@ $(document).ready(function() {
         $('#div-edit-txt-department-primary-id').show();
         let itemId = $(this).attr('data-val');
 
-        // $.get( "{{URL::to('/')}}/api/departments/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/departments/"+itemId).done(function( response ) {            
 			$('#div-department-modal-error').hide();
 			$('#mdl-department-modal').modal('show');
 			$('#frm-department-modal').trigger("reset");
 			$('#txt-department-primary-id').val(response.data.id);
 
-            // $('#').val(response.data.);
-            // $('#').val(response.data.);
+            $('#code').val(response.data.code);
+            $('#name').val(response.data.name);
+            $('#email_address').val(response.data.email_address);
+            $('#website_url').val(response.data.website_url);
+            $('#contact_phone').val(response.data.contact_phone);
+
         });
     });
 
@@ -143,7 +149,6 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let actionType = "POST";
-        // let endPointUrl = "{{URL::to('/')}}/api/departments/create";
         let endPointUrl = "{{ route('departments.store') }}";
         let primaryId = $('#txt-department-primary-id').val();
         
@@ -152,14 +157,16 @@ $(document).ready(function() {
 
         if (primaryId>0){
             actionType = "PUT";
-            // endPointUrl = "{{URL::to('/')}}/api/departments/"+itemId;
             endPointUrl = "{{ route('departments.update',0) }}"+primaryId;
             formData.append('id', primaryId);
         }
         
         formData.append('_method', actionType);
-        // formData.append('', $('#').val());
-        // formData.append('', $('#').val());
+        formData.append('code', $('#code').val());
+        formData.append('name', $('#name').val());
+        formData.append('email_address', $('#email_address').val());
+        formData.append('website_url', $('#website_url').val());
+        formData.append('contact_phone', $('#contact_phone').val());
 
         $.ajax({
             url:endPointUrl,

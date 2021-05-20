@@ -8,7 +8,7 @@
                 <h4 class="panel-title txt-dark">Lecturers</h4>
             </div>
             <div class="pull-right">
-                <a href="{{ route('dashboard.class',0) }}" class="pull-left inline-block mr-15">
+                <a href="{{ route('dashboard.users') }}" class="pull-left inline-block mr-15">
                     <i class="zmdi zmdi-surround-sound" style="font-size:inherit;"></i> Manage
                 </a>
                                 

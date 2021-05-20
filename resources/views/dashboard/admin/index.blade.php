@@ -19,7 +19,7 @@ Admin Dashboard
         <div class="col-sm-9">
 
 
-            @include('dashboard.admin.partials.semesters')
+            {{-- @include('dashboard.admin.partials.semesters') --}}
             @include('dashboard.admin.partials.departments')
             @include('dashboard.admin.partials.lecturers')
             @include('dashboard.admin.partials.managers')
