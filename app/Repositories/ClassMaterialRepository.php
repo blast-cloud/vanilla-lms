@@ -22,7 +22,8 @@ class ClassMaterialRepository extends BaseRepository
         'description',
         'lecture_number',
         'assignment_number',
-        'upload_file_path'
+        'upload_file_path',
+        'reference_material_url'
     ];
 
     /**

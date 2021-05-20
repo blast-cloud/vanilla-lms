@@ -17,8 +17,8 @@ class AttachmentController extends AppBaseController
     
     public function uploadFile(Request $request){
 
-        if ($request->file == null) {
-            return $this->sendError('The file must be provided.');
+        if ($request->file == null  || $request->file == 'undefined') {
+            return $this->sendError('The file must be provided.', 200);
         }
 
         $file_type = $request->file->getClientOriginalExtension();

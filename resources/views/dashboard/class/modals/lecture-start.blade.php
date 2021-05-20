@@ -11,6 +11,9 @@
 
             <div class="modal-body">
                 <div id="start-lecture-error-div" class="alert alert-danger" role="alert"></div>
+
+                
+
                 <form class="form-horizontal" id="form-start-lecture" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
                         <div class="col-lg-11 ma-10">
@@ -154,6 +157,7 @@ $(document).ready(function() {
         formData.append('course_class_id', {{($courseClass) ? $courseClass->id : ''}});
         formData.append('lecture_number', $('#txt_start_lecture_number').val());
         formData.append('title', $('#txt_start_lecture_title').val());
+        formData.append('id', primaryId);
         formData.append('description', $('#txt_start_lecture_description').val());
         formData.append('reference_material_url', $('#txt_start_lecture_reference_material_url').val());
         if (primaryId==0){

@@ -56,6 +56,7 @@ $(document).ready(function() {
         $('#mdl-course-modal').modal('show');
         $('#frm-course-modal').trigger("reset");
         $('#txt-course-primary-id').val(0);
+        $('.modal-footer').show();
 
         $('#div-show-txt-course-primary-id').hide();
         $('#div-edit-txt-course-primary-id').show();
@@ -68,6 +69,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-course-primary-id').show();
         $('#div-edit-txt-course-primary-id').hide();
+        $('.modal-footer').hide();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/courses/"+itemId).done(function( data ) {
@@ -91,6 +93,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-course-primary-id').hide();
         $('#div-edit-txt-course-primary-id').show();
+        $('.modal-footer').show();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/courses/"+itemId).done(function( data ) {

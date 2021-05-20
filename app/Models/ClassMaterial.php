@@ -113,6 +113,7 @@ class ClassMaterial extends Model
         'description',
         'lecture_number',
         'assignment_number',
+        'due_date',
         'upload_file_path',
         'upload_file_type',
         'reference_material_url',

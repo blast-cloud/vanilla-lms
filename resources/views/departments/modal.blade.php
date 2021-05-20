@@ -54,6 +54,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-new-mdl-department-modal", function(e) {
         $('#div-department-modal-error').hide();
         $('#mdl-department-modal').modal('show');
+        $('.modal-footer').modal('show');
         $('#frm-department-modal').trigger("reset");
         $('#txt-department-primary-id').val(0);
 
@@ -68,6 +69,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-department-primary-id').show();
         $('#div-edit-txt-department-primary-id').hide();
+        $('.modal-footer').hide('show');
         let itemId = $(this).attr('data-val');
 
         $.get( "{{URL::to('/')}}/api/departments/"+itemId).done(function( response ) {
@@ -92,6 +94,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-department-primary-id').hide();
         $('#div-edit-txt-department-primary-id').show();
+        $('.modal-footer').modal('show');
         let itemId = $(this).attr('data-val');
 
         $.get( "{{URL::to('/')}}/api/departments/"+itemId).done(function( response ) {            

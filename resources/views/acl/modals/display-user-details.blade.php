@@ -19,7 +19,7 @@
                             <input type="hidden" id="txt_user_account_id" value="0" />
                             <input type="hidden" id="txt_student_account_id" value="0" />
 
-                            <div id="div_user_type" class="form-group">
+                            {{-- <div id="div_user_type" class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="user_type">User Type</label>
                                 <div class="col-sm-9">
                                     <div class="input-group mb-3">
@@ -34,7 +34,7 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                     
                             <div id="div_account_type" class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="code">Account Type</label>
@@ -166,16 +166,6 @@ $(document).ready(function() {
         $('#div_registration_num').hide();
         if (this.value == "student"){
             $('#div_registration_num').show();
-        }
-    });
-
-    let user_type = null
-    $( "#user_type" ).change(function() {
-        user_type = $(this).val();
-        if(user_type == 'student'){
-            $('#div_registration_num').show();
-        }else{
-            $('#div_registration_num').hide();
         }
     });
 

@@ -182,6 +182,7 @@ $(document).ready(function() {
         formData.append('title', $('#txt_assignment_title').val());
         formData.append('description', $('#txt_assignment_description').val());
         formData.append('due_date', $('#txt_assignment_due_date').val());
+        formData.append('id', primaryId );
         formData.append('reference_material_url', $('#txt_assignment_reference_material_url').val());
         formData.append('upload_file_path', fileDetails[0]);
         formData.append('upload_file_type', fileDetails[1]);
@@ -234,7 +235,17 @@ $(document).ready(function() {
                 console.log(data); 
                 save_assignments_details(data.message);
             },
-            error: function(data){ console.log(data); }
+            error: function(data){ 
+                
+                        //console.log(data); 
+                        
+                        /* $('#modify-assignment-error-div').html('');
+                        $('#modify-assignment-error-div').show();
+                        
+                        $.each(data.message, function(key, value){
+                            $('#modify-assignment-error-div').append('<li class="">'+value+'</li>');
+                        }); */
+            }
         });    
 
     });

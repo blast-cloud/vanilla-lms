@@ -11,7 +11,7 @@
     @foreach($class_assignments as $item)
         <dl>
             <dt class="mb-0">
-                Assignment #<span id="spn_ass_{{$item->id}}_num">{{$item->assignment_number}}</span> - Due on <span id="spn_ass_{{$item->id}}_date">{{ $item->due_date }}</span> - <span id="spn_ass_{{$item->id}}_title">{{$item->title}}</span>
+                Assignment #<span id="spn_ass_{{$item->id}}_num">{{$item->assignment_number}}</span> - Due on <span id="spn_ass_{{$item->id}}_date">{{ date('dS M, Y', strtotime($item->due_date)) }} </span> - <span id="spn_ass_{{$item->id}}_title">{{$item->title}}</span>
                 <span class="text-danger" style="font-size:80%"><br/>
                 Posted on {{ $item->created_at->format('d-M-Y') }}
                 </span>
@@ -26,7 +26,7 @@
                 @endif
                 @if (!empty($item->upload_file_path))
                 <br/>
-                <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary" target="_blank">
+                <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary" target="_blank" download >
                     <i class="fa fa-download mr-5" class="text-primary"></i>Download
                 </a>
                 @endif

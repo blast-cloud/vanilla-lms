@@ -66,6 +66,7 @@
 
     </div>
     <div class="col-sm-3">
+
         @include("dashboard.partials.side-panel")
     </div>
 
