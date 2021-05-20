@@ -169,9 +169,6 @@ class AdminDashboardController extends AppBaseController
                 ]);
             } else {
                 //If the record exists, then update it
-                $setting_value = $request->$key;
-
-
                 if ($key=="file_icon_picture" || $key=="file_high_res_picture"){
 
                     //Handle logo file upload
@@ -196,6 +193,7 @@ class AdminDashboardController extends AppBaseController
 
                 } else {
                     //Update the settings value.
+                    $setting_value = $request->$key;
                     $this->settingRepository->update(['value'=>$setting_value],$db_settings[$key]);
                 }
                 

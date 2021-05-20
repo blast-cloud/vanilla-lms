@@ -3,10 +3,15 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-		<title>LMS</title>
-		<meta name="description" content="LMS." />
-		<meta name="keywords" content="LMS" />
-		
+        <title>
+            {{$app_settings['txt_long_name']??''}}
+            @yield('title', config('app.title', 'LMS'))
+            @yield('title_prefix')
+            @yield('title_postfix', config('app.title_postfix', ''))
+        </title>
+        <meta name="description" content="{{$app_settings['txt_long_name']??''}} Learning Management System." />
+        <meta name="keywords" content="LMS, VanillaLMS, Foresight, Hasob" />
+        
 		<!-- Favicon -->
 		<link rel="shortcut icon" href="favicon.ico">
 		<link rel="icon" href="favicon.ico" type="image/x-icon">
@@ -43,16 +48,23 @@
 				<div class="container-fluid">
 
                 <div class="mt-30 mb-30 text-center">
-                    <img src= "{{ asset('dist/img/logouzzz.jpg') }}" style="width:100px;height:100px;" class="user-auth-img">
-                    <h3 class="text-center txt-dark mb-10">Zambezi University</h3>
-                    <h6 class="text-center nonecase-font txt-grey">ETECH DEMO SCHOOL</h6>
+                    @if (isset($app_settings['file_high_res_picture']))
+                        {{-- <img src= "{{ asset('dist/img/logouzzz.jpg') }}" style="width:100px;height:100px;" class="user-auth-img"> --}}
+                        <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
+                    @endif
+
+                    <h3 class="text-center txt-dark mb-10">
+                        {!! $app_settings['txt_long_name'] ?? '' !!}
+                        {{-- Zambezi University --}}
+                    </h3>
+                    <h6 class="text-center nonecase-font txt-grey">
+                        {!! $app_settings['txt_app_name'] ?? '' !!}
+                        {{-- ETECH DEMO SCHOOL --}}
+                    </h6>
                 </div>
 
                 <div class="row ma-20">
                     <div class="col-sm-12">
-
-
-                    
                         <div class="panel panel-default card-view pb-0">
                             <div class="panel-wrapper collapse in">
                                 <div class="panel-body pb-0">

@@ -2,12 +2,13 @@
 <html lang="en">
 	<head>
         <title>
-            @yield('title_prefix', config('app.title_prefix', ''))
+            {{$app_settings['txt_long_name']??''}}
             @yield('title', config('app.title', 'LMS'))
+            @yield('title_prefix')
             @yield('title_postfix', config('app.title_postfix', ''))
         </title>
-        <meta name="description" content="Learning Management System." />
-        <meta name="keywords" content="LMS, VanillaLMS, Foresight" />
+        <meta name="description" content="{{$app_settings['txt_long_name']??''}} Learning Management System." />
+        <meta name="keywords" content="LMS, VanillaLMS, Foresight, Hasob" />
         
         <!-- Favicon -->
         <link rel="shortcut icon" href="favicon.ico">
@@ -49,9 +50,23 @@
                                         <div class="col-sm-12 col-xs-12">
                                         
                                             <div class="mb-30 text-center">
-                                                <img src= "{{ asset('dist/img/logouzzz.jpg') }}" style="width:100px;height:100px;" class="user-auth-img">
+                                                @if (isset($app_settings['file_high_res_picture']))
+                                                    {{-- <img src= "{{ asset('dist/img/logouzzz.jpg') }}" style="width:100px;height:100px;" class="user-auth-img"> --}}
+                                                    <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
+                                                @endif
+{{-- 
                                                 <h3 class="text-center txt-dark mb-10">Zambezi University</h3>
-                                                <h6 class="text-center nonecase-font txt-grey">Login to eLearning Portal</h6>
+                                                <h6 class="text-center nonecase-font txt-grey">Login to eLearning Portal</h6> --}}
+
+                                                <h3 class="text-center txt-dark mb-10">
+                                                    {!! $app_settings['txt_long_name'] ?? '' !!}
+                                                    {{-- Zambezi University --}}
+                                                </h3>
+                                                <h6 class="text-center nonecase-font txt-grey">
+                                                    Login {!! $app_settings['txt_app_name'] ?? '' !!}
+                                                    {{-- ETECH DEMO SCHOOL --}}
+                                                </h6>
+
                                             </div>	
 
                                             <div class="mb-30">

@@ -1,10 +1,19 @@
                 <div class="panel panel-default card-view">
                     <div class="panel-wrapper collapse in">
                         <div class="panel-body text-center">
-                            <img src= "{{ asset('dist/img/logouzzz.jpg') }}" style="width:100px;height:100px;" class="user-auth-img">
-                            <h5 class="">Zambezi University</h5>
-                            <p class="muted">eLearning Portal</p>
-                            <p class="" style="font-size:80%">Current Semester: 01-2020/21</p>
+                            @if (isset($app_settings['file_high_res_picture']))
+                            {{-- <img src= "{{ asset('dist/img/logouzzz.jpg') }}" style="width:100px;height:100px;" class="user-auth-img"> --}}
+                            <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
+                            @endif
+                            <h5 class="">
+                                {{-- Zambezi University --}}
+                                {!! $app_settings['txt_long_name'] ?? '' !!}
+                            </h5>
+                            <p class="muted">
+                                {{-- eLearning Portal --}}
+                                {!! $app_settings['txt_app_name'] ?? '' !!}
+                            </p>
+                            {{-- <p class="" style="font-size:80%">Current Semester: 01-2020/21</p> --}}
                         </div>
                     </div>
                 </div>
@@ -21,7 +30,9 @@
                     <div class="panel-wrapper collapse in">
                         <div class="panel-body" style="padding: 10px 5px 5px 15px;">
                             <ul class="list-icons" style="font-size:95%">
-                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="#" class="text-primary" >Main Website</a></li>
+                                @if (isset($app_settings['txt_official_website']))
+                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="{{$app_settings['txt_official_website']}}" class="text-primary" >Main Website</a></li>
+                                @endif
                                 <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="#" class="text-primary" >Help</a></li>
                                 <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="#" class="text-primary" >FAQ</a></li>
                             </ul>

@@ -4,11 +4,13 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <title>
+            {{$app_settings['txt_long_name']??''}}
             @yield('title', config('app.title', 'LMS'))
+            @yield('title_prefix')
             @yield('title_postfix', config('app.title_postfix', ''))
         </title>
-        <meta name="description" content="Learning Management System." />
-        <meta name="keywords" content="LMS, VanillaLMS, Foresight" />
+        <meta name="description" content="{{$app_settings['txt_long_name']??''}} Learning Management System." />
+        <meta name="keywords" content="LMS, VanillaLMS, Foresight, Hasob" />
         
         <!-- Favicon -->
         <link rel="shortcut icon" href="favicon.ico">

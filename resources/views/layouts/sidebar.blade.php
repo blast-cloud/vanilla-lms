@@ -7,9 +7,16 @@
 			<div class="mobile-only-brand pull-left">
 				<div class="nav-header pull-left">
 					<div class="logo-wrap">
-						<a href="index.html">
-							<img class="brand-img" src="{{ asset('dist/img/foresight-logo-sm.fw.png') }}" alt="brand"/>
-							<span class="brand-text">Foresight</span>
+						<a href="#">
+                            @if (isset($app_settings['file_icon_picture']))
+                            <img class="brand-img" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
+                            @else
+                            <img class="brand-img" src="{{ asset('dist/img/foresight-logo-sm.fw.png') }}" alt="brand"/>
+                            @endif
+							<span class="brand-text">
+                                {{-- Foresight --}}
+                                {!! $app_settings['txt_short_name'] ?? '' !!}
+                            </span>
 						</a>
 					</div>
 				</div>	
@@ -19,7 +26,7 @@
                 <div class="top-nav-search collapse pull-left" style="width: auto;">
                     <div class="pull-left">
                         <div class="logo-wrap">
-                            <span class="brand-text" style="font-size: 23px;font-weight: 600;text-transform: uppercase;color: black;">Zambezi University</span>
+                            {{-- <span class="brand-text" style="font-size: 23px;font-weight: 600;text-transform: uppercase;color: black;">Zambezi University</span> --}}
                         </div>
                     </div>
                 </div>
