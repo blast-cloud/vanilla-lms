@@ -106,49 +106,7 @@ class ACLController extends AppBaseController
         return $current_user;
     }
 
-    public function validateUserDetailsFormInput(Request $request, $id){
-
-        $validation_rules = array(
-            'email'=>"required|email|unique:users,email",
-            'telephone'=>"required|numeric|digits:11|unique:users,telephone",
-            // 'password1'=>'nullable|string|min:8|confirmed|regex:/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
-            'first_name' =>'required|string|max:50',
-            'department_id' =>'required|string|max:50',
-            'last_name' =>'required|string|max:50',
-            'matriculation_number' =>"required_if:account_type,student|max:20|unique:students,matriculation_number,{$request->student_id}",
-        );
-
-        if ($id>0){
-            $validation_rules['email'] = "required|email|unique:users,email,{$id}";
-            $validation_rules['telephone'] = "required|numeric|digits:11|unique:users,telephone,{$id}";
-        }
-
-        $validation_messages = array(
-            'required' => 'The :attribute field is required.'
-        );
-
-        $attributes = array(
-            'first_name' => 'First Name',
-            'last_name' => 'Last Name',
-            'department_id' => 'Department',
-            'telephone' => 'Phone Number',
-            'email' => 'Email Address',
-            'matriculation_number' => 'Matric Number'
-        );
-
-        //Create a validator for the data in the request
-        $validator = Validator::make($request->all(), $validation_rules, $validation_messages, $attributes);
-        $validator->after(function ($validator) {});
-
-        return $validator;
-    }
-
-    public function updateUserAccount(Request $request, $id){
-       
-        $validator = $this->validateUserDetailsFormInput($request, $id);
-        if ($validator->fails()){
-            return response()->json(['errors' => $validator->errors()],200);
-        }
+    public function updateUserAccount(UpdateUserRequest $request, $id){
 
         if($id != '0'){
             $current_user = User::find($id);
