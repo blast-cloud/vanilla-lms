@@ -8,6 +8,7 @@ use App\Http\Requests\CreateAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 
 use Flash;
+use App\Managers\GradeManager;
 use App\Http\Controllers\AppBaseController;
 
 use App\Repositories\DepartmentRepository;
@@ -79,6 +80,7 @@ class ClassDashboardController extends AppBaseController
         $lecture_notes = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'lecture-notes']);
         $reading_materials = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'reading-materials']);
         $class_assignments = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'class-assignments']);
+        $class_examinations = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'class-examinations']);
         $lecture_classes = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'lecture-classes']);
         
         $grades = $this->gradeRepository->all(['course_class_id'=>$id]);
@@ -103,6 +105,8 @@ class ClassDashboardController extends AppBaseController
             $class_schedules = null;
         }
 
+        $gradeManager = new GradeManager($id);
+
         return view("dashboard.class.index")
                     ->with('department', $department)
                     ->with('courseClass', $courseClass)
@@ -111,8 +115,10 @@ class ClassDashboardController extends AppBaseController
                     ->with('lecture_notes', $lecture_notes)
                     ->with('reading_materials', $reading_materials)
                     ->with('class_assignments', $class_assignments)
+                    ->with('class_examinations', $class_examinations)
                     ->with('lecture_classes', $lecture_classes)
                     ->with('grades', $grades)
+                    ->with('gradeManager', $gradeManager)
                     ->with('enrollments', $enrollments);
     }
 

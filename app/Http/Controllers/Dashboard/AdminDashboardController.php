@@ -92,6 +92,7 @@ class AdminDashboardController extends AppBaseController
         'txt_portal_contact_phone',
         'txt_portal_contact_name',
         'txt_portal_contact_email',
+        'txt_maximum_enrollment_limit',
     ];
 
     public function __construct(DepartmentRepository $departmentRepo, 

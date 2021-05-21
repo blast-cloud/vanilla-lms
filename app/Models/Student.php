@@ -119,4 +119,8 @@ class Student extends Model
     {
         return $this->hasOne(\App\Models\User::class, 'student_id');
     }
+
+    public function getFullName(){
+        return "{$this->last_name}, {$this->first_name}";
+    }
 }

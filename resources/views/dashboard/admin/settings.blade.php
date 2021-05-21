@@ -113,6 +113,13 @@ Admin Settings
                                 <br/>
 
                                 <div class="row form-group">
+                                    <label class="control-label mb-10 col-sm-5" for="txt_maximum_enrollment_limit">Maximum Enrolled Students Per Class</label>
+                                    <div class="col-sm-2">
+                                        {!! Form::text('txt_maximum_enrollment_limit', $db_settings['txt_maximum_enrollment_limit']??"50", ['id'=>'txt_maximum_enrollment_limit','class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
                                     <label class="control-label mb-10 col-sm-5" for="cbx_require_enrollment_confirmation">Require Enrollment Confirmation</label>
                                     <div class="col-sm-1">
                                         {!! Form::checkbox('cbx_require_enrollment_confirmation', 1, $db_settings['cbx_require_enrollment_confirmation']??"", ['id'=>'cbx_require_enrollment_confirmation', 'class' => 'form-control','style'=>'height:24px;']) !!}
