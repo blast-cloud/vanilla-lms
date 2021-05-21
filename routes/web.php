@@ -69,6 +69,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('courseClasses', App\Http\Controllers\CourseClassController::class);
 
+    Route::put('dashboard/classMaterials/{id}/outline', [App\Http\Controllers\CourseClassController::class, 'updateCourseClassOutline'])->name('dashboard.course-class-outline');
+
     Route::resource('classMaterials', App\Http\Controllers\ClassMaterialController::class);
 
     Route::resource('grades', App\Http\Controllers\GradeController::class);

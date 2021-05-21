@@ -67,7 +67,7 @@ $(document).ready(function() {
         formData.append('id', {{ ($courseClass) ?  $courseClass->id : ''}});
         formData.append('outline', $('#txt_outline_description').val());
 
-        let artifact_url = "{{ route('courseClasses.update', ($courseClass) ? $courseClass->id : '') }}";
+        let artifact_url = "{{ route('dashboard.course-class-outline', ($courseClass) ? $courseClass->id : '') }}";
         $.ajax({
             url:artifact_url,
             type: "POST",

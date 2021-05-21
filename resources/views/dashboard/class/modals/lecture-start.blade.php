@@ -98,6 +98,7 @@ $(document).ready(function() {
         $('#txt_start_lecture_description').val($('#spn_ol_'+itemId+'_desc').html());
         $('#txt_start_lecture_title').val($('#spn_ol_'+itemId+'_title').html());
         $('#txt_start_lecture_number').val($('#spn_ol_'+itemId+'_num').html());
+        $('#txt_start_lecture_reference_material_url').val($('#spn_ol_'+itemId+'_url').html());
     });
 
     //Delete action

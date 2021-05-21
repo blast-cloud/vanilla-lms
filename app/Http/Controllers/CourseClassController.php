@@ -10,6 +10,7 @@ use App\DataTables\CourseClassDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateCourseClassRequest;
 use App\Http\Requests\UpdateCourseClassRequest;
+use App\Http\Requests\UpdateCourseClassOutlineRequest;
 use App\Repositories\CourseClassRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
@@ -126,6 +127,32 @@ class CourseClassController extends AppBaseController
         $courseClass = $this->courseClassRepository->update($request->all(), $id);
 
         Flash::success('Course Class updated successfully.');
+        
+        CourseClassUpdated::dispatch($courseClass);
+        return redirect(route('courseClasses.index'));
+    }
+
+    /**
+     * Update the specified CourseClass in storage.
+     *
+     * @param  int              $id
+     * @param UpdateCourseClassOutlineRequest $request
+     *
+     * @return Response
+     */
+    public function updateCourseClassOutline($id, UpdateCourseClassOutlineRequest $request)
+    {
+        $courseClass = $this->courseClassRepository->find($id);
+
+        if (empty($courseClass)) {
+            Flash::error('Course Class not found');
+
+            return redirect(route('courseClasses.index'));
+        }
+
+        $courseClass = $this->courseClassRepository->update($request->all(), $id);
+
+        Flash::success('Course Class Outline updated successfully.');
         
         CourseClassUpdated::dispatch($courseClass);
         return redirect(route('courseClasses.index'));
