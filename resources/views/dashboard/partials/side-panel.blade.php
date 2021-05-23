@@ -40,14 +40,27 @@
                     </div>
                 </div>
 
-                <!-- <div class="panel panel-default card-view">
-                    <div class="panel-heading">
+                @if (isset($app_settings['txt_portal_contact_phone']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_name']))
+                <div class="panel panel-default card-view">
+                    <div class="panel-heading pb-5" style="">
                         <div class="pull-left">
-                            <h6 class="panel-title txt-dark">Announcements</h6>
+                            <h6 class="panel-title txt-dark">Help & Support</h6>
                         </div>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="panel-body">
-                    
+                    <div class="panel-wrapper collapse in">
+                        <div class="panel-body pt-5" style="">
+                            <p>If you are having challenges with the portal please contact;</p>
+                            @if (isset($app_settings['txt_portal_contact_name']))
+                            <i class="fa fa-user ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_name'] }}<br/>
+                            @endif
+                            @if (isset($app_settings['txt_portal_contact_phone']))
+                            <i class="fa fa-phone ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_phone'] }}<br/>
+                            @endif
+                            @if (isset($app_settings['txt_portal_contact_email']))
+                            <i class="fa fa-envelope ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_email'] }}<br/>
+                            @endif
+                        </div>
                     </div>
-                </div> -->
+                </div>
+                @endif

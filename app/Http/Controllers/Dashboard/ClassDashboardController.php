@@ -99,13 +99,13 @@ class ClassDashboardController extends AppBaseController
 
         }else if ($current_user->student_id != null){
 
-            $enrollment_ids = [];
-            $enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
-            foreach ($enrollments as $item){
-                $enrollment_ids []= $item->course_class_id;
+            $student_enrollment_ids = [];
+            $student_enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
+            foreach ($student_enrollments as $item){
+                $student_enrollment_ids []= $item->course_class_id;
             }
             $grades = $this->gradeRepository->all(['course_class_id'=>$id,'student_id'=>$current_user->student_id]);
-            $class_schedules = $this->courseClassRepository->findMany($enrollment_ids);
+            $class_schedules = $this->courseClassRepository->findMany($student_enrollment_ids);
     
         }else if ($current_user->lecturer_id != null){
             $class_schedules = $this->courseClassRepository->all(['lecturer_id'=>$current_user->lecturer_id]);
