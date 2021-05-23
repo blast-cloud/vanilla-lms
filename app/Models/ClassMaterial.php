@@ -122,6 +122,8 @@ class ClassMaterial extends Model
         'grade_contribution_pct',
         'grade_contribution_notes',
         'examination_number',
+        'blackboard_meeting_id',
+        'blackboard_meeting_status',
     ];
 
     /**
