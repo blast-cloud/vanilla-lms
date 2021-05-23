@@ -46,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
             'txt_enrollment_text',
             'file_high_res_picture',
             'file_icon_picture',
+            'file_landing_page_picture',
             'txt_portal_contact_phone',
             'txt_portal_contact_name',
             'txt_portal_contact_email',

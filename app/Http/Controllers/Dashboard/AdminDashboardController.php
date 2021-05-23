@@ -89,6 +89,7 @@ class AdminDashboardController extends AppBaseController
         'txt_enrollment_text',
         'file_high_res_picture',
         'file_icon_picture',
+        'file_landing_page_picture',
         'txt_portal_contact_phone',
         'txt_portal_contact_name',
         'txt_portal_contact_email',
@@ -168,37 +169,40 @@ class AdminDashboardController extends AppBaseController
                     'key' => $key,
                     'value' => $request->$key
                 ]);
-            } else {
-                //If the record exists, then update it
-                if ($key=="file_icon_picture" || $key=="file_high_res_picture"){
+            }
+            
+            //If the record exists, then update it
+            if ($key=="file_icon_picture" || $key=="file_high_res_picture" || $key=="file_landing_page_picture"){
 
-                    //Handle logo file upload
-                    $file_upload = null;
-                    if ($key=="file_icon_picture" && isset($request->file_icon_picture)){
-                        $file_upload = $request->file_icon_picture;
-                    }
-                    if ($key=="file_high_res_picture" && isset($request->file_high_res_picture)){
-                        $file_upload = $request->file_high_res_picture;
-                    }
+                //Handle logo file upload
+                $file_upload = null;
+                if ($key=="file_icon_picture" && isset($request->file_icon_picture)){
+                    $file_upload = $request->file_icon_picture;
+                }
+                if ($key=="file_high_res_picture" && isset($request->file_high_res_picture)){
+                    $file_upload = $request->file_high_res_picture;
+                }
+                if ($key=="file_landing_page_picture" && isset($request->file_landing_page_picture)){
+                    $file_upload = $request->file_landing_page_picture;
+                }
 
-                    //Handle icon file upload
-                    if ($file_upload != null){
-                        $file_type = $file_upload->getClientOriginalExtension();
-                        $rndFileName = time().'.'.$file_type;
-                        $file_upload->move(public_path('uploads'), $rndFileName);
-                        $setting_value = "uploads/{$rndFileName}";
+                //Handle icon file upload
+                if ($file_upload != null){
+                    $file_type = $file_upload->getClientOriginalExtension();
+                    $rndFileName = time().'.'.$file_type;
+                    $file_upload->move(public_path('uploads'), $rndFileName);
+                    $setting_value = "uploads/{$rndFileName}";
 
-                        //Update the settings value.
-                        $this->settingRepository->update(['value'=>$setting_value],$db_settings[$key]);
-                    }
-
-                } else {
                     //Update the settings value.
-                    $setting_value = $request->$key;
                     $this->settingRepository->update(['value'=>$setting_value],$db_settings[$key]);
                 }
-                
-            }
+
+            } else {
+                //Update the settings value.
+                $setting_value = $request->$key;
+                $this->settingRepository->update(['value'=>$setting_value],$db_settings[$key]);
+            }    
+            
         }
 
 

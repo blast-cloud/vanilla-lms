@@ -219,6 +219,27 @@ Admin Settings
                                         {!! Form::file('file_icon_picture', ['id'=>'file_icon_picture', 'class' => 'custom-file-input']) !!}
                                     </div>
                                 </div>
+
+                                <hr class="light-grey-hr mb-10">
+
+                                <div class="row form-group">
+                                    <label class="control-label mb-10 col-sm-3" for=""></label>
+                                    <div class="col-sm-9">
+                                    @if (isset($db_settings['file_landing_page_picture']))
+                                    <img src="{{ asset($db_settings['file_landing_page_picture']) }}" width="50%" height="50%" /><br/>
+                                    <a style="font-size:70%" href="#" class="text-info reset-settings-value" data-val="file_landing_page_picture">Remove Image</a>
+                                    @else
+                                    No Image Uploaded
+                                    @endif
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="control-label mb-10 col-sm-3" for="file_landing_page_picture">Landing Page Image</label>
+                                    <div class="col-sm-9">
+                                        {!! Form::file('file_landing_page_picture', ['id'=>'file_landing_page_picture', 'class' => 'custom-file-input']) !!}
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

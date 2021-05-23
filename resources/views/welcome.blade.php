@@ -21,6 +21,32 @@
 		
 		<!-- Custom CSS -->
 		<link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css">
+
+
+        <style>
+            .image-container {
+                position: relative;
+                text-align: center;
+                color: white;
+            }
+
+            /* Bottom right text */
+            .image-text-bottom-right {
+                position: absolute;
+                bottom: 8px;
+                right: 16px;
+            }
+
+            /* Bottom left text */
+            .image-text-bottom-left {
+                position: absolute;
+                bottom: 20px;
+                left: 80px;
+            }
+
+        </style>
+
+
 	</head>
 	<body>
 		<!--Preloader-->
@@ -28,155 +54,114 @@
 			<div class="la-anim-1"></div>
 		</div>
 		<!--/Preloader-->
-		
-		<div class="wrapper error-page pa-0">
-			<header class="sp-header">
-				<div class="sp-logo-wrap pull-left">
-					<!-- <a href="/">
-						<img class="brand-img mr-10" src="{{ asset('dist/img/logo.png') }}" alt="brand"/>
-						<span class="brand-text">PAT</span>
-					</a> -->
-				</div>
-				<div class="form-group mb-0 pull-right">
-					<!-- <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="/">Home</a> -->
-				</div>
-				<div class="clearfix"></div>
-			</header>
-			
-			<!-- Main Content -->
-			<div class="page-wrapper pa-0 ma-0 error-bg-img">
-				<div class="container-fluid">
 
-                <div class="mt-30 mb-30 text-center">
-                    @if (isset($app_settings['file_high_res_picture']))
-                        {{-- <img src= "{{ asset('dist/img/logouzzz.jpg') }}" style="width:100px;height:100px;" class="user-auth-img"> --}}
-                        <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
-                    @endif
+        <div class="wrapper pa-0">
+                
+            <header class="sp-header">
+                <div class="sp-logo-wrap pull-left">
+                    <a href="/">
+                        @if (isset($app_settings['file_icon_picture']))
+                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
+                        @endif
+                        <span class="brand-text">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                    </a>
+                </div>
+                <div class="form-group mb-0 pull-right">
+                    {{-- <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="/">Home</a> --}}
+                </div>
+                <div class="clearfix"></div>
+            </header>
 
-                    <h3 class="text-center txt-dark mb-10">
-                        {!! $app_settings['txt_long_name'] ?? '' !!}
-                        {{-- Zambezi University --}}
-                    </h3>
-                    <h6 class="text-center nonecase-font txt-grey">
-                        {!! $app_settings['txt_app_name'] ?? '' !!}
-                        {{-- ETECH DEMO SCHOOL --}}
-                    </h6>
+            <div class="page-wrapper pa-20 ma-0">
+                <div class="container-fluid">
+
+                    <div class="row mt-50 ">
+                        <div class="col-lg-8">
+
+                            <div class="image-container">
+                                <img src="{{ asset($app_settings['file_landing_page_picture']) }}" width="85%" />
+                                <div class="image-text-bottom-left"><h4 class="pa-10" style="color:white;">{!! $app_settings['txt_welcome_text'] ?? '' !!}</h4></div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4">
+
+                            <div class="col-lg-12 text-center">
+                                <div class="panel panel-default card-view">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pt-5" style="">
+                                
+                                            <div class="col-lg-12 text-center">
+                                                @if (isset($app_settings['file_high_res_picture']))
+                                                    <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
+                                                @endif
+                                                <h3 class="text-center txt-dark mb-10">
+                                                    {!! $app_settings['txt_short_name'] ?? '' !!}
+                                                </h3>
+                                                <h6 class="text-center nonecase-font txt-grey">
+                                                    {!! $app_settings['txt_app_name'] ?? '' !!}
+                                                </h6>
+                                            </div>
+                                            <div class="col-lg-12 text-center mt-20">
+                                                <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
+
+                                                @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
+                                                <a class="btn btn-success btn-lg" href="{{ route('login') }}">Register</a>
+                                                @endif
+
+                                            </div>
+                                            
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-12 mt-20">
+                                @if (isset($app_settings['txt_portal_contact_phone']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_name']))
+                                <div class="panel panel-default card-view">
+                                    <div class="panel-heading pb-5" style="">
+                                        <div class="pull-left">
+                                            <h6 class="panel-title txt-dark">Help & Support</h6>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pt-5" style="">
+                                            <p>If you are having challenges with the portal please contact;</p>
+                                            @if (isset($app_settings['txt_portal_contact_name']))
+                                            <i class="fa fa-user ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_name'] }}<br/>
+                                            @endif
+                                            @if (isset($app_settings['txt_portal_contact_phone']))
+                                            <i class="fa fa-phone ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_phone'] }}<br/>
+                                            @endif
+                                            @if (isset($app_settings['txt_portal_contact_email']))
+                                            <i class="fa fa-envelope ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_email'] }}<br/>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="row ma-20">
-                    <div class="col-sm-12">
-                        <div class="panel panel-default card-view pb-0">
-                            <div class="panel-wrapper collapse in">
-                                <div class="panel-body pb-0">
-                                    <div class="row">
-                                        <!-- item -->
-                                        <div class="col-lg-3 col-md-6 col-sm-12 text-center mb-30">
-                                            <div class="panel panel-pricing mb-0">
-                                                <div class="panel-heading">
-                                                    <h4>Student</h4>
-                                                </div>
-                                                <div class="panel-body text-center pl-0 pr-0">
-                                                    <hr class="mb-10">
-                                                    <ul class="list-group mb-0 text-center">
-                                                        <li class="list-group-item">
-                                                            <b>Username</b><br/>mike@vanilla-lms.edu.ng<br/>
-                                                            <b>Password</b><br/>password
-                                                        </li>
-                                                        <li><hr class="mt-5 mb-5"></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="panel-footer pb-20">
-                                                    <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- /item -->
-
-                                        <!-- item -->
-                                        <div class="col-lg-3 col-md-6 col-sm-12 text-center mb-30">
-                                            <div class="panel panel-pricing mb-0">
-                                                <div class="panel-heading">
-                                                    <h4>Lecturer</h4>
-                                                </div>
-                                                <div class="panel-body text-center pl-0 pr-0">
-                                                    <hr class="mb-10">
-                                                    <ul class="list-group mb-0 text-center">
-                                                        <li class="list-group-item">
-                                                            <b>Username</b><br/>yohan@vanilla-lms.edu.ng<br/>
-                                                            <b>Password</b><br/>password
-                                                        </li>
-                                                        <li><hr class="mt-5 mb-5"></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="panel-footer pb-20">
-                                                    <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- /item -->
-
-                                        <!-- item -->
-                                        <div class="col-lg-3 col-md-6 col-sm-12 text-center mb-30">
-                                            <div class="panel panel-pricing mb-0">
-                                                <div class="panel-heading">
-                                                    <h4>Department</h4>
-                                                </div>
-                                                <div class="panel-body text-center pl-0 pr-0">
-                                                    <hr class="mb-10">
-                                                    <ul class="list-group mb-0 text-center">
-                                                        <li class="list-group-item">
-                                                            <b>Username</b><br/>ngo@vanilla-lms.edu.ng<br/>
-                                                            <b>Password</b><br/>password
-                                                        </li>
-                                                        <li><hr class="mt-5 mb-5"></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="panel-footer pb-20">
-                                                    <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- /item -->
-
-
-                                        <!-- item -->
-                                        <div class="col-lg-3 col-md-6 col-sm-12 text-center mb-30">
-                                            <div class="panel panel-pricing mb-0">
-                                                <div class="panel-heading">
-                                                    <h4>Admin</h4>
-                                                </div>
-                                                <div class="panel-body text-center pl-0 pr-0">
-                                                    <hr class="mb-10">
-                                                    <ul class="list-group mb-0 text-center">
-                                                        <li class="list-group-item">
-                                                            <b>Username</b><br/>admin@zambezi.edu.ng<br/>
-                                                            <b>Password</b><br/>password
-                                                        </li>
-                                                        <li><hr class="mt-5 mb-5"></li>
-                                                    </ul>
-                                                </div>
-                                                <div class="panel-footer pb-20">
-                                                    <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- /item -->                            
-
-                                    </div>	
-                                </div>	
-                            </div>	
+                <footer class="footer container-fluid pl-30 pr-30"> 
+                    <div class="row">
+                        <div class="col-sm-5" style="font-size:80%">
+                            {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a>
+                        </div>
+                        <div class="col-sm-7 text-right" style="font-size:80%">
+                            SPONSORED BY <a href="https://www.tetfund.gov.ng" target="_blank">TETFUND/ICT/2019-20</a>
                         </div>	
                     </div>	
-                </div>
-                
+                </footer>
 
-				</div>
-			</div>
-			<!-- /Main Content -->
-		
+            </div>
+
 		</div>
-		<!-- /#wrapper -->
-		
 		<!-- JavaScript -->
 		
 		<!-- jQuery -->

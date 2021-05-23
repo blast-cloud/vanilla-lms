@@ -80,6 +80,20 @@
                 max-width:1200px;
                 }
             }
+
+            .image-container {
+                position: relative;
+                text-align: center;
+                color: white;
+            }
+
+            /* Bottom right text */
+            .image-text-bottom-right {
+                position: absolute;
+                bottom: 8px;
+                right: 16px;
+            }
+
         </style>
     </head>
 
