@@ -1,5 +1,11 @@
+    @if ($current_user->lecturer_id!=null)
+    <a href="#" id="btn-show-new-discussion-modal" class="btn btn-xs btn-primary">
+        <i class="fa fa-upload" style=""></i> New Discussion Board
+    </a>
+    <br/>
+    @endif
 
-    <table class="table table-hover">
+    <table class="table table-hover mb-0">
         @foreach($forums as $idx=>$forum)
         <tr>
             <td width="80px">
@@ -17,4 +23,4 @@
         </tr>
         @endforeach
     </table>
-    <hr class="light-grey-hr" />
+    <hr class="light-grey-hr mb-10 mt-0"/>

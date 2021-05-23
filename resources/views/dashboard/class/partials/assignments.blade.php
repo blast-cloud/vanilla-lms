@@ -2,10 +2,10 @@
     <a href="#" id="btn-show-modify-assignment-modal" class="btn btn-xs btn-primary">
         <i class="fa fa-upload" style=""></i> Add New Assignment
     </a>
+    <br/>
     @endif
 
-    <br/>
-    <hr class="light-grey-hr mb-10"/>
+    <hr class="light-grey-hr mb-10 mt-0"/>
 
     @if ($class_assignments!=null && count($class_assignments)>0)
     @foreach($class_assignments as $item)

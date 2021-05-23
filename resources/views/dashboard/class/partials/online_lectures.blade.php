@@ -2,10 +2,10 @@
     <a id="btn-show-start-lecture-modal" href="#" class="btn btn-xs btn-primary">
         <i class="fa fa-camera" style=""></i> Create Lecture
     </a>
+    <br/>
     @endif
 
-    <br/>
-    <hr class="light-grey-hr mb-10"/>
+    <hr class="light-grey-hr mb-10 mt-0"/>
 
     @if ($lecture_classes!=null && count($lecture_classes)>0)
     @foreach($lecture_classes as $item)

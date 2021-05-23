@@ -2,10 +2,10 @@
 <a href="#" id="btn-show-modify-examination-modal" class="btn btn-xs btn-primary">
     <i class="fa fa-upload" style=""></i> Add New Examination
 </a>
+<br/>
 @endif
 
-<br/>
-<hr class="light-grey-hr mb-10"/>
+<hr class="light-grey-hr mb-10 mt-0"/>
 
 @if ($class_examinations!=null && count($class_examinations)>0)
 @foreach($class_examinations as $item)

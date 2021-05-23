@@ -1,4 +1,4 @@
-
+<hr class="light-grey-hr mb-10 mt-0"/>
 @if ($enrollments!=null && count($enrollments)>0)
 <ul class="list-icons" style="font-size:95%">
 @foreach($enrollments as $item)
