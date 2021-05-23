@@ -70,7 +70,7 @@ $(document).ready(function() {
             if (response && response.data){
                 $('#forum-comment-list').empty();
                 response.data.forEach(function (item){
-                    if ( item.student_id != "{{$current_user->student_id}}" ){
+                    if ( item.posting_user_id != "{{$current_user->id}}" ){
                         commentItem = "<li class='friend mb-5'><div class='friend-msg-wrap'>";
                         commentItem += "<img class='user-img img-circle block pull-left' src='{{ asset('dist/img/user-badge.fw.png') }}' alt='user'><div class='msg pull-left'>";
                         commentItem += "<p>" + item.posting + "</p>";
@@ -135,6 +135,7 @@ $(document).ready(function() {
             formData.append('parent_forum_id', $('#txt-parent-forum-id').val());
             formData.append('course_class_id', {{$courseClass->id}});
             formData.append('group_name', $('#spn_forum_'+itemId+'_title').html());
+            formData.append('posting_user_id', {{$current_user->id}});
             @if ($current_user->student_id != null)
                 formData.append('student_id', {{$current_user->student_id}});
             @endif

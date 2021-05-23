@@ -233,5 +233,8 @@
         @stack('js-133')
         @yield('js-133')
 
+        @stack('js-134')
+        @yield('js-134')
+
     </body>
 </html>

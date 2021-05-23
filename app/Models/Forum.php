@@ -76,7 +76,8 @@ class Forum extends Model
         'posting',
         'student_id',
         'course_class_id',
-        'parent_forum_id'
+        'parent_forum_id',
+        'posting_user_id'
     ];
 
     /**
@@ -90,7 +91,8 @@ class Forum extends Model
         'posting' => 'string',
         'student_id' => 'integer',
         'course_class_id' => 'integer',
-        'parent_forum_id' => 'integer'
+        'parent_forum_id' => 'integer',
+        'posting_user_id' => 'integer'
     ];
 
 
@@ -100,6 +102,14 @@ class Forum extends Model
     public function student()
     {
         return $this->hasOne(\App\Models\Student::class, 'id', 'student_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function posting_user()
+    {
+        return $this->hasOne(\App\Models\User::class, 'id', 'posting_user_id');
     }
 
     /**
