@@ -54,6 +54,24 @@
                                         </div>
                                     </div>
 
+
+                                    <!-- Assignment Max Score Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_max_score">Max Score</label>
+                                        <div class="col-sm-2">
+                                            {!! Form::number('txt_assignment_max_score', null, ['id'=>'txt_assignment_max_score', 'class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+
+                                    <!-- Assignment Grade Contribution Pct Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_score_contriution_pct">Grade Contribution (%)</label>
+                                        <div class="col-sm-2">
+                                            {!! Form::number('txt_assignment_score_contriution_pct', null, ['id'=>'txt_assignment_score_contriution_pct', 'placeholder'=>"%",'class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+
+
                                     <!-- Upload File Path Field -->
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_assignment_upload_file_path">Assignment File</label>
@@ -122,6 +140,9 @@ $(document).ready(function() {
         $('#txt_assignment_description').val($('#spn_ass_'+itemId+'_desc').html());
         $('#txt_assignment_assignment_number').val($('#spn_ass_'+itemId+'_num').html());
 
+        $('#txt_assignment_max_score').val($('#spn_ass_'+itemId+'_max_points').html());
+        $('#txt_assignment_score_contriution_pct').val($('#spn_ass_'+itemId+'_contrib').html());
+
         $('#txt_assignment_due_date').val($('#spn_ass_'+itemId+'_date').html());
         $('#txt_assignment_reference_material_url').val($('#spn_ass_'+itemId+'_url').html());
     });
@@ -184,8 +205,13 @@ $(document).ready(function() {
         formData.append('due_date', $('#txt_assignment_due_date').val());
         formData.append('id', primaryId );
         formData.append('reference_material_url', $('#txt_assignment_reference_material_url').val());
-        formData.append('upload_file_path', fileDetails[0]);
-        formData.append('upload_file_type', fileDetails[1]);
+        if (fileDetails!=null){
+            formData.append('upload_file_path', fileDetails[0]);
+            formData.append('upload_file_type', fileDetails[1]);
+        }
+        formData.append('grade_max_points', $('#txt_assignment_max_score').val());
+        formData.append('grade_contribution_pct', $('#txt_assignment_score_contriution_pct').val());
+        
 
         $.ajax({
             url:endPointUrl,
@@ -224,30 +250,28 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
  
-        var formData = new FormData();
-        formData.append('file', $('#txt_assignment_upload_file_path')[0].files[0]);
+        if ($('#txt_assignment_upload_file_path')[0].files[0] == null){
+            
+            save_assignments_details(null);
 
-        $.ajax({
-            url: "{{ route('attachment-upload') }}",
-            type: 'POST', processData: false,
-            contentType: false, data: formData,
-            success: function(data){
-                console.log(data); 
-                save_assignments_details(data.message);
-            },
-            error: function(data){ 
-                
-                        //console.log(data); 
-                        
-                        /* $('#modify-assignment-error-div').html('');
-                        $('#modify-assignment-error-div').show();
-                        
-                        $.each(data.message, function(key, value){
-                            $('#modify-assignment-error-div').append('<li class="">'+value+'</li>');
-                        }); */
-            }
-        });    
+        }else{
 
+            var formData = new FormData();
+            formData.append('file', $('#txt_assignment_upload_file_path')[0].files[0]);
+
+            $.ajax({
+                url: "{{ route('attachment-upload') }}",
+                type: 'POST', processData: false,
+                contentType: false, data: formData,
+                success: function(data){
+                    console.log(data); 
+                    save_assignments_details(data.message);
+                },
+                error: function(data){ 
+                    console.log(data);
+                }
+            });
+        }
     });
 
 

@@ -18,7 +18,7 @@
                     <div class="row">
                         <div class="col-lg-11 ma-10">
                             @csrf
-                            <input type="hidden" id="txt_assignment_id" value="0" />
+                            <input type="hidden" id="txt_lecture_id" value="0" />
                             <!-- Assignment Number Field -->
                             <div class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_number">Lecture Number</label>
@@ -82,7 +82,7 @@ $(document).ready(function() {
         $('#start-lecture-error-div').hide();
         $('#start-lecture-modal').modal('show');
         $('#form-start-lecture').trigger("reset");
-        $('#txt_assignment_id').val(0);
+        $('#txt_lecture_id').val(0);
     });
 
     //Show Modal for Edit Entry
@@ -92,7 +92,7 @@ $(document).ready(function() {
         $('#form-start-lecture').trigger("reset");
 
         let itemId = $(this).attr('data-val');
-        $('#txt_assignment_id').val(itemId);
+        $('#txt_lecture_id').val(itemId);
 
         //Set title and url
         $('#txt_start_lecture_description').val($('#spn_ol_'+itemId+'_desc').html());
@@ -144,7 +144,7 @@ $(document).ready(function() {
 
         let actionType = "POST";
         let endPointUrl = "{{ route('classMaterials.store') }}";
-        let primaryId = $('#txt_assignment_id').val();
+        let primaryId = $('#txt_lecture_id').val();
 
         if (primaryId>0){
             actionType = "PUT";

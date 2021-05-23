@@ -117,7 +117,11 @@ class ClassMaterial extends Model
         'upload_file_path',
         'upload_file_type',
         'reference_material_url',
-        'course_class_id'
+        'course_class_id',
+        'grade_max_points',
+        'grade_contribution_pct',
+        'grade_contribution_notes',
+        'examination_number',
     ];
 
     /**
@@ -137,7 +141,11 @@ class ClassMaterial extends Model
         'upload_file_path' => 'string',
         'upload_file_type' => 'string',
         'reference_material_url' => 'string',
-        'course_class_id' => 'integer'
+        'course_class_id' => 'integer',
+        'grade_max_points' => 'integer',
+        'grade_contribution_pct' => 'integer',
+        'grade_contribution_notes' => 'string',
+        'examination_number' => 'integer'
     ];
 
 

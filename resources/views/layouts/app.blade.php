@@ -74,7 +74,12 @@
                 border-color: #dedede;
                 color: #337ab7;
             }
-
+            @media (min-width: 768px) {
+                .modal-xl {
+                    width: 90%;
+                max-width:1200px;
+                }
+            }
         </style>
     </head>
 
@@ -221,6 +226,12 @@
 
         @stack('js-131')
         @yield('js-131')
+
+        @stack('js-132')
+        @yield('js-132')
+
+        @stack('js-133')
+        @yield('js-133')
 
     </body>
 </html>

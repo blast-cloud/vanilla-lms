@@ -31,10 +31,14 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'type' => 'required',
             'title' => 'required',
             'description' => 'required',
+            'examination_number' => 'required_if:type,class-examinations',
             'assignment_number' => 'required_if:type,class-assignments',
             'due_date' => 'required_if:type,class-assignments',
             'lecture_number' => 'required_if:type,lecture-classes',
-            'reference_material_url' => 'nullable|url'
+            'reference_material_url' => 'nullable|url',
+            'grade_max_points' => 'nullable|numeric|min:0|max:100',
+            'grade_contribution_pct' => 'nullable|numeric|min:0|max:100',
+            'grade_contribution_notes' => 'nullable|string|max:300',
         ];
     }
 
@@ -43,6 +47,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
         return [
             'lecture_number.required_if' => 'The :attribute field is required.',
             'assignment_number.required_if' => 'The :attribute field is required.',
+            'examination_number.required_if' => 'The :attribute field is required.',
             'due_date.required_if' => 'The :attribute field is required.',
             'reference_material_url.url' => 'The :attribute Must Start with http://'
         ];
@@ -51,10 +56,15 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
     public function attributes()
     {
         return [
-            'lecture_number' => 'Lecture Number',
             'title' => 'Title',
             'description' => 'Description',
-            'reference_material_url' => 'Reference Material URL'
+            'lecture_number' => 'Lecture Number',
+            'examination_number' => 'Examination Number',
+            'reference_material_url' => 'Reference Material URL',
+            'grade_max_points' => 'Maximum Points towards Grade',
+            'grade_contribution_pct' => 'Percent Contribution to Grade',
+            'grade_contribution_notes' => 'Grade Notes',
         ];
     }
+
 }

@@ -13,7 +13,7 @@
             <dt class="mb-0">
                 Assignment #<span id="spn_ass_{{$item->id}}_num">{{$item->assignment_number}}</span> - Due on <span id="spn_ass_{{$item->id}}_date">{{ date('Y-m-d', strtotime($item->due_date)) }} </span> - <span id="spn_ass_{{$item->id}}_title">{{$item->title}}</span>
                 <span class="text-danger" style="font-size:80%"><br/>
-                Posted on {{ $item->created_at->format('d-M-Y') }}
+                Posted on {{ $item->created_at->format('d-M-Y') }} &nbsp;&nbsp;|&nbsp;&nbsp;  Points <span id="spn_ass_{{$item->id}}_max_points">{{ $item->grade_max_points }}</span>, contributes <span id="spn_ass_{{$item->id}}_contrib">{{ $item->grade_contribution_pct }}</span>% to final score.
                 </span>
             </dt>
             <dd class="mb-0" style="font-size:85%;">
@@ -42,9 +42,9 @@
                 <a class="text-info btn-assignment-submissions" href="#"  alt="Submissions" style="opacity:0.5;font-size:85%" data-val="{{$item->id}}">
                     <i class="fa fa-check-square-o" style=""></i>&nbsp;Submissions
                 </a> &nbsp;&nbsp;
-                <a class="text-info btn-assignment-grades" href="#"  alt="Grades" style="opacity:0.5;font-size:85%" data-val="{{$item->id}}">
+                {{-- <a class="text-info btn-assignment-grades" href="#"  alt="Grades" style="opacity:0.5;font-size:85%" data-val="{{$item->id}}">
                     <i class="fa fa-bar-chart-o" style=""></i>&nbsp;Grades
-                </a>
+                </a> --}}
                 @endif
             </dd>
         </dl>

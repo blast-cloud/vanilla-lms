@@ -142,8 +142,10 @@ $(document).ready(function() {
         formData.append('type', 'reading-materials');
         formData.append('title', $('#txt_reading_material_title').val());
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : '' }});
-        formData.append('upload_file_path', fileDetails[0]);
-        formData.append('upload_file_type', fileDetails[1]);
+        if (fileDetails!=null){
+            formData.append('upload_file_path', fileDetails[0]);
+            formData.append('upload_file_type', fileDetails[1]);
+        }
         formData.append('reference_material_url', $('#txt_reading_material_reference_material_url').val());
 
         $.ajax({
@@ -181,19 +183,27 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-        var formData = new FormData();
-        formData.append('file', $('#txt_reading_material_upload_file_path')[0].files[0]);
+ 
+        if ($('#txt_reading_material_upload_file_path')[0].files[0] == null){
+            
+            save_reading_material_details(null);
 
-        $.ajax({
-            url: "{{ route('attachment-upload') }}",
-            type: 'POST', processData: false,
-            contentType: false, data: formData,
-            success: function(data){
-                console.log(data); 
-                save_reading_material_details(data.message);
-            },
-            error: function(data){ console.log(data); }
-        });         
+        }else{
+
+            var formData = new FormData();
+            formData.append('file', $('#txt_reading_material_upload_file_path')[0].files[0]);
+
+            $.ajax({
+                url: "{{ route('attachment-upload') }}",
+                type: 'POST', processData: false,
+                contentType: false, data: formData,
+                success: function(data){
+                    console.log(data); 
+                    save_reading_material_details(data.message);
+                },
+                error: function(data){ console.log(data); }
+            });
+        }
     });
 
 

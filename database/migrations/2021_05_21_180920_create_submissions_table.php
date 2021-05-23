@@ -26,7 +26,7 @@ class CreateSubmissionsTable extends Migration
             $table->foreign('course_class_id')->references('id')->on('course_classes');
             $table->foreign('class_material_id')->references('id')->on('class_materials');
 
-            $table->integer('grade_id')->unsigned();
+            $table->integer('grade_id')->unsigned()->nullable();
             $table->foreign('grade_id')->references('id')->on('grades');
 
             $table->timestamps();

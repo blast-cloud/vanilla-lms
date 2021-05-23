@@ -32,10 +32,11 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
         */
 
         return [
-            'id' => 'required|numeric|exists:class_materials,id',
+            'id' => "required|numeric|exists:class_materials,id",
             'type' => 'required',
             'title' => 'required',
             'description' => 'required',
+            'examination_number' => 'required_if:type,class-examinations',
             'assignment_number' => 'required_if:type,class-assignments',
             'due_date' => 'required_if:type,class-assignments',
             'lecture_number' => 'required_if:type,lecture-classes',
@@ -48,6 +49,7 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
         return [
             'lecture_number.required_if' => 'The :attribute field is required.',
             'assignment_number.required_if' => 'The :attribute field is required.',
+            'examination_number.required_if' => 'The :attribute field is required.',
             'due_date.required_if' => 'The :attribute field is required.',
             'reference_material_url.url' => 'The :attribute Must Start with http://'
         ];

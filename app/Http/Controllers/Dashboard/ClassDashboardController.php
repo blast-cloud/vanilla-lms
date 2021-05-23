@@ -19,6 +19,8 @@ use App\Repositories\CalendarEntryRepository;
 use App\Repositories\ClassMaterialRepository;
 use App\Repositories\EnrollmentRepository;
 use App\Repositories\GradeRepository;
+use App\Repositories\ForumRepository;
+
 use Carbon\Carbon;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
 use Response;
@@ -51,6 +53,10 @@ class ClassDashboardController extends AppBaseController
     /** @var  GradeRepository */
     private $gradeRepository;
 
+    /** @var  ForumRepository */
+    private $forumRepository;
+
+
     public function __construct(DepartmentRepository $departmentRepo, 
                                     CourseClassRepository $courseClassRepo, 
                                     AnnouncementRepository $announcementRepo,
@@ -58,7 +64,8 @@ class ClassDashboardController extends AppBaseController
                                     CalendarEntryRepository $calendarEntryRepo,
                                     ClassMaterialRepository $classMaterialRepo,
                                     EnrollmentRepository $enrollmentRepo,
-                                    GradeRepository $gradeRepo)
+                                    GradeRepository $gradeRepo,
+                                    ForumRepository $forumRepo)
     {
         $this->courseRepository = $courseRepo;
         $this->announcementRepository = $announcementRepo;
@@ -68,9 +75,9 @@ class ClassDashboardController extends AppBaseController
         $this->classMaterialRepository = $classMaterialRepo;
         $this->enrollmentRepository = $enrollmentRepo;
         $this->gradeRepository = $gradeRepo;
+        $this->forumRepository = $forumRepo;
     }
     
-
     public function index(Request $request, $id)
     {
         $current_user = Auth()->user();
@@ -83,6 +90,7 @@ class ClassDashboardController extends AppBaseController
         $class_examinations = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'class-examinations']);
         $lecture_classes = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'lecture-classes']);
         
+        $forums = $this->forumRepository->all(['course_class_id'=>$id,'parent_forum_id'=>null]);
         $grades = $this->gradeRepository->all(['course_class_id'=>$id]);
         $enrollments = $this->enrollmentRepository->all(['course_class_id'=>$id]);
 
@@ -106,6 +114,7 @@ class ClassDashboardController extends AppBaseController
         }
 
         $gradeManager = new GradeManager($id);
+        // dd($gradeManager);
 
         return view("dashboard.class.index")
                     ->with('department', $department)
@@ -118,6 +127,7 @@ class ClassDashboardController extends AppBaseController
                     ->with('class_examinations', $class_examinations)
                     ->with('lecture_classes', $lecture_classes)
                     ->with('grades', $grades)
+                    ->with('forums', $forums)
                     ->with('gradeManager', $gradeManager)
                     ->with('enrollments', $enrollments);
     }
@@ -230,8 +240,6 @@ class ClassDashboardController extends AppBaseController
             return redirect()->back()->withErrors(['msg','The blackboard server is not available at this moment. Try again.']);
         }
     }
-
-
 
 }
 
