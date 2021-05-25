@@ -117,6 +117,7 @@ class ClassMaterial extends Model
         'upload_file_path',
         'upload_file_type',
         'reference_material_url',
+        'allow_late_submission',
         'course_class_id',
         'grade_max_points',
         'grade_contribution_pct',
@@ -157,5 +158,13 @@ class ClassMaterial extends Model
     public function courseClass()
     {
         return $this->hasOne(\App\Models\CourseClass::class, 'id', 'course_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class, 'class_material_id', 'id');
     }
 }

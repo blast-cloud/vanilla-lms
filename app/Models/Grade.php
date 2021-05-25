@@ -124,4 +124,9 @@ class Grade extends Model
     {
         return $this->hasOne(\App\Models\ClassMaterial::class, 'id', 'class_material_id');
     }
+
+    public function submission()
+    {
+        return $this->belongsTo(Submission::class, 'grade_id', 'id');
+    }
 }

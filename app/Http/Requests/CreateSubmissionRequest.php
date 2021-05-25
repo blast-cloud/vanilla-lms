@@ -28,7 +28,15 @@ class CreateSubmissionRequest extends AppBaseFormRequest
         //return Submission::$rules;
 
         return [
-            'title' => 'required'
+            'file' => 'required|mimes:pdf,doc,docx,ppt,xlsx,xls'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'file' => 'Assignment File',
+
         ];
     }
 }

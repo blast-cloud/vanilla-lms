@@ -93,7 +93,7 @@ class ManagerDashboardController extends AppBaseController
                             ->pluck('full_name','id')
                             ->toArray();
 
-        $lecturerItems = Lecturer::select(DB::raw("CONCAT(job_title,' ',last_name,', ',first_name) AS name"),'id')
+        $lecturerItems = Lecturer::select(DB::raw("CONCAT(COALESCE(job_title, ''),' ',last_name,', ',first_name) AS name"),'id')
                             ->pluck('name','id')
                             ->toArray();
 
@@ -145,7 +145,7 @@ class ManagerDashboardController extends AppBaseController
                             ->pluck('full_name','id')
                             ->toArray();
 
-        $lecturerItems = Lecturer::select(DB::raw("CONCAT(job_title,' ',last_name,', ',first_name) AS name"),'id')
+        $lecturerItems = Lecturer::select(DB::raw("CONCAT(COALESCE(job_title, ''),' ',last_name,', ',first_name) AS name"),'id')
                             ->pluck('name','id')
                             ->toArray();
 
