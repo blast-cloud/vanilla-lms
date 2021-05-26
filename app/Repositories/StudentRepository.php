@@ -23,7 +23,7 @@ class StudentRepository extends BaseRepository
         'last_name',
         'telephone',
         'picture_file_path',
-        'department_id'
+        'department_id',
     ];
 
     /**

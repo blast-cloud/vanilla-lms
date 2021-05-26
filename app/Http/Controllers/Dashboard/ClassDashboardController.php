@@ -20,6 +20,7 @@ use App\Repositories\ClassMaterialRepository;
 use App\Repositories\EnrollmentRepository;
 use App\Repositories\GradeRepository;
 use App\Repositories\ForumRepository;
+use App\Repositories\SubmissionRepository;
 
 use Carbon\Carbon;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
@@ -56,6 +57,9 @@ class ClassDashboardController extends AppBaseController
     /** @var  ForumRepository */
     private $forumRepository;
 
+    /** @var  SubmissionRepository */
+    private $submissionRepository;
+
 
     public function __construct(DepartmentRepository $departmentRepo, 
                                     CourseClassRepository $courseClassRepo, 
@@ -65,7 +69,8 @@ class ClassDashboardController extends AppBaseController
                                     ClassMaterialRepository $classMaterialRepo,
                                     EnrollmentRepository $enrollmentRepo,
                                     GradeRepository $gradeRepo,
-                                    ForumRepository $forumRepo)
+                                    ForumRepository $forumRepo,
+                                    SubmissionRepository $submissionRepo)
     {
         $this->courseRepository = $courseRepo;
         $this->announcementRepository = $announcementRepo;
@@ -76,6 +81,7 @@ class ClassDashboardController extends AppBaseController
         $this->enrollmentRepository = $enrollmentRepo;
         $this->gradeRepository = $gradeRepo;
         $this->forumRepository = $forumRepo;
+        $this->submissionRepository = $submissionRepo;
     }
     
     public function index(Request $request, $id)
@@ -239,6 +245,31 @@ class ClassDashboardController extends AppBaseController
         }else{
             return redirect()->back()->withErrors(['msg','The blackboard server is not available at this moment. Try again.']);
         }
+    }
+
+    public function listOfSubmittedAssignment(Request $request, $course_class_id, $class_material_id)
+    {
+        $current_user = Auth()->user();
+        $department = $this->departmentRepository->find($current_user->department_id);
+        $courseClass = $this->courseClassRepository->find($course_class_id);
+        $assignment_submissions = $this->submissionRepository->all(['course_class_id'=>$course_class_id,'class_material_id'=>$class_material_id]);
+
+
+        $grades = $this->gradeRepository->all(['course_class_id'=>$course_class_id]);
+
+
+
+
+        $gradeManager = new GradeManager($course_class_id);
+        // dd($gradeManager);
+
+        return view("dashboard.class.student_submissions")
+                    ->with('department', $department)
+                    ->with('courseClass', $courseClass)
+                    ->with('current_user', $current_user)
+                    ->with('grades', $grades)
+                    ->with('assignment_submissions', $assignment_submissions)
+                    ->with('gradeManager', $gradeManager);
     }
 
 }

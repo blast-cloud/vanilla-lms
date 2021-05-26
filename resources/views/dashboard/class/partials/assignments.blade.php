@@ -41,7 +41,7 @@
                             <a class="text-info btn-delete-assignment" href="#"  alt="Delete Assignment" style="opacity:0.5;font-size:85%" data-val="{{$item->id}}">
                                 <i class="fa fa-trash" style=""></i>&nbsp;Delete
                             </a> &nbsp;&nbsp;
-                            <a class="text-info btn-assignment-submissions" href="#"  alt="Submissions" style="opacity:1;font-size:85%"
+                            <a class="text-info btn-assignment-submissions" href="{{ route('submitted-assignment-list', [$item->course_class_id, $item->id]) }}"  alt="Submissions" style="opacity:1;font-size:85%"
                              data-val="{{$item->id}}" > <strong>
                                 @php
                                     $no = $item->submissions()->where('class_material_id', $item->id)
@@ -64,7 +64,7 @@
             
                         </dd>
                     </dl>
-                    <hr class="light-grey-hr mb-10"/>
+                    
                 </div>
 
                 <div class="col-md-2">
@@ -72,16 +72,20 @@
                     @php
                             $submission = $item->submissions()->where('student_id', $current_user->student_id)
                                     ->where('class_material_id', $item->id)
-                                    ->where('course_class_id', $item->course_class_id)->first(); 
+                                    ->where('course_class_id', $item->course_class_id)->first();
+                            $assignment_graded = $item->submissions()->where('student_id', $current_user->student_id)
+                                    ->where('class_material_id', $item->id)
+                                    ->where('grade_id','<>', null)
+                                    ->where('course_class_id', $item->course_class_id)->pluck('grade_id')->first();
+                            $assignment_due_date =  strtotime($item->due_date) - time();
                     @endphp
 
-                    @if (($current_user->student_id) && $submission !=null && $submission->grade_id !=null )
+                    @if (($current_user->student_id) && $assignment_graded !=null )
 
-                            You Scored:  {{ $submission->grade->score  }} 
+                         {{ $submission->grade->score  }} / {{ $item->grade_max_points }} 
                         
-                        <br/>
+                        
                     @endif
-                    <br/>
                    
                 </div>
 
@@ -101,7 +105,7 @@
                 </div>
                 <div class="col-md-2">
 
-                    @if ($current_user->student_id!=null  )
+                    @if (($current_user->student_id!=null) && ($assignment_graded ==null)  && (($item->allow_late_submission == false &&  $assignment_due_date > 0) || $item->allow_late_submission == true  )  )
                     <button href="#" id="btn-show-submit-assignment-modal" class="btn btn-xs btn-primary btn-show-submit-assignment-modal"
                      data-val="{{$item->id}}" data-val-course-class-id="{{$item->course_class_id}}" data-val-student-id="{{$current_user->student_id}}" data-val-assignment-title="{{$item->title}}"
                      data-val-submission-id="{{ ($submission) ? $submission->id : '0' }}" >
@@ -112,6 +116,8 @@
 
                         
                 </div>
+
+                <hr class="col-md-12 light-grey-hr mb-10"/>
         </div>
         
     @endforeach

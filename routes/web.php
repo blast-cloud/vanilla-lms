@@ -25,6 +25,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('dashboard/class/{id}/start-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processStartOnlineLecture'])->name('dashboard.class.start-lecture');
     Route::get('dashboard/class/{id}/join-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processJoinOnlineLecture'])->name('dashboard.class.join-lecture');
 
+    Route::get('dashboard/class/submitted-assignment/{courseClassId}/view/{classMaterialId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'listOfSubmittedAssignment'])->name('submitted-assignment-list');
+
     Route::post('/attachment', [App\Http\Controllers\AttachmentController::class,"uploadFile"])->name('attachment-upload');
     
     Route::middleware('can:isStudent')->group(function () {
