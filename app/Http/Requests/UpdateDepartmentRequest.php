@@ -33,8 +33,8 @@ class UpdateDepartmentRequest extends AppBaseFormRequest
 
         return [
             'id' => 'required|numeric|exists:departments,id',
-            'code' => 'required',
-            'name' => 'required'
+            'code' => "required|max:191|unique:departments,code,{$this->id}",
+            'name' => "required|max:191|unique:departments,name,{$this->id}"
         ];
     }
 }

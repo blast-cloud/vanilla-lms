@@ -16,6 +16,10 @@
                         <div class="col-lg-12 ma-10">
                             @csrf
 
+                            <div id="spinner1" class="">
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input type="hidden" id="txt-department-primary-id" value="0" />
                             <div id="div-show-txt-department-primary-id">
                                 <div class="row">
@@ -52,6 +56,7 @@ $(document).ready(function() {
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-department-modal", function(e) {
+        $('#spinner1').hide();
         $('#div-department-modal-error').hide();
         $('#mdl-department-modal').modal('show');
         $('.modal-footer').modal('show');
@@ -66,7 +71,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-show-mdl-department-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('#spinner1').hide();
         $('#div-show-txt-department-primary-id').show();
         $('#div-edit-txt-department-primary-id').hide();
         $('.modal-footer').hide('show');
@@ -91,7 +96,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-department-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('#spinner1').hide();
         $('#div-show-txt-department-primary-id').hide();
         $('#div-edit-txt-department-primary-id').show();
         $('.modal-footer').modal('show');
@@ -150,7 +155,8 @@ $(document).ready(function() {
     $('#btn-save-mdl-department-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('#spinner1').show();
+        $('#btn-save-mdl-department-modal').prop("disabled", true);
         let actionType = "POST";
         let endPointUrl = "{{ route('departments.store') }}";
         let primaryId = $('#txt-department-primary-id').val();
@@ -183,12 +189,16 @@ $(document).ready(function() {
                 if(result.errors){
 					$('#div-department-modal-error').html('');
 					$('#div-department-modal-error').show();
+                    $('#spinner1').hide();
+                    $('#btn-save-mdl-department-modal').prop("disabled", false);
                     
                     $.each(result.errors, function(key, value){
                         $('#div-department-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
                     $('#div-department-modal-error').hide();
+                    $('#spinner1').hide();
+                    $('#btn-save-mdl-department-modal').prop("disabled", false);
                     window.setTimeout( function(){
                         window.alert("The Department record saved successfully.");
 						$('#div-department-modal-error').hide();
@@ -196,6 +206,8 @@ $(document).ready(function() {
                     },20);
                 }
             }, error: function(data){
+                $('#spinner1').hide();
+                $('#btn-save-mdl-department-modal').prop("disabled", false);
                 console.log(data);
             }
         });

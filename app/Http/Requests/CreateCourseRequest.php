@@ -28,8 +28,9 @@ class CreateCourseRequest extends AppBaseFormRequest
         //return Course::$rules;
 
         return [
-            'code' => 'required',
-            'name' => 'required',
+            'code' => "required|max:191|unique:courses,code",
+            'name' => "required|max:191|unique:courses,name",
+            'description' => 'required',
             'credit_hours' => 'required'
         ];
     }

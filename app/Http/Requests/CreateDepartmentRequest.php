@@ -28,8 +28,8 @@ class CreateDepartmentRequest extends AppBaseFormRequest
         //return Department::$rules;
 
         return [
-            'code' => 'required',
-            'name' => 'required'
+            'code' => 'required|max:191|unique:departments,code',
+            'name' => 'required|max:191|unique:departments,name'
         ];
     }
 }

@@ -6,7 +6,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 id="lbl-course-modal-title" class="modal-title">Course</h4>
+                <h4 id="lbl-course-modal-title" class="modal-title">Course </h4>
             </div>
 
             <div class="modal-body">
@@ -15,6 +15,10 @@
                     <div class="row">
                         <div class="col-lg-12 ma-10">
                             @csrf
+
+                            <div id="spinner1" class="">
+                                <div class="loader" id="loader-1"></div>
+                            </div>
 
                             <input type="hidden" id="txt-course-primary-id" value="0" />
                             <div id="div-show-txt-course-primary-id">
@@ -52,6 +56,7 @@ $(document).ready(function() {
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-course-modal", function(e) {
+        $('#spinner1').hide();
         $('#div-course-modal-error').hide();
         $('#mdl-course-modal').modal('show');
         $('#frm-course-modal').trigger("reset");
@@ -64,6 +69,7 @@ $(document).ready(function() {
 
     //Show Modal for View
     $(document).on('click', ".btn-show-mdl-course-modal", function(e) {
+        $('#spinner1').hide();
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
@@ -90,6 +96,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-course-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+        $('#spinner1').hide();
 
         $('#div-show-txt-course-primary-id').hide();
         $('#div-edit-txt-course-primary-id').show();
@@ -148,7 +155,8 @@ $(document).ready(function() {
     $('#btn-save-mdl-course-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('#spinner1').show();
+        $('#btn-save-mdl-course-modal').prop("disabled", true);
         let actionType = "POST";
         // let endPointUrl = "{{URL::to('/')}}/api/courses/create";
         let endPointUrl = "{{ route('courses.store') }}";
@@ -184,12 +192,15 @@ $(document).ready(function() {
                 if(result.errors){
 					$('#div-course-modal-error').html('');
 					$('#div-course-modal-error').show();
-                    
+                    $('#spinner1').hide();
+                    $('#btn-save-mdl-course-modal').prop("disabled", false);
                     $.each(result.errors, function(key, value){
                         $('#div-course-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
                     $('#div-course-modal-error').hide();
+                    $('#spinner1').hide();
+                    $('#btn-save-mdl-course-modal').prop("disabled", false);
                     window.setTimeout( function(){
                         window.alert("The Course record saved successfully.");
 						$('#div-course-modal-error').hide();
@@ -199,6 +210,8 @@ $(document).ready(function() {
             }, error: function(data){
                 $('#div-course-modal-error').html('');
                 $('#div-course-modal-error').show();
+                $('#spinner1').hide();
+                $('#btn-save-mdl-course-modal').prop("disabled", false);
 
                 if (data.responseJSON && data.responseJSON.errors){
                     $.each(data.responseJSON.errors, function(key, value){
