@@ -37,7 +37,7 @@ class UpdateCourseClassRequest extends AppBaseFormRequest
             'name' => 'required',
             'credit_hours' => 'required',
             'course_id' => 'required',
-            'lecturer_id' => 'required',
+            'lecturer_id' => 'required|numeric',
         ];
     }
 }

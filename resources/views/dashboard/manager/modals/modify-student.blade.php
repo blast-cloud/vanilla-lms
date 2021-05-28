@@ -16,6 +16,10 @@
                         <div class="col-lg-12 ma-10">
                             @csrf
 
+                            <div id="spinner1" class="">
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input type="hidden" id="txt-student-primary-id" value="0" />
                             <div id="div-show-txt-student-primary-id">
                                 <div class="row">
@@ -52,6 +56,7 @@ $(document).ready(function() {
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-student-modal", function(e) {
+        $('#spinner1').hide();
         $('#div-student-modal-error').hide();
         $('#mdl-student-modal').modal('show');
         $('#frm-student-modal').trigger("reset");
@@ -70,6 +75,7 @@ $(document).ready(function() {
         $('#div-show-txt-student-primary-id').show();
         $('#div-edit-txt-student-primary-id').hide();
         $('.modal-footer').hide();
+        $('#spinner1').hide();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/students/"+itemId).done(function( data ) {
@@ -96,6 +102,7 @@ $(document).ready(function() {
         $('#div-show-txt-student-primary-id').hide();
         $('#div-edit-txt-student-primary-id').show();
         $('.modal-footer').show();
+        $('#spinner1').hide();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/students/"+itemId).done(function( data ) {
@@ -152,7 +159,8 @@ $(document).ready(function() {
     $('#btn-save-mdl-student-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('#spinner1').show();
+        $('#btn-save-mdl-student-modal').prop("disabled", true);
         let actionType = "POST";
         let endPointUrl = "{{ route('students.store') }}";
         let primaryId = $('#txt-student-primary-id').val();
@@ -187,12 +195,16 @@ $(document).ready(function() {
                 if(result.errors){
 					$('#div-student-modal-error').html('');
 					$('#div-student-modal-error').show();
+                    $('#spinner1').hide();
+                    $('#btn-save-mdl-student-modal').prop("disabled", false);
                     
                     $.each(result.errors, function(key, value){
                         $('#div-student-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
                     $('#div-student-modal-error').hide();
+                    $('#spinner1').hide();
+                    $('#btn-save-mdl-student-modal').prop("disabled", false);
                     window.setTimeout( function(){
                         window.alert("The Student record saved successfully.");
 						$('#div-student-modal-error').hide();
@@ -200,14 +212,9 @@ $(document).ready(function() {
                     },20);
                 }
             }, error: function(data){
-                $('#div-student-modal-error').html('');
-                $('#div-student-modal-error').show();
-
-                if (data.responseJSON && data.responseJSON.errors){
-                    $.each(data.responseJSON.errors, function(key, value){
-                        $('#div-student-modal-error').append('<li class="">'+value+'</li>');
-                    });
-                }
+                $('#spinner1').hide();
+                $('#btn-save-mdl-student-modal').prop("disabled", false);
+                console.log(data);
             }
         });
     });
