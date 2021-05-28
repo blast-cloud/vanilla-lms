@@ -1,93 +1,202 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }}</title>
+<html lang="en">
+	<head>
+        <title>
+            {{$app_settings['txt_long_name']??''}}
+            @yield('title', config('app.title', 'LMS'))
+            @yield('title_prefix')
+            @yield('title_postfix', config('app.title_postfix', ''))
+        </title>
+        <meta name="description" content="{{$app_settings['txt_long_name']??''}} Learning Management System." />
+        <meta name="keywords" content="LMS, VanillaLMS, Foresight, Hasob" />
+        
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="favicon.ico">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+                
+        <!-- Bootstrap Wysihtml5 css -->
+        <link rel="stylesheet" href="{{ asset('vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css') }}" />
+	
+        <!-- Bootstrap Datetimepicker CSS -->
+        <link href="{{ asset('vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css"/>
+            
+        <!-- Bootstrap Daterangepicker CSS -->
+        <link href="{{ asset('vendors/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
 
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Custom CSS -->
+        <link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css" />
+        
+	</head>
+	<body>
+		<!--Preloader-->
+		<div class="preloader-it">
+			<div class="la-anim-1"></div>
+		</div>
+		<!--/Preloader-->
+		
+		<div class="wrapper theme-1-active pimary-color-blue">
+			
+            <form method="post" action="{{ route('password.email')}}">
+            @csrf
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
-          integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q=="
-          crossorigin="anonymous"/>
+                <!-- Main Content -->
+                <div class="page-wrapper pa-0 ma-0 auth-page">
+                    <div class="container-fluid">
+                        <!-- Row -->
+                        <div class="table-struct full-width full-height">
+                            <div class="table-cell vertical-align-middle auth-form-wrap">
+                                <div class="auth-form  ml-auto mr-auto no-float">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-xs-12">
+                                        
+                                            <div class="mb-30 text-center">
+                                                @if (isset($app_settings['file_high_res_picture']))
+                                                    {{-- <img src= "{{ asset('dist/img/logouzzz.jpg') }}" style="width:100px;height:100px;" class="user-auth-img"> --}}
+                                                    <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
+                                                @endif
+{{-- 
+                                                <h3 class="text-center txt-dark mb-10">Zambezi University</h3>
+                                                <h6 class="text-center nonecase-font txt-grey">Login to eLearning Portal</h6> --}}
 
-    <!-- AdminLTE -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css"
-          integrity="sha512-rVZC4rf0Piwtw/LsgwXxKXzWq3L0P6atiQKBNuXYRbg2FoRbSTIY0k2DxuJcs7dk4e/ShtMzglHKBOJxW8EQyQ=="
-          crossorigin="anonymous"/>
+                                                <h3 class="text-center txt-dark mb-10">
+                                                    {!! $app_settings['txt_long_name'] ?? '' !!}
+                                                    {{-- Zambezi University --}}
+                                                </h3>
+                                                <h6 class="text-center nonecase-font txt-grey">
+                                                    You forgot your password? Here you can easily retrieve a new password.
+                                                    {{-- ETECH DEMO SCHOOL --}}
+                                                </h6>
 
-    <!-- iCheck -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css"
-          integrity="sha512-8vq2g5nHE062j3xor4XxPeZiPjmRDh6wlufQlfC6pdQ/9urJkU07NM0tEREeymP++NczacJ/Q59ul+/K2eYvcg=="
-          crossorigin="anonymous"/>
+                                                @if (session('status'))
+                                                    <div class="alert alert-success">
+                                                        {{ session('status') }}
+                                                    </div>
+                                                @endif
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+                                            </div>	
 
-</head>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
-    </div>
+                                            <div class="mb-30">
+                                                @if ($errors->any())
+                                                <div class="alert alert-danger alert-dismissible" style="margin:15px;">
+                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                    <h4><i class="icon fa fa-warning"></i> Errors!</h4>
+                                                    <ul>
+                                                        @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                @endif
 
-    <!-- /.login-logo -->
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">You forgot your password? Here you can easily retrieve a new password.</p>
+                                                @if ($message = Session::get('error'))
+                                                <div class="alert alert-danger alert-block" style="margin:15px;">
+                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
+                                                @endif
 
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
 
-            <form action="{{ route('password.email') }}" method="post">
-                @csrf
+                                                @if ($message = Session::get('warning'))
+                                                <div class="alert alert-warning alert-block" style="margin:15px;">
+                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
+                                                @endif
 
-                <div class="input-group mb-3">
-                    <input type="email"
-                           name="email"
-                           class="form-control @error('email') is-invalid @enderror"
-                           placeholder="Email">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+
+                                                @if ($message = Session::get('info'))
+                                                <div class="alert alert-info alert-block" style="margin:15px;">
+                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                    <strong>{{ $message }}</strong>
+                                                </div>
+                                                @endif
+
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="control-label mb-10" for="exampleInputEmail_2">{{ __('E-Mail Address') }}</label>
+                                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                                @error('email')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            
+                                            
+
+                                            <div class="form-group text-center">
+                                                <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class=" pr-10 pull-left">
+                                                   
+                                                    <a style="color:blue" href="{{ route("login") }}">Login</a>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            
+                                        </div>	
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Row -->	
                     </div>
-                    @error('email')
-                    <span class="error invalid-feedback">{{ $message }}</span>
-                    @enderror
+                    
                 </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block">Send Password Reset Link</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
+                <!-- /Main Content -->
+            
             </form>
 
-            <p class="mt-3 mb-1">
-                <a href="{{ route("login") }}">Login</a>
-            </p>
-            <p class="mb-0">
-                <a href="{{ route("register") }}" class="text-center">Register a new membership</a>
-            </p>
-        </div>
-        <!-- /.login-card-body -->
-    </div>
-</div>
-<!-- /.login-box -->
+            <footer class="footer container-fluid pl-30 pr-30"> 
+				<div class="row">
+					<div class="col-sm-5" style="font-size:80%">
+                        {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a>
+						<!-- <ul class="footer-link nav navbar-nav">
+							<li class="logo-footer"><a href="#">help</a></li>
+							<li class="logo-footer"><a href="#">terms</a></li>
+							<li class="logo-footer"><a href="#">privacy</a></li>
+						</ul> -->
+					</div>
+					<div class="col-sm-7 text-right" style="font-size:80%">
+						SPONSORED BY <a href="https://www.tetfund.gov.ng" target="_blank">TETFUND/ICT/2019-20</a>
+					</div>	
+				</div>	
+			</footer>
 
-<!-- AdminLTE App -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"
-        integrity="sha512-++c7zGcm18AhH83pOIETVReg0dr1Yn8XTRw+0bWSIWAVCAwz1s2PwnSj4z/OOyKlwSXc4RLg3nnjR22q0dhEyA=="
-        crossorigin="anonymous"></script>
+		</div>
+		<!-- /#wrapper -->
+		
+        <!-- jQuery -->
+        <script src="{{ asset('vendors/bower_components/jquery/dist/jquery.min.js') }}"></script>
 
-</body>
+        <!-- Bootstrap Core JavaScript -->
+        <script src="{{ asset('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+
+        <!-- wysuhtml5 Plugin JavaScript -->
+        <script src="{{ asset('vendors/bower_components/wysihtml5x/dist/wysihtml5x.min.js') }}"></script>
+
+        <script src="{{ asset('vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js') }}"></script>
+
+        <!-- Fancy Dropdown JS -->
+        <script src="{{ asset('dist/js/dropdown-bootstrap-extended.js') }}"></script>
+
+        <!-- Bootstrap Wysuhtml5 Init JavaScript -->
+        <script src="{{ asset('dist/js/bootstrap-wysuhtml5-data.js') }}"></script>
+
+        <!-- Slimscroll JavaScript -->
+        <script src="{{ asset('dist/js/jquery.slimscroll.js') }}"></script>
+
+        <!-- Owl JavaScript -->
+        <script src="{{ asset('vendors/bower_components/owl.carousel/dist/owl.carousel.min.js') }}"></script>
+
+        <!-- Switchery JavaScript -->
+        <script src="{{ asset('vendors/bower_components/switchery/dist/switchery.min.js') }}"></script>
+
+        <!-- Init JavaScript -->
+        <script src="{{ asset('dist/js/init.js') }}"></script>		
+	</body>
 </html>
