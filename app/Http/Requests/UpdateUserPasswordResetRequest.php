@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Course;
+use App\Models\User;
 
-class UpdateCourseRequest extends AppBaseFormRequest
+class UpdateUserPasswordResetRequest extends AppBaseFormRequest
 {
 
     /**
@@ -18,6 +18,8 @@ class UpdateCourseRequest extends AppBaseFormRequest
         return true;
     }
 
+
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,17 +28,27 @@ class UpdateCourseRequest extends AppBaseFormRequest
     public function rules()
     {
         /*
-        $rules = Course::$rules;
+        $rules = Manager::$rules;
         
         return $rules;
         */
 
         return [
-            'id' => 'required|numeric|exists:courses,id',
-            'code' => "required|max:191|unique:courses,code,{$this->id}",
-            'name' => "required|max:191|unique:courses,name,{$this->id}",
-            'description' => 'nullable',
-            'credit_hours' => 'required'
+            'password'=>"required",
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'The :attribute field is required.'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'password' => 'Password',
         ];
     }
 }

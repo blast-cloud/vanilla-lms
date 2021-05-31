@@ -16,6 +16,10 @@
                         <div class="col-lg-12 ma-10">
                             @csrf
 
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input type="hidden" id="txt_user_account_id" value="0" />
                             <input type="hidden" id="txt_student_account_id" value="0" />
 
@@ -174,6 +178,7 @@ $(document).ready(function() {
         $('#modify-user-details-error-div').hide();
         $('#div_registration_num').hide();
         $('.modal-footer').show();
+        $('.spinner1').hide();
         $('#modify-user-details-modal').modal('show');
         $('#form-modify-user-details').trigger("reset");
         $('#txt_user_account_id').val(0);
@@ -190,6 +195,7 @@ $(document).ready(function() {
         let itemId = $(this).attr('data-val');
         $('#txt_user_account_id').val(itemId);
         $('#div_account_type').hide();
+        $('.spinner1').hide();
 
         $('#modify-user-details-title').html("Modify User Account");
 
@@ -325,7 +331,8 @@ $(document).ready(function() {
     $('#btn-modify-user-details').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').show();
+        $('#btn-modify-user-details').prop("disabled", true);
         let actionType = "POST";
         let endPointUrl = "{{ route('dashboard.user-update',0) }}";
         let primaryId = $('#txt_user_account_id').val();
@@ -363,6 +370,8 @@ $(document).ready(function() {
 
                     $('#modify-user-details-error-div').html('');
                     $('#modify-user-details-error-div').show();
+                    $('.spinner1').hide();
+                    $('#btn-modify-user-details').prop("disabled", false);
                     
                     $.each(result.errors, function(key, value){
                         $('#modify-user-details-error-div').append('<li class="">'+value+'</li>');
@@ -370,6 +379,8 @@ $(document).ready(function() {
 
                 }else{
                     $('#modify-user-details-error-div').hide();
+                    $('#btn-modify-user-details').prop("disabled", false);
+                    $('.spinner1').hide();
                     window.setTimeout( function(){
                         window.alert("User account saved successfully.");
                         $('#modify-user-details-modal').modal('hide');

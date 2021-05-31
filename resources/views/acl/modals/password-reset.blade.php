@@ -15,6 +15,9 @@
                     <div class="row">
                         <div class="col-lg-12 ma-10">
                             @csrf
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
 
                             <input type="hidden" id="txt_reset_account_id" value="0" />
 
@@ -59,7 +62,7 @@ $(document).ready(function() {
 
         let itemId = $(this).attr('data-val');
         $('#txt_reset_account_id').val(itemId);
-
+        $('.spinner1').hide();
         $('#modify-user-password-reset-modal').modal('show');
         $('#form-modify-user-password-reset').trigger("reset");
         $('#modify-user-password-reset-error-div').hide();
@@ -70,7 +73,8 @@ $(document).ready(function() {
     $('#btn-modify-user-password-reset').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('#btn-modify-user-password-reset').prop("disabled", true);
+        $('.spinner1').show();
         let actionType = "POST";        
         let primaryId = $('#txt_reset_account_id').val();
         let endPointUrl = "{{ route('dashboard.user-pwd-reset',0) }}"+primaryId;
@@ -93,13 +97,16 @@ $(document).ready(function() {
 
                     $('#modify-user-password-reset-error-div').html('');
                     $('#modify-user-password-reset-error-div').show();
-                    
+                    $('#btn-modify-user-password-reset').prop("disabled", false);
+                    $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#modify-user-password-reset-error-div').append('<li class="">'+value+'</li>');
                     });
 
                 }else{
                     $('#modify-user-password-reset-error-div').hide();
+                    $('#btn-modify-user-password-reset').prop("disabled", false);
+                    $('.spinner1').hide();
                     window.setTimeout( function(){
                         window.alert("User account password reset successfully.");
                         $('#modify-user-password-reset-modal').modal('hide');

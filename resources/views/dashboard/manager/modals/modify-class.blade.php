@@ -77,6 +77,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-new-mdl-courseClass-modal", function(e) {
         $('#div-courseClass-modal-error').hide();
         $('.spinner1').hide();
+        $('.modal-footer').show();
         $('#mdl-courseClass-modal').modal('show');
         $('#frm-courseClass-modal').trigger("reset");
         $('#txt-courseClass-primary-id').val(0);
@@ -93,6 +94,7 @@ $(document).ready(function() {
         $('#div-show-txt-courseClass-primary-id').show();
         $('#div-edit-txt-courseClass-primary-id').hide();
         $('.spinner1').hide();
+        $('.modal-footer').hide();
         let itemId = $(this).attr('data-val');
 
         $.get( "{{URL::to('/')}}/api/course_classes/"+itemId).done(function( response ) {
@@ -118,6 +120,7 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').hide();
+        $('.modal-footer').hide();
         $('#div-show-txt-courseClass-primary-id').hide();
         $('#div-edit-txt-courseClass-primary-id').show();
         let itemId = $(this).attr('data-val');

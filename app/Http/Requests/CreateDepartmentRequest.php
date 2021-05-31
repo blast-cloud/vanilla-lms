@@ -29,7 +29,10 @@ class CreateDepartmentRequest extends AppBaseFormRequest
 
         return [
             'code' => 'required|max:191|unique:departments,code',
-            'name' => 'required|max:191|unique:departments,name'
+            'name' => 'required|max:191|unique:departments,name',
+            'website_url' => 'nullable|url',
+            'email_address' => "nullable|email",
+            'contact_phone' => "nullable|numeric|digits:11",
         ];
     }
 }
