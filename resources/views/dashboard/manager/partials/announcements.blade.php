@@ -36,7 +36,7 @@
                                     <p class="txt-primary" style="font-size:70%">posted {{ $announcement->created_at->format('d-M-Y') }}</p>
                                 </td>
                                 <td class="text-right">
-                                    <a href="javascript:void(0)" class="pr-3" data-toggle="tooltip" title="" data-original-title="View"><i class="zmdi zmdi-eye"></i></a>
+                                    <a href="javascript:void(0)" class="pr-3 btn-show-mdl-announcement-modal" data-toggle="tooltip" title="" data-val="{{ $announcement->id }}" data-original-title="View"><i class="zmdi zmdi-eye"></i></a>
                                 </td>
                             </tr>
                             @endforeach
