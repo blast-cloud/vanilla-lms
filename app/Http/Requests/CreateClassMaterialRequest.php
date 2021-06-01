@@ -29,8 +29,8 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
 
         return [
             'type' => 'required',
-            'title' => 'required',
-            'description' => 'required',
+            'title' => 'required|string|max:200',
+            'description' => 'nullable|string|max:100000',
             'examination_number' => 'required_if:type,class-examinations',
             'assignment_number' => 'required_if:type,class-assignments',
             'due_date' => 'required_if:type,class-assignments',

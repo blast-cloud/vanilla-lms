@@ -33,9 +33,9 @@ class UpdateCourseRequest extends AppBaseFormRequest
 
         return [
             'id' => 'required|numeric|exists:courses,id',
-            'code' => 'required',
-            'name' => 'required',
-            'credit_hours' => 'required'
+            'code' => 'sometimes|required',
+            'name' => 'sometimes|required',
+            'credit_hours' => 'sometimes|required|numeric|max:100'
         ];
     }
 }

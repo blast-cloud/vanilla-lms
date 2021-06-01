@@ -35,13 +35,13 @@ class UpdateUserRequest extends AppBaseFormRequest
         */
 
         return [
-            'email'=>"required|email|unique:users,email,{$this->id}",
-            'telephone'=>"required|numeric|digits:11|unique:users,telephone,{{$this->id}}",
+            'email'=>"sometimes|required|email|unique:users,email,{$this->id}",
+            'telephone'=>"sometimes|required|numeric|digits:11|unique:users,telephone,{{$this->id}}",
             // 'password1'=>'nullable|string|min:8|confirmed|regex:/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
-            'first_name' =>'required|string|max:50',
-            'department_id' =>'required|string|max:50',
-            'last_name' =>'required|string|max:50',
-            'matriculation_number' =>"required_if:account_type,student|max:20|unique:students,matriculation_number,{$this->student_id}",
+            'first_name' =>'sometimes|required|string|max:50',
+            'department_id' =>'sometimes|required|string|max:50',
+            'last_name' =>'sometimes|required|string|max:50',
+            'matriculation_number' =>"sometimes|required_if:account_type,student|max:20|unique:students,matriculation_number,{$this->student_id}",
         ];
     }
 

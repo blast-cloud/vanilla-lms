@@ -163,12 +163,15 @@ class AdminDashboardController extends AppBaseController
                                 ->toArray();
         
         foreach($this->setting_keys as $key){
+            $is_newly_created = false;
+
             //If the record does not exist, then create it
             if (isset($db_settings[$key])==false){
                 $this->settingRepository->create([   
                     'key' => $key,
                     'value' => $request->$key
                 ]);
+                $is_newly_created = true;
             }
             
             //If the record exists, then update it
@@ -198,9 +201,11 @@ class AdminDashboardController extends AppBaseController
                 }
 
             } else {
-                //Update the settings value.
-                $setting_value = $request->$key;
-                $this->settingRepository->update(['value'=>$setting_value],$db_settings[$key]);
+                if ($is_newly_created == false){
+                    //Update the settings value.
+                    $setting_value = $request->$key;
+                    $this->settingRepository->update(['value'=>$setting_value],$db_settings[$key]);
+                }
             }    
             
         }

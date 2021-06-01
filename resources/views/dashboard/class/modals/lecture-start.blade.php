@@ -46,7 +46,7 @@
 
                             <!-- Upload File Path Field -->
                             <div class="form-group">
-                                <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_upload_file_path">Assignment File</label>
+                                <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_upload_file_path">Lecture File</label>
                                 <div class="col-sm-7">
                                     {!! Form::file('txt_start_lecture_upload_file_path', ['id'=>'txt_start_lecture_upload_file_path', 'class' => 'custom-file-input']) !!}
                                 </div>

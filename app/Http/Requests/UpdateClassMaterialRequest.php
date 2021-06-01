@@ -34,12 +34,12 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
         return [
             'id' => "required|numeric|exists:class_materials,id",
             'type' => 'required',
-            'title' => 'required',
-            'description' => 'required',
-            'examination_number' => 'required_if:type,class-examinations',
-            'assignment_number' => 'required_if:type,class-assignments',
-            'due_date' => 'required_if:type,class-assignments',
-            'lecture_number' => 'required_if:type,lecture-classes',
+            'title' => 'required|string|max:200',
+            'description' => 'nullable|string|max:100000',
+            'examination_number' => 'sometimes|required_if:type,class-examinations',
+            'assignment_number' => 'sometimes|required_if:type,class-assignments',
+            'due_date' => 'sometimes|required_if:type,class-assignments',
+            'lecture_number' => 'sometimes|required_if:type,lecture-classes',
             'reference_material_url' => 'nullable|url'
         ];
     }

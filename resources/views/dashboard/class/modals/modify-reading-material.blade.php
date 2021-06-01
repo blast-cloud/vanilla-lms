@@ -131,12 +131,14 @@ $(document).ready(function() {
         let endPointUrl = "{{ route('classMaterials.store') }}";
         let primaryId = $('#txt_reading_material_id').val();
 
+        let formData = new FormData();
+        
         if (primaryId>0){
             actionType = "PUT";
+            formData.append('id', primaryId);
             endPointUrl = "{{ route('classMaterials.update',0) }}"+primaryId;
         }
 
-        let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
         formData.append('type', 'reading-materials');
