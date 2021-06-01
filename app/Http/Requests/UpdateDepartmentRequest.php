@@ -33,8 +33,11 @@ class UpdateDepartmentRequest extends AppBaseFormRequest
 
         return [
             'id' => 'required|numeric|exists:departments,id',
-            'code' => 'required',
-            'name' => 'required'
+            'code' => "required|max:191|unique:departments,code,{$this->id}",
+            'name' => "required|max:191|unique:departments,name,{$this->id}",
+            'website_url' => 'nullable|url',
+            'email_address' => "nullable|email|unique:departments,email_address,{$this->id}",
+            'contact_phone' => "nullable|numeric|digits:11|unique:departments,contact_phone,{$this->id}",
         ];
     }
 }

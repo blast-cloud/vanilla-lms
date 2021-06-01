@@ -15,7 +15,9 @@
                     <div class="row">
                         <div class="col-lg-12 ma-10">
                             @csrf
-
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
                             <input type="hidden" id="txt-calendarEntry-primary-id" value="0" />
                             <div id="div-show-txt-calendarEntry-primary-id">
                                 <div class="row">
@@ -53,6 +55,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-calendarEntry-modal", function(e) {
         $('#div-calendarEntry-modal-error').hide();
+        $('.spinner1').hide();
         $('#mdl-calendarEntry-modal').modal('show');
         $('#frm-calendarEntry-modal').trigger("reset");
         $('#txt-calendarEntry-primary-id').val(0);
@@ -65,7 +68,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-show-mdl-calendarEntry-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
         $('#div-show-txt-calendarEntry-primary-id').show();
         $('#div-edit-txt-calendarEntry-primary-id').hide();
         $('.modal-footer').hide();
@@ -88,7 +91,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-calendarEntry-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
         $('#div-show-txt-calendarEntry-primary-id').hide();
         $('#div-edit-txt-calendarEntry-primary-id').show();
         $('.modal-footer').show();
@@ -145,12 +148,12 @@ $(document).ready(function() {
     $('#btn-save-mdl-calendarEntry-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('#btn-save-mdl-calendarEntry-modal').prop("disabled", true);
         let actionType = "POST";
         // let endPointUrl = "{{URL::to('/')}}/api/calendar_entries/create";
         let endPointUrl = "{{ route('calendar_entries.store') }}";
         let primaryId = $('#txt-calendarEntry-primary-id').val();
-        
+        $('.spinner1').show();
         let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());
 
@@ -179,12 +182,15 @@ $(document).ready(function() {
                 if(result.errors){
 					$('#div-calendarEntry-modal-error').html('');
 					$('#div-calendarEntry-modal-error').show();
-                    
+                    $('#btn-save-mdl-calendarEntry-modal').prop("disabled", false);
+                    $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#div-calendarEntry-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
                     $('#div-calendarEntry-modal-error').hide();
+                    $('#btn-save-mdl-calendarEntry-modal').prop("disabled", false);
+                    $('.spinner1').hide();
                     window.setTimeout( function(){
                         window.alert("The CalendarEntry record saved successfully.");
 						$('#div-calendarEntry-modal-error').hide();
@@ -194,12 +200,9 @@ $(document).ready(function() {
             }, error: function(data){
                 $('#div-calendarEntry-modal-error').html('');
                 $('#div-calendarEntry-modal-error').show();
-
-                if (data.responseJSON && data.responseJSON.errors){
-                    $.each(data.responseJSON.errors, function(key, value){
-                        $('#div-calendarEntry-modal-error').append('<li class="">'+value+'</li>');
-                    });
-                }
+                $('#btn-save-mdl-calendarEntry-modal').prop("disabled", false);
+                $('.spinner1').hide();
+                console.log(data);
             }
         });
     });

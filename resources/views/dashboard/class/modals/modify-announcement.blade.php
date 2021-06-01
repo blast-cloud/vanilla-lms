@@ -138,6 +138,7 @@ $(document).ready(function() {
         formData.append('_method', actionType);
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
         formData.append('title', $('#txt_announcement_title').val());
+        formData.append('id', primaryId);
         formData.append('description', $('#txt_announcement_description').val());
 
         $.ajax({

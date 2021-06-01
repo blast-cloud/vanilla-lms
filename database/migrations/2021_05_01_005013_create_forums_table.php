@@ -18,7 +18,7 @@ class CreateForumsTable extends Migration
             $table->increments('id');
             $table->string('group_name');
             $table->text('posting');
-            $table->integer('student_id')->unsigned();
+            $table->integer('student_id')->unsigned()->nullable();
             $table->integer('course_class_id')->unsigned();
             $table->integer('parent_forum_id')->unsigned()->nullable();
             $table->timestamps();

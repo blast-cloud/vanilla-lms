@@ -16,6 +16,10 @@
                         <div class="col-lg-12 ma-10">
                             @csrf
 
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input type="hidden" id="txt-courseClass-primary-id" value="0" />
                             <div id="div-show-txt-courseClass-primary-id">
                                 <div class="row">
@@ -72,6 +76,8 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-courseClass-modal", function(e) {
         $('#div-courseClass-modal-error').hide();
+        $('.spinner1').hide();
+        $('.modal-footer').show();
         $('#mdl-courseClass-modal').modal('show');
         $('#frm-courseClass-modal').trigger("reset");
         $('#txt-courseClass-primary-id').val(0);
@@ -87,6 +93,8 @@ $(document).ready(function() {
 
         $('#div-show-txt-courseClass-primary-id').show();
         $('#div-edit-txt-courseClass-primary-id').hide();
+        $('.spinner1').hide();
+        $('.modal-footer').hide();
         let itemId = $(this).attr('data-val');
 
         $.get( "{{URL::to('/')}}/api/course_classes/"+itemId).done(function( response ) {
@@ -111,7 +119,8 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-courseClass-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
+        $('.modal-footer').hide();
         $('#div-show-txt-courseClass-primary-id').hide();
         $('#div-edit-txt-courseClass-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -165,7 +174,8 @@ $(document).ready(function() {
     $('#btn-save-mdl-courseClass-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').show();
+        $('#btn-save-mdl-courseClass-modal').prop("disabled", true);
         let courseId = $('#course_id').val();
         $.get( "{{URL::to('/')}}/api/courses/"+courseId).done(function( response ) {
 
@@ -202,12 +212,15 @@ $(document).ready(function() {
                     if(result.errors){
                         $('#div-courseClass-modal-error').html('');
                         $('#div-courseClass-modal-error').show();
-                        
+                        $('.spinner1').hide();
+                        $('#btn-save-mdl-courseClass-modal').prop("disabled", false);
                         $.each(result.errors, function(key, value){
                             $('#div-courseClass-modal-error').append('<li class="">'+value+'</li>');
                         });
                     }else{
                         $('#div-courseClass-modal-error').hide();
+                        $('.spinner1').hide();
+                        $('#btn-save-mdl-courseClass-modal').prop("disabled", false);
                         window.setTimeout( function(){
                             window.alert("The CourseClass record saved successfully.");
                             $('#div-courseClass-modal-error').hide();
@@ -215,14 +228,12 @@ $(document).ready(function() {
                         },20);
                     }
                 }, error: function(data){
+                    $('.spinner1').hide();
+                    $('#btn-save-mdl-courseClass-modal').prop("disabled", false);
                     $('#div-courseClass-modal-error').html('');
                     $('#div-courseClass-modal-error').show();
-
-                    if (data.responseJSON && data.responseJSON.errors){
-                        $.each(data.responseJSON.errors, function(key, value){
-                            $('#div-courseClass-modal-error').append('<li class="">'+value+'</li>');
-                        });
-                    }
+                    $('#div-courseClass-modal-error').append('<li class="">Course and Lecturer Field are Required</li>');
+    
                 }
             });
 

@@ -20,6 +20,10 @@
                                 
                                 <div class="col-sm-12">
 
+                                <div id="spinner" class="">
+                                        <div class="loader" id="loader-1"></div>
+                                      </div>
+
                                     <!-- Assignment Number Field -->
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_assignment_assignment_number">Assignment Number</label>
@@ -68,6 +72,14 @@
                                         <label class="control-label mb-10 col-sm-3" for="txt_assignment_score_contriution_pct">Grade Contribution (%)</label>
                                         <div class="col-sm-2">
                                             {!! Form::number('txt_assignment_score_contriution_pct', null, ['id'=>'txt_assignment_score_contriution_pct', 'placeholder'=>"%",'class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
+
+                                    <!-- Assignment Grade Contribution Pct Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_allow_late_submission">Allow Late Submission</label>
+                                        <div class="col-sm-2">
+                                            {!! Form::checkbox('txt_allow_late_submission', 1, ['id'=>'txt_allow_late_submission',  'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
@@ -120,6 +132,7 @@ $(document).ready(function() {
 
     //Show Modal
     $('#btn-show-modify-assignment-modal').click(function(){
+        $('#spinner').hide();
         $('#modify-assignment-error-div').hide();
         $('#modify-assignment-modal').modal('show');
         $('#form-modify-assignment').trigger("reset");
@@ -129,6 +142,7 @@ $(document).ready(function() {
     //Show Modal for Edit Entry
     $('.btn-edit-modify-assignment-modal').click(function(){
         $('#modify-assignment-error-div').hide();
+        $('#spinner').hide();
         $('#modify-assignment-modal').modal('show');
         $('#form-modify-assignment').trigger("reset");
 
@@ -142,6 +156,8 @@ $(document).ready(function() {
 
         $('#txt_assignment_max_score').val($('#spn_ass_'+itemId+'_max_points').html());
         $('#txt_assignment_score_contriution_pct').val($('#spn_ass_'+itemId+'_contrib').html());
+
+        $('#txt_allow_late_submission').val($('#spn_ass_'+itemId+'_submission').html());
 
         $('#txt_assignment_due_date').val($('#spn_ass_'+itemId+'_date').html());
         $('#txt_assignment_reference_material_url').val($('#spn_ass_'+itemId+'_url').html());
@@ -184,10 +200,16 @@ $(document).ready(function() {
 
 
     function save_assignments_details(fileDetails){
-
+        // alert($("input[name=txt_allow_late_submission]:checked").val())
+        $('#spinner').show();
+        $('#btn-modify-assignment').prop("disabled", true);
         let actionType = "POST";
         let endPointUrl = "{{ route('classMaterials.store') }}";
         let primaryId = $('#txt_assignment_id').val();
+        let allow_late_submission = $("input[name=txt_allow_late_submission]:checked").val();
+        if(allow_late_submission == undefined ){
+            allow_late_submission = '0';
+        }
 
         if (primaryId>0){
             actionType = "PUT";
@@ -203,6 +225,7 @@ $(document).ready(function() {
         formData.append('title', $('#txt_assignment_title').val());
         formData.append('description', $('#txt_assignment_description').val());
         formData.append('due_date', $('#txt_assignment_due_date').val());
+        formData.append('allow_late_submission', allow_late_submission);
         formData.append('id', primaryId );
         formData.append('reference_material_url', $('#txt_assignment_reference_material_url').val());
         if (fileDetails!=null){
@@ -223,7 +246,8 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(result){
                 if(result.errors){
-
+                    $('#spinner').hide();
+                    $('#btn-modify-assignment').prop("disabled", false);
                     $('#modify-assignment-error-div').html('');
                     $('#modify-assignment-error-div').show();
                     
@@ -233,6 +257,8 @@ $(document).ready(function() {
 
                 }else{
                     $('#modify-assignment-error-div').hide();
+                    $('#spinner').hide();
+                    $('#btn-modify-assignment').prop("disabled", false);
                     window.setTimeout( function(){
                         window.alert("Assignment saved successfully.");
                         $('#modify-assignment-modal').modal('hide');
@@ -268,6 +294,8 @@ $(document).ready(function() {
                     save_assignments_details(data.message);
                 },
                 error: function(data){ 
+                    $('#spinner').hide();
+                    $('#btn-modify-assignment').prop("disabled", false);
                     console.log(data);
                 }
             });

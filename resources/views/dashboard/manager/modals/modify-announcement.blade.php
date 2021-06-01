@@ -16,6 +16,10 @@
                         <div class="col-lg-12 ma-10">
                             @csrf
 
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input type="hidden" id="txt-announcement-primary-id" value="0" />
                             <div id="div-show-txt-announcement-primary-id">
                                 <div class="row">
@@ -52,6 +56,8 @@ $(document).ready(function() {
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-announcement-modal", function(e) {
+        $('.spinner1').hide();
+        $('.modal-footer').show();
         $('#div-announcement-modal-error').hide();
         $('#mdl-announcement-modal').modal('show');
         $('#frm-announcement-modal').trigger("reset");
@@ -65,7 +71,8 @@ $(document).ready(function() {
     $(document).on('click', ".btn-show-mdl-announcement-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
+        $('.modal-footer').hide();
         $('#div-show-txt-announcement-primary-id').show();
         $('#div-edit-txt-announcement-primary-id').hide();
         let itemId = $(this).attr('data-val');
@@ -86,7 +93,8 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-announcement-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
+        $('.modal-footer').show();
         $('#div-show-txt-announcement-primary-id').hide();
         $('#div-edit-txt-announcement-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -141,7 +149,8 @@ $(document).ready(function() {
     $('#btn-save-mdl-announcement-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').show();
+        $('#btn-save-mdl-announcement-modal').prop("disabled", true);
         let actionType = "POST";
         // let endPointUrl = "{{URL::to('/')}}/api/announcements/create";
         let endPointUrl = "{{ route('announcements.store') }}";
@@ -174,12 +183,15 @@ $(document).ready(function() {
                 if(data.errors){
 					$('#div-announcement-modal-error').html('');
 					$('#div-announcement-modal-error').show();
-                    
+                    $('.spinner1').hide();
+                    $('#btn-save-mdl-announcement-modal').prop("disabled", false);
                     $.each(data.errors, function(key, value){
                         $('#div-announcement-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
                     $('#div-announcement-modal-error').hide();
+                    $('.spinner1').hide();
+                    $('#btn-save-mdl-announcement-modal').prop("disabled", false);
                     window.setTimeout( function(){
                         window.alert("The Announcement record saved successfully.");
 						$('#div-announcement-modal-error').hide();
@@ -189,12 +201,9 @@ $(document).ready(function() {
             }, error: function(data){
                 $('#div-announcement-modal-error').html('');
                 $('#div-announcement-modal-error').show();
-
-                if (data.responseJSON && data.responseJSON.errors){
-                    $.each(data.responseJSON.errors, function(key, value){
-                        $('#div-announcement-modal-error').append('<li class="">'+value+'</li>');
-                    });
-                }
+                $('#btn-save-mdl-announcement-modal').prop("disabled", false);
+                $('.spinner1').hide();
+                console.log(data);
             }
         });
     });

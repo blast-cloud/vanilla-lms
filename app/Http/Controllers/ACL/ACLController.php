@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UpdateUserPasswordResetRequest;
 
 use App\Repositories\StudentRepository;
 use App\Repositories\ManagerRepository;
@@ -85,7 +86,7 @@ class ACLController extends AppBaseController
         return $current_user;
     }
 
-    public function resetPwdUserAccount(Request $request, $id){
+    public function resetPwdUserAccount(UpdateUserPasswordResetRequest $request, $id){
         $current_user = User::find($id);
         $current_user->password = Hash::make($request->password);
         $current_user->save();

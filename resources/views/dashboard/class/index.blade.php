@@ -86,6 +86,7 @@
     @include("dashboard.class.modals.modify-examinations")
     @include("dashboard.class.modals.modify-class-details")
     @include("dashboard.class.modals.modify-reading-material")
+    @include("dashboard.class.modals.submit-assignment")
     
 @endsection
 

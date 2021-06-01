@@ -16,6 +16,10 @@
                         <div class="col-lg-12 ma-10">
                             @csrf
 
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input type="hidden" id="txt-lecturer-primary-id" value="0" />
                             <div id="div-show-txt-lecturer-primary-id">
                                 <div class="row">
@@ -64,7 +68,8 @@ $(document).ready(function() {
         $('#mdl-lecturer-modal').modal('show');
         $('#frm-lecturer-modal').trigger("reset");
         $('#txt-lecturer-primary-id').val(0);
-
+        $('.spinner1').hide();
+        $('.modal-footer').show();
         $('#div-show-txt-lecturer-primary-id').hide();
         $('#div-edit-txt-lecturer-primary-id').show();
     });
@@ -73,7 +78,8 @@ $(document).ready(function() {
     $(document).on('click', ".btn-show-mdl-lecturer-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
+        $('.modal-footer').hide();
         $('#div-show-txt-lecturer-primary-id').show();
         $('#div-edit-txt-lecturer-primary-id').hide();
         let itemId = $(this).attr('data-val');
@@ -96,7 +102,8 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-lecturer-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
+        $('.modal-footer').show();
         $('#div-show-txt-lecturer-primary-id').hide();
         $('#div-edit-txt-lecturer-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -154,7 +161,8 @@ $(document).ready(function() {
     $('#btn-save-mdl-lecturer-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').show();
+        $('#btn-save-mdl-lecturer-modal').prop("disabled", true);
         let actionType = "POST";
         // let endPointUrl = "{{URL::to('/')}}/api/lecturers";
         let endPointUrl = "{{ route('lecturers.store') }}";
@@ -191,7 +199,8 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(result){
                 if(result.errors){
-
+                    $('.spinner1').hide();
+                    $('#btn-save-mdl-lecturer-modal').prop("disabled", false);
 					$('#div-lecturer-modal-error').html('');
 					$('#div-lecturer-modal-error').show();
                     $.each(result.errors, function(key, value){
@@ -199,8 +208,9 @@ $(document).ready(function() {
                     });
 
                 }else{
-
+                    $('.spinner1').hide();
                     $('#div-lecturer-modal-error').hide();
+                    $('#btn-save-mdl-lecturer-modal').prop("disabled", false);
                     window.setTimeout( function(){
                         window.alert("The Lecturer saved successfully.");
 						$('#div-lecturer-modal-error').hide();
@@ -209,16 +219,9 @@ $(document).ready(function() {
                 }
             },
             error: function(data){
+                $('#btn-save-mdl-lecturer-modal').prop("disabled", false);
                 console.log(data);
-
-                $('#div-lecturer-modal-error').html('');
-                $('#div-lecturer-modal-error').show();
-
-                if (data.responseJSON && data.responseJSON.errors){
-                    $.each(data.responseJSON.errors, function(key, value){
-                        $('#div-lecturer-modal-error').append('<li class="">'+value+'</li>');
-                    });
-                }
+                $('.spinner1').hide();
             }
         });
     });

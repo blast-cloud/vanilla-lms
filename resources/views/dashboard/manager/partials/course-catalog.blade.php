@@ -31,7 +31,7 @@
                                     {{$course_catalog_item->code}} - {{$course_catalog_item->name}}
                                 </td>
                                 <td class="text-right">
-                                    <a href="javascript:void(0)" class="pr-3" data-toggle="tooltip" title="" data-original-title="View"><i class="zmdi zmdi-eye"></i></a>
+                                    <a href="javascript:void(0)" class="pr-3 btn-show-mdl-course-modal" data-toggle="tooltip" title="" data-val="{{ $course_catalog_item->id }}" data-original-title="View"><i class="zmdi zmdi-eye"></i></a>
                                 </td>
                             </tr>
                             @endforeach

@@ -11,6 +11,7 @@ use App\Http\Requests;
 use App\Http\Requests\CreateGradeRequest;
 use App\Http\Requests\UpdateGradeRequest;
 use App\Repositories\GradeRepository;
+use App\Repositories\SubmissionRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
@@ -20,9 +21,13 @@ class GradeController extends AppBaseController
     /** @var  GradeRepository */
     private $gradeRepository;
 
-    public function __construct(GradeRepository $gradeRepo)
+    /** @var  SubmissionRepository */
+    private $submissionRepository;
+
+    public function __construct(GradeRepository $gradeRepo, SubmissionRepository $submissionRepo)
     {
         $this->gradeRepository = $gradeRepo;
+        $this->submissionRepository = $submissionRepo;
     }
 
     /**
@@ -58,6 +63,17 @@ class GradeController extends AppBaseController
         $input = $request->all();
 
         $grade = $this->gradeRepository->create($input);
+
+        $submission = $this->submissionRepository->find($request->submission_id);
+
+        if (empty($submission)) {
+            Flash::error('Submission not found');
+
+            return redirect(route('grades.index'));
+        }
+
+        $submission->grade_id = $grade->id; 
+        $submission->save();
 
         Flash::success('Grade saved successfully.');
         
@@ -124,6 +140,17 @@ class GradeController extends AppBaseController
         }
 
         $grade = $this->gradeRepository->update($request->all(), $id);
+
+        $submission = $this->submissionRepository->find($request->submission_id);
+
+        if (empty($submission)) {
+            Flash::error('Submission not found');
+
+            return redirect(route('grades.index'));
+        }
+
+        $submission->grade_id = $grade->id; 
+        $submission->save();
 
         Flash::success('Grade updated successfully.');
         

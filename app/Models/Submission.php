@@ -123,6 +123,11 @@ class Submission extends Model
      **/
     public function classMaterial()
     {
-        return $this->hasOne(\App\Models\ClassMaterial::class, 'id', 'class_material_id');
+        return $this->belongsTo(ClassMaterial::class,'class_material_id', 'id');
+    }
+
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class, 'grade_id', 'id');
     }
 }

@@ -15,6 +15,9 @@
                     <div class="row">
                         <div class="col-lg-12 ma-10">
                             @csrf
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
 
                             <input type="hidden" id="txt-enrollment-primary-id" value="0" />
                             <div id="div-show-txt-enrollment-primary-id">
@@ -65,7 +68,7 @@ $(document).ready(function() {
         $('#mdl-enrollment-modal').modal('show');
         $('#frm-enrollment-modal').trigger("reset");
         $('#txt-enrollment-primary-id').val(0);
-
+        $('.spinner1').hide();
         $('#div-show-txt-enrollment-primary-id').hide();
         $('#div-edit-txt-enrollment-primary-id').show();
     });
@@ -74,7 +77,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-show-mdl-enrollment-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
         $('#div-show-txt-enrollment-primary-id').show();
         $('#div-edit-txt-enrollment-primary-id').hide();
         let itemId = $(this).attr('data-val');
@@ -95,7 +98,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-enrollment-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
         $('#div-show-txt-enrollment-primary-id').hide();
         $('#div-edit-txt-enrollment-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -150,7 +153,7 @@ $(document).ready(function() {
     $('#btn-save-mdl-enrollment-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').show();
         let actionType = "POST";
         let endPointUrl = "{{ route('enrollments.store') }}";
         let primaryId = $('#txt-enrollment-primary-id').val();
@@ -181,12 +184,13 @@ $(document).ready(function() {
                 if(result.errors){
 					$('#div-enrollment-modal-error').html('');
 					$('#div-enrollment-modal-error').show();
-                    
+                    $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#div-enrollment-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
                     $('#div-enrollment-modal-error').hide();
+                    $('.spinner1').hide();
                     window.setTimeout( function(){
                         window.alert("The Enrollment record saved successfully.");
 						$('#div-enrollment-modal-error').hide();
@@ -196,12 +200,8 @@ $(document).ready(function() {
             }, error: function(data){
                 $('#div-enrollment-modal-error').html('');
                 $('#div-enrollment-modal-error').show();
-
-                if (data.responseJSON && data.responseJSON.errors){
-                    $.each(result.errors, function(key, value){
-                        $('#div-enrollment-modal-error').append('<li class="">'+value+'</li>');
-                    });
-                }
+                $('.spinner1').hide();
+                console.log(data);
             }
         });
     });

@@ -3,9 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Submission;
+use App\Models\User;
 
-class CreateSubmissionRequest extends AppBaseFormRequest
+class UpdateUserPasswordResetRequest extends AppBaseFormRequest
 {
 
     /**
@@ -18,6 +18,8 @@ class CreateSubmissionRequest extends AppBaseFormRequest
         return true;
     }
 
+
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -25,18 +27,28 @@ class CreateSubmissionRequest extends AppBaseFormRequest
      */
     public function rules()
     {
-        //return Submission::$rules;
+        /*
+        $rules = Manager::$rules;
+        
+        return $rules;
+        */
 
         return [
-            'file' => 'required|mimes:pdf,doc,docx,ppt,xlsx,xls'
+            'password'=>"required",
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'The :attribute field is required.'
         ];
     }
 
     public function attributes()
     {
         return [
-            'file' => 'Assignment File',
-
+            'password' => 'Password',
         ];
     }
 }
