@@ -28,9 +28,9 @@ class CreateCalendarEntryRequest extends AppBaseFormRequest
         //return CalendarEntry::$rules;
 
         return [
-            'title' => 'required',
             'due_date' => 'required',
-            'description' => 'required'
+            'title' => 'required|string|max:200',
+            'description' => 'nullable|string|max:100000'
         ];
     }
 

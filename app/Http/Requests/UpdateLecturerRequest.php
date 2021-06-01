@@ -33,10 +33,10 @@ class UpdateLecturerRequest extends AppBaseFormRequest
 
         return [
             'id' => 'required|numeric|exists:lecturers,id',
-            'first_name' => 'required|string|max:100',
-            'last_name' => 'required|string|max:100',
-            'email' => "required|email|max:100|unique:lecturers,email,{$this->id}",
-            'telephone' => "required|digits:11|unique:lecturers,telephone,{$this->id}"
+            'first_name' => 'sometimes|required|string|max:100',
+            'last_name' => 'sometimes|required|string|max:100',
+            'email' => "sometimes|required|email|max:100|unique:lecturers,email,{$this->id}",
+            'telephone' => "sometimes|required|digits:11|unique:lecturers,telephone,{$this->id}"
         ];
     }
 }

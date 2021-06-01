@@ -79,15 +79,10 @@
                         <div class="col-lg-8">
 
                             <div class="image-container">
-
                                 @if (isset($app_settings['file_landing_page_picture']))
-
-                                    <img src="{{ asset($app_settings['file_landing_page_picture']) }}" width="85%" />
-                                    <div class="image-text-bottom-left"><h4 class="pa-10" style="color:white;">{!! $app_settings['txt_welcome_text'] ?? '' !!}</h4></div>
-                                    
+                                <img src="{{ asset($app_settings['file_landing_page_picture']) }}" width="85%" />
+                                <div class="image-text-bottom-left"><h4 class="pa-10" style="color:white;">{!! $app_settings['txt_welcome_text'] ?? '' !!}</h4></div>
                                 @endif
-
-                                
                             </div>
 
                         </div>

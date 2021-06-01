@@ -33,11 +33,11 @@ class UpdateGradeRequest extends AppBaseFormRequest
 
         return [
             'id' => 'required|numeric|exists:grades,id',
-            'grade_title' => 'required',
-            'student_id' => 'required',
-            'course_class_id' => 'required',
-            'score' => 'required',
-            'grade_letter' => 'required'
+            'grade_title' => 'sometimes|required',
+            'student_id' => 'sometimes|required',
+            'course_class_id' => 'sometimes|required',
+            'score' => 'sometimes|required',
+            'grade_letter' => 'sometimes|required'
         ];
     }
 }

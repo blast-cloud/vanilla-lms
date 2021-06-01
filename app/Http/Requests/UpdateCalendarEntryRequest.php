@@ -33,8 +33,8 @@ class UpdateCalendarEntryRequest extends AppBaseFormRequest
 
         return [
             'id' => 'required|numeric|exists:calendar_entries,id',
-            'title' => 'required',
-            'description' => 'required'
+            'title' => 'required|string|max:200',
+            'description' => 'nullable|string|max:100000'
         ];
     }
 
