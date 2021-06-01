@@ -35,7 +35,7 @@ class UpdateCourseRequest extends AppBaseFormRequest
             'id' => 'required|numeric|exists:courses,id',
             'code' => "required|max:191|unique:courses,code,{$this->id}",
             'name' => "required|max:191|unique:courses,name,{$this->id}",
-            'description' => 'nullable',
+            'description' => 'required',
             'credit_hours' => 'required'
         ];
     }

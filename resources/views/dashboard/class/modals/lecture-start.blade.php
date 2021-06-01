@@ -18,6 +18,10 @@
                     <div class="row">
                         <div class="col-lg-11 ma-10">
                             @csrf
+
+                            <div class="spinner1" class="">
+                                <div class="loader" id="loader-1"></div>
+                            </div>
                             <input type="hidden" id="txt_lecture_id" value="0" />
                             <!-- Assignment Number Field -->
                             <div class="form-group">
@@ -46,7 +50,7 @@
 
                             <!-- Upload File Path Field -->
                             <div class="form-group">
-                                <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_upload_file_path">Assignment File</label>
+                                <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_upload_file_path">Lecture File</label>
                                 <div class="col-sm-7">
                                     {!! Form::file('txt_start_lecture_upload_file_path', ['id'=>'txt_start_lecture_upload_file_path', 'class' => 'custom-file-input']) !!}
                                 </div>
@@ -80,6 +84,7 @@ $(document).ready(function() {
     //Show Modal
     $('#btn-show-start-lecture-modal').click(function(e){
         $('#start-lecture-error-div').hide();
+        $('.spinner1').hide();
         $('#start-lecture-modal').modal('show');
         $('#form-start-lecture').trigger("reset");
         $('#txt_lecture_id').val(0);
@@ -88,6 +93,7 @@ $(document).ready(function() {
     //Show Modal for Edit Entry
     $('.btn-edit-start-lecture-modal').click(function(e){
         $('#start-lecture-error-div').hide();
+        $('.spinner1').hide();
         $('#start-lecture-modal').modal('show');
         $('#form-start-lecture').trigger("reset");
 
@@ -137,11 +143,11 @@ $(document).ready(function() {
     });
 
 
-    //Save lecture
+   /*  //Save lecture
     $('#btn-start-lecture').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').show();
         let actionType = "POST";
         let endPointUrl = "{{ route('classMaterials.store') }}";
         let primaryId = $('#txt_lecture_id').val();
@@ -178,6 +184,7 @@ $(document).ready(function() {
 
                     $('#start-lecture-error-div').html('');
                     $('#start-lecture-error-div').show();
+                    $('.spinner1').hide();
                     
                     $.each(result.errors, function(key, value){
                         $('#start-lecture-error-div').append('<li class="">'+value+'</li>');
@@ -185,6 +192,7 @@ $(document).ready(function() {
 
                 }else{
                     $('#start-lecture-error-div').hide();
+                    $('.spinner1').hide();
                     window.setTimeout( function(){
                         window.alert("Online lecture created, please click Start Online Blackboard to continue.");
                         $('#start-lecture-modal').modal('hide');
@@ -194,6 +202,103 @@ $(document).ready(function() {
             },
         }); 
     });
+ */
+    function save_assignments_details(fileDetails){
+        let lecture_file = $('#txt_start_lecture_upload_file_path')[0].files[0];
+        if( lecture_file == undefined) {
+            lecture_file = '';
+        }
+        $('.spinner1').show();
+        $('#btn-start-lecture').prop("disabled", true);
+        let actionType = "POST";
+        let endPointUrl = "{{ route('classMaterials.store') }}";
+        let primaryId = $('#txt_lecture_id').val();
+
+        if (primaryId>0){
+            actionType = "PUT";
+            endPointUrl = "{{ route('classMaterials.update',0) }}"+primaryId;
+        }
+
+        let formData = new FormData();
+        formData.append('_token', $('input[name="_token"]').val());
+        formData.append('_method', actionType);
+        formData.append('type', 'lecture-classes');
+        formData.append('course_class_id', {{($courseClass) ? $courseClass->id : ''}});
+        formData.append('lecture_number', $('#txt_start_lecture_number').val());
+        formData.append('title', $('#txt_start_lecture_title').val());
+        formData.append('id', primaryId);
+        formData.append('description', $('#txt_start_lecture_description').val());
+        formData.append('reference_material_url', $('#txt_start_lecture_reference_material_url').val());
+        if (primaryId==0){
+            formData.append('blackboard_meeting_status', 'new');
+        }
+
+        $.ajax({
+            url:endPointUrl,
+            type: "POST",
+            data: formData,
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(result){
+                if(result.errors){
+
+                    $('#start-lecture-error-div').html('');
+                    $('#start-lecture-error-div').show();
+                    $('.spinner1').hide();
+                    
+                    $.each(result.errors, function(key, value){
+                        $('#start-lecture-error-div').append('<li class="">'+value+'</li>');
+                    });
+
+                }else{
+                    $('#start-lecture-error-div').hide();
+                    $('.spinner1').hide();
+                    window.setTimeout( function(){
+                        window.alert("Online lecture created, please click Start Online Blackboard to continue.");
+                        $('#start-lecture-modal').modal('hide');
+                        location.reload(true);
+                    }, 50);
+                }
+            },
+        });
+
+    }
+
+    //Save assignment
+    $('#btn-start-lecture').click(function(e) {
+        e.preventDefault();
+        $('#spinner1').show();
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+       
+        if ($('#txt_start_lecture_upload_file_path')[0].files[0] == undefined){
+            
+            save_assignments_details(null);
+            $('#spinner1').hide();
+
+        }else{
+
+            var formData = new FormData();
+            formData.append('file', $('#txt_start_lecture_upload_file_path')[0].files[0]);
+
+            $.ajax({
+                url: "{{ route('attachment-upload') }}",
+                type: 'POST', processData: false,
+                contentType: false, data: formData,
+                success: function(data){
+                    console.log(data); 
+                    save_assignments_details(data.message);  
+                },
+                error: function(data){ 
+                    console.log(data);
+                    $('.spinner1').hide();
+                    $('#btn-start-lecture').prop("disabled", false);
+                }
+            });
+        }
+    });
+
 
 });
 </script>

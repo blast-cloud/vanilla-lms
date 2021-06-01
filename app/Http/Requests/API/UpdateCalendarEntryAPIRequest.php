@@ -36,4 +36,17 @@ class UpdateCalendarEntryAPIRequest extends AppBaseFormRequest
             'description' => 'required'
         ];
     }
+
+    public function calendarentry_exist(){
+        return CalendarEntry::where('title', $this->title)->where('due_date', $this->due_date)->where('description', $this->description)->where('id','<>', $this->id)->get();
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($this->calendarentry_exist()) != 0) {
+                $validator->errors()->add('announcement_exist', 'Calendar Already Exist');
+            }
+        });
+    }
 }

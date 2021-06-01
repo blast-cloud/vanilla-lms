@@ -39,4 +39,17 @@ class UpdateCourseClassAPIRequest extends AppBaseFormRequest
             'lecturer_id' => 'required',
         ];
     }
+
+    public function course_class_exist(){
+        return CourseClass::where('code', $this->code)->where('lecturer_id', $this->lecturer_id)->where('id','<>', $this->id)->get();
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($this->course_class_exist()) != 0) {
+                $validator->errors()->add('class_exist', 'This Lecturer is already Assigned to this Course');
+            }
+        });
+    }
 }

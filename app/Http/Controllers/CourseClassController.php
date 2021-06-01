@@ -15,6 +15,7 @@ use App\Repositories\CourseClassRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use App\Models\CourseClass;
 
 class CourseClassController extends AppBaseController
 {
@@ -57,6 +58,10 @@ class CourseClassController extends AppBaseController
     public function store(CreateCourseClassRequest $request)
     {
         $input = $request->all();
+        $course_exist = CourseClass::where('code', $request->code)->where('lecturer_id', $request->lecturer_id)->get();
+
+        dd($course_exist);
+
 
         $courseClass = $this->courseClassRepository->create($input);
 
@@ -118,6 +123,9 @@ class CourseClassController extends AppBaseController
     {
         $courseClass = $this->courseClassRepository->find($id);
 
+        $course_exist = CourseClass::where('code', $request->code)->where('lecturer_id', $request->lecturer_id)->get();
+
+        dd($course_exist);
         if (empty($courseClass)) {
             Flash::error('Course Class not found');
 

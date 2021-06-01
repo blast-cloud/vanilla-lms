@@ -38,4 +38,17 @@ class UpdateEnrollmentRequest extends AppBaseFormRequest
             'course_class_id' => 'required'
         ];
     }
+
+    public function enrollment_exist(){
+        return Enrollment::where('student_id', $this->student_id)->where('course_class_id', $this->course_class_id)->where('id','<>', $this->id)->get();
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($this->enrollment_exist()) != 0) {
+                $validator->errors()->add('enrollment_exist', 'This Student is Already enroll for this Class');
+            }
+        });
+    }
 }

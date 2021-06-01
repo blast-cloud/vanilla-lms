@@ -32,4 +32,17 @@ class CreateAnnouncementRequest extends AppBaseFormRequest
             'description' => 'required',
         ];
     }
+
+    public function announcement_exist(){
+        return Announcement::where('title', $this->title)->where('description', $this->description)->get();
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($this->announcement_exist()) != 0) {
+                $validator->errors()->add('announcement_exist', 'Announcement Already Exist');
+            }
+        });
+    }
 }
