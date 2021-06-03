@@ -15,6 +15,11 @@
                     <div class="row">
                         <div class="col-lg-12 ma-10">
                             @csrf
+
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input id="txt_examination_id" type="hidden" value="0" />
                             <div class="form-wrap">
                                 
@@ -102,6 +107,7 @@ $(document).ready(function() {
 
     //Show Modal
     $('#btn-show-modify-examination-modal').click(function(){
+        $('.spinner1').hide();
         $('#modify-examination-error-div').hide();
         $('#modify-examination-modal').modal('show');
         $('#form-modify-examination').trigger("reset");
@@ -113,7 +119,7 @@ $(document).ready(function() {
         $('#modify-examination-error-div').hide();
         $('#modify-examination-modal').modal('show');
         $('#form-modify-examination').trigger("reset");
-
+        $('.spinner1').hide();
         let itemId = $(this).attr('data-val');
         $('#txt_examination_id').val(itemId);
 
@@ -201,13 +207,16 @@ $(document).ready(function() {
 
                     $('#modify-examination-error-div').html('');
                     $('#modify-examination-error-div').show();
-                    
+                    $('.spinner1').hide();
+                    $('#btn-modify-examination').prop("disabled", false);
                     $.each(result.errors, function(key, value){
                         $('#modify-examination-error-div').append('<li class="">'+value+'</li>');
                     });
 
                 }else{
                     $('#modify-examination-error-div').hide();
+                    $('.spinner1').hide();
+                    $('#btn-modify-examination').prop("disabled", false);
                     window.setTimeout( function(){
                         window.alert("Examination saved successfully.");
                         $('#modify-examination-modal').modal('hide');
@@ -221,6 +230,8 @@ $(document).ready(function() {
 
     //Save examination
     $('#btn-modify-examination').click(function(e) {
+        $('.spinner1').show();
+        $('#btn-modify-examination').prop("disabled", true);
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         save_examinations_details();

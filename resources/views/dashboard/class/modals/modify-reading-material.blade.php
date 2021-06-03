@@ -16,6 +16,10 @@
                         <div class="col-lg-12 ma-10">
                             @csrf
 
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input type="hidden" id="txt_reading_material_id" value="0" />
                                                         
                             <div class="form-wrap">
@@ -72,11 +76,13 @@ $(document).ready(function() {
         $('#modify-reading-material-modal').modal('show');
         $('#form-modify-reading-material').trigger("reset");
         $('#txt_reading_material_id').val(0);
+        $('.spinner1').hide();
     });
 
     //Show Modal for Edit Entry
     $('.btn-edit-modify-reading-material-modal').click(function(){
         $('#modify-reading-material-error-div').hide();
+        $('.spinner1').hide();
         $('#modify-reading-material-modal').modal('show');
         $('#form-modify-reading-material').trigger("reset");
 
@@ -85,7 +91,7 @@ $(document).ready(function() {
 
         //Set title and url
         $('#txt_reading_material_title').val($('#spn_rm_'+itemId+'_title').html());
-        $('#txt_reading_material_reference_material_url').val($('#spn_rm_'+itemId+'_desc').html());
+        $('#txt_reading_material_reference_material_url').val($('#spn_rm_'+itemId+'_url').html());
 
     });
 
@@ -126,7 +132,11 @@ $(document).ready(function() {
     });
 
     function save_reading_material_details(fileDetails){
-
+        let reading_file = $('#txt_reading_material_upload_file_path')[0].files[0];
+        if( reading_file == undefined) {
+            reading_file = '';
+        }
+        $('.spinner1').show();
         let actionType = "POST";
         let endPointUrl = "{{ route('classMaterials.store') }}";
         let primaryId = $('#txt_reading_material_id').val();
@@ -142,6 +152,7 @@ $(document).ready(function() {
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
         formData.append('type', 'reading-materials');
+        formData.append('file', reading_file);
         formData.append('title', $('#txt_reading_material_title').val());
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : '' }});
         if (fileDetails!=null){
@@ -163,13 +174,14 @@ $(document).ready(function() {
 
                     $('#modify-reading-material-error-div').html('');
                     $('#modify-reading-material-error-div').show();
-                    
+                    $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#modify-reading-material-error-div').append('<li class="">'+value+'</li>');
                     });
 
                 }else{
                     $('#modify-reading-material-error-div').hide();
+                    $('.spinner1').hide();
                     window.setTimeout( function(){
                         window.alert("Reading material saved successfully.");
                         $('#modify-reading-material-modal').modal('hide');

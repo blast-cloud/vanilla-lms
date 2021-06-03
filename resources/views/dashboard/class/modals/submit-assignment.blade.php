@@ -32,7 +32,7 @@
                                     
                                     <div id="spinner1" class="">
                                         <div class="loader" id="loader-1"></div>
-                                      </div>
+                                    </div>
   
 
                                     <!-- Upload File Path Field -->

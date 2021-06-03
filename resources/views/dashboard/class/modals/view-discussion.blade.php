@@ -74,11 +74,11 @@ $(document).ready(function() {
                         commentItem = "<li class='friend mb-5'><div class='friend-msg-wrap'>";
                         commentItem += "<img class='user-img img-circle block pull-left' src='{{ asset('dist/img/user-badge.fw.png') }}' alt='user'><div class='msg pull-left'>";
                         commentItem += "<p>" + item.posting + "</p>";
-                        commentItem += "<div class='msg-per-detail text-right'><span class='msg-time txt-grey'>" + item.created_at;
+                        commentItem += "<div class='msg-per-detail text-right'><span class='msg-time txt-grey'>" +  new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeStyle: 'short' }).format(Date.parse(item.created_at));
                         commentItem += "</span></div></div><div class='clearfix'></div></div></li>";
                     }else{
                         commentItem = "<li class='self mb-5'><div class='self-msg-wrap'><div class='msg block pull-right'>" + item.posting;
-                        commentItem += "<div class='msg-per-detail text-right'><span class='msg-time txt-grey'>" + item.created_at;
+                        commentItem += "<div class='msg-per-detail text-right'><span class='msg-time txt-grey'>" +  new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeStyle: 'short' }).format(Date.parse(item.created_at));
                         commentItem += "</span></div></div><div class='clearfix'></div></div></li>";
                     }
                     $('#forum-comment-list').append(commentItem);

@@ -15,6 +15,11 @@
                     <div class="row">
                         <div class="col-lg-11 ma-10">
                             @csrf
+
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             
                             <input type="hidden" id="txt_date_id" value="0" />
 
@@ -68,7 +73,7 @@ $(document).ready(function() {
     $('#btn-show-modify-date-modal').click(function(){
         $('#modify-date-error-div').hide();
         $('#modify-date-modal').modal('show');
-
+        $('.spinner1').hide();
         $('#txt_date_id').val(0);
         $('#form-modify-date-modal').trigger("reset");
         $('#txt_due_date_title').val("");
@@ -80,7 +85,7 @@ $(document).ready(function() {
         $('#modify-date-error-div').hide();
         $('#modify-date-modal').modal('show');
         $('#form-modify-date-modal').trigger("reset");
-
+        $('.spinner1').hide();
         let itemId = $(this).attr('data-val');
         $('#txt_date_id').val(itemId);
 
@@ -93,10 +98,10 @@ $(document).ready(function() {
     $('.btn-delete-date-entry').click(function(e){
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').hide();
         let itemId = $(this).attr('data-val');
         if (confirm("Are you sure you want to delete this date?")){
-            
+            $('.spinner1').show();
             let actionType = "DELETE";
             let endPointUrl = "{{ route('calendarEntries.destroy',0) }}"+itemId;
 
@@ -115,7 +120,9 @@ $(document).ready(function() {
                 success: function(result){
                     if(result.errors){
                         console.log(result.errors)
+                        $('.spinner1').hide();
                     }else{
+                        $('.spinner1').hide();
                         window.alert("The class date has been deleted.");
                         location.reload(true);
                     }
@@ -132,7 +139,7 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-
+        $('.spinner1').show();
         let actionType = "POST";
         let endPointUrl = "{{ route('calendarEntries.store') }}";
         let primaryId = $('#txt_date_id').val();
@@ -148,6 +155,7 @@ $(document).ready(function() {
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
         formData.append('title', $('#txt_due_date_title').val());
         formData.append('due_date', $('#txt_due_date_date').val());
+        formData.append('id', $('#txt_date_id').val());
 
         $.ajax({
             url:endPointUrl,
@@ -162,13 +170,14 @@ $(document).ready(function() {
 
                     $('#modify-date-error-div').html('');
                     $('#modify-date-error-div').show();
-                    
+                    $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#modify-date-error-div').append('<li class="">'+value+'</li>');
                     });
 
                 }else{
                     $('#modify-date-error-div').hide();
+                    $('.spinner1').hide();
                     window.setTimeout( function(){
                         window.alert("Class date saved successfully.");
                         $('#modify-date-modal').modal('hide');

@@ -9,4 +9,6 @@
     {!! nl2br($courseClass->outline) !!}
 </blockquote>
 <span id="spn_class_outline" style="display:none;">{!! $courseClass->outline !!}</span>
+@else
+        <p style="font-size:95%;" class="muted">No Outline available.</p>
 @endif

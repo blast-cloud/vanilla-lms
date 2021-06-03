@@ -16,6 +16,10 @@
                         <div class="col-lg-12 ma-10">
                             @csrf
 
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input id="txt_announcement_id" value="0" type="hidden" />
                                                         
                             <div class="form-wrap">
@@ -63,6 +67,7 @@ $(document).ready(function() {
     $('#btn-show-modify-announcement-modal').click(function(){
         $('#modify-announcement-error-div').hide();
         $('#modify-announcement-modal').modal('show');
+        $('.spinner1').hide();
         $('#form-modify-announcement').trigger("reset");
         $('#txt_announcement_id').val(0);
     });
@@ -72,7 +77,7 @@ $(document).ready(function() {
         $('#modify-announcement-error-div').hide();
         $('#modify-announcement-modal').modal('show');
         $('#form-modify-announcement').trigger("reset");
-
+        $('.spinner1').hide();
         let itemId = $(this).attr('data-val');
         $('#txt_announcement_id').val(itemId);
 
@@ -123,7 +128,8 @@ $(document).ready(function() {
     $('#btn-modify-announcement').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').show();
+        $('#btn-modify-announcement').prop("disabled", true);
         let actionType = "POST";
         let endPointUrl = "{{ route('announcements.store') }}";
         let primaryId = $('#txt_announcement_id').val();
@@ -154,6 +160,8 @@ $(document).ready(function() {
 
                     $('#modify-announcement-error-div').html('');
                     $('#modify-announcement-error-div').show();
+                    $('.spinner1').hide();
+                    $('#btn-modify-announcement').prop("disabled", false);
                     
                     $.each(result.errors, function(key, value){
                         $('#modify-announcement-error-div').append('<li class="">'+value+'</li>');
@@ -161,6 +169,8 @@ $(document).ready(function() {
 
                 }else{
                     $('#modify-announcement-error-div').hide();
+                    $('.spinner1').hide();
+                    $('#btn-modify-announcement').prop("disabled", false);
                     window.setTimeout( function(){
                         window.alert("Announcement saved successfully.");
                         $('#modify-announcement-modal').modal('hide');

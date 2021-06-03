@@ -18,7 +18,7 @@ class CreateClassMaterialsTable extends Migration
             $table->increments('id');
             $table->string('type');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('lecture_number')->nullable();
             $table->integer('assignment_number')->nullable();
             $table->timestamp('due_date')->nullable();;

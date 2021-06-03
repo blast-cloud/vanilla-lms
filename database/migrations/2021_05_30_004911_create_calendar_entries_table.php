@@ -18,7 +18,7 @@ class CreateCalendarEntriesTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->date('due_date');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('course_class_id')->unsigned()->nullable();
             $table->integer('department_id')->unsigned()->nullable();
             $table->timestamps();

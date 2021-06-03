@@ -54,6 +54,10 @@
                             <div class="col-lg-12 ma-10">
                                 @csrf
 
+                                <div class="spinner1" >
+                                    <div class="loader" id="loader-1"></div>
+                                </div>
+
                                 <input type="hidden" id="txt-forum-primary-id" value="0" />
                                 <div id="div-edit-txt-forum-primary-id">
                                     <div class="row">
@@ -104,6 +108,7 @@
             $('#mdl-forum-modal').modal('show');
             $('#frm-forum-modal').trigger("reset");
             $('#txt-forum-primary-id').val(0);
+            $('.spinner1').hide();
     
             $('#div-show-txt-forum-primary-id').hide();
             $('#div-edit-txt-forum-primary-id').show();
@@ -113,7 +118,7 @@
         $(document).on('click', ".btn-edit-mdl-forum-modal", function(e) {
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-    
+            $('.spinner1').hide();
             $('#div-show-txt-forum-primary-id').hide();
             $('#div-edit-txt-forum-primary-id').show();
             let itemId = $(this).attr('data-val');
@@ -167,7 +172,8 @@
         $('#btn-save-mdl-forum-modal').click(function(e) {
             e.preventDefault();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-    
+            $('.spinner1').show();
+            $('#btn-save-mdl-forum-modal').prop("disabled", true);
             let actionType = "POST";
             let endPointUrl = "{{ route('forums.store') }}";
             let primaryId = $('#txt-forum-primary-id').val();
@@ -198,12 +204,15 @@
                     if(result.errors){
                         $('#div-forum-modal-error').html('');
                         $('#div-forum-modal-error').show();
-                        
+                        $('.spinner1').hide();
+                        $('#btn-save-mdl-forum-modal').prop("disabled", false);
                         $.each(result.errors, function(key, value){
                             $('#div-forum-modal-error').append('<li class="">'+value+'</li>');
                         });
                     }else{
                         $('#div-forum-modal-error').hide();
+                        $('.spinner1').hide();
+                        $('#btn-save-mdl-forum-modal').prop("disabled", false);
                         window.setTimeout( function(){
                             window.alert("The Discussion board saved successfully.");
                             $('#div-forum-modal-error').hide();

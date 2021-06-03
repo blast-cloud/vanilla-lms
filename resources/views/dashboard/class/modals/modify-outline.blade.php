@@ -15,6 +15,10 @@
                     <div class="row">
                         <div class="col-lg-12 ma-10">
                             @csrf
+
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
                                                         
                             <div class="form-wrap">
                                 
@@ -53,6 +57,7 @@ $(document).ready(function() {
     $('#btn-show-modify-outline-modal').click(function(){
         $('#modify-outline-error-div').hide();
         $('#modify-outline-modal').modal('show');
+        $('.spinner1').hide();
         $('#txt_outline_description').val($('#spn_class_outline').html());
     });
 
@@ -60,7 +65,8 @@ $(document).ready(function() {
     $('#btn-modify-outline').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.spinner1').show();
+        $('#btn-modify-outline').prop("disabled", true);
         let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', 'PUT');
@@ -81,13 +87,16 @@ $(document).ready(function() {
 
                     $('#modify-outline-error-div').html('');
                     $('#modify-outline-error-div').show();
-                    
+                    $('.spinner1').hide();
+                    $('#btn-modify-outline').prop("disabled", false);
                     $.each(result.errors, function(key, value){
                         $('#modify-outline-error-div').append('<li class="">'+value+'</li>');
                     });
 
                 }else{
                     $('#modify-outline-error-div').hide();
+                    $('.spinner1').hide();
+                    $('#btn-modify-outline').prop("disabled", false);
                     window.setTimeout( function(){
                         window.alert("Class outline saved successfully.");
                         $('#modify-outline-modal').modal('hide');

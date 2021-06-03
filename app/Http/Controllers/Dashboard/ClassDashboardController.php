@@ -253,9 +253,29 @@ class ClassDashboardController extends AppBaseController
         $department = $this->departmentRepository->find($current_user->department_id);
         $courseClass = $this->courseClassRepository->find($course_class_id);
         $assignment_submissions = $this->submissionRepository->all(['course_class_id'=>$course_class_id,'class_material_id'=>$class_material_id]);
-
+        $lecture_classes = $this->classMaterialRepository->all(['course_class_id'=>$course_class_id,'type'=>'lecture-classes']);
 
         $grades = $this->gradeRepository->all(['course_class_id'=>$course_class_id]);
+
+        if ($current_user->manager_id != null){
+            $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id]);
+
+        }else if ($current_user->student_id != null){
+
+            $student_enrollment_ids = [];
+            $student_enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
+            foreach ($student_enrollments as $item){
+                $student_enrollment_ids []= $item->course_class_id;
+            }
+            $grades = $this->gradeRepository->all(['course_class_id'=>$id,'student_id'=>$current_user->student_id]);
+            $class_schedules = $this->courseClassRepository->findMany($student_enrollment_ids);
+    
+        }else if ($current_user->lecturer_id != null){
+            $class_schedules = $this->courseClassRepository->all(['lecturer_id'=>$current_user->lecturer_id]);
+        }else{
+            $class_schedules = null;
+        }
+
 
 
 
@@ -268,6 +288,8 @@ class ClassDashboardController extends AppBaseController
                     ->with('courseClass', $courseClass)
                     ->with('current_user', $current_user)
                     ->with('grades', $grades)
+                    ->with('class_schedules', $class_schedules)
+                    ->with('lecture_classes', $lecture_classes)
                     ->with('assignment_submissions', $assignment_submissions)
                     ->with('gradeManager', $gradeManager);
     }

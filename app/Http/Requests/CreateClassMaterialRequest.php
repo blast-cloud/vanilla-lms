@@ -33,11 +33,12 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'description' => 'nullable|string|max:100000',
             'examination_number' => 'required_if:type,class-examinations',
             'assignment_number' => 'required_if:type,class-assignments',
+            'file' => 'required_if:type,reading-materials|mimes:pdf,doc,docx,zip,xls,xlsx,xlsb,xlsm',
             'due_date' => 'required_if:type,class-assignments',
             'lecture_number' => 'required_if:type,lecture-classes',
             'reference_material_url' => 'nullable|url',
-            'grade_max_points' => 'nullable|numeric|min:0|max:100',
-            'grade_contribution_pct' => 'nullable|numeric|min:0|max:100',
+            'grade_max_points' => 'required_if:type,class-examinations|numeric|min:0|max:100',
+            'grade_contribution_pct' => 'required_if:type,class-examinations|numeric|min:0|max:100',
             'grade_contribution_notes' => 'nullable|string|max:300',
         ];
     }
@@ -49,7 +50,10 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'assignment_number.required_if' => 'The :attribute field is required.',
             'examination_number.required_if' => 'The :attribute field is required.',
             'due_date.required_if' => 'The :attribute field is required.',
-            'reference_material_url.url' => 'The :attribute Must Start with http://'
+            'reference_material_url.url' => 'The :attribute Must Start with http://',
+            'file.required_if' => 'The :attribute field is required.',
+            'grade_max_points.required_if' => 'The :attribute field is required.',
+            'grade_contribution_pct.required_if' => 'The :attribute field is required.',
         ];
     }
 

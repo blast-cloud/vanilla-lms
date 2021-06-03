@@ -238,7 +238,7 @@ class ManagerDashboardController extends AppBaseController
     {
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
-        $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
+        $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 20);
         
         $studentEnrollmentDataTable = new DepartmentStudentEnrollmentDataTable($student_id);
         $student = $this->studentRepository->find($student_id);
