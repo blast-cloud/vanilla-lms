@@ -120,7 +120,7 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').hide();
-        $('.modal-footer').hide();
+        $('.modal-footer').show();
         $('#div-show-txt-courseClass-primary-id').hide();
         $('#div-edit-txt-courseClass-primary-id').show();
         let itemId = $(this).attr('data-val');

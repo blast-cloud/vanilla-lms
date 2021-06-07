@@ -146,6 +146,7 @@ class ManagerDashboardController extends AppBaseController
                             ->toArray();
 
         $lecturerItems = Lecturer::select(DB::raw("CONCAT(COALESCE(job_title, ''),' ',last_name,', ',first_name) AS name"),'id')
+                            ->where('department_id', $current_user->department_id )
                             ->pluck('name','id')
                             ->toArray();
 
