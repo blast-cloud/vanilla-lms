@@ -85,7 +85,8 @@ class Manager extends Model
         'first_name',
         'last_name',
         'picture_file_path',
-        'profile_external_url'
+        'profile_external_url',
+        'department_id'
     ];
 
     /**

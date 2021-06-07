@@ -36,7 +36,7 @@ class UpdateUserRequest extends AppBaseFormRequest
 
         return [
             'email'=>"sometimes|required|email|unique:users,email,{$this->id}",
-            'telephone'=>"sometimes|required|numeric|digits:11|unique:users,telephone,{{$this->id}}",
+            'telephone'=>"sometimes|required|numeric|digits:11|unique:users,telephone,{$this->id}",
             // 'password1'=>'nullable|string|min:8|confirmed|regex:/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
             'first_name' =>'sometimes|required|string|max:50',
             'department_id' =>'sometimes|required|string|max:50',

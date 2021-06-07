@@ -34,6 +34,7 @@ class ManagerCreatedListener
         $user->email = $event->manager->email;
         $user->telephone = $event->manager->telephone;
         $user->manager_id = $event->manager->id;
+        $user->department_id = $event->manager->department_id;
         $user->password = Hash::make('password');
         $user->name = "{$event->manager->first_name} {$event->manager->last_name}";
         $user->is_platform_admin = false;

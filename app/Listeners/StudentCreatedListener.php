@@ -34,6 +34,7 @@ class StudentCreatedListener
         $user->email = $event->student->email;
         $user->telephone = $event->student->telephone;
         $user->student_id = $event->student->id;
+        $user->department_id = $event->student->department_id;
         $user->password = Hash::make('password');
         $user->name = "{$event->student->first_name} {$event->student->last_name}";
         $user->is_platform_admin = false;
