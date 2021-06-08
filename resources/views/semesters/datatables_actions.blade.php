@@ -7,6 +7,7 @@
         {!! Form::button('<i class="fa fa-edit"></i>', ['type'=>'button']) !!}
     </a>
     
-    <a href="#" data-val='{{$id}}' class='btn-delete-mdl-semester-modal'>
+    {{-- <a href="#" data-val='{{$id}}' class='btn-delete-mdl-semester-modal'>
         {!! Form::button('<i class="fa fa-trash"></i>', ['type'=>'button']) !!}
     </a>
+ --}}

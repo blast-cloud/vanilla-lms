@@ -142,6 +142,7 @@ class ManagerDashboardController extends AppBaseController
         }
 
         $courseItems = Course::select(DB::raw("CONCAT(name,' - ',code) AS full_name"),'id')
+                            ->where('department_id', $current_user->department_id )
                             ->pluck('full_name','id')
                             ->toArray();
 

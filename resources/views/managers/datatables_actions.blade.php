@@ -7,6 +7,6 @@
         {!! Form::button('<i class="fa fa-edit"></i>', ['type'=>'button']) !!}
     </a>
     
-    <a href="#" data-val='{{$id}}' class='btn-delete-mdl-manager-modal'>
+    {{-- <a href="#" data-val='{{$id}}' class='btn-delete-mdl-manager-modal'>
         {!! Form::button('<i class="fa fa-trash"></i>', ['type'=>'button']) !!}
-    </a>
+    </a> --}}

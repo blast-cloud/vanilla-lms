@@ -10,6 +10,8 @@
     @if ($class_assignments!=null && count($class_assignments)>0)
     @foreach($class_assignments as $item)
         <div class="row">
+            @if ($item->course_class_id == $courseClass->id )
+
                 <div class="col-md-6">
                     <dl>
                         <dt class="mb-0">
@@ -19,7 +21,7 @@
                             </span> <br>
                         </dt>
                         <dd class="mb-0" style="font-size:85%;">
-                            <span id="spn_ass_{{$item->id}}_desc">{{ $item->description }}</span>
+                            <span id="spn_ass_{{$item->id}}_desc">{{ $item->description }} </span>
                             @if (!empty($item->reference_material_url))
                             <br/>
                             <a href="{{ $item->reference_material_url }}" target="_blank">
@@ -42,7 +44,7 @@
                                 <i class="fa fa-trash" style=""></i>&nbsp;Delete
                             </a> &nbsp;&nbsp;
                             <a class="text-info btn-assignment-submissions" href="{{ route('submitted-assignment-list', [$item->course_class_id, $item->id]) }}"  alt="Submissions" style="opacity:1;font-size:85%"
-                             data-val="{{$item->id}}" > <strong>
+                            data-val="{{$item->id}}" > <strong>
                                 @php
                                     $no = $item->submissions()->where('class_material_id', $item->id)
                                                                         ->where('grade_id', null)
@@ -82,11 +84,11 @@
 
                     @if (($current_user->student_id) && $assignment_graded !=null )
 
-                         {{ $submission->grade->score  }} / {{ $item->grade_max_points }} 
+                        {{ $submission->grade->score  }} / {{ $item->grade_max_points }} 
                         
                         
                     @endif
-                   
+                
                 </div>
 
 
@@ -101,23 +103,25 @@
                         <br/>
                     @endif
                     <br/>
-                   
+                
                 </div>
                 <div class="col-md-2">
 
                     @if (($current_user->student_id!=null) && ($assignment_graded ==null)  && (($item->allow_late_submission == false &&  $assignment_due_date > 0) || $item->allow_late_submission == true  )  )
                     <button href="#" id="btn-show-submit-assignment-modal" class="btn btn-xs btn-primary btn-show-submit-assignment-modal"
-                     data-val="{{$item->id}}" data-val-course-class-id="{{$item->course_class_id}}" data-val-student-id="{{$current_user->student_id}}" data-val-assignment-title="{{$item->title}}"
-                     data-val-submission-id="{{ ($submission) ? $submission->id : '0' }}" >
+                    data-val="{{$item->id}}" data-val-course-class-id="{{$item->course_class_id}}" data-val-student-id="{{$current_user->student_id}}" data-val-assignment-title="{{$item->title}}"
+                    data-val-submission-id="{{ ($submission) ? $submission->id : '0' }}" >
                         <i class="fa fa-upload" style=""></i> Submit 
                     </button>
                     <br/>
-                @endif
+                    @endif
 
-                        
                 </div>
 
                 <hr class="col-md-12 light-grey-hr mb-10"/>
+                
+            @endif
+                
         </div>
         
     @endforeach

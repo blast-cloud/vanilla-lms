@@ -33,7 +33,23 @@ class UpdateForumRequest extends AppBaseFormRequest
 
         return [
             'id' => 'required|numeric|exists:forums,id',
-            'group_name' => 'required'
+            'group_name' => 'required',
+            'posting' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'The :attribute field is required.',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'group_name' => 'Name',
+            'posting' => 'Description',
         ];
     }
 }

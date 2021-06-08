@@ -51,27 +51,33 @@
             <ul class="list-icons" style="font-size:95%">
             @if ($reading_materials!=null && count($reading_materials)>0)
             @foreach($reading_materials as $item)
-                <li class="ml-10"><i class="text-primary fa fa-angle-double-right mr-5"></i> 
-                    <span id="spn_rm_{{$item->id}}_title">{{$item->title}}</span>
-                    @if ($current_user->lecturer_id!=null)
-                    <a href="#" data-val="{{$item->id}}" class="btn-edit-modify-reading-material-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
-                    <a href="#" data-val="{{$item->id}}" class="btn-delete-reading-material"><i class="text-info fa fa-times ml-5 mr-5" style="font-size:80%;opacity:0.5;"></i></a>
-                    @endif 
-                    <span id="spn_rm_{{$item->id}}_desc">{{nl2br($item->description)}}</span>
-                    @if (!empty($item->reference_material_url))
-                    <br/>
-                    <a href="{{ $item->reference_material_url }}" style="font-size:85%" class="ml-15 text-primary" target="_blank">
-                        <i class="zmdi zmdi-square-right mr-5" class="text-primary"></i><span id="spn_rm_{{$item->id}}_url">{{ $item->reference_material_url }}</span>
-                    </a>
-                    @endif
-                    @if (!empty($item->upload_file_path))
-                    <br/>
-                    <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary" target="_blank">
-                        <i class="fa fa-download mr-5" class="text-primary"></i>Download
-                    </a>
-                    @endif
-                    <br/>
-                </li>
+                @if ($item->course_class_id == $courseClass->id )
+
+                    <li class="ml-10"><i class="text-primary fa fa-angle-double-right mr-5"></i> 
+                        <span id="spn_rm_{{$item->id}}_title">{{$item->title}}</span>
+                        @if ($current_user->lecturer_id!=null)
+                        <a href="#" data-val="{{$item->id}}" class="btn-edit-modify-reading-material-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
+                        <a href="#" data-val="{{$item->id}}" class="btn-delete-reading-material"><i class="text-info fa fa-times ml-5 mr-5" style="font-size:80%;opacity:0.5;"></i></a>
+                        @endif 
+                        <span id="spn_rm_{{$item->id}}_desc">{{nl2br($item->description)}}</span>
+                        @if (!empty($item->reference_material_url))
+                        <br/>
+                        <a href="{{ $item->reference_material_url }}" style="font-size:85%" class="ml-15 text-primary" target="_blank">
+                            <i class="zmdi zmdi-square-right mr-5" class="text-primary"></i><span id="spn_rm_{{$item->id}}_url">{{ $item->reference_material_url }}</span>
+                        </a>
+                        @endif
+                        @if (!empty($item->upload_file_path))
+                        <br/>
+                        <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary" target="_blank">
+                            <i class="fa fa-download mr-5" class="text-primary"></i>Download
+                        </a>
+                        @endif
+                        <br/>
+                    </li>
+
+
+                @endif
+                
             @endforeach
             @else
                 <li class="ml-10"><i class="text-primary fa fa-angle-double-right mr-5"></i> None Uploaded</li>
@@ -96,19 +102,24 @@
             <hr class="light-grey-hr mb-5"/>
             @if ( ($courseClass) && $courseClass->announcements!=null && count($courseClass->announcements)>0)
             @foreach($courseClass->announcements as $item)
-                <dl>
-                    <dt class="mb-0"><i class="text-primary fa fa-bullhorn mr-5"></i><span id="spn_announcement_{{$item->id}}_title">{{ $item->title }}</span>
-                    @if ($current_user->lecturer_id!=null)
-                        <a href="#" data-val="{{$item->id}}" class="btn-edit-modify-announcement-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
-                        <a href="#" data-val="{{$item->id}}" class="btn-delete-announcement"><i class="text-info fa fa-times ml-5 mr-5" style="font-size:80%;opacity:0.5;"></i></a>
-                    @endif
-                    </dt>
-                    <dd class="mb-0" style="font-size:85%;"><span id="spn_announcement_{{$item->id}}_desc">{{ $item->description }}</span></dd>
-                </dl>
-                <p class="text-primary" style="font-size:80%;">
-                    Posted on {{ $item->created_at->format('d-M-Y') }}
-                </p>
-                <hr class="light-grey-hr mb-10"/>
+                @if ($item->course_class_id == $courseClass->id )
+
+                    <dl>
+                        <dt class="mb-0"><i class="text-primary fa fa-bullhorn mr-5"></i><span id="spn_announcement_{{$item->id}}_title">{{ $item->title }}</span>
+                        @if ($current_user->lecturer_id!=null)
+                            <a href="#" data-val="{{$item->id}}" class="btn-edit-modify-announcement-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
+                            <a href="#" data-val="{{$item->id}}" class="btn-delete-announcement"><i class="text-info fa fa-times ml-5 mr-5" style="font-size:80%;opacity:0.5;"></i></a>
+                        @endif
+                        </dt>
+                        <dd class="mb-0" style="font-size:85%;"><span id="spn_announcement_{{$item->id}}_desc">{{ $item->description }}</span></dd>
+                    </dl>
+                    <p class="text-primary" style="font-size:80%;">
+                        Posted on {{ $item->created_at->format('d-M-Y') }}
+                    </p>
+                    <hr class="light-grey-hr mb-10"/>
+
+                @endif
+                
             @endforeach
             @else
                 <p style="font-size:95%;" class="muted">No Announcements</p>
