@@ -7,16 +7,27 @@
                     Final Grade
                 </td>
                 @foreach($gradeManager->get_assignment_list() as $idx=>$item)
-                <td class="text-center" style="font-size:80%">
-                    Assignment {{ $item->assignment_number }} <br/>
-                    <span class="text-info">{{ $item->grade_max_points }}pts ({{ $item->grade_contribution_pct }}%)</span>
-                </td>
+                
+                @if ($item->course_class_id == $courseClass->id )
+
+                    <td class="text-center" style="font-size:80%">
+                        Assignment {{ $item->assignment_number }} - {{ $item->title }} <br/>
+                        <span class="text-info">{{ $item->grade_max_points }}pts ({{ $item->grade_contribution_pct }}%)</span>
+                    </td>   
+                @endif
+
                 @endforeach
                 @foreach($gradeManager->get_examination_list() as $idx=>$item)
-                <td class="text-center" style="font-size:80%">
-                    Exam {{ $item->examnation_number }} - {{ $item->title }}<br/>
-                    <span class="text-info">{{ $item->grade_max_points }}pts ({{ $item->grade_contribution_pct }}%)</span>
-                </td>
+
+                @if ($item->course_class_id == $courseClass->id )
+
+                    <td class="text-center" style="font-size:80%">
+                        Exam {{ $item->examnation_number }} - {{ $item->title }}<br/>
+                        <span class="text-info">{{ $item->grade_max_points }}pts ({{ $item->grade_contribution_pct }}%)</span>
+                    </td>
+
+                @endif
+                
                 @endforeach
             </tr>
         </thead>
@@ -28,21 +39,31 @@
             </td>
 
             @foreach($gradeManager->get_assignment_list() as $idx=>$item)
-            <td>
-                @php
-                $grade_item['assignments'][$idx]
-                @endphp
-                {!! Form::number("txt_{$idx}", null, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => 'form-control']) !!}
-            </td>
+
+            @if ($item->course_class_id == $courseClass->id )
+
+                <td>
+                    @php
+                    $grade_item['assignments'][$idx]
+                    @endphp
+                    {!! Form::number("txt_{$idx}", null, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => 'form-control']) !!}
+                </td>
+
+            @endif
+            
             @endforeach
 
             @foreach($gradeManager->get_examination_list() as $idx=>$item)
-            <td>
-                @php
-                $grade_item['examinations'][$idx]
-                @endphp
-                {!! Form::number("txt_{$idx}", null, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => 'form-control']) !!}
-            </td>
+
+            @if ($item->course_class_id == $courseClass->id )
+                <td>
+                    @php
+                    $grade_item['examinations'][$idx]
+                    @endphp
+                    {!! Form::number("txt_{$idx}", null, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => 'form-control']) !!}
+                </td>
+            @endif
+            
             @endforeach
         </tr>
         @endforeach
