@@ -21,6 +21,10 @@ Semesters
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
 
+                    <p><a href="#"  class="btn btn-xs btn-primary btn-new-mdl-semester-modal">
+                        <i class="fa fa-plus" style=""></i> Create New Semester
+                    </a> </p> <br>
+
                     <div class="table-wrap">
                         <div class="table-responsive">
                             @include('semesters.table')

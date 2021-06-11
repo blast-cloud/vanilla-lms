@@ -32,8 +32,8 @@ class UpdateSemesterRequest extends AppBaseFormRequest
         */
 
         return [
-            'id' => 'required|numeric|exists:semesters,id',
-            'code' => 'required',
+            'id' => "required|numeric|exists:semesters,id",
+            'code' => "required|unique:semesters,code,{$this->id}",
             'start_date' => 'required',
             'end_date' => 'required'
         ];

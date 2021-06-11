@@ -28,9 +28,25 @@ class CreateSemesterRequest extends AppBaseFormRequest
         //return Semester::$rules;
 
         return [
-            'code' => 'required',
+            'code' => "required|unique:semesters,code,{$this->id}",
             'start_date' => 'required',
             'end_date' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'The :attribute field is required.'
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'code' => 'Code',
+            'start_date' => 'Start Date',
+            'end_date' => 'End Date'
         ];
     }
 }

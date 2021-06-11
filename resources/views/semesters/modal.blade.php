@@ -16,6 +16,10 @@
                         <div class="col-lg-12 ma-10">
                             @csrf
 
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
                             <input type="hidden" id="txt-semester-primary-id" value="0" />
                             <div id="div-show-txt-semester-primary-id">
                                 <div class="row">
@@ -56,19 +60,21 @@ $(document).ready(function() {
         $('#mdl-semester-modal').modal('show');
         $('#frm-semester-modal').trigger("reset");
         $('#txt-semester-primary-id').val(0);
-
+        $('.modal-footer').show();
         $('#div-show-txt-semester-primary-id').hide();
         $('#div-edit-txt-semester-primary-id').show();
+        $('.spinner1').hide();
     });
 
     //Show Modal for View
     $(document).on('click', ".btn-show-mdl-semester-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.modal-footer').hide();
         $('#div-show-txt-semester-primary-id').show();
         $('#div-edit-txt-semester-primary-id').hide();
         let itemId = $(this).attr('data-val');
+        $('.spinner1').hide();
 
         // $.get( "{{URL::to('/')}}/api/semesters/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/semesters/"+itemId).done(function( response ) {
@@ -89,7 +95,10 @@ $(document).ready(function() {
 
         $('#div-show-txt-semester-primary-id').hide();
         $('#div-edit-txt-semester-primary-id').show();
+        $('.modal-footer').show();
         let itemId = $(this).attr('data-val');
+        $('.spinner1').hide();
+        
 
         // $.get( "{{URL::to('/')}}/api/semesters/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/semesters/"+itemId).done(function( response ) {            
@@ -97,9 +106,10 @@ $(document).ready(function() {
 			$('#mdl-semester-modal').modal('show');
 			$('#frm-semester-modal').trigger("reset");
 			$('#txt-semester-primary-id').val(response.data.id);
+            $('#code').val(response.data.code);
+            $('#start_date').val(response.data.start_date);
+            $('#end_date').val(response.data.end_date);
 
-            // $('#').val(response.data.);
-            // $('#').val(response.data.);
         });
     });
 
@@ -141,6 +151,8 @@ $(document).ready(function() {
     $('#btn-save-mdl-semester-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+        $('.spinner1').show();
+        $('#btn-save-mdl-semester-modal').prop("disabled", true);
 
         let actionType = "POST";
         // let endPointUrl = "{{URL::to('/')}}/api/semesters/create";
@@ -158,8 +170,9 @@ $(document).ready(function() {
         }
         
         formData.append('_method', actionType);
-        // formData.append('', $('#').val());
-        // formData.append('', $('#').val());
+        formData.append('code', $('#code').val());
+        formData.append('start_date', $('#start_date').val());
+        formData.append('end_date', $('#end_date').val());
 
         $.ajax({
             url:endPointUrl,
@@ -173,11 +186,15 @@ $(document).ready(function() {
                 if(result.errors){
 					$('#div-semester-modal-error').html('');
 					$('#div-semester-modal-error').show();
+                    $('.spinner1').hide();
+                    $('#btn-save-mdl-semester-modal').prop("disabled", false);
                     
                     $.each(result.errors, function(key, value){
                         $('#div-semester-modal-error').append('<li class="">'+value+'</li>');
                     });
                 }else{
+                    $('.spinner1').hide();
+                    $('#btn-save-mdl-semester-modal').prop("disabled", false);
                     $('#div-semester-modal-error').hide();
                     window.setTimeout( function(){
                         window.alert("The Semester record saved successfully.");
@@ -186,6 +203,8 @@ $(document).ready(function() {
                     },20);
                 }
             }, error: function(data){
+                $('.spinner1').hide();
+                $('#btn-save-mdl-semester-modal').prop("disabled", false);
                 console.log(data);
             }
         });

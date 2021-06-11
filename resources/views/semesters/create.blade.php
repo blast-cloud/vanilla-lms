@@ -34,11 +34,11 @@ Create Semester
                             </div>
                         </div>
                         <div class="col-sm-4">
-                            <blockquote class="muted" style="color:#9a9696;font-size:90%;border-left: 4px solid #c9c7f3;">
+                            {{-- <blockquote class="muted" style="color:#9a9696;font-size:90%;border-left: 4px solid #c9c7f3;">
                                 This is the help message <br/><br/>
                                 This is the help message <br/><br/>
                                 This is the help message <br/>
-                            </blockquote>
+                            </blockquote> --}}
                         </div>
 
                     </div>
