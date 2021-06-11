@@ -18,6 +18,14 @@ class SemesterDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
+        $dataTable->addColumn('start_date', function ($query) {   
+            return date('d-m-Y', strtotime($query->start_date)); 
+        });
+
+        $dataTable->addColumn('end_date', function ($query) { 
+            return date('d-m-Y', strtotime($query->end_date));   
+        });
+
         return $dataTable->addColumn('action', 'semesters.datatables_actions');
     }
 

@@ -33,6 +33,7 @@ use App\Models\User;
 use App\Models\Course;
 use App\Models\Lecturer;
 use App\Models\Department;
+use App\Models\Semester;
 
 
 class ManagerDashboardController extends AppBaseController
@@ -93,6 +94,8 @@ class ManagerDashboardController extends AppBaseController
                             ->pluck('full_name','id')
                             ->toArray();
 
+        $semesterItems = Semester::all()->pluck('code','id');
+
         $lecturerItems = Lecturer::select(DB::raw("CONCAT(COALESCE(job_title, ''),' ',last_name,', ',first_name) AS name"),'id')
                             ->pluck('name','id')
                             ->toArray();
@@ -105,6 +108,7 @@ class ManagerDashboardController extends AppBaseController
                     ->with('courseItems', $courseItems)
                     ->with('student_count', $student_count)
                     ->with('lecturerItems', $lecturerItems)
+                    ->with('semesterItems', $semesterItems)
                     ->with('department_calendar_items', $department_calendar_items)
                     ->with('course_catalog_items', $course_catalog_items)
                     ->with('class_schedules_unassigned', $class_schedules_unassigned);
@@ -146,6 +150,8 @@ class ManagerDashboardController extends AppBaseController
                             ->pluck('full_name','id')
                             ->toArray();
 
+        $semesterItems = Semester::all()->pluck('code','id');
+
         $lecturerItems = Lecturer::select(DB::raw("CONCAT(COALESCE(job_title, ''),' ',last_name,', ',first_name) AS name"),'id')
                             ->where('department_id', $current_user->department_id )
                             ->pluck('name','id')
@@ -157,6 +163,7 @@ class ManagerDashboardController extends AppBaseController
                     ->with('current_user', $current_user)
                     ->with('courseItems', $courseItems)
                     ->with('lecturerItems', $lecturerItems)
+                    ->with('semesterItems', $semesterItems)
                     ->with('dataTable', $class_schedulesDataTable->html());
     }
 

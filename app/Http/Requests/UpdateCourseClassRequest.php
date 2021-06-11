@@ -38,11 +38,12 @@ class UpdateCourseClassRequest extends AppBaseFormRequest
             'credit_hours' => 'sometimes|required',
             'course_id' => 'sometimes|required',
             'lecturer_id' => 'sometimes|required',
+            'semester_id' => 'sometimes|required',
         ];
     }
 
     public function course_class_exist(){
-        return CourseClass::where('code', $this->code)->where('lecturer_id', $this->lecturer_id)->where('id','<>', $this->id)->get();
+        return CourseClass::where('code', $this->code)->where('lecturer_id', $this->lecturer_id)->where('semester_id', $this->lecturer_id)->where('id','<>', $this->id)->get();
     }
 
     public function withValidator($validator)

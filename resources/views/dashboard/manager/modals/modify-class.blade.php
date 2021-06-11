@@ -34,6 +34,14 @@
 
                                         <!-- Course Id Field -->
                                         <div id="div-course_id" class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="semester_id">Semester</label>
+                                            <div class="col-sm-9">
+                                                {!! Form::select('semester_id', $semesterItems, null, ['id'=>'semester_id','class'=>'form-control select2']) !!}
+                                            </div>
+                                        </div>
+
+                                        <!-- Course Id Field -->
+                                        <div id="div-course_id" class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
                                             <div class="col-sm-9">
                                                 {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!}
@@ -133,6 +141,7 @@ $(document).ready(function() {
 
             $('#course_id').val(response.data.course_id).trigger('change');
             $('#lecturer_id').val(response.data.lecturer_id).trigger('change');
+            $('#semester_id').val(response.data.semester_id).trigger('change');
         });
     });
 
@@ -199,6 +208,7 @@ $(document).ready(function() {
             formData.append('course_id', $('#course_id').val());
             formData.append('department_id', {{$department->id}});
             formData.append('lecturer_id', $('#lecturer_id').val());
+            formData.append('semester_id', $('#semester_id').val());
 
             $.ajax({
                 url:endPointUrl,
@@ -232,7 +242,7 @@ $(document).ready(function() {
                     $('#btn-save-mdl-courseClass-modal').prop("disabled", false);
                     $('#div-courseClass-modal-error').html('');
                     $('#div-courseClass-modal-error').show();
-                    $('#div-courseClass-modal-error').append('<li class="">Course and Lecturer Field are Required</li>');
+                    $('#div-courseClass-modal-error').append('<li class="">Semester, Course and Lecturer Field are Required</li>');
     
                 }
             });

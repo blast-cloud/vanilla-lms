@@ -35,11 +35,12 @@ class CreateCourseClassRequest extends AppBaseFormRequest
             'credit_hours' => 'required',
             'course_id' => 'required',
             'lecturer_id' => 'required',
+            'semester_id' => 'required',
         ];
     }
 
     public function course_class_exist(){
-        return CourseClass::where('code', $this->code)->where('lecturer_id', $this->lecturer_id)->get();
+        return CourseClass::where('code', $this->code)->where('lecturer_id', $this->lecturer_id)->where('semester_id', $this->semester_id)->get();
     }
 
     public function withValidator($validator)
