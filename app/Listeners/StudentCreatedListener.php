@@ -5,6 +5,8 @@ namespace App\Listeners;
 use App\Events\StudentCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\StudentCreatedNotification;
 
 use App\Models\User;
 use Hash;
@@ -41,5 +43,6 @@ class StudentCreatedListener
         $user->save();
         
         //Send notification email
+        Notification::send($event->student, new StudentCreatedNotification($event->student));
     }
 }

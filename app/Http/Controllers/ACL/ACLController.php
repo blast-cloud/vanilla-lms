@@ -30,6 +30,9 @@ use App\Events\StudentCreated;
 use App\Events\ManagerCreated;
 use App\Events\LecturerCreated;
 
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\PasswordResetNotification;
+
 class ACLController extends AppBaseController
 {
 
@@ -90,6 +93,10 @@ class ACLController extends AppBaseController
         $current_user = User::find($id);
         $current_user->password = Hash::make($request->password);
         $current_user->save();
+
+        //Send notification email
+        Notification::send($current_user, new PasswordResetNotification($current_user, $request));
+
         return $current_user;
     }
 

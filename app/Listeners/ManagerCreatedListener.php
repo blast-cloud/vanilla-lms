@@ -5,6 +5,8 @@ namespace App\Listeners;
 use App\Events\ManagerCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ManagerCreatedNotification;
 
 use App\Models\User;
 use Hash;
@@ -41,5 +43,6 @@ class ManagerCreatedListener
         $user->save();
         
         //Send notification email
+        Notification::send($event->manager, new ManagerCreatedNotification($event->manager));
     }
 }
