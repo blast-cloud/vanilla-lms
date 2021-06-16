@@ -16,7 +16,7 @@
         {!! Form::label('due_date', 'Due Date:', ['class'=>'control-label']) !!} 
         <span id="spn_calendarEntry_due_date">
         @if (isset($calendarEntry->due_date))
-            {!! $calendarEntry->due_date !!}
+            {!! $calendarEntry->due_date->format('d-M-Y') !!}
         @endif
         </span>
     </p>
