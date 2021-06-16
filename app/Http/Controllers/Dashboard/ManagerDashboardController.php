@@ -34,6 +34,7 @@ use App\Models\Course;
 use App\Models\Lecturer;
 use App\Models\Department;
 use App\Models\Semester;
+use App\Models\CourseClass;
 
 
 class ManagerDashboardController extends AppBaseController
@@ -256,7 +257,8 @@ class ManagerDashboardController extends AppBaseController
             return $studentEnrollmentDataTable->ajax();
         }
 
-        $courseItems = $class_schedules->pluck('name','id')->toArray();
+        /* $courseItems = $class_schedules->pluck('name','id')->toArray(); */
+        $courseItems = CourseClass::where('department_id', $current_user->department_id)->get();
 
         return view("dashboard.manager.student")
                     ->with('student', $student)
