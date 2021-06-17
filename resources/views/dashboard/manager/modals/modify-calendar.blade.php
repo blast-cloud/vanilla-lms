@@ -82,7 +82,7 @@ $(document).ready(function() {
 			$('#txt-calendarEntry-primary-id').val(response.data.id);
 
             $('#spn_calendarEntry_title').html(response.data.title);
-            $('#spn_calendarEntry_due_date').html(response.data.due_date);
+            $('#spn_calendarEntry_due_date').html(new Intl.DateTimeFormat('en-GB', { dateStyle: 'long',  }).format(Date.parse(response.data.due_date)));
             $('#spn_calendarEntry_description').html(response.data.description);   
         });
     });

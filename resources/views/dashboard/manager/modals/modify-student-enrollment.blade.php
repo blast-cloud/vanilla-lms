@@ -35,7 +35,16 @@
                                         <div id="div-course_id" class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
                                             <div class="col-sm-9">
-                                                {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!}
+                                                {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
+
+                                                <select class="form-control select2" id="course_id" name="course_id">
+         
+                                                    @foreach ( $courseItems as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->code }} :: {{ $item->name }} taught by {{ $item->lecturer->job_title }} {{ $item->lecturer->last_name }}  {{ $item->lecturer->first_name }}  </option>
+                                                    @endforeach
+
+                                                  </select>
+
                                             </div>
                                         </div>
 

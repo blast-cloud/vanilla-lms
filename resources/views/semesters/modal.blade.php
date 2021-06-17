@@ -82,9 +82,9 @@ $(document).ready(function() {
 			$('#mdl-semester-modal').modal('show');
 			$('#frm-semester-modal').trigger("reset");
 			$('#txt-semester-primary-id').val(response.data.id);
-
-            // $('#spn_semester_').html(response.data.);
-            // $('#spn_semester_').html(response.data.);   
+            $('#spn_semester_code').html(response.data.code);
+            $('#spn_semester_start_date').html(new Intl.DateTimeFormat('en-GB', { dateStyle: 'long',  }).format(Date.parse(response.data.start_date)));
+            $('#spn_semester_end_date').html(new Intl.DateTimeFormat('en-GB', { dateStyle: 'long',  }).format(Date.parse(response.data.end_date))); 
         });
     });
 

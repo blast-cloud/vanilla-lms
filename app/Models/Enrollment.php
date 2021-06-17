@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @SWG\Definition(
@@ -63,7 +64,7 @@ class Enrollment extends Model
 {
     use SoftDeletes;
 
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     public $table = 'enrollments';
     
