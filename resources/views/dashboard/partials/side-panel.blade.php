@@ -20,6 +20,13 @@
 
 
 
+                @if (isset($announcements) && isset($department) && $current_user->manager_id == null)
+
+                @include('dashboard.manager.partials.announcements')
+                    
+                @endif
+
+
                 <div class="panel panel-default card-view">
                     <div class="panel-heading" style="padding: 10px 5px 5px 15px;">
                         <div class="pull-left">
