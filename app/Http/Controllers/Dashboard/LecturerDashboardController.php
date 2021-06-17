@@ -15,6 +15,7 @@ use App\Repositories\CourseRepository;
 use App\Repositories\DepartmentRepository;
 use Response;
 use Request;
+use App\Models\Announcement;
 
 class LecturerDashboardController extends AppBaseController
 {
@@ -52,14 +53,16 @@ class LecturerDashboardController extends AppBaseController
     {
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
-
+        $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)->get();
         
         $class_schedules = $this->courseClassRepository->all([
             'lecturer_id'=>$current_user->lecturer_id,
         ]);
 
+
         return view("dashboard.lecturer.index")
                     ->with('department', $department)
+                    ->with('announcements', $announcements)
                     ->with('current_user', $current_user)
                     ->with('class_schedules', $class_schedules);
 

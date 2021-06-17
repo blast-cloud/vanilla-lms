@@ -35,6 +35,7 @@ use App\Models\Lecturer;
 use App\Models\Department;
 use App\Models\Semester;
 use App\Models\CourseClass;
+use App\Models\Announcement;
 
 
 class ManagerDashboardController extends AppBaseController
@@ -80,7 +81,7 @@ class ManagerDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
 
-        $announcements = $this->announcementRepository->all(['department_id'=>$current_user->department_id],null, 10);
+        $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)->get();
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $department_calendar_items = $this->calendarEntryRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $course_catalog_items = $this->courseRepository->all(['department_id'=>$current_user->department_id],null, 10);
@@ -218,6 +219,7 @@ class ManagerDashboardController extends AppBaseController
             return $lecturersDataTable->ajax();
         }
 
+
         return view("dashboard.manager.tables.lecturers")
                     ->with('department', $department)
                     ->with('class_schedules', $class_schedules)
@@ -232,6 +234,8 @@ class ManagerDashboardController extends AppBaseController
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $studentsDataTable = new DepartmentStudentsDataTable($current_user->department_id);
+
+       
 
         if ($request->expectsJson()) {
             return $studentsDataTable->ajax();

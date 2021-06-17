@@ -83,6 +83,7 @@ $(document).ready(function() {
         $('#div-show-txt-lecturer-primary-id').show();
         $('#div-edit-txt-lecturer-primary-id').hide();
         let itemId = $(this).attr('data-val');
+        
 
         $.get( "{{URL::to('/')}}/api/lecturers/"+itemId).done(function( response ) {
 			$('#div-lecturer-modal-error').hide();

@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\LecturerUpdated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use App\Models\User;
 
 class LecturerUpdatedListener
 {
@@ -26,6 +27,14 @@ class LecturerUpdatedListener
      */
     public function handle(LecturerUpdated $event)
     {
-        //
+        //Update user Record
+        $user = User::where('email', $event->lecturer->email)->first();
+        $user->email = $event->lecturer->email;
+        $user->telephone = $event->lecturer->telephone;
+        $user->lecturer_id = $event->lecturer->id;
+        $user->department_id = $event->lecturer->department_id;
+        $user->name = "{$event->lecturer->first_name} {$event->lecturer->last_name}";
+        $user->is_platform_admin = false;
+        $user->save();
     }
 }
