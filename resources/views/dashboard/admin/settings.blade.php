@@ -24,7 +24,7 @@ Admin Settings
             <div class="tab-struct custom-tab-1 mt-20">
                 <ul role="tablist" class="nav nav-pills" id="myTabs_6">
                     <li class="active" role="presentation"><a aria-expanded="true" data-toggle="tab" role="tab" id="home_tab_6" href="#home_6">General Settings</a></li>
-                    <li role="presentation" class=""><a data-toggle="tab" id="profile_tab_5" role="tab" href="#profile_5" aria-expanded="false">Registration & Enrollemnts</a></li>
+                    <li role="presentation" class=""><a data-toggle="tab" id="profile_tab_5" role="tab" href="#profile_5" aria-expanded="false">Registration & Enrollments</a></li>
                     <li role="presentation" class=""><a data-toggle="tab" id="profile_tab_6" role="tab" href="#profile_6" aria-expanded="false">Text</a></li>
                     <li role="presentation" class=""><a data-toggle="tab" id="profile_tab_7" role="tab" href="#profile_7" aria-expanded="false">Graphics</a></li>
                 </ul>

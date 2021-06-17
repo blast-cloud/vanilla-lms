@@ -1,31 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <title>
             {{$app_settings['txt_long_name']??''}}
             @yield('title', config('app.title', 'LMS'))
             @yield('title_prefix')
-            @yield('title_postfix', config('app.title_postfix', ''))
+            Recover Lost Password
         </title>
         <meta name="description" content="{{$app_settings['txt_long_name']??''}} Learning Management System." />
         <meta name="keywords" content="LMS, VanillaLMS, Foresight, Hasob" />
         
-        <!-- Favicon -->
-        <link rel="shortcut icon" href="favicon.ico">
-        <link rel="icon" href="favicon.ico" type="image/x-icon">
-                
-        <!-- Bootstrap Wysihtml5 css -->
-        <link rel="stylesheet" href="{{ asset('vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css') }}" />
-	
-        <!-- Bootstrap Datetimepicker CSS -->
-        <link href="{{ asset('vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" type="text/css"/>
-            
-        <!-- Bootstrap Daterangepicker CSS -->
-        <link href="{{ asset('vendors/bower_components/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		
+		<!-- vector map CSS -->
+		<link href="{{ asset('vendors/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+		
+		<!-- Custom CSS -->
+		<link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css">
 
-        <!-- Custom CSS -->
-        <link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css" />
-        
+
+        <style>
+            .image-container {
+                position: relative;
+                text-align: center;
+                color: white;
+            }
+
+            /* Bottom right text */
+            .image-text-bottom-right {
+                position: absolute;
+                bottom: 8px;
+                right: 16px;
+            }
+
+            /* Bottom left text */
+            .image-text-bottom-left {
+                position: absolute;
+                bottom: 20px;
+                left: 80px;
+            }
+
+        </style>
+
+
 	</head>
 	<body>
 		<!--Preloader-->
@@ -33,170 +54,246 @@
 			<div class="la-anim-1"></div>
 		</div>
 		<!--/Preloader-->
-		
-		<div class="wrapper theme-1-active pimary-color-blue">
-			
-            <form method="post" action="{{ route('password.email')}}">
-            @csrf
 
-                <!-- Main Content -->
-                <div class="page-wrapper pa-0 ma-0 auth-page">
-                    <div class="container-fluid">
-                        <!-- Row -->
-                        <div class="table-struct full-width full-height">
-                            <div class="table-cell vertical-align-middle auth-form-wrap">
-                                <div class="auth-form  ml-auto mr-auto no-float">
-                                    <div class="row">
-                                        <div class="col-sm-12 col-xs-12">
-                                        
-                                            <div class="mb-30 text-center">
-                                                @if (isset($app_settings['file_high_res_picture']))
-                                                    {{-- <img src= "{{ asset('dist/img/logouzzz.jpg') }}" style="width:100px;height:100px;" class="user-auth-img"> --}}
-                                                    <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
-                                                @endif
-{{-- 
-                                                <h3 class="text-center txt-dark mb-10">Zambezi University</h3>
-                                                <h6 class="text-center nonecase-font txt-grey">Login to eLearning Portal</h6> --}}
+        <div class="wrapper pa-0">
+                
+            <header class="sp-header">
+                <div class="sp-logo-wrap pull-left">
+                    <a href="/">
+                        @if (isset($app_settings['file_icon_picture']))
+                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
+                        @endif
+                        <span class="brand-text">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                    </a>
+                </div>
+                <div class="form-group mb-0 pull-right">
+                    {{-- <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="/">Home</a> --}}
+                </div>
+                <div class="clearfix"></div>
+            </header>
 
-                                                <h3 class="text-center txt-dark mb-10">
-                                                    {!! $app_settings['txt_long_name'] ?? '' !!}
-                                                    {{-- Zambezi University --}}
-                                                </h3>
-                                                <h6 class="text-center nonecase-font txt-grey">
-                                                    You forgot your password? Here you can easily retrieve a new password.
-                                                    {{-- ETECH DEMO SCHOOL --}}
-                                                </h6>
+            <div class="page-wrapper pa-20 ma-0">
+                <div class="container-fluid">
 
-                                                @if (session('status'))
-                                                    <div class="alert alert-success">
-                                                        {{ session('status') }}
-                                                    </div>
-                                                @endif
+                    <div class="row mt-50 ">
 
-                                            </div>	
+                        <div class="col-lg-8">
 
-                                            <div class="mb-30">
-                                                @if ($errors->any())
-                                                <div class="alert alert-danger alert-dismissible" style="margin:15px;">
-                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                                                    <h4><i class="icon fa fa-warning"></i> Errors!</h4>
-                                                    <ul>
-                                                        @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                                @endif
-
-                                                @if ($message = Session::get('error'))
-                                                <div class="alert alert-danger alert-block" style="margin:15px;">
-                                                    <button type="button" class="close" data-dismiss="alert">×</button>
-                                                    <strong>{{ $message }}</strong>
-                                                </div>
-                                                @endif
+                            @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
+                            <div class="col-lg-12 text-center">
+                                <div class="panel panel-default card-view">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pt-5" style="">
+                                            
+                                            <div class="col-lg-12 text-center mt-10">
 
 
-                                                @if ($message = Session::get('warning'))
-                                                <div class="alert alert-warning alert-block" style="margin:15px;">
-                                                    <button type="button" class="close" data-dismiss="alert">×</button>
-                                                    <strong>{{ $message }}</strong>
-                                                </div>
-                                                @endif
+                                                <form method="post" action="{{ url('/login') }}">
+                                                    @csrf
+                                
+                                                        
+                                                        
+                                                        <!-- Row -->
+                                                        <div class="table-struct full-width ">
+                                                            <div class="table-cell vertical-align-middle auth-form-wrap">
+                                                                <div class="auth-form  ml-auto mr-auto no-float">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12 col-xs-12">
+                                                                        
+                                                                            <div class="mb-30 text-center">
+                                                                            
+                                                                                <h6 class="text-center nonecase-font txt-grey">
+                                                                                    Recover lost Password
+                                                                                </h6>
+                                                                            
+                                                                            </div>	
+                                
+                                                                            <div class="mb-30">
+                                                                                @if ($errors->any())
+                                                                                <div class="alert alert-danger alert-dismissible" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                                                    <h4><i class="icon fa fa-warning"></i> Errors!</h4>
+                                                                                    <ul>
+                                                                                        @foreach ($errors->all() as $error)
+                                                                                        <li>{{ $error }}</li>
+                                                                                        @endforeach
+                                                                                    </ul>
+                                                                                </div>
+                                                                                @endif
+                                
+                                                                                @if ($message = Session::get('error'))
+                                                                                <div class="alert alert-danger alert-block" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </div>
+                                                                                @endif
+                                
+                                
+                                                                                @if ($message = Session::get('warning'))
+                                                                                <div class="alert alert-warning alert-block" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </div>
+                                                                                @endif
+                                
+                                
+                                                                                @if ($message = Session::get('info'))
+                                                                                <div class="alert alert-info alert-block" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </div>
+                                                                                @endif
+                                
+                                                                                @if ($message = Session::get('success'))
+                                                                                <div class="alert alert-success alert-block" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </div>
+                                                                                @endif
+                                
+                                
+                                                                            </div>
+                                
+                                                                            <form method="post" action="{{ route('password.email')}}">
+                                                                                @csrf
+                                                
+                                                                                <div class="form-group">
+                                                                                    <label class="control-label mb-10" for="exampleInputEmail_2">{{ __('E-Mail Address') }}</label>
+                                                                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                                                                    @error('email')
+                                                                                        <span class="invalid-feedback" role="alert">
+                                                                                            <strong>{{ $message }}</strong>
+                                                                                        </span>
+                                                                                    @enderror
+                                                                                </div>
+
+                                                                                <div class="form-group text-center">
+                                                                                    <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
+                                                                                </div>
+                                    
+                                                                                <div class="form-group">
+                                                                                    <div class=" pr-10 pull-left">
+                                                                                        {{-- <a style="color:blue" href="{{ route("login") }}">Login</a> --}}
+                                                                                    </div>
+                                                                                    <div class="clearfix"></div>
+                                                                                </div>
+
+                                                                            </form>
+                                                                            
+                                                                        </div>	
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /Row -->	
+
+                                                    </form>
 
 
-                                                @if ($message = Session::get('info'))
-                                                <div class="alert alert-info alert-block" style="margin:15px;">
-                                                    <button type="button" class="close" data-dismiss="alert">×</button>
-                                                    <strong>{{ $message }}</strong>
-                                                </div>
-                                                @endif
 
-
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label class="control-label mb-10" for="exampleInputEmail_2">{{ __('E-Mail Address') }}</label>
-                                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                                                @error('email')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
                                             </div>
                                             
-                                            
-
-                                            <div class="form-group text-center">
-                                                <button type="submit" class="btn btn-primary">Send Password Reset Link</button>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class=" pr-10 pull-left">
-                                                   
-                                                    <a style="color:blue" href="{{ route("login") }}">Login</a>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            
-                                        </div>	
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!-- /Row -->	
-                    </div>
-                    
-                </div>
-                <!-- /Main Content -->
-            
-            </form>
+                            @endif
 
-            <footer class="footer container-fluid pl-30 pr-30"> 
-				<div class="row">
-					<div class="col-sm-5" style="font-size:80%">
-                        {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a>
-						<!-- <ul class="footer-link nav navbar-nav">
-							<li class="logo-footer"><a href="#">help</a></li>
-							<li class="logo-footer"><a href="#">terms</a></li>
-							<li class="logo-footer"><a href="#">privacy</a></li>
-						</ul> -->
-					</div>
-					<div class="col-sm-7 text-right" style="font-size:80%">
-						SPONSORED BY <a href="https://www.tetfund.gov.ng" target="_blank">TETFUND/ICT/2019-20</a>
-					</div>	
-				</div>	
-			</footer>
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <div class="col-lg-12 text-center">
+                                <div class="panel panel-default card-view">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pt-5" style="">
+                                
+                                            <div class="col-lg-12 text-center">
+                                                @if (isset($app_settings['file_high_res_picture']))
+                                                    <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
+                                                @endif
+                                                <h3 class="text-center txt-dark mb-10">
+                                                    {!! $app_settings['txt_short_name'] ?? '' !!}
+                                                </h3>
+                                                <h6 class="text-center nonecase-font txt-grey">
+                                                    {!! $app_settings['txt_app_name'] ?? '' !!}
+                                                </h6>
+                                            </div>
+                                            <div class="col-lg-12 text-center mt-20">
+                                                <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
+
+                                                @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
+                                                    {{-- <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a> --}}
+                                                @endif
+
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-12 mt-20">
+                                @if (isset($app_settings['txt_portal_contact_phone']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_name']))
+                                <div class="panel panel-default card-view">
+                                    <div class="panel-heading pb-5" style="">
+                                        <div class="pull-left">
+                                            <h6 class="panel-title txt-dark">Help & Support</h6>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pt-5" style="">
+                                            <p>If you are having challenges with the portal please contact;</p>
+                                            @if (isset($app_settings['txt_portal_contact_name']))
+                                            <i class="fa fa-user ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_name'] }}<br/>
+                                            @endif
+                                            @if (isset($app_settings['txt_portal_contact_phone']))
+                                            <i class="fa fa-phone ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_phone'] }}<br/>
+                                            @endif
+                                            @if (isset($app_settings['txt_portal_contact_email']))
+                                            <i class="fa fa-envelope ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_email'] }}<br/>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                            
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <footer class="footer container-fluid pl-30 pr-30"> 
+                    <div class="row">
+                        <div class="col-sm-5" style="font-size:80%">
+                            {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a>
+                        </div>
+                        <div class="col-sm-7 text-right" style="font-size:80%">
+                            SPONSORED BY <a href="https://www.tetfund.gov.ng" target="_blank">TETFUND/ICT/2019-20</a>
+                        </div>	
+                    </div>	
+                </footer>
+
+            </div>
 
 		</div>
-		<!-- /#wrapper -->
+		<!-- JavaScript -->
 		
-        <!-- jQuery -->
-        <script src="{{ asset('vendors/bower_components/jquery/dist/jquery.min.js') }}"></script>
-
-        <!-- Bootstrap Core JavaScript -->
-        <script src="{{ asset('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-
-        <!-- wysuhtml5 Plugin JavaScript -->
-        <script src="{{ asset('vendors/bower_components/wysihtml5x/dist/wysihtml5x.min.js') }}"></script>
-
-        <script src="{{ asset('vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.js') }}"></script>
-
-        <!-- Fancy Dropdown JS -->
-        <script src="{{ asset('dist/js/dropdown-bootstrap-extended.js') }}"></script>
-
-        <!-- Bootstrap Wysuhtml5 Init JavaScript -->
-        <script src="{{ asset('dist/js/bootstrap-wysuhtml5-data.js') }}"></script>
-
-        <!-- Slimscroll JavaScript -->
-        <script src="{{ asset('dist/js/jquery.slimscroll.js') }}"></script>
-
-        <!-- Owl JavaScript -->
-        <script src="{{ asset('vendors/bower_components/owl.carousel/dist/owl.carousel.min.js') }}"></script>
-
-        <!-- Switchery JavaScript -->
-        <script src="{{ asset('vendors/bower_components/switchery/dist/switchery.min.js') }}"></script>
-
-        <!-- Init JavaScript -->
-        <script src="{{ asset('dist/js/init.js') }}"></script>		
+		<!-- jQuery -->
+		<script src="{{ asset('vendors/bower_components/jquery/dist/jquery.min.js') }}"></script>
+		
+		<!-- Bootstrap Core JavaScript -->
+		<script src="{{ asset('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('vendors/bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js') }}"></script>
+		
+		<!-- Slimscroll JavaScript -->
+		<script src="{{ asset('dist/js/jquery.slimscroll.js') }}"></script>
+		
+		<!-- Init JavaScript -->
+		<script src="{{ asset('dist/js/init.js') }}"></script>
 	</body>
 </html>
+

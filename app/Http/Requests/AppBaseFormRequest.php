@@ -38,9 +38,26 @@ abstract class AppBaseFormRequest extends FormRequest
     {
         $errors = (new ValidationException($validator))->errors();
 
-        throw new HttpResponseException(
-            response()->json(['errors' => $errors], 200)
-        );
+        // throw new HttpResponseException(
+        //     response()->json(['errors' => $errors], 200)
+        // );
+
+        if($this->wantsJson())
+        {
+            $response = response()->json([
+                'errors' => $validator->errors()
+            ]);
+
+         }else{
+            $response = redirect()
+                            ->back()
+                            ->withErrors($validator)
+                            ->withInput();
+         }
+            
+         throw (new ValidationException($validator, $response))
+            ->errorBag($this->errorBag)
+            ->redirectTo($this->getRedirectUrl());
 
     }
 }

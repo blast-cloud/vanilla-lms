@@ -2,8 +2,16 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\Student;
+
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Foundation\Http\FormRequest;
+
+
 
 class CreateStudentRequest extends AppBaseFormRequest
 {
@@ -35,4 +43,23 @@ class CreateStudentRequest extends AppBaseFormRequest
             'telephone' => "required|digits:11|unique:students,telephone"
         ];
     }
+
+
+    // protected function failedValidation(Validator $validator)
+    // {
+    //     $errors = (new ValidationException($validator))->errors();
+
+    //     // if ($this->expectsJson()) {
+    //     //     throw new HttpResponseException(
+    //     //         response()->json(['errors' => $errors], 200)
+    //     //     );
+    //     // }else{
+    //     //     return redirect()->back()->withErrors($validator)->withInput();
+    //     // }
+
+
+
+    // }
+
+
 }

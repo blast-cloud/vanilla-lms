@@ -1,109 +1,325 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ config('app.name') }}</title>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>
+            {{$app_settings['txt_long_name']??''}}
+            @yield('title', config('app.title', 'LMS'))
+            @yield('title_prefix')
+            Reset Password
+        </title>
+        <meta name="description" content="{{$app_settings['txt_long_name']??''}} Learning Management System." />
+        <meta name="keywords" content="LMS, VanillaLMS, Foresight, Hasob" />
+        
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="favicon.ico">
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+		
+		<!-- vector map CSS -->
+		<link href="{{ asset('vendors/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
+		
+		<!-- Custom CSS -->
+		<link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css">
 
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
-          integrity="sha512-0S+nbAYis87iX26mmj/+fWt1MmaKCv80H+Mbo+Ne7ES4I6rxswpfnC6PxmLiw33Ywj2ghbtTw0FkLbMWqh4F7Q=="
-          crossorigin="anonymous"/>
+        <style>
+            .image-container {
+                position: relative;
+                text-align: center;
+                color: white;
+            }
 
-    <!-- AdminLTE -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/css/adminlte.min.css"
-          integrity="sha512-rVZC4rf0Piwtw/LsgwXxKXzWq3L0P6atiQKBNuXYRbg2FoRbSTIY0k2DxuJcs7dk4e/ShtMzglHKBOJxW8EQyQ=="
-          crossorigin="anonymous"/>
+            /* Bottom right text */
+            .image-text-bottom-right {
+                position: absolute;
+                bottom: 8px;
+                right: 16px;
+            }
 
-    <!-- iCheck -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css"
-          integrity="sha512-8vq2g5nHE062j3xor4XxPeZiPjmRDh6wlufQlfC6pdQ/9urJkU07NM0tEREeymP++NczacJ/Q59ul+/K2eYvcg=="
-          crossorigin="anonymous"/>
+            /* Bottom left text */
+            .image-text-bottom-left {
+                position: absolute;
+                bottom: 20px;
+                left: 80px;
+            }
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+        </style>
 
-</head>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
-        <a href="{{ url('/home') }}"><b>{{ config('app.name') }}</b></a>
-    </div>
 
-    <div class="card">
-        <div class="card-body login-card-body">
-            <p class="login-box-msg">You are only one step a way from your new password, recover your password now.</p>
+	</head>
+	<body>
+		<!--Preloader-->
+		<div class="preloader-it">
+			<div class="la-anim-1"></div>
+		</div>
+		<!--/Preloader-->
 
-            <form action="{{ route('password.update') }}" method="POST">
-                @csrf
+        <div class="wrapper pa-0">
+                
+            <header class="sp-header">
+                <div class="sp-logo-wrap pull-left">
+                    <a href="/">
+                        @if (isset($app_settings['file_icon_picture']))
+                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
+                        @endif
+                        <span class="brand-text">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                    </a>
+                </div>
+                <div class="form-group mb-0 pull-right">
+                    {{-- <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="/">Home</a> --}}
+                </div>
+                <div class="clearfix"></div>
+            </header>
 
-                <input type="hidden" name="token" value="{{ $token }}">
+            <div class="page-wrapper pa-20 ma-0">
+                <div class="container-fluid">
 
-                <div class="input-group mb-3">
-                    <input type="email"
-                           name="email"
-                           value="{{ $email ?? old('email') }}"
-                           class="form-control @error('email') is-invalid @enderror"
-                           placeholder="Email">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                    <div class="row mt-50 ">
+
+                        <div class="col-lg-8">
+
+                            @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
+                            <div class="col-lg-12 text-center">
+                                <div class="panel panel-default card-view">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pt-5" style="">
+                                            
+                                            <div class="col-lg-12 text-center mt-10">
+
+
+                                                <form method="post" action="{{ url('/login') }}">
+                                                    @csrf
+                                
+                                                        
+                                                        
+                                                        <!-- Row -->
+                                                        <div class="table-struct full-width ">
+                                                            <div class="table-cell vertical-align-middle auth-form-wrap">
+                                                                <div class="auth-form  ml-auto mr-auto no-float">
+                                                                    <div class="row">
+                                                                        <div class="col-sm-12 col-xs-12">
+                                                                        
+                                                                            <div class="mb-30 text-center">
+                                                                            
+                                                                                <h6 class="text-center nonecase-font txt-grey">
+                                                                                    Recover lost Password
+                                                                                </h6>
+                                                                            
+                                                                            </div>	
+                                
+                                                                            <div class="mb-30">
+                                                                                @if ($errors->any())
+                                                                                <div class="alert alert-danger alert-dismissible" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                                                                    <h4><i class="icon fa fa-warning"></i> Errors!</h4>
+                                                                                    <ul>
+                                                                                        @foreach ($errors->all() as $error)
+                                                                                        <li>{{ $error }}</li>
+                                                                                        @endforeach
+                                                                                    </ul>
+                                                                                </div>
+                                                                                @endif
+                                
+                                                                                @if ($message = Session::get('error'))
+                                                                                <div class="alert alert-danger alert-block" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </div>
+                                                                                @endif
+                                
+                                
+                                                                                @if ($message = Session::get('warning'))
+                                                                                <div class="alert alert-warning alert-block" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </div>
+                                                                                @endif
+                                
+                                
+                                                                                @if ($message = Session::get('info'))
+                                                                                <div class="alert alert-info alert-block" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </div>
+                                                                                @endif
+                                
+                                                                                @if ($message = Session::get('success'))
+                                                                                <div class="alert alert-success alert-block" style="margin:15px;">
+                                                                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                                                                    <strong>{{ $message }}</strong>
+                                                                                </div>
+                                                                                @endif
+                                
+                                
+                                                                            </div>
+
+                                                                            <p class="login-box-msg">You are only one step a way from your new password, recover your password now.</p>
+
+                                                                            <form action="{{ route('password.update') }}" method="POST">
+                                                                                @csrf
+                                                                
+                                                                                <input type="hidden" name="token" value="{{ $token }}">
+                                                                
+                                                                                <div class="input-group mb-3">
+                                                                                    <input type="email"
+                                                                                           name="email"
+                                                                                           value="{{ $email ?? old('email') }}"
+                                                                                           class="form-control @error('email') is-invalid @enderror"
+                                                                                           placeholder="Email">
+                                                                                    <div class="input-group-append">
+                                                                                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                                                                                    </div>
+                                                                                    @error('email')
+                                                                                    <span class="error invalid-feedback">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                
+                                                                                <div class="input-group mb-3">
+                                                                                    <input type="password"
+                                                                                           name="password"
+                                                                                           class="form-control @error('password') is-invalid @enderror"
+                                                                                           placeholder="Password">
+                                                                                    <div class="input-group-append">
+                                                                                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                                                                                    </div>
+                                                                                    @error('password')
+                                                                                    <span class="error invalid-feedback">{{ $message }}</span>
+                                                                                    @enderror
+                                                                                </div>
+                                                                
+                                                                                <div class="input-group mb-3">
+                                                                                    <input type="password"
+                                                                                           name="password_confirmation"
+                                                                                           class="form-control"
+                                                                                           placeholder="Confirm Password">
+                                                                                    <div class="input-group-append">
+                                                                                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                                                                                    </div>
+                                                                                </div>
+                                                                
+                                                                                <div class="row">
+                                                                                    <div class="col-12">
+                                                                                        <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+                                                                                    </div>
+                                                                                    <!-- /.col -->
+                                                                                </div>
+                                                                            </form>
+                                                                            
+                                                                        </div>	
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /Row -->	
+
+                                                    </form>
+
+
+
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
+
+                        </div>
+
+                        <div class="col-lg-4">
+
+                            <div class="col-lg-12 text-center">
+                                <div class="panel panel-default card-view">
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pt-5" style="">
+                                
+                                            <div class="col-lg-12 text-center">
+                                                @if (isset($app_settings['file_high_res_picture']))
+                                                    <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
+                                                @endif
+                                                <h3 class="text-center txt-dark mb-10">
+                                                    {!! $app_settings['txt_short_name'] ?? '' !!}
+                                                </h3>
+                                                <h6 class="text-center nonecase-font txt-grey">
+                                                    {!! $app_settings['txt_app_name'] ?? '' !!}
+                                                </h6>
+                                            </div>
+                                            <div class="col-lg-12 text-center mt-20">
+                                                <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
+
+                                                @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
+                                                    {{-- <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a> --}}
+                                                @endif
+
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-12 mt-20">
+                                @if (isset($app_settings['txt_portal_contact_phone']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_name']))
+                                <div class="panel panel-default card-view">
+                                    <div class="panel-heading pb-5" style="">
+                                        <div class="pull-left">
+                                            <h6 class="panel-title txt-dark">Help & Support</h6>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="panel-wrapper collapse in">
+                                        <div class="panel-body pt-5" style="">
+                                            <p>If you are having challenges with the portal please contact;</p>
+                                            @if (isset($app_settings['txt_portal_contact_name']))
+                                            <i class="fa fa-user ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_name'] }}<br/>
+                                            @endif
+                                            @if (isset($app_settings['txt_portal_contact_phone']))
+                                            <i class="fa fa-phone ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_phone'] }}<br/>
+                                            @endif
+                                            @if (isset($app_settings['txt_portal_contact_email']))
+                                            <i class="fa fa-envelope ml-5 mr-5"></i> {{ $app_settings['txt_portal_contact_email'] }}<br/>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                            
+                        </div>
+
                     </div>
-                    @error('email')
-                    <span class="error invalid-feedback">{{ $message }}</span>
-                    @enderror
+
                 </div>
 
-                <div class="input-group mb-3">
-                    <input type="password"
-                           name="password"
-                           class="form-control @error('password') is-invalid @enderror"
-                           placeholder="Password">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
-                    </div>
-                    @error('password')
-                    <span class="error invalid-feedback">{{ $message }}</span>
-                    @enderror
-                </div>
+                <footer class="footer container-fluid pl-30 pr-30"> 
+                    <div class="row">
+                        <div class="col-sm-5" style="font-size:80%">
+                            {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a>
+                        </div>
+                        <div class="col-sm-7 text-right" style="font-size:80%">
+                            SPONSORED BY <a href="https://www.tetfund.gov.ng" target="_blank">TETFUND/ICT/2019-20</a>
+                        </div>	
+                    </div>	
+                </footer>
 
-                <div class="input-group mb-3">
-                    <input type="password"
-                           name="password_confirmation"
-                           class="form-control"
-                           placeholder="Confirm Password">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
-                    </div>
-                </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
-                    </div>
-                    <!-- /.col -->
-                </div>
-            </form>
-
-            <p class="mt-3 mb-1">
-                <a href="{{ route('login') }}">Login</a>
-            </p>
-        </div>
-        <!-- /.login-card-body -->
-    </div>
-
-</div>
-
-<!-- AdminLTE App -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.0.5/js/adminlte.min.js"
-        integrity="sha512-++c7zGcm18AhH83pOIETVReg0dr1Yn8XTRw+0bWSIWAVCAwz1s2PwnSj4z/OOyKlwSXc4RLg3nnjR22q0dhEyA=="
-        crossorigin="anonymous"></script>
-
-</body>
+		</div>
+		<!-- JavaScript -->
+		
+		<!-- jQuery -->
+		<script src="{{ asset('vendors/bower_components/jquery/dist/jquery.min.js') }}"></script>
+		
+		<!-- Bootstrap Core JavaScript -->
+		<script src="{{ asset('vendors/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+		<script src="{{ asset('vendors/bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js') }}"></script>
+		
+		<!-- Slimscroll JavaScript -->
+		<script src="{{ asset('dist/js/jquery.slimscroll.js') }}"></script>
+		
+		<!-- Init JavaScript -->
+		<script src="{{ asset('dist/js/init.js') }}"></script>
+	</body>
 </html>
+

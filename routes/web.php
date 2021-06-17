@@ -2,9 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('index');
+
+Route::get('/', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'index'])->name('index');
+Route::get('/student-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'displayStudentRegistration'])->name('student-register');
+Route::get('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'displayLecturerRegistration'])->name('lecturer-register');
+
+Route::post('/student-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processStudentRegistration'])->name('student-register');
+Route::post('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processLecturerRegistration'])->name('lecturer-register');
+
 
 Route::get('/bbb-conf', function () {
     dd(\Bigbluebutton::isConnect()); //default
