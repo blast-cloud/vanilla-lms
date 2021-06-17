@@ -79,7 +79,6 @@
 
                         <div class="col-lg-8">
 
-                            @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
                             <div class="col-lg-12 text-center">
                                 <div class="panel panel-default card-view">
                                     <div class="panel-wrapper collapse in">
@@ -223,7 +222,6 @@
                                     </div>
                                 </div>
                             </div>
-                            @endif
 
                         </div>
 

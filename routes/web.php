@@ -11,6 +11,14 @@ Route::post('/student-register', [App\Http\Controllers\FrontEnd\FrontEndControll
 Route::post('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processLecturerRegistration'])->name('lecturer-register');
 
 
+Route::get('/clear-cache', function () {
+    Artisan::call('package:discover');
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    // Artisan::call('clear:complied');
+    return "Cache is cleared ... Check again";
+});
+
 Route::get('/bbb-conf', function () {
     dd(\Bigbluebutton::isConnect()); //default
 })->name('bbb-conf');
