@@ -215,6 +215,10 @@
                                             </div>
                                             <div class="col-lg-12 text-center mt-20">
                                                 <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
+
+                                                @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
+                                                <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a>
+                                                @endif
                                             </div>
                                             
                                         </div>

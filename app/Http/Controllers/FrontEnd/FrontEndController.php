@@ -102,8 +102,7 @@ class FrontEndController extends AppBaseController
         $lecturer = $this->lecturerRepository->create($input);
         LecturerCreated::dispatch($lecturer);
 
-        Flash::success('You have been successfully registered. Please check your email address for your login credentials to access the portal.');
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success','You have been successfully registered. Please check your email for your login credentials to access the portal.');
     }
 
     /**
@@ -121,8 +120,7 @@ class FrontEndController extends AppBaseController
         $student = $this->studentRepository->create($input);
         StudentCreated::dispatch($student);
 
-        Flash::success('You have been successfully registered. Please check your email address for your login credentials to access the portal.');
-        return redirect()->route('login');
+        return redirect()->route('login')->with('success','You have been successfully registered. Please check your email for your login credentials to access the portal.');
     }
 
 

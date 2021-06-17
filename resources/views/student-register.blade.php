@@ -219,7 +219,7 @@
                                                 <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
 
                                                 @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
-                                                    {{-- <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a> --}}
+                                                <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a>
                                                 @endif
 
                                             </div>
