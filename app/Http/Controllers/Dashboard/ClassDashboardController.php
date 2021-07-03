@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashboard;
 
+use App\Exports\GradeExport;
 use App\DataTables\AnnouncementDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateAnnouncementRequest;
@@ -397,34 +398,15 @@ class ClassDashboardController extends AppBaseController
     public function processGradeExport(Request $request, $course_class_id){
 
 
-        $current_user = Auth()->user();
-        $department = $this->departmentRepository->find($current_user->department_id);
-        $courseClass = $this->courseClassRepository->find($course_class_id);
+        $grade_exporter = new GradeExport(
+            $this->departmentRepository, 
+            $this->courseClassRepository, 
+            $this->classMaterialRepository,
+            $this->enrollmentRepository,
+            $course_class_id
+        );
 
-        $class_assignments = $this->classMaterialRepository->all(['course_class_id'=>$course_class_id,'type'=>'class-assignments']);
-        $class_examinations = $this->classMaterialRepository->all(['course_class_id'=>$course_class_id,'type'=>'class-examinations']);
-
-        $enrollments = $this->enrollmentRepository->all(['course_class_id'=>$course_class_id]);
-
-        if ($courseClass!=null && $courseClass->lecturer_id == $current_user->lecturer_id){
-
-            $gradeManager = new GradeManager($course_class_id);
-
-            $content = view("dashboard.class.grade-export")
-                        ->with('department', $department)
-                        ->with('courseClass', $courseClass)
-                        ->with('current_user', $current_user)
-                        ->with('class_assignments', $class_assignments)
-                        ->with('class_examinations', $class_examinations)
-                        ->with('gradeManager', $gradeManager)
-                        ->with('enrollments', $enrollments);
-
-            ob_end_clean();
-            return response($content, "200")
-                        ->header("Content-Type","application/vnd.ms-excel")
-                        ->header("Content-Disposition",'attachment; filename="grade-file.xlsx"');
-        }
-
+        return \Maatwebsite\Excel\Facades\Excel::download($grade_exporter, 'invoices.xlsx');
     }
 
 }
