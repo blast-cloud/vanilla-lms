@@ -34,6 +34,24 @@
                 <a class="text-info btn-delete-examination" href="#"  alt="Delete examination" style="opacity:0.5;font-size:85%" data-val="{{$item->id}}">
                     <i class="fa fa-trash" style=""></i>&nbsp;Delete
                 </a> &nbsp;&nbsp;
+
+                <a class="text-info btn-assignment-submissions" href="{{ route('submitted-assignment-list', [$item->course_class_id, $item->id]) }}"  alt="Submissions" style="opacity:1;font-size:85%"
+                    data-val="{{$item->id}}" > <strong>
+                        @php
+                            $no = $item->submissions()->where('class_material_id', $item->id)
+                                                                ->where('grade_id', null)
+                                                            ->where('course_class_id', $item->course_class_id)->count();
+                            if( $no == 0){
+                                $submissions = "No scores entered";
+                            }elseif($no == 1){
+                                $submissions = $no." score have been entered";
+                            }else{
+                                $submissions = $no." score have been entered";
+                            }
+                    @endphp
+                        <i class="fa fa-check-square-o" style=""></i>&nbsp;  {{ $submissions }} </strong>
+                    </a> &nbsp;&nbsp;
+
                 @endif
             </dd>
         </dl>

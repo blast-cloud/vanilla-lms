@@ -50,12 +50,12 @@
                                                                         ->where('grade_id', null)
                                                                     ->where('course_class_id', $item->course_class_id)->count();
                                     if( $no == 0){
-                                        $submissions = "No Submissions Yet";
+                                        $submissions = "No submissions from students";
                                     }elseif($no == 1){
-                                        $submissions = $no." Person has Submitted,  yet to be Graded";
+                                        $submissions = $no." student has submitted";
                                     }else{
-                                        $submissions = $no." Persons has Submitted, yet to be Graded";
-                                    } 
+                                        $submissions = $no." students has submitted";
+                                    }
                             @endphp
                                 <i class="fa fa-check-square-o" style=""></i>&nbsp;  {{ $submissions }} </strong>
                             </a> &nbsp;&nbsp;
