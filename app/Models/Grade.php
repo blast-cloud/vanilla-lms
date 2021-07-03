@@ -106,7 +106,7 @@ class Grade extends Model
      **/
     public function student()
     {
-        return $this->hasOne(\App\Models\Student::class, 'student_id', 'id');
+        return $this->hasOne(\App\Models\Student::class, 'id', 'student_id');
     }
 
     /**
@@ -122,7 +122,7 @@ class Grade extends Model
      **/
     public function classMaterial()
     {
-        return $this->hasMany(\App\Models\ClassMaterial::class, 'class_material_id', 'id');
+        return $this->hasOne(\App\Models\ClassMaterial::class, 'id', 'class_material_id');
     }
 
     public function submission()

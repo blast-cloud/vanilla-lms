@@ -138,6 +138,23 @@ abstract class BaseRepository
     }
 
     /**
+     * Retrieve first record with given filter criteria
+     *
+     * @param array $search
+     * @param int|null $skip
+     * @param int|null $limit
+     * @param array $columns
+     *
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator|\Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function first($search = [], $skip = null, $limit = null, $columns = ['*'])
+    {
+        $query = $this->allQuery($search, $skip, $limit);
+
+        return $query->first($columns);
+    }
+
+    /**
      * Retrieve all records with given filter criteria
      *
      * @param array $search

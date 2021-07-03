@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Http\Requests\CreateAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 
+use Log;
 use Flash;
 use App\Managers\GradeManager;
 use App\Http\Controllers\AppBaseController;
@@ -21,11 +22,12 @@ use App\Repositories\EnrollmentRepository;
 use App\Repositories\GradeRepository;
 use App\Repositories\ForumRepository;
 use App\Repositories\SubmissionRepository;
+use App\Repositories\StudentRepository;
 
 use Carbon\Carbon;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
 use Response;
-use Request;
+use Illuminate\Http\Request;
 
 class ClassDashboardController extends AppBaseController
 {
@@ -60,6 +62,9 @@ class ClassDashboardController extends AppBaseController
     /** @var  SubmissionRepository */
     private $submissionRepository;
 
+    /** @var  StudentRepository */
+    private $studentRepository;
+
 
     public function __construct(DepartmentRepository $departmentRepo, 
                                     CourseClassRepository $courseClassRepo, 
@@ -70,7 +75,8 @@ class ClassDashboardController extends AppBaseController
                                     EnrollmentRepository $enrollmentRepo,
                                     GradeRepository $gradeRepo,
                                     ForumRepository $forumRepo,
-                                    SubmissionRepository $submissionRepo)
+                                    SubmissionRepository $submissionRepo,
+                                    StudentRepository $studentRepo)
     {
         $this->courseRepository = $courseRepo;
         $this->announcementRepository = $announcementRepo;
@@ -82,6 +88,7 @@ class ClassDashboardController extends AppBaseController
         $this->gradeRepository = $gradeRepo;
         $this->forumRepository = $forumRepo;
         $this->submissionRepository = $submissionRepo;
+        $this->studentRepository = $studentRepo;
     }
     
     public function index(Request $request, $id)
@@ -292,6 +299,145 @@ class ClassDashboardController extends AppBaseController
                     ->with('lecture_classes', $lecture_classes)
                     ->with('assignment_submissions', $assignment_submissions)
                     ->with('gradeManager', $gradeManager);
+    }
+
+    public function processGradeUpdate(Request $request, $course_class_id)
+    {
+        $current_user = Auth()->user();
+        $error_messages = [];
+        $final_scores = [];
+
+        foreach(json_decode($request->grade_list) as $idx=>$grade){
+                
+            //Find student by matric number.
+            $student = $this->studentRepository->first(['matriculation_number'=>$grade->student_matric]);
+
+            if ($student != null){
+
+                //Ensure student is enrolled in course
+                $enrollment = $this->enrollmentRepository->first(['course_class_id'=>$course_class_id,'student_id'=>$student->id]);
+                if ($enrollment != null){
+
+                    //Ensure the current user is the lecturer for the course class
+                    if ($enrollment->courseClass->lecturer_id == $current_user->lecturer_id){
+
+                        $max_score_points = 0;
+                        if (isset($grade->max_mp) && is_numeric($grade->max_mp) && $grade->max_mp>0){
+                            $max_score_points = $grade->max_mp;
+                        }
+            
+                        
+                        if (is_numeric($grade->score) && $grade->score>= 0 && $grade->score <= $max_score_points){
+
+                            //Create a map to query the grade table OR create a new grade if needed.
+                            $grade_query = ['course_class_id'=>$course_class_id,'student_id'=>$student->id,'grade_title'=>$grade->type];
+
+                            //Check the grade type for exams
+                            if ($grade->type=="exam" && isset($grade->exam_id)){
+                                $grade_query['class_material_id'] = $grade->exam_id;
+                            }
+
+                            //Check the grade type for assignments
+                            if ($grade->type=="assignment" && isset($grade->assignment_id)){
+                                $grade_query['class_material_id'] = $grade->assignment_id;
+                            }
+
+                            //Find the grade based on the query
+                            $grade_model = $this->gradeRepository->first($grade_query);
+
+                            //Add the grade score to the grade query
+                            $grade_query['score'] = $grade->score;
+
+                            //Check the the grade already exists, 
+                            if ($grade_model != null){
+                                if ($grade->score != $grade_model->score){
+                                    //Update grade record if the record exists and the grade is different,
+                                    $this->gradeRepository->update($grade_query, $grade_model->id);
+                                }
+                            } else {
+                                //Create a new grade since one doesn't exist.
+                                $this->gradeRepository->create($grade_query);
+                            }
+
+                        } else{
+
+                            //Grade must be between 0 and 100
+                            if (!empty($grade->score)){
+
+                                $selector = "";
+                                if ($grade->type=="assignment"){    $selector="as-{$grade->assignment_id}";  }
+                                else if ($grade->type=="exam"){     $selector="es-{$grade->exam_id}";        }
+
+                                $error_messages["{$selector}-{$grade->student_matric}"]= "The {$grade->label} score submitted ({$grade->score}) for {$grade->student_matric} must be a numeric value between 0 and {$max_score_points}.";
+                            }
+                        }
+                    
+                    }else{
+                        //Lecturer not teaching the class
+                        $error_messages[]= "You are not assigned to teach this class and cannot update grades for student {$grade->student_matric}";
+                    }
+                } else {
+                    //No enrollment
+                    $error_messages[]= "Student {$grade->student_matric} is not enrolled in this class and the grade cannot be updated";
+                }
+
+                //Compute Final Score
+                $final_score = \App\Managers\GradeManager::computeFinalScore($course_class_id, $grade->student_matric);
+
+                $grade_query = ['grade_title'=>'final','course_class_id'=>$course_class_id,'student_id'=>$student->id];
+                $final_grade = $this->gradeRepository->first($grade_query);
+                
+                $grade_query['score'] = $final_score;
+                if ($final_grade != null){
+                    $this->gradeRepository->update($grade_query, $final_grade->id);
+                } else {
+                    $this->gradeRepository->create($grade_query);
+                }
+
+                $final_scores["fs-{$grade->student_matric}"] = $final_score;
+
+            } else {
+                //No student
+                $error_messages[]= "Invalid student record {$grade->student_matric}";
+            }
+
+        }
+
+        return $this->sendResponse($final_scores,$error_messages);
+        
+    }
+
+    public function processGradeExport(Request $request, $course_class_id){
+
+
+        $current_user = Auth()->user();
+        $department = $this->departmentRepository->find($current_user->department_id);
+        $courseClass = $this->courseClassRepository->find($course_class_id);
+
+        $class_assignments = $this->classMaterialRepository->all(['course_class_id'=>$course_class_id,'type'=>'class-assignments']);
+        $class_examinations = $this->classMaterialRepository->all(['course_class_id'=>$course_class_id,'type'=>'class-examinations']);
+
+        $enrollments = $this->enrollmentRepository->all(['course_class_id'=>$course_class_id]);
+
+        if ($courseClass!=null && $courseClass->lecturer_id == $current_user->lecturer_id){
+
+            $gradeManager = new GradeManager($course_class_id);
+
+            $content = view("dashboard.class.grade-export")
+                        ->with('department', $department)
+                        ->with('courseClass', $courseClass)
+                        ->with('current_user', $current_user)
+                        ->with('class_assignments', $class_assignments)
+                        ->with('class_examinations', $class_examinations)
+                        ->with('gradeManager', $gradeManager)
+                        ->with('enrollments', $enrollments);
+
+            ob_end_clean();
+            return response($content, "200")
+                        ->header("Content-Type","application/vnd.ms-excel")
+                        ->header("Content-Disposition",'attachment; filename="grade-file.xlsx"');
+        }
+
     }
 
 }
