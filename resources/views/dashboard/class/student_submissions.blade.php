@@ -23,10 +23,12 @@
 
     <div class="col-sm-9 panel panel-default card-view">
 
-        @if ($current_user->lecturer_id!=null)
-        <a id="btn-save-student-scores" href="#" class="btn btn-xs btn-primary vertical-align-middle pull-right">
-            <i class="fa fa-save" style=""></i>&nbsp;Save
-        </a>
+        @if ($class_material->type=="class-assignments" || $class_material->type=="class-examinations")
+            @if ($current_user->lecturer_id!=null)
+            <a id="btn-save-student-scores" href="#" class="btn btn-xs btn-primary vertical-align-middle pull-right">
+                <i class="fa fa-save" style=""></i>&nbsp;Save
+            </a>
+            @endif
         @endif
 
         <dl class="ma-10">
@@ -58,7 +60,9 @@
                     <th>S/N</th>
                     <th>Student Name</td>
                     <th>Matric Number</th>
+                    @if ($class_material->type=="class-assignments")
                     <th style="text-align:center">File</th>
+                    @endif
                     <th style="text-align:center">Score</th>
                 </tr>
             </thead>
@@ -79,6 +83,8 @@
                         <td>{{ ++$x }}</td>
                         <td style="width:40%">{{ $item->student->last_name }}  {{ $item->student->first_name }}</td>
                         <td style="width:30%">{{ $item->student->matriculation_number }}</td>
+
+                        @if ($class_material->type=="class-assignments")
                         <td style="width:10%" class="text-center">
                             @if (isset($assignment_submissions[$item->student->id]))
                             <a href="{{ asset($assignment_submissions[$item->student->id]) }}"  class="btn btn-xs btn-info" download>
@@ -88,6 +94,8 @@
                             <span class="text-danger text-center" style="font-size:85%">No Submission</span>
                             @endif
                         </td>
+                        @endif
+                        
                         <td style="width:200px">
                             @php
                                 $score = null;

@@ -270,6 +270,13 @@ class ClassDashboardController extends AppBaseController
         $enrollments = $this->enrollmentRepository->all(['course_class_id'=>$course_class_id]);
         $class_material = $this->classMaterialRepository->find($class_material_id);
 
+
+        if ($current_user->lecturer_id != null){
+            $class_schedules = $this->courseClassRepository->all(['lecturer_id'=>$current_user->lecturer_id]);
+        }else{
+            $class_schedules = null;
+        }
+
         return view("dashboard.class.student_submissions")
                     ->with('department', $department)
                     ->with('courseClass', $courseClass)
@@ -277,6 +284,7 @@ class ClassDashboardController extends AppBaseController
                     ->with('class_material', $class_material)
                     ->with('assignment_submissions', $assignment_submissions)
                     ->with('enrollments', $enrollments)
+                    ->with('class_schedules', $class_schedules)
                     ->with('grades', $grades);
     }
 
