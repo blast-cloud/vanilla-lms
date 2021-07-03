@@ -90,7 +90,7 @@ Admin Settings
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
+                                {{-- <div class="row form-group">
                                     <label class="control-label mb-10 col-sm-5" for="cbx_display_course_list">Display Online Courses on Home Page</label>
                                     <div class="col-sm-1">
                                         {!! Form::checkbox('cbx_display_course_list', 1, $db_settings['cbx_display_course_list']??"", ['id'=>'cbx_display_course_list', 'class' => 'form-control','style'=>'height:24px;']) !!}
@@ -102,7 +102,7 @@ Admin Settings
                                     <div class="col-sm-1">
                                         {!! Form::checkbox('cbx_display_lecturer_profiles', 1, $db_settings['cbx_display_lecturer_profiles']??"", ['id'=>'cbx_display_lecturer_profiles', 'class' => 'form-control','style'=>'height:24px;']) !!}
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -119,12 +119,12 @@ Admin Settings
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
+                                {{-- <div class="row form-group">
                                     <label class="control-label mb-10 col-sm-5" for="cbx_require_enrollment_confirmation">Require Enrollment Confirmation</label>
                                     <div class="col-sm-1">
                                         {!! Form::checkbox('cbx_require_enrollment_confirmation', 1, $db_settings['cbx_require_enrollment_confirmation']??"", ['id'=>'cbx_require_enrollment_confirmation', 'class' => 'form-control','style'=>'height:24px;']) !!}
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="row form-group">
                                     <label class="control-label mb-10 col-sm-5" for="cbx_allow_lecturer_registration">Allow Lecturer Self Registraion </label>
@@ -161,7 +161,7 @@ Admin Settings
                                     </div>
                                 </div>
 
-                                <div class="row form-group">
+                                {{-- <div class="row form-group">
                                     <label class="control-label mb-10 col-sm-3" for="txt_registration_text">Registration Text</label>
                                     <div class="col-sm-9">
                                         {!! Form::textarea('txt_registration_text', $db_settings['txt_registration_text']??"", ['id'=>'txt_registration_text','rows'=>'4','class' => 'form-control']) !!}
@@ -173,7 +173,7 @@ Admin Settings
                                     <div class="col-sm-9">
                                         {!! Form::textarea('txt_enrollment_text', $db_settings['txt_enrollment_text']??"", ['id'=>'txt_enrollment_text','rows'=>'4','class' => 'form-control']) !!}
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
