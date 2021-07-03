@@ -356,7 +356,10 @@ class ClassDashboardController extends AppBaseController
                                 if ($grade->type=="assignment"){    $selector="as-{$grade->assignment_id}";  }
                                 else if ($grade->type=="exam"){     $selector="es-{$grade->exam_id}";        }
 
-                                $error_messages["{$selector}-{$grade->student_matric}"]= "The {$grade->label} score submitted ({$grade->score}) for {$grade->student_matric} must be a numeric value between 0 and {$max_score_points}.";
+                                
+                                $id_code = sha1($grade->student_matric);
+
+                                $error_messages["{$selector}-{$id_code}"]= "The {$grade->label} score submitted ({$grade->score}) for {$grade->student_matric} must be a numeric value between 0 and {$max_score_points}.";
                             }
                         }
                     
@@ -382,7 +385,8 @@ class ClassDashboardController extends AppBaseController
                     $this->gradeRepository->create($grade_query);
                 }
 
-                $final_scores["fs-{$grade->student_matric}"] = $final_score;
+                $id_code = sha1($grade->student_matric);
+                $final_scores["fs-{$id_code}"] = $final_score;
 
             } else {
                 //No student
