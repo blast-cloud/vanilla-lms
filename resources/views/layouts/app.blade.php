@@ -30,6 +30,9 @@
 
         <!-- Custom CSS -->
         <link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css" />
+
+        {{-- Sweet Alert --}}
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         
         
         @yield('third_party_stylesheets')

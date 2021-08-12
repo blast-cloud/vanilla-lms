@@ -129,7 +129,8 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Forum record has been deleted.");
+                        swal("Done!", "The Forum record has been deleted!", "success");
+                        // window.alert("The Forum record has been deleted.");
                         location.reload(true);
                     }
                 },
@@ -180,10 +181,11 @@ $(document).ready(function() {
                 }else{
                     $('#div-forum-modal-error').hide();
                     window.setTimeout( function(){
-                        window.alert("The Forum record saved successfully.");
+                        // window.alert("The Forum record saved successfully.");
+                        swal("Done!", "The Forum record saved successfully!", "success");
 						$('#div-forum-modal-error').hide();
                         location.reload(true);
-                    },20);
+                    },28);
                 }
             }, error: function(data){
                 console.log(data);

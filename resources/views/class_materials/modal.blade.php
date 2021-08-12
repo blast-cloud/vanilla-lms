@@ -129,7 +129,7 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The ClassMaterial record has been deleted.");
+                        swal("Done!", "The ClassMaterial record has been deleted!", "success");
                         location.reload(true);
                     }
                 },
@@ -180,7 +180,7 @@ $(document).ready(function() {
                 }else{
                     $('#div-classMaterial-modal-error').hide();
                     window.setTimeout( function(){
-                        window.alert("The ClassMaterial record saved successfully.");
+                        swal("Done!", "The ClassMaterial record saved successfully!", "success");
 						$('#div-classMaterial-modal-error').hide();
                         location.reload(true);
                     },20);

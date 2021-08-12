@@ -119,6 +119,24 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
+
+        // swal({
+        //   title: "Are you sure?",
+        //   text: "Once deleted, you will not be able to recover this imaginary file!",
+        //   icon: "warning",
+        //   buttons: true,
+        //   dangerMode: true,
+        // })
+        // .then((willDelete) => {
+        //   if (willDelete) {
+        //     swal("Poof! Your imaginary file has been deleted!", {
+        //       icon: "success",
+        //     });
+        //   } else {
+        //     swal("Your imaginary file is safe!");
+        //   }
+        // });
+
         if (confirm("Are you sure you want to delete this Semester?")){
 
             let endPointUrl = "{{ route('semesters.destroy',0) }}"+itemId;
@@ -139,7 +157,8 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Semester record has been deleted.");
+                        swal("Done!", "The Semester record has been deleted!", "success");
+                        // window.alert("The Semester record has been deleted.");
                         location.reload(true);
                     }
                 },
@@ -197,10 +216,11 @@ $(document).ready(function() {
                     $('#btn-save-mdl-semester-modal').prop("disabled", false);
                     $('#div-semester-modal-error').hide();
                     window.setTimeout( function(){
-                        window.alert("The Semester record saved successfully.");
+                        swal("Done!", "The Semester record saved successfully!", "success");
+                        // window.alert("The Semester record saved successfully.");
 						$('#div-semester-modal-error').hide();
                         location.reload(true);
-                    },20);
+                    },28);
                 }
             }, error: function(data){
                 $('.spinner1').hide();

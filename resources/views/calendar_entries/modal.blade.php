@@ -129,7 +129,7 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The CalendarEntry record has been deleted.");
+                        swal("Done!", "The CalendarEntry record has been deleted!", "success");
                         location.reload(true);
                     }
                 },
@@ -180,7 +180,7 @@ $(document).ready(function() {
                 }else{
                     $('#div-calendarEntry-modal-error').hide();
                     window.setTimeout( function(){
-                        window.alert("The CalendarEntry record saved successfully.");
+                        swal("Done!", "The CalendarEntry record saved successfully!", "success")
 						$('#div-calendarEntry-modal-error').hide();
                         location.reload(true);
                     },20);
