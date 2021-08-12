@@ -173,7 +173,7 @@ $(document).ready(function() {
                 }else{
                     $('#modify-class-detail-error-div').hide();
                     window.setTimeout( function(){
-                        window.alert("Class details saved successfully.");
+                        swal("Done!","Class details saved successfully!","success");
                         $('#modify-class-detail-modal').modal('hide');
                         location.reload(true);
                     }, 500);

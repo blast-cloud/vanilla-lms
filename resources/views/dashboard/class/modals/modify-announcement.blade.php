@@ -114,7 +114,8 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Announcement has been deleted.");
+                        swal("Done!","The Announcement has been deleted!","success");
+                        // window.alert("The Announcement has been deleted.");
                         location.reload(true);
                     }
                 },
@@ -172,7 +173,7 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $('#btn-modify-announcement').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Announcement saved successfully.");
+                        swal("Done!","Announcement saved successfully!","success");
                         $('#modify-announcement-modal').modal('hide');
                         location.reload(true);
                     }, 50);

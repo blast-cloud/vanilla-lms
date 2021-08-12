@@ -108,7 +108,7 @@ $(document).ready(function() {
                     $('#btn-modify-user-password-reset').prop("disabled", false);
                     $('.spinner1').hide();
                     window.setTimeout( function(){
-                        window.alert("User account password reset successfully.");
+                        swal("Done!","User account password reset successfully!","success");
                         $('#modify-user-password-reset-modal').modal('hide');
                         location.reload(true);
                     }, 50);

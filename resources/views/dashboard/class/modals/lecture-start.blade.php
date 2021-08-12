@@ -202,10 +202,10 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $('#btn-start-lecture').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Online lecture created, please click Start Online Blackboard to continue.");
+                        swal("Done!","Online lecture created, please click Start Online Blackboard to continue!","success");
                         $('#start-lecture-modal').modal('hide');
                         location.reload(true);
-                    }, 50);
+                    }, 1000);
                 }
             },
         });

@@ -155,7 +155,7 @@ $(document).ready(function() {
                     $('#spinner1').hide();
                     $('#btn-submit-assignment').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Assignment saved successfully.");
+                        swal("Done!","Assignment saved successfully!","success");
                         $('#submit-assignment-modal').modal('hide');
                         location.reload(true);
                     }, 50);

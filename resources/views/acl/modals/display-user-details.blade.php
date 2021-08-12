@@ -251,7 +251,7 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The user account has been disabled.");
+                        swal("Done!","The user account has been disabled!","success");
                         location.reload(true);
                     }
                 },
@@ -285,7 +285,7 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The user account has been enabled.");
+                        swal("Done!","The user account has been enabled!","success");
                         location.reload(true);
                     }
                 },
@@ -318,7 +318,7 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The user account has been deleted.");
+                        swal("Done!","The user account has been deleted!","success");
                         location.reload(true);
                     }
                 },
@@ -382,7 +382,7 @@ $(document).ready(function() {
                     $('#btn-modify-user-details').prop("disabled", false);
                     $('.spinner1').hide();
                     window.setTimeout( function(){
-                        window.alert("User account saved successfully.");
+                        swal("Done!","User account saved successfully!","success");
                         $('#modify-user-details-modal').modal('hide');
                         location.reload(true);
                     }, 50);

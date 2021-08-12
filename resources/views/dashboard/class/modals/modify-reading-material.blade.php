@@ -122,7 +122,7 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The reading material has been deleted.");
+                        swal("Done!","The reading material has been deleted!","success");
                         location.reload(true);
                     }
                 },
@@ -183,7 +183,7 @@ $(document).ready(function() {
                     $('#modify-reading-material-error-div').hide();
                     $('.spinner1').hide();
                     window.setTimeout( function(){
-                        window.alert("Reading material saved successfully.");
+                        swal("Done!","Reading material saved successfully!","success");
                         $('#modify-reading-material-modal').modal('hide');
                         location.reload(true);
                     }, 50);

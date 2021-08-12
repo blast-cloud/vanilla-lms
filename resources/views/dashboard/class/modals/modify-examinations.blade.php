@@ -161,7 +161,7 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Lecture has been deleted.");
+                        swal("Done!","The Lecture has been deleted!","success");
                         location.reload(true);
                     }
                 },
@@ -218,7 +218,7 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $('#btn-modify-examination').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Examination saved successfully.");
+                        swal("Done!","Examination saved successfully!","success");
                         $('#modify-examination-modal').modal('hide');
                         location.reload(true);
                     }, 50);

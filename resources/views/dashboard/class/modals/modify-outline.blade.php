@@ -98,7 +98,7 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $('#btn-modify-outline').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Class outline saved successfully.");
+                        swal("Done!","Class outline saved successfully!","success");
                         $('#modify-outline-modal').modal('hide');
                         location.reload(true);
                     }, 500);

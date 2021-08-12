@@ -150,7 +150,8 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Lecturer has been deleted.");
+                        swal("Done!", "The Lecturer has been deleted!", "success");
+                        // window.alert("The Lecturer has been deleted.");
                         location.reload(true);
                     }
                 },
@@ -213,7 +214,8 @@ $(document).ready(function() {
                     $('#div-lecturer-modal-error').hide();
                     $('#btn-save-mdl-lecturer-modal').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("The Lecturer saved successfully.");
+                        swal("Done!", "The Lecturer saved successfully!", "success");
+                        // window.alert("The Lecturer saved successfully.");
 						$('#div-lecturer-modal-error').hide();
                         location.reload(true);
                     },20);

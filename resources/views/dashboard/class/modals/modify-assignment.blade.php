@@ -190,7 +190,7 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Lecture has been deleted.");
+                        swal("Done!","The Lecture has been deleted!","success");
                         location.reload(true);
                     }
                 },
@@ -260,7 +260,7 @@ $(document).ready(function() {
                     $('#spinner').hide();
                     $('#btn-modify-assignment').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Assignment saved successfully.");
+                        swal("Done!","Assignment saved successfully!","success");
                         $('#modify-assignment-modal').modal('hide');
                         location.reload(true);
                     }, 50);

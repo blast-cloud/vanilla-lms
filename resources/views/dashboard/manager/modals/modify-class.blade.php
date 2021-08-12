@@ -171,7 +171,8 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The CourseClass record has been deleted.");
+                        swal("Done!", "The CourseClass record has been deleted!", "success");
+                        // window.alert("The CourseClass record has been deleted.");
                         location.reload(true);
                     }
                 },
@@ -232,7 +233,8 @@ $(document).ready(function() {
                         $('.spinner1').hide();
                         $('#btn-save-mdl-courseClass-modal').prop("disabled", false);
                         window.setTimeout( function(){
-                            window.alert("The CourseClass record saved successfully.");
+                            swal("Done!", "The CourseClass record saved successfully!", "success");
+                            // window.alert("The CourseClass record saved successfully.");
                             $('#div-courseClass-modal-error').hide();
                             location.reload(true);
                         },20);

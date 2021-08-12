@@ -147,7 +147,8 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Student record has been deleted.");
+                        swal("Done!", "The Student record has been deleted!", "success");
+                        // window.alert("The Student record has been deleted.");
                         location.reload(true);
                     }
                 },
@@ -206,7 +207,8 @@ $(document).ready(function() {
                     $('#spinner1').hide();
                     $('#btn-save-mdl-student-modal').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("The Student record saved successfully.");
+                        swal("Done!", "The Student record saved successfully!", "success");
+                        // window.alert("The Student record saved successfully.");
 						$('#div-student-modal-error').hide();
                         location.reload(true);
                     },20);
