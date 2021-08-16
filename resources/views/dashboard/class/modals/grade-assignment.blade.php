@@ -185,7 +185,6 @@ $(document).ready(function() {
                     $('#btn-submit-grade').prop("disabled", false);
                     window.setTimeout( function(){
                         swal("Done!", "Grades saved successfully!", "success");
-                        // window.alert("Grades saved successfully.");
                         $('#submit-assignment-modal').modal('hide');
                         location.reload(true);
                     }, 50);

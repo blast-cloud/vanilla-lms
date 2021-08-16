@@ -230,9 +230,15 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-
-        if (confirm("Are you sure you want to disable this user account?")){
-
+        swal({
+          title: "Are you sure you want to disable this user account?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
 
@@ -255,8 +261,9 @@ $(document).ready(function() {
                         location.reload(true);
                     }
                 },
-            });
-        }
+            }); 
+          }
+        });
     });
 
     //Enable Model
@@ -264,9 +271,15 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-
-        if (confirm("Are you sure you want to enable this user account?")){
-
+        swal({
+          title: "Are you sure you want to enable this user account?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
 
@@ -290,7 +303,8 @@ $(document).ready(function() {
                     }
                 },
             });
-        }
+          }
+        });
     });
 
     //Delete action
@@ -299,8 +313,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this user account?")){
-
+        swal({
+          title: "Are you sure you want to delete this user account?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let endPointUrl = "{{ route('dashboard.user-delete-account',0) }}"+itemId;
 
             let formData = new FormData();
@@ -322,9 +343,9 @@ $(document).ready(function() {
                         location.reload(true);
                     }
                 },
-            });            
-        }
-        
+            });
+          }
+        });
     });
 
     //Save user details

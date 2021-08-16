@@ -119,31 +119,20 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-
-        // swal({
-        //   title: "Are you sure?",
-        //   text: "Once deleted, you will not be able to recover this imaginary file!",
-        //   icon: "warning",
-        //   buttons: true,
-        //   dangerMode: true,
-        // })
-        // .then((willDelete) => {
-        //   if (willDelete) {
-        //     swal("Poof! Your imaginary file has been deleted!", {
-        //       icon: "success",
-        //     });
-        //   } else {
-        //     swal("Your imaginary file is safe!");
-        //   }
-        // });
-
-        if (confirm("Are you sure you want to delete this Semester?")){
-
+        swal({
+          title: "Are you sure you want to delete this Semester?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let endPointUrl = "{{ route('semesters.destroy',0) }}"+itemId;
 
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
-			formData.append('_method', 'DELETE');
+            formData.append('_method', 'DELETE');
             
             $.ajax({
                 url:endPointUrl,
@@ -158,12 +147,12 @@ $(document).ready(function() {
                         console.log(result.errors)
                     }else{
                         swal("Done!", "The Semester record has been deleted!", "success");
-                        // window.alert("The Semester record has been deleted.");
                         location.reload(true);
                     }
                 },
-            });            
-        }
+            });
+          }
+        });
     });
 
     //Save details

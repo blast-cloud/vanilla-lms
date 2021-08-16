@@ -169,8 +169,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this assignment?")){
-
+        swal({
+          title: "Are you sure you want to delete this assignment?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let actionType = "DELETE";
             let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
 
@@ -190,12 +197,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        swal("Done!","The Lecture has been deleted!","success");
+                        swal("Done!","The Assignment has been deleted!","success");
                         location.reload(true);
                     }
                 },
             });
-        }        
+          }
+        });      
     });
 
 

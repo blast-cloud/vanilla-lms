@@ -93,8 +93,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this announcement?")){
-
+        swal({
+          title: "Are you sure you want to delete this announcement?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let actionType = "DELETE";
             let endPointUrl = "{{ route('announcements.destroy',0) }}"+itemId;
 
@@ -115,13 +122,12 @@ $(document).ready(function() {
                         console.log(result.errors)
                     }else{
                         swal("Done!","The Announcement has been deleted!","success");
-                        // window.alert("The Announcement has been deleted.");
                         location.reload(true);
                     }
                 },
             });
-        }
-        
+          }
+        });
     });    
 
 
