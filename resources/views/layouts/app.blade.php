@@ -164,7 +164,7 @@
             align-items: center;
         }
 
-        #offline{
+        #offline, .offline{
             display: none;
         }
 

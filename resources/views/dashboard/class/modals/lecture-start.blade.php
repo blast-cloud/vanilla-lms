@@ -16,6 +16,7 @@
 
                 <form class="form-horizontal" id="form-start-lecture" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-11 ma-10">
                             @csrf
 
@@ -223,6 +224,15 @@ $(document).ready(function() {
     //Save assignment
     $('#btn-start-lecture').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+
         $('.spinner1').show();
         $('#btn-start-lecture').prop("disabled", true);
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});

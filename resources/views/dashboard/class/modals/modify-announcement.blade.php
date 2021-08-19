@@ -13,6 +13,7 @@
                 <div id="modify-announcement-error-div" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="form-modify-announcement" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-12 ma-10">
                             @csrf
 
@@ -134,6 +135,15 @@ $(document).ready(function() {
     //Save lecturer
     $('#btn-modify-announcement').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+        
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').show();
         $('#btn-modify-announcement').prop("disabled", true);

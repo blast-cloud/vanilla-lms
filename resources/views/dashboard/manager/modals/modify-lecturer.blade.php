@@ -13,7 +13,7 @@
                 <div id="div-lecturer-modal-error" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="frm-lecturer-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
-                        <div class="offline-flag"><span id="offline">You are currently offline</span></div>
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-12 ma-10">
                             @csrf
 
@@ -173,10 +173,10 @@ $(document).ready(function() {
 
         //check for internet status 
         if (!window.navigator.onLine) {
-            $('#offline').fadeIn(300);
+            $('.offline').fadeIn(300);
             return;
         }else{
-            $('#offline').fadeOut(300);
+            $('.offline').fadeOut(300);
         }
         
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});

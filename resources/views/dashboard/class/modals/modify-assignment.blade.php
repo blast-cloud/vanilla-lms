@@ -13,6 +13,7 @@
                 <div id="modify-assignment-error-div" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="form-modify-assignment" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-12 ma-10">
                             @csrf
                             <input id="txt_assignment_id" type="hidden" value="0" />
@@ -282,6 +283,15 @@ $(document).ready(function() {
     //Save assignment
     $('#btn-modify-assignment').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+        
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
  
         if ($('#txt_assignment_upload_file_path')[0].files[0] == null){
