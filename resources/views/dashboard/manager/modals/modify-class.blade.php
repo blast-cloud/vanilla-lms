@@ -241,7 +241,6 @@ $(document).ready(function() {
                         $('#btn-save-mdl-courseClass-modal').prop("disabled", false);
                         window.setTimeout( function(){
                             swal("Done!", "The CourseClass record saved successfully!", "success");
-                            // window.alert("The CourseClass record saved successfully.");
                             $('#div-courseClass-modal-error').hide();
                             location.reload(true);
                         },20);

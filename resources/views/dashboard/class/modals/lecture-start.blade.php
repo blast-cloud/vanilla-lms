@@ -142,7 +142,7 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Lecture has been deleted.");
+                        swal("Done!", "The Lecture has been deleted!", "success");
                         location.reload(true);
                     }
                 },

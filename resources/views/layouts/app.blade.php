@@ -157,6 +157,17 @@
         }
         }
 
+        .offline-flag{
+            color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #offline{
+            display: none;
+        }
+
         </style>
     </head>
 
