@@ -93,8 +93,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $("input[name='_token']").val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm('Are you sure you want to delete this posting?')){
-
+        swal({
+          title: "Are you sure you want to delete this posting?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let actionType = 'DELETE';
             let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
 
@@ -114,12 +121,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert('The Lecture has been deleted.');
+                        swal("Done!","The Posting has been deleted!","success");
                         location.reload(true);
                     }
                 },
             });
-        }
+          }
+        }); 
     });
     
     $("#comment-text").on('keypress', function(e){

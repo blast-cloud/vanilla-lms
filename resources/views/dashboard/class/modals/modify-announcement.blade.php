@@ -13,6 +13,7 @@
                 <div id="modify-announcement-error-div" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="form-modify-announcement" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-12 ma-10">
                             @csrf
 
@@ -93,8 +94,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this announcement?")){
-
+        swal({
+          title: "Are you sure you want to delete this announcement?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let actionType = "DELETE";
             let endPointUrl = "{{ route('announcements.destroy',0) }}"+itemId;
 
@@ -114,19 +122,28 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Announcement has been deleted.");
+                        swal("Done!","The Announcement has been deleted!","success");
                         location.reload(true);
                     }
                 },
             });
-        }
-        
+          }
+        });
     });    
 
 
     //Save lecturer
     $('#btn-modify-announcement').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+        
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').show();
         $('#btn-modify-announcement').prop("disabled", true);
@@ -172,7 +189,7 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $('#btn-modify-announcement').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Announcement saved successfully.");
+                        swal("Done!","Announcement saved successfully!","success");
                         $('#modify-announcement-modal').modal('hide');
                         location.reload(true);
                     }, 50);

@@ -100,7 +100,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').hide();
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this date?")){
+        swal({
+          title: "Are you sure you want to delete this date?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             $('.spinner1').show();
             let actionType = "DELETE";
             let endPointUrl = "{{ route('calendarEntries.destroy',0) }}"+itemId;
@@ -123,15 +131,13 @@ $(document).ready(function() {
                         $('.spinner1').hide();
                     }else{
                         $('.spinner1').hide();
-                        window.alert("The class date has been deleted.");
+                        swal("Done!","The class date has been deleted!","success");
                         location.reload(true);
                     }
                 },
             });
-        }
-
-
-        
+          }
+        });
     });
 
     //Save lecturer
@@ -179,7 +185,7 @@ $(document).ready(function() {
                     $('#modify-date-error-div').hide();
                     $('.spinner1').hide();
                     window.setTimeout( function(){
-                        window.alert("Class date saved successfully.");
+                        swal("Done!","Class date saved successfully!","success");
                         $('#modify-date-modal').modal('hide');
                         location.reload(true);
                     }, 50);

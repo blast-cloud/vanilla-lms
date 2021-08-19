@@ -13,6 +13,7 @@
                 <div id="modify-class-detail-error-div" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="form-modify-class-detail" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-11 ma-10">
                             @csrf
                             
@@ -142,6 +143,15 @@ $(document).ready(function() {
     //Save lecturer
     $('#btn-modify-class-detail').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let formData = new FormData();
@@ -173,7 +183,7 @@ $(document).ready(function() {
                 }else{
                     $('#modify-class-detail-error-div').hide();
                     window.setTimeout( function(){
-                        window.alert("Class details saved successfully.");
+                        swal("Done!","Class details saved successfully!","success");
                         $('#modify-class-detail-modal').modal('hide');
                         location.reload(true);
                     }, 500);

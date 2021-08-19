@@ -16,6 +16,7 @@
 
                 <form class="form-horizontal" id="form-start-lecture" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-11 ma-10">
                             @csrf
 
@@ -114,8 +115,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this lecture?")){
-
+        swal({
+          title: "Are you sure you want to delete this lecture?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let actionType = "DELETE";
             let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
 
@@ -135,12 +143,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Lecture has been deleted.");
+                        swal("Done!", "The Lecture has been deleted!", "success");
                         location.reload(true);
                     }
                 },
-            });
-        }
+            }); 
+          }
+        });
     });
 
     function save_lecture_details(fileDetails){
@@ -202,10 +211,10 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $('#btn-start-lecture').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Online lecture created, please click Start Online Blackboard to continue.");
+                        swal("Done!","Online lecture created, please click Start Online Blackboard to continue!","success");
                         $('#start-lecture-modal').modal('hide');
                         location.reload(true);
-                    }, 50);
+                    }, 1000);
                 }
             },
         });
@@ -215,6 +224,15 @@ $(document).ready(function() {
     //Save assignment
     $('#btn-start-lecture').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+
         $('.spinner1').show();
         $('#btn-start-lecture').prop("disabled", true);
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});

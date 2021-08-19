@@ -30,6 +30,9 @@
 
         <!-- Custom CSS -->
         <link href="{{ asset('dist/css/style.css') }}" rel="stylesheet" type="text/css" />
+
+        {{-- Sweet Alert --}}
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         
         
         @yield('third_party_stylesheets')
@@ -152,6 +155,17 @@
             -o-transform: rotate(360deg);
             transform: rotate(360deg);
         }
+        }
+
+        .offline-flag{
+            color: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #offline, .offline{
+            display: none;
         }
 
         </style>

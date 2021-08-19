@@ -50,9 +50,8 @@
                     $score = null;
                     $grade = isset($grade_item['final-grade']) ? $grade_item['final-grade'] : null;
                     if ($grade != null){ $score = $grade->score; }
-                    $id_code = sha1($grade_item['matric_num']);
                 @endphp
-                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control final-scores text-right fs-{$id_code}",'data-val-id'=>'final','data-val-matric'=>"{$grade_item['matric_num']}","disabled"=>'',"readonly"=>'']) !!}
+                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control final-scores text-right fs-{$grade_item['matric_num']}",'data-val-id'=>'final','data-val-matric'=>"{$grade_item['matric_num']}","disabled"=>'',"readonly"=>'']) !!}
             </td>
 
             @foreach($gradeManager->get_assignment_list() as $idx=>$item)
@@ -62,9 +61,8 @@
                         $score = $grade_item['assignments'][$idx]['score'];
                         $max = $grade_item['assignments'][$idx]['max_points'];
                         $label = $grade_item['assignments'][$idx]['label'];
-                        $id_code = sha1($grade_item['matric_num']);
                         @endphp
-                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control assignment-scores text-right as-{$item->id}-{$id_code}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-val-matric'=>"{$grade_item['matric_num']}"]) !!}
+                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control assignment-scores text-right as-{$item->id}-{$grade_item['matric_num']}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-val-matric'=>"{$grade_item['matric_num']}"]) !!}
                     </td>
                 @endif
             @endforeach
@@ -76,9 +74,8 @@
                         $score = $grade_item['examinations'][$idx]['score'];
                         $max = $grade_item['examinations'][$idx]['max_points'];
                         $label = $grade_item['examinations'][$idx]['label'];
-                        $id_code = sha1($grade_item['matric_num']);
                         @endphp
-                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control exam-scores text-right es-{$item->id}-{$id_code}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-val-matric'=>"{$grade_item['matric_num']}"]) !!}
+                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control exam-scores text-right es-{$item->id}-{$grade_item['matric_num']}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-val-matric'=>"{$grade_item['matric_num']}"]) !!}
                     </td>
                 @endif
             @endforeach

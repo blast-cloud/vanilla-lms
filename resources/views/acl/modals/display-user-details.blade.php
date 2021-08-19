@@ -13,6 +13,7 @@
                 <div id="modify-user-details-error-div" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="form-modify-user-details" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span id="offline">You are currently offline</span></div>
                         <div class="col-lg-12 ma-10">
                             @csrf
 
@@ -230,9 +231,15 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-
-        if (confirm("Are you sure you want to disable this user account?")){
-
+        swal({
+          title: "Are you sure you want to disable this user account?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
 
@@ -251,12 +258,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The user account has been disabled.");
+                        swal("Done!","The user account has been disabled!","success");
                         location.reload(true);
                     }
                 },
-            });
-        }
+            }); 
+          }
+        });
     });
 
     //Enable Model
@@ -264,9 +272,15 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-
-        if (confirm("Are you sure you want to enable this user account?")){
-
+        swal({
+          title: "Are you sure you want to enable this user account?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
 
@@ -285,12 +299,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The user account has been enabled.");
+                        swal("Done!","The user account has been enabled!","success");
                         location.reload(true);
                     }
                 },
             });
-        }
+          }
+        });
     });
 
     //Delete action
@@ -299,8 +314,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this user account?")){
-
+        swal({
+          title: "Are you sure you want to delete this user account?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let endPointUrl = "{{ route('dashboard.user-delete-account',0) }}"+itemId;
 
             let formData = new FormData();
@@ -318,18 +340,27 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The user account has been deleted.");
+                        swal("Done!","The user account has been deleted!","success");
                         location.reload(true);
                     }
                 },
-            });            
-        }
-        
+            });
+          }
+        });
     });
 
     //Save user details
     $('#btn-modify-user-details').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('#offline').fadeIn(300);
+            return;
+        }else{
+            $('#offline').fadeOut(300);
+        }
+        
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').show();
         $('#btn-modify-user-details').prop("disabled", true);
@@ -382,7 +413,7 @@ $(document).ready(function() {
                     $('#btn-modify-user-details').prop("disabled", false);
                     $('.spinner1').hide();
                     window.setTimeout( function(){
-                        window.alert("User account saved successfully.");
+                        swal("Done!","User account saved successfully!","success");
                         $('#modify-user-details-modal').modal('hide');
                         location.reload(true);
                     }, 50);

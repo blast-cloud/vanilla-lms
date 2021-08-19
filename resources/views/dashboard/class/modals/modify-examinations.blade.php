@@ -140,8 +140,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this examination?")){
-
+        swal({
+          title: "Are you sure you want to delete this examination?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let actionType = "DELETE";
             let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
 
@@ -161,12 +168,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Lecture has been deleted.");
+                        swal("Done!","The Examination has been deleted!","success");
                         location.reload(true);
                     }
                 },
             });
-        }        
+          }
+        });     
     });
 
     function save_examinations_details(){
@@ -218,7 +226,7 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $('#btn-modify-examination').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Examination saved successfully.");
+                        swal("Done!","Examination saved successfully!","success");
                         $('#modify-examination-modal').modal('hide');
                         location.reload(true);
                     }, 50);

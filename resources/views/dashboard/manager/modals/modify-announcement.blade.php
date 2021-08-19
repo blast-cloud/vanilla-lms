@@ -13,6 +13,7 @@
                 <div id="div-announcement-modal-error" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="frm-announcement-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-12 ma-10">
                             @csrf
 
@@ -117,13 +118,20 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this Announcement?")){
-
+        swal({
+          title: "Are you sure you want to delete this Announcement?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let endPointUrl = "{{ route('announcements.destroy',0) }}"+itemId;
 
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
-			formData.append('_method', 'DELETE');
+            formData.append('_method', 'DELETE');
             
             $.ajax({
                 url:endPointUrl,
@@ -137,17 +145,27 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Announcement record has been deleted.");
+                        swal("Done!", "The Announcement record has been deleted!", "success");
                         location.reload(true);
                     }
                 },
-            });            
-        }
+            });
+          }
+        });
     });
 
     //Save details
     $('#btn-save-mdl-announcement-modal').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').show();
         $('#btn-save-mdl-announcement-modal').prop("disabled", true);
@@ -193,7 +211,8 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $('#btn-save-mdl-announcement-modal').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("The Announcement record saved successfully.");
+                        swal("Done!", "The Announcement record saved successfully!", "success");
+                        // window.alert("The Announcement record saved successfully.");
 						$('#div-announcement-modal-error').hide();
                         location.reload(true);
                     },20);

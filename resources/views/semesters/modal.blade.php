@@ -119,13 +119,20 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this Semester?")){
-
+        swal({
+          title: "Are you sure you want to delete this Semester?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let endPointUrl = "{{ route('semesters.destroy',0) }}"+itemId;
 
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
-			formData.append('_method', 'DELETE');
+            formData.append('_method', 'DELETE');
             
             $.ajax({
                 url:endPointUrl,
@@ -139,12 +146,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Semester record has been deleted.");
+                        swal("Done!", "The Semester record has been deleted!", "success");
                         location.reload(true);
                     }
                 },
-            });            
-        }
+            });
+          }
+        });
     });
 
     //Save details
@@ -197,10 +205,11 @@ $(document).ready(function() {
                     $('#btn-save-mdl-semester-modal').prop("disabled", false);
                     $('#div-semester-modal-error').hide();
                     window.setTimeout( function(){
-                        window.alert("The Semester record saved successfully.");
+                        swal("Done!", "The Semester record saved successfully!", "success");
+                        // window.alert("The Semester record saved successfully.");
 						$('#div-semester-modal-error').hide();
                         location.reload(true);
-                    },20);
+                    },28);
                 }
             }, error: function(data){
                 $('.spinner1').hide();

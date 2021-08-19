@@ -13,6 +13,7 @@
                 <div id="modify-assignment-error-div" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="form-modify-assignment" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-12 ma-10">
                             @csrf
                             <input id="txt_assignment_id" type="hidden" value="0" />
@@ -169,8 +170,15 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this assignment?")){
-
+        swal({
+          title: "Are you sure you want to delete this assignment?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let actionType = "DELETE";
             let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
 
@@ -190,12 +198,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Lecture has been deleted.");
+                        swal("Done!","The Assignment has been deleted!","success");
                         location.reload(true);
                     }
                 },
             });
-        }        
+          }
+        });      
     });
 
 
@@ -260,7 +269,7 @@ $(document).ready(function() {
                     $('#spinner').hide();
                     $('#btn-modify-assignment').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Assignment saved successfully.");
+                        swal("Done!","Assignment saved successfully!","success");
                         $('#modify-assignment-modal').modal('hide');
                         location.reload(true);
                     }, 50);
@@ -274,6 +283,15 @@ $(document).ready(function() {
     //Save assignment
     $('#btn-modify-assignment').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+        
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
  
         if ($('#txt_assignment_upload_file_path')[0].files[0] == null){

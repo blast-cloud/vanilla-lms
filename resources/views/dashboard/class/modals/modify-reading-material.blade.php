@@ -101,8 +101,16 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this reading material?")){
 
+        swal({
+          title: "Are you sure you want to delete this reading material?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let actionType = "DELETE";
             let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
 
@@ -122,13 +130,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The reading material has been deleted.");
+                        swal("Done!","The reading material has been deleted!","success");
                         location.reload(true);
                     }
                 },
-            });            
-        }
-        
+            });
+          } 
+        });
     });
 
     function save_reading_material_details(fileDetails){
@@ -183,7 +191,7 @@ $(document).ready(function() {
                     $('#modify-reading-material-error-div').hide();
                     $('.spinner1').hide();
                     window.setTimeout( function(){
-                        window.alert("Reading material saved successfully.");
+                        swal("Done!","Reading material saved successfully!","success");
                         $('#modify-reading-material-modal').modal('hide');
                         location.reload(true);
                     }, 50);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterSemesterTableAddCurrentSemester extends Migration
+class AlterTableGradesMakeGradeLetterNullable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AlterSemesterTableAddCurrentSemester extends Migration
      */
     public function up()
     {
-        Schema::table("semesters", function(Blueprint $table) {
-            $table->boolean('is_current')->default(false);
+        Schema::table('grades', function (Blueprint $table) {
+            $table->string('grade_letter')->nullable()->change();
         });
     }
 
@@ -25,6 +25,8 @@ class AlterSemesterTableAddCurrentSemester extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('goals', function (Blueprint $table) {
+            $table->string('grade_letter');
+        });
     }
 }

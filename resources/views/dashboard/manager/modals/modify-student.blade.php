@@ -13,6 +13,7 @@
                 <div id="div-student-modal-error" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="frm-student-modal" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-12 ma-10">
                             @csrf
 
@@ -127,13 +128,20 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this Student?")){
-
+        swal({
+          title: "Are you sure you want to delete this Student?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let endPointUrl = "{{ route('students.destroy',0) }}"+itemId;
 
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
-			formData.append('_method', 'DELETE');
+            formData.append('_method', 'DELETE');
             
             $.ajax({
                 url:endPointUrl,
@@ -147,17 +155,27 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Student record has been deleted.");
+                        swal("Done!", "The Student record has been deleted!", "success");
                         location.reload(true);
                     }
                 },
-            });            
-        }
+            });
+          }
+        });
     });
 
     //Save details
     $('#btn-save-mdl-student-modal').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('#spinner1').show();
         $('#btn-save-mdl-student-modal').prop("disabled", true);
@@ -206,7 +224,7 @@ $(document).ready(function() {
                     $('#spinner1').hide();
                     $('#btn-save-mdl-student-modal').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("The Student record saved successfully.");
+                        swal("Done!", "The Student record saved successfully!", "success");
 						$('#div-student-modal-error').hide();
                         location.reload(true);
                     },20);

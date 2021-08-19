@@ -18,6 +18,7 @@
 
                 <form class="form-horizontal" id="form-modify-assignment" role="form" method="POST" enctype="multipart/form-data" action="">
                     <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
                         <div class="col-lg-12 ma-10">
                             @csrf
                             <input id="txt_id_submission" type="hidden" value="0" />
@@ -136,6 +137,15 @@ $(document).ready(function() {
     //Save Grade
     $('#btn-submit-grade').click(function(e) {
         e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('.offline').fadeIn(300);
+            return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('#spinner1').show();
         $(this).prop("disabled", true);
@@ -184,7 +194,7 @@ $(document).ready(function() {
                     $('#spinner1').hide();
                     $('#btn-submit-grade').prop("disabled", false);
                     window.setTimeout( function(){
-                        window.alert("Grades saved successfully.");
+                        swal("Done!", "Grades saved successfully!", "success");
                         $('#submit-assignment-modal').modal('hide');
                         location.reload(true);
                     }, 50);

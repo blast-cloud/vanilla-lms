@@ -109,13 +109,20 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
-        if (confirm("Are you sure you want to delete this Forum?")){
-
+        swal({
+          title: "Are you sure you want to delete this Forum?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
             let endPointUrl = "{{ route('forums.destroy',0) }}"+itemId;
 
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
-			formData.append('_method', 'DELETE');
+            formData.append('_method', 'DELETE');
             
             $.ajax({
                 url:endPointUrl,
@@ -129,12 +136,13 @@ $(document).ready(function() {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        window.alert("The Forum record has been deleted.");
+                        swal("Done!", "The Forum record has been deleted!", "success");
                         location.reload(true);
                     }
                 },
-            });            
-        }
+            });
+          }
+        });
     });
 
     //Save details
@@ -180,10 +188,11 @@ $(document).ready(function() {
                 }else{
                     $('#div-forum-modal-error').hide();
                     window.setTimeout( function(){
-                        window.alert("The Forum record saved successfully.");
+                        // window.alert("The Forum record saved successfully.");
+                        swal("Done!", "The Forum record saved successfully!", "success");
 						$('#div-forum-modal-error').hide();
                         location.reload(true);
-                    },20);
+                    },28);
                 }
             }, error: function(data){
                 console.log(data);
