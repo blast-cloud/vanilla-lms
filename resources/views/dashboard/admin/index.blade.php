@@ -18,6 +18,20 @@ Admin Dashboard
     
         <div class="col-sm-9">
 
+            @php
+                // dd (isset($current_semester));
+                // dd($current_semester);
+            @endphp
+
+            @if (isset($current_semester) && $current_semester==null)
+                <div class="text-left alert alert-danger" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    No current <strong>Semester</strong> set in the system. You have to setup the current semester.
+                    <a id="btn-new-semester" href="#" class="ma-10 btn btn-xs btn-danger btn-new-mdl-semester-modal pull-right"><i class="zmdi zmdi-home"></i>&nbsp;Start New Semester</a>
+                </div>
+            @endif
 
             {{-- @include('dashboard.admin.partials.semesters') --}}
             @include('dashboard.admin.partials.departments')

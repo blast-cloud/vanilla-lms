@@ -190,8 +190,9 @@
                 </li>
 
                 <li class="">
-                    <a href="{{ route('semesters.index') }}" class="{{ Request::is('semesters*') ? 'active' : '' }}">
-                        <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">Semester</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    {{-- <a href="{{ route('semesters.index') }}" class="{{ Request::is('semesters*') ? 'active' : '' }}"> --}}
+                    <a href="{{ route('dashboard.start-semester') }}" class="{{ Request::is('start-semesters*') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">Semesters</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
 
