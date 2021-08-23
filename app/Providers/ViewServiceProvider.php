@@ -38,6 +38,9 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $current_semester = Semester::where('is_current',true)->first();
+        View::share('current_semester', $current_semester);
+
         View::composer(['enrollments.fields'], function ($view) {
             $StudentItems = Student::pluck('first_name','id')->toArray();
             $view->with('StudentItems', $StudentItems);
