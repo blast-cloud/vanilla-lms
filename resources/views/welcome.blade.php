@@ -42,7 +42,59 @@
                 position: absolute;
                 bottom: 20px;
                 left: 80px;
+                text-align: center;
             }
+
+           .brand-text{
+                margin-left: 92px;
+           }
+
+           .image-container{
+                margin-top: 60px;
+                margin-bottom: 30px;
+           }
+
+           .image-text-bottom-left h4{
+                color:white; 
+                text-align: center;
+                padding-left: 50px;
+                padding-right: 130px !important;
+
+           }
+
+           @media (max-width:414px)  {
+                .image-text-bottom-left h4{
+                    font-size: 14px;
+                }
+                .image-text-bottom-left{
+                    margin-right: 20%;
+                    margin-left: -10px;
+                    width: 60%;
+                }
+                .image-container{
+                    margin-top: 70px;
+                }
+                .brand-text{
+                    margin-left: 40px;
+                }
+
+                .auth-actions > a{
+                    margin: 6px;
+                }
+           }
+
+           @media (max-width:320px)  {
+                .image-text-bottom-left h4{
+                    font-size: 11px;
+                    margin-top: 10px;
+                }
+
+                .image-text-bottom-left{
+                    margin-right: 20%;
+                    margin-left: -6px !important;
+                    width: 60%;
+                }
+           }
 
         </style>
 
@@ -61,7 +113,7 @@
                 <div class="sp-logo-wrap pull-left">
                     <a href="/">
                         @if (isset($app_settings['file_icon_picture']))
-                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
+                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
                         @endif
                         <span class="brand-text">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
                     </a>
@@ -81,7 +133,7 @@
                             <div class="image-container">
                                 @if (isset($app_settings['file_landing_page_picture']))
                                 <img src="{{ asset($app_settings['file_landing_page_picture']) }}" width="85%" />
-                                <div class="image-text-bottom-left"><h4 class="pa-10" style="color:white;">{!! $app_settings['txt_welcome_text'] ?? '' !!}</h4></div>
+                                <div class="image-text-bottom-left"><h4 class="">{!! $app_settings['txt_welcome_text'] ?? '' !!}</h4></div>
                                 @endif
                             </div>
 
@@ -104,7 +156,7 @@
                                                     {!! $app_settings['txt_app_name'] ?? '' !!}
                                                 </h6>
                                             </div>
-                                            <div class="col-lg-12 text-center mt-20">
+                                            <div class="col-lg-12 text-center mt-20 auth-actions">
                                                 <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
 
                                                 @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)

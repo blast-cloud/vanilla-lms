@@ -44,6 +44,28 @@
                 left: 80px;
             }
 
+            .auth-cont{
+                margin-top: 120px;
+            }
+
+            .sp-logo-wrap a{
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .brand-text{
+                /*margin-left: -158px;*/
+                margin: 30px 0 30px 37px;
+            }
+
+            @media (max-width:414px)  {
+
+                .auth-actions > a{
+                    margin: 6px;
+                }
+           }
+
         </style>
 
 
@@ -77,7 +99,7 @@
 
                     <div class="row mt-50 ">
 
-                        <div class="col-lg-8">
+                        <div class="col-lg-8 auth-cont">
 
                             
                             <div class="col-lg-12 text-center">
@@ -237,7 +259,7 @@
                                                     {!! $app_settings['txt_app_name'] ?? '' !!}
                                                 </h6>
                                             </div>
-                                            <div class="col-lg-12 text-center mt-20">
+                                            <div class="col-lg-12 text-center mt-20 auth-actions">
                                                 <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
 
                                                 @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
