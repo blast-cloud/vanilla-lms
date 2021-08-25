@@ -44,25 +44,75 @@
                 left: 80px;
             }
 
-            .auth-cont{
-                margin-top: 120px;
-            }
-
             .sp-logo-wrap a{
                 display: flex;
-                flex-direction: column;
                 justify-content: space-between;
+                align-items: center;
             }
 
-            .brand-text{
-                /*margin-left: -158px;*/
-                margin: 30px 0 30px 37px;
-            }
+           .image-container{
+                margin-top: 20px;
+                margin-bottom: 30px;
+           }
 
-            @media (max-width:414px)  {
+           .brand-img{
+                max-height: 10vh;
+                max-width: 25vh;
+           }
+
+           .image-text-bottom-left{
+                padding-left: 120px;
+                padding-right: 180px;
+                text-align: center;
+           }
+
+           .image-text-bottom-left h4{
+                color: white;
+           }
+
+           @media (max-width:414px)  {
+                .image-text-bottom-left h4{
+                    font-size: 14px;
+                }
+                .image-text-bottom-left{
+                    padding-right: 45px;
+                    padding-left: 10px;
+                    width: 70%;
+                }
+                .image-container{
+                    margin-top: 70px;
+                }
+                .brand-text{
+                    margin-left: 40px;
+                }
 
                 .auth-actions > a{
                     margin: 6px;
+                }
+
+                .sp-logo-wrap a > img, .sp-logo-wrap a > span{
+                    margin-left: 2px !important;
+                }
+           }
+
+           @media (max-width:320px)  {
+                .image-text-bottom-left h4{
+                    font-size: 10px;
+                    margin-right: 10px;
+                    margin-left: -26px;
+                }
+
+                .image-container{
+                    display: flex;
+                    
+                }
+
+                .image-container img{
+                    width: 100%;
+                }
+
+                .sp-logo-wrap a > img, .sp-logo-wrap a > span{
+                    margin-left: 2px !important;
                 }
            }
 
@@ -83,7 +133,7 @@
                 <div class="sp-logo-wrap pull-left">
                     <a href="/">
                         @if (isset($app_settings['file_icon_picture']))
-                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
+                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/ width="130" height="100">
                         @endif
                         <span class="brand-text">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
                     </a>

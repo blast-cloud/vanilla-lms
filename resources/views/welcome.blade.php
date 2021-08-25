@@ -45,21 +45,34 @@
                 text-align: center;
             }
 
-           .brand-text{
-                margin-left: 92px;
-           }
+            .sp-logo-wrap a{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
 
            .image-container{
-                margin-top: 60px;
+                margin-top: 20px;
                 margin-bottom: 30px;
            }
 
-           .image-text-bottom-left h4{
-                color:white; 
-                text-align: center;
-                padding-left: 50px;
-                padding-right: 130px !important;
+           .image-container img{
+            height: 80vh;
+           }
 
+           .brand-img{
+                max-height: 10vh;
+                max-width: 25vh;
+           }
+
+           .image-text-bottom-left{
+                padding-left: 120px;
+                padding-right: 180px;
+                text-align: center;
+           }
+
+           .image-text-bottom-left h4{
+                color: white;
            }
 
            @media (max-width:414px)  {
@@ -67,9 +80,9 @@
                     font-size: 14px;
                 }
                 .image-text-bottom-left{
-                    margin-right: 20%;
-                    margin-left: -10px;
-                    width: 60%;
+                    padding-right: 45px;
+                    padding-left: 10px;
+                    width: 70%;
                 }
                 .image-container{
                     margin-top: 70px;
@@ -81,18 +94,30 @@
                 .auth-actions > a{
                     margin: 6px;
                 }
+
+                .sp-logo-wrap a > img, .sp-logo-wrap a > span{
+                    margin-left: 2px !important;
+                }
            }
 
            @media (max-width:320px)  {
                 .image-text-bottom-left h4{
-                    font-size: 11px;
-                    margin-top: 10px;
+                    font-size: 10px;
+                    margin-right: 10px;
+                    margin-left: -26px;
                 }
 
-                .image-text-bottom-left{
-                    margin-right: 20%;
-                    margin-left: -6px !important;
-                    width: 60%;
+                .image-container{
+                    display: flex;
+                    
+                }
+
+                .image-container img{
+                    width: 100%;
+                }
+
+                .sp-logo-wrap a > img, .sp-logo-wrap a > span{
+                    margin-left: 2px !important;
                 }
            }
 

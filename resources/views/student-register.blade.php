@@ -44,6 +44,82 @@
                 left: 80px;
             }
 
+            .sp-logo-wrap a{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+           .image-container{
+                margin-top: 20px;
+                margin-bottom: 30px;
+           }
+
+           .brand-img{
+                max-height: 10vh;
+                max-width: 25vh;
+           }
+
+           .image-text-bottom-left{
+                padding-left: 120px;
+                padding-right: 180px;
+                text-align: center;
+           }
+
+           .image-text-bottom-left h4{
+                color: white;
+           }
+
+           @media (max-width:414px)  {
+                .image-text-bottom-left h4{
+                    font-size: 14px;
+                }
+                .image-text-bottom-left{
+                    padding-right: 45px;
+                    padding-left: 10px;
+                    width: 70%;
+                }
+                .image-container{
+                    margin-top: 70px;
+                }
+                .brand-text{
+                    margin-left: 40px;
+                }
+
+                .auth-actions > a{
+                    margin: 6px;
+                }
+
+                .sp-logo-wrap a > img, .sp-logo-wrap a > span{
+                    margin-left: 2px !important;
+                }
+
+                .auth-cont{
+                    margin-top: 40px;
+                }
+           }
+
+           @media (max-width:320px)  {
+                .image-text-bottom-left h4{
+                    font-size: 10px;
+                    margin-right: 10px;
+                    margin-left: -26px;
+                }
+
+                .image-container{
+                    display: flex;
+                    
+                }
+
+                .image-container img{
+                    width: 100%;
+                }
+
+                .sp-logo-wrap a > img, .sp-logo-wrap a > span{
+                    margin-left: 2px !important;
+                }
+           }
+
         </style>
 
 
@@ -80,7 +156,7 @@
                         <div class="col-lg-8">
 
                             @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
-                            <div class="col-lg-12 text-center">
+                            <div class="col-lg-12 text-center auth-cont">
                                 <div class="panel panel-default card-view">
                                     <div class="panel-wrapper collapse in">
                                         <div class="panel-body pt-5" style="">
@@ -215,7 +291,7 @@
                                                     {!! $app_settings['txt_app_name'] ?? '' !!}
                                                 </h6>
                                             </div>
-                                            <div class="col-lg-12 text-center mt-20">
+                                            <div class="col-lg-12 text-center mt-20 auth-actions">
                                                 <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
 
                                                 @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
