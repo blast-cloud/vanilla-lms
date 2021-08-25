@@ -51,13 +51,17 @@
             }
 
            .image-container{
-                margin-top: 20px;
+                margin-top: 60px;
                 margin-bottom: 30px;
            }
 
            .brand-img{
-                max-height: 10vh;
-                max-width: 25vh;
+                max-height: 80px;
+                max-width: 100px;
+           }
+
+           .auth-cont{
+                margin-top: 50px;
            }
 
            .image-text-bottom-left{

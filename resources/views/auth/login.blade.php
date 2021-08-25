@@ -56,8 +56,12 @@
            }
 
            .brand-img{
-                max-height: 10vh;
-                max-width: 25vh;
+                max-height: 80px;
+                max-width: 100px;
+           }
+
+           .auth-cont{
+                margin-top: 50px;
            }
 
            .image-text-bottom-left{
@@ -133,7 +137,7 @@
                 <div class="sp-logo-wrap pull-left">
                     <a href="/">
                         @if (isset($app_settings['file_icon_picture']))
-                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/ width="130" height="100">
+                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
                         @endif
                         <span class="brand-text">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
                     </a>
