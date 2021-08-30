@@ -110,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('forums', App\Http\Controllers\ForumController::class);
 
     Route::resource('settings', App\Http\Controllers\SettingController::class);
+    
+    Route::resource('faqs', App\Http\Controllers\FAQController::class);
 });
 
 Auth::routes();

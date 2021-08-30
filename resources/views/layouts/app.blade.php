@@ -168,6 +168,15 @@
             display: none;
         }
 
+        .brand-img{
+            max-height: 80px;
+            max-width: 100px;
+        }
+
+        .side-bar-area{
+            margin-bottom: 50px;
+        }
+
         </style>
     </head>
 

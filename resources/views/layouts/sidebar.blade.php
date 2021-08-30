@@ -6,7 +6,7 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="mobile-only-brand pull-left">
 				<div class="nav-header pull-left">
-					<div class="logo-wrap">
+					<div class="logo-wrap side-bar-area">
 						<a href="#">
                             @if (isset($app_settings['file_icon_picture']))
                             <img class="brand-img" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
@@ -189,17 +189,22 @@
                     </a>
                 </li>
 
-                <li class="">
-                    {{-- <a href="{{ route('semesters.index') }}" class="{{ Request::is('semesters*') ? 'active' : '' }}"> --}}
+                {{-- <li class="">
                     <a href="{{ route('dashboard.start-semester') }}" class="{{ Request::is('start-semesters*') ? 'active' : '' }}">
                         <div class="pull-left"><i class="zmdi zmdi-calendar-note mr-20"></i><span class="right-nav-text">Semesters</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
-                </li>
+                </li> --}}
 
                 <!-- <li><hr class="light-grey-hr mb-10"/></li> -->
                 <li class="">
                     <a href="{{ route('dashboard.users') }}" class="{{ Request::is('dashboard/users*') ? 'active' : '' }}">
                         <div class="pull-left"><i class="zmdi zmdi-accounts-outline mr-20"></i><span class="right-nav-text">User Accounts</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    </a>
+                </li>
+
+                <li class="">
+                    <a href="{{ route('faqs.index') }}" class="{{ Request::is('faqs*') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="zmdi zmdi-help mr-20"></i><span class="right-nav-text">FAQ & Help</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
 

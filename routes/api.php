@@ -48,3 +48,5 @@ Route::resource('enrollments', App\Http\Controllers\API\EnrollmentAPIController:
 Route::resource('forums', App\Http\Controllers\API\ForumAPIController::class);
 
 Route::resource('settings', App\Http\Controllers\API\SettingAPIController::class);
+
+ Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
