@@ -30,7 +30,7 @@ class UpdateFAQRequest extends FormRequest
         */
 
         return [
-            'id'    => 'required|numeric|exists:f_a_q_s,id',
+            'id'    => 'required|numeric|exists:faqs,id',
             'type'  => 'required',
             'question' => 'required|string',
             'answer'   => 'required|string'

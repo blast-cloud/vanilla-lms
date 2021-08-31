@@ -67,7 +67,7 @@ class FAQDataTable extends DataTable
             'type',
             'question',
             'answer',
-            'visible'
+            'is_visible'
         ];
     }
 

@@ -125,7 +125,6 @@ class CourseClassController extends AppBaseController
 
         $course_exist = CourseClass::where('code', $request->code)->where('lecturer_id', $request->lecturer_id)->get();
 
-        dd($course_exist);
         if (empty($courseClass)) {
             Flash::error('Course Class not found');
 

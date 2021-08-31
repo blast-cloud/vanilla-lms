@@ -26,6 +26,6 @@
 <div id="div-answer" class="form-group">
     <label class="control-label mb-10 col-sm-3" for="answer">Visible</label>
     <div class="col-sm-3">
-        {!! Form::checkbox('visible', 'yes') !!}
+        {!! Form::checkbox('is_visible', true) !!}
     </div>
 </div>

@@ -90,7 +90,12 @@ $(document).ready(function() {
             $('#div_faq_type').css('display', 'none');
             $('#spn_faq_question').html(response.data.question);   
             $('#spn_faq_answer').html(response.data.answer);
-            $('#spn_faq_visible').html(response.data.visible);   
+
+            let is_visible = 'No';
+            if (response.data.is_visible) {
+                is_visible = 'Yes';
+            }
+            $('#spn_faq_visible').html(is_visible);   
         });
     });
 
@@ -116,8 +121,8 @@ $(document).ready(function() {
             $('#type').val(response.data.type);
             $('#question').val(response.data.question);
             $('#answer').val(response.data.answer);
-            if (response.data.visible == 'yes') {
-                $('#visible').prop( "checked", true );
+            if (response.data.is_visible) {
+                $('input[name="is_visible"]').prop( "checked", true );
             }
         });
     });
@@ -186,19 +191,17 @@ $(document).ready(function() {
             formData.append('id', primaryId);
         }
 
-        visible = 'no';
+        is_visible = 0;
 
-        if ($('#visible').is(':checked')) {
-            visible = 'yes';
+        if ($('input[name="is_visible"]').is(':checked')) {
+            is_visible = 1;
         }
-
-        console.log(visible);
 
         formData.append('_method', actionType);
         formData.append('question', $('#question').val());
         formData.append('answer',  $('#answer').val());
         formData.append('type',    $('#type').find(':selected').val());
-        formData.append('visible', visible);
+        formData.append('is_visible', is_visible);
 
         $.ajax({
             url:endPointUrl,

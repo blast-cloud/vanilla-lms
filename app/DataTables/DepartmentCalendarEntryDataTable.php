@@ -44,7 +44,8 @@ class DepartmentCalendarEntryDataTable extends CalendarEntryDataTable
     public function query(CalendarEntry $model)
     {
         return CalendarEntry::where("department_id", $this->department_id)
-                            ->select("calendar_entries.*");
+                            ->select("calendar_entries.*")
+                            ->latest();
     }
    
     /**
