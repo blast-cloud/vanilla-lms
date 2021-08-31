@@ -44,6 +44,15 @@
                 left: 80px;
             }
 
+            .brand-img{
+                max-height: 80px;
+                max-width: 100px;
+           }
+
+           .auth-cont{
+                margin-top: 50px;
+           }
+
         </style>
 
 
@@ -77,7 +86,7 @@
 
                     <div class="row mt-50 ">
 
-                        <div class="col-lg-8">
+                        <div class="col-lg-8 auth-cont">
 
                             
                             <div class="col-lg-12 text-center">

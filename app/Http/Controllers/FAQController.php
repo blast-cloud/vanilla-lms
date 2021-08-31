@@ -121,6 +121,12 @@ class FAQController extends Controller
         return redirect(route('faqs.index'));
     }
 
+    public function showFAQ()
+    {
+        $faqs = FAQ::paginate(10);
+        return view('faq', compact('faqs'));
+    }
+
     /**
      * Remove the specified resource from storage.
      *

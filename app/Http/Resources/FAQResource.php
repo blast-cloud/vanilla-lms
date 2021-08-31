@@ -18,8 +18,8 @@ class FAQResource extends JsonResource
             'id' => $this->id,
             'type' => $this->type,
             'question' => $this->question,
-            'answer' => $this->question,
-            'visible' => $this->visible,
+            'answer' => $this->answer,
+            'is_visible' => $this->is_visible,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

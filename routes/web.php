@@ -10,6 +10,8 @@ Route::get('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndControll
 Route::post('/student-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processStudentRegistration'])->name('student-register');
 Route::post('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processLecturerRegistration'])->name('lecturer-register');
 
+Route::get('faq_help', [App\Http\Controllers\FAQController::class, 'showFAQ'])->name('faq_help');
+
 
 Route::get('/clear-cache', function () {
     Artisan::call('package:discover');
@@ -77,6 +79,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'processApplicationSettings'])->name('dashboard.admin-settings');
         Route::get('dashboard/admin/delete-settings/{key}', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'deleteApplicationSettings'])->name('dashboard.admin-delete-setting');
 
+        Route::prefix('api')->group(function () {
+            Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
+        });
     });
 
     Route::resource('semesters', App\Http\Controllers\SemesterController::class);

@@ -39,8 +39,8 @@
     <p>
         {!! Form::label('visible', 'Visible:', ['class'=>'control-label']) !!} 
         <span id="spn_faq_visible">
-        @if (isset($faq->visible))
-            {!! $faq->visible !!}
+        @if (isset($faq->is_visible))
+            {!! $faq->is_visible !!}
         @endif
         </span>
     </p>
