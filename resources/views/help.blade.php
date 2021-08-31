@@ -70,7 +70,7 @@
 
             .faq.active::before,
             .faq.active::after {
-              content: "\f075";
+              content: "\f059";
               font-family: "Font Awesome 5 Free";
               color: #2ecc71;
               font-size: 7rem;
@@ -280,20 +280,20 @@
 
                             <div class="header-area">
 
-                              <h1>Frequently asked questions</h1>
+                              <h1>Helpful information</h1>
                               </div>
                                 <div class="faq-container">
-                                @foreach($faqs as $faq)
+                                @foreach($helps as $help)
                                   <div class="faq">
-                                    <h3 class="faq-title">{{ $faq->question }}?</h3>
-                                    <p class="faq-text">{{ $faq->answer }}</p>
+                                    <h3 class="faq-title">{{ $help->question }}?</h3>
+                                    <p class="faq-text">{{ $help->answer }}</p>
                                     <button class="faq-toggle">
                                       <i class="fas fa-chevron-down"></i>
                                       <i class="fas fa-times"></i>
                                     </button>
                                   </div>
                                 @endforeach
-                                {{ $faqs->links() }}
+                                {{ $helps->links() }}
                                 </div>
 
                         </div>
@@ -309,11 +309,7 @@
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
-                                    <div class="panel-wrapper collapse in">
-                                        <div class="panel-body pt-5" style="">
-                                            @include("dashboard.partials.side-panel")
-                                        </div>
-                                    </div>
+                                    @include("dashboard.partials.side-panel")
                                 </div>
                                 @endif
                             </div>

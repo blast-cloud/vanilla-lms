@@ -123,8 +123,14 @@ class FAQController extends Controller
 
     public function showFAQ()
     {
-        $faqs = FAQ::paginate(10);
+        $faqs = FAQ::where('type', 'faq')->paginate(10);
         return view('faq', compact('faqs'));
+    }
+
+    public function showHelp()
+    {
+        $helps = FAQ::where('type', 'help')->paginate(10);
+        return view('help', compact('helps'));
     }
 
     /**
