@@ -177,6 +177,10 @@
             margin-bottom: 50px;
         }
 
+        table.table-bordered.dataTable tbody th, table.table-bordered.dataTable tbody td{
+            word-break: break-word;
+        }
+
         </style>
     </head>
 

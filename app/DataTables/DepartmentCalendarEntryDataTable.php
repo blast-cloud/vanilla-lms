@@ -45,7 +45,7 @@ class DepartmentCalendarEntryDataTable extends CalendarEntryDataTable
     {
         return CalendarEntry::where("department_id", $this->department_id)
                             ->select("calendar_entries.*")
-                            ->latest();
+                            ->orderBy('due_date', 'asc');
     }
    
     /**
