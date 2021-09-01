@@ -35,7 +35,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'assignment_number' => 'required_if:type,class-assignments',
             'file' => 'required_if:type,reading-materials|mimes:pdf,doc,docx,zip,xls,xlsx,xlsb,xlsm',
             'due_date' => 'required_if:type,class-assignments',
-            'lecture_number' => 'required_if:type,lecture-classes',
+            'lecture_number' => 'required_if:type,lecture-classes|unique:class_materials|gt:0',
             'reference_material_url' => 'nullable|url',
             'grade_max_points' => 'required_if:type,class-examinations|numeric|min:0|max:100',
             'grade_contribution_pct' => 'required_if:type,class-examinations|numeric|min:0|max:100',

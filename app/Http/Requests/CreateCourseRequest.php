@@ -31,7 +31,7 @@ class CreateCourseRequest extends AppBaseFormRequest
             'code' => "required|max:191|unique:courses,code",
             'name' => "required|max:191",
             'description' => 'required',
-            'credit_hours' => 'required'
+            'credit_hours' => 'required|gt:0'
         ];
     }
 }
