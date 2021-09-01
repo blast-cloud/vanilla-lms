@@ -10,8 +10,6 @@ Route::get('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndControll
 Route::post('/student-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processStudentRegistration'])->name('student-register-process');
 Route::post('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processLecturerRegistration'])->name('lecturer-register-process');
 
-Route::get('faq_help', [App\Http\Controllers\FAQController::class, 'showFAQ'])->name('faq_help');
-
 
 Route::get('/clear-cache', function () {
     Artisan::call('package:discover');
@@ -35,6 +33,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'displayProfile'])->name('profile');
     Route::post('/profile-update', [App\Http\Controllers\ProfileController::class, 'processProfileUpdate'])->name('profile-update');
+
+    Route::get('faq', [App\Http\Controllers\FAQController::class, 'showFAQ'])->name('faq');
+    Route::get('help', [App\Http\Controllers\FAQController::class, 'showHelp'])->name('help');
 
     Route::get('dashboard/class/{id}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'index'])->name('dashboard.class');
     Route::get('dashboard/class/{id}/start-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processStartOnlineLecture'])->name('dashboard.class.start-lecture');

@@ -181,6 +181,27 @@
             word-break: break-word;
         }
 
+        .panel-title{
+            padding-left: 10px;
+        }
+
+        .fixed-sidebar-left{
+            top: 110px !important;
+        }
+
+        .navbar.navbar-inverse.navbar-fixed-top .nav-header{
+            overflow: inherit !important;
+        }
+
+        @media (max-width:414px)  {
+            .navbar.navbar-inverse.navbar-fixed-top .nav-header{
+                overflow: hidden !important;
+            }
+            .fixed-sidebar-left{
+                top: 80px !important;
+            }
+        }
+
         </style>
     </head>
 
