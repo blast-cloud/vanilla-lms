@@ -13,8 +13,8 @@
         <meta name="keywords" content="LMS, VanillaLMS, Foresight, Hasob" />
         
 		<!-- Favicon -->
-		<link rel="shortcut icon" href="favicon.ico">
-		<link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 		
 		<!-- vector map CSS -->
 		<link href="{{ asset('vendors/bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css') }}" rel="stylesheet" type="text/css"/>
@@ -230,7 +230,7 @@
                 <footer class="footer container-fluid pl-30 pr-30"> 
                     <div class="row">
                         <div class="col-sm-5" style="font-size:80%">
-                            {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a>
+                            {{ date('Y') }} &copy; ScolaLMS by <a href="http://hasob.ng" target="_blank">HASOB</a>
                         </div>
                         <div class="col-sm-7 text-right" style="font-size:80%">
                             SPONSORED BY <a href="https://www.tetfund.gov.ng" target="_blank">TETFUND/ICT/2019-20</a>

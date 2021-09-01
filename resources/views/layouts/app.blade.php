@@ -13,8 +13,8 @@
         <meta name="keywords" content="LMS, VanillaLMS, Foresight, Hasob" />
         
         <!-- Favicon -->
-        <link rel="shortcut icon" href="favicon.ico">
-        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
                 
         <!-- Bootstrap Wysihtml5 css -->
         <link rel="stylesheet" href="{{ asset('vendors/bower_components/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.css') }}" />
@@ -253,7 +253,8 @@
                 <footer class="footer container-fluid pl-30 pr-30"> 
 				<div class="row">
 					<div class="col-sm-5" style="font-size:80%">
-                        {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a>
+                        {{ date('Y') }} &copy; ScolaLMS by <a href="http://hasob.ng" target="_blank">HASOB</a>
+                        {{-- {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a> --}}
 						<!-- <ul class="footer-link nav navbar-nav">
 							<li class="logo-footer"><a href="#">help</a></li>
 							<li class="logo-footer"><a href="#">terms</a></li>

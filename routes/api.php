@@ -18,33 +18,39 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware(['auth:api'])->group(function () {
+        
+    Route::resource('semesters', App\Http\Controllers\API\SemesterAPIController::class);
 
-Route::resource('semesters', App\Http\Controllers\API\SemesterAPIController::class);
+    Route::resource('departments', App\Http\Controllers\API\DepartmentAPIController::class);
 
-Route::resource('departments', App\Http\Controllers\API\DepartmentAPIController::class);
+    Route::resource('courses', App\Http\Controllers\API\CourseAPIController::class);
 
-Route::resource('courses', App\Http\Controllers\API\CourseAPIController::class);
+    Route::resource('course_classes', App\Http\Controllers\API\CourseClassAPIController::class);
 
-Route::resource('course_classes', App\Http\Controllers\API\CourseClassAPIController::class);
+    Route::resource('class_materials', App\Http\Controllers\API\ClassMaterialAPIController::class);
 
-Route::resource('class_materials', App\Http\Controllers\API\ClassMaterialAPIController::class);
+    Route::resource('grades', App\Http\Controllers\API\GradeAPIController::class);
 
-Route::resource('grades', App\Http\Controllers\API\GradeAPIController::class);
+    Route::resource('announcements', App\Http\Controllers\API\AnnouncementAPIController::class);
 
-Route::resource('announcements', App\Http\Controllers\API\AnnouncementAPIController::class);
+    Route::resource('calendar_entries', App\Http\Controllers\API\CalendarEntryAPIController::class);
 
-Route::resource('calendar_entries', App\Http\Controllers\API\CalendarEntryAPIController::class);
+    Route::resource('lecturers', App\Http\Controllers\API\LecturerAPIController::class);
 
-Route::resource('lecturers', App\Http\Controllers\API\LecturerAPIController::class);
+    Route::resource('managers', App\Http\Controllers\API\ManagerAPIController::class);
 
-Route::resource('managers', App\Http\Controllers\API\ManagerAPIController::class);
+    Route::resource('students', App\Http\Controllers\API\StudentAPIController::class);
 
-Route::resource('students', App\Http\Controllers\API\StudentAPIController::class);
+    Route::resource('submissions', App\Http\Controllers\API\SubmissionAPIController::class);
 
-Route::resource('submissions', App\Http\Controllers\API\SubmissionAPIController::class);
+    Route::resource('enrollments', App\Http\Controllers\API\EnrollmentAPIController::class);
 
-Route::resource('enrollments', App\Http\Controllers\API\EnrollmentAPIController::class);
+    Route::resource('forums', App\Http\Controllers\API\ForumAPIController::class);
 
-Route::resource('forums', App\Http\Controllers\API\ForumAPIController::class);
+    Route::middleware('can:isAdmin')->group(function () {
+        Route::resource('settings', App\Http\Controllers\API\SettingAPIController::class);
+        Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
+    });
 
-Route::resource('settings', App\Http\Controllers\API\SettingAPIController::class);
+});

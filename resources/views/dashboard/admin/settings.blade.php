@@ -18,7 +18,7 @@ Admin Settings
     
         <div class="col-sm-9">
 
-            {!! Form::open(['route' => 'dashboard.admin-settings','enctype'=>"multipart/form-data",'class'=>'']) !!}
+            {!! Form::open(['route' => 'dashboard.admin-settings-process','enctype'=>"multipart/form-data",'class'=>'']) !!}
             @csrf
 
             <div class="tab-struct custom-tab-1 mt-20">
