@@ -7,8 +7,8 @@ Route::get('/', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'index
 Route::get('/student-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'displayStudentRegistration'])->name('student-register');
 Route::get('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'displayLecturerRegistration'])->name('lecturer-register');
 
-Route::post('/student-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processStudentRegistration'])->name('student-register');
-Route::post('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processLecturerRegistration'])->name('lecturer-register');
+Route::post('/student-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processStudentRegistration'])->name('student-register-process');
+Route::post('/lecturer-register', [App\Http\Controllers\FrontEnd\FrontEndController::class, 'processLecturerRegistration'])->name('lecturer-register-process');
 
 Route::get('faq_help', [App\Http\Controllers\FAQController::class, 'showFAQ'])->name('faq_help');
 
@@ -76,12 +76,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('dashboard/user-delete/{id}', [App\Http\Controllers\ACL\ACLController::class, 'deleteUserAccount'])->name('dashboard.user-delete-account');
         Route::post('dashboard/user-reset/{id}', [App\Http\Controllers\ACL\ACLController::class, 'resetPwdUserAccount'])->name('dashboard.user-pwd-reset');
         Route::get('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'displayApplicationSettings'])->name('dashboard.admin-settings');
-        Route::post('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'processApplicationSettings'])->name('dashboard.admin-settings');
+        Route::post('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'processApplicationSettings'])->name('dashboard.admin-settings-process');
         Route::get('dashboard/admin/delete-settings/{key}', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'deleteApplicationSettings'])->name('dashboard.admin-delete-setting');
 
-        Route::prefix('api')->group(function () {
-            Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
-        });
+        // Route::prefix('api')->group(function () {
+        //     Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
+        // });
     });
 
     Route::resource('semesters', App\Http\Controllers\SemesterController::class);
