@@ -195,7 +195,7 @@ class ManagerDashboardController extends AppBaseController
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $calendarItemDataTable = new DepartmentCalendarEntryDataTable($current_user->department_id);
-
+        
         if ($request->expectsJson()) {
             return $calendarItemDataTable->ajax();
         }

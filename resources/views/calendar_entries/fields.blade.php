@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $('#due_date').datetimepicker({
             //format: 'YYYY-MM-DD HH:mm:ss',
-            format: 'YYYY-MM-DD',
+            format: 'DD-MM-YYYY',
             useCurrent: true,
             sideBySide: true
         })

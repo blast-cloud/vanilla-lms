@@ -104,8 +104,11 @@ $(document).ready(function() {
 			$('#frm-calendarEntry-modal').trigger("reset");
 			$('#txt-calendarEntry-primary-id').val(response.data.id);
 
+            // let due_date = new Intl.DateTimeFormat('en-GB').format(Date.parse(response.data.due_date));
+            let date_val =new Date(Date.parse(response.data.due_date)) ;
+            let due_date = date_val.getDate()+'-'+date_val.getMonth()+'-'+date_val.getFullYear();
             $('#title').val(response.data.title);
-            $('#due_date').val(response.data.due_date);
+            $('#due_date').val(due_date);
             $('#description').val(response.data.description);
         });
     });

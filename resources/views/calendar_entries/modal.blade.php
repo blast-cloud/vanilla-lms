@@ -90,7 +90,7 @@ $(document).ready(function() {
         $('#div-show-txt-calendarEntry-primary-id').hide();
         $('#div-edit-txt-calendarEntry-primary-id').show();
         let itemId = $(this).attr('data-val');
-
+        
         // $.get( "{{URL::to('/')}}/api/calendar_entries/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/calendar_entries/"+itemId).done(function( response ) {            
 			$('#div-calendarEntry-modal-error').hide();
