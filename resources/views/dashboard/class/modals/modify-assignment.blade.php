@@ -126,9 +126,10 @@ $(document).ready(function() {
 
     $('#txt_assignment_due_date').datetimepicker({
         //format: 'YYYY-MM-DD HH:mm:ss',
-        format: 'YYYY-MM-DD',
+        format: 'DD-MM-YYYY',
         useCurrent: true,
-        sideBySide: true
+        sideBySide: true,
+        minDate: new Date()
     });
 
     //Show Modal
@@ -149,7 +150,6 @@ $(document).ready(function() {
 
         let itemId = $(this).attr('data-val');
         $('#txt_assignment_id').val(itemId);
-
         //Set title and url
         $('#txt_assignment_title').val($('#spn_ass_'+itemId+'_title').html());
         $('#txt_assignment_description').val($('#spn_ass_'+itemId+'_desc').html());
