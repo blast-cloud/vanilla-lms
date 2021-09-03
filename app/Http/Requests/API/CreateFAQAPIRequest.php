@@ -24,9 +24,24 @@ class CreateFAQAPIRequest extends FormRequest
     public function rules()
     {
         return [
-            'type'     => 'required',
-            'question' => 'required|string',
-            'answer'   => 'required|string',
+            'type'      => 'required',
+            'question'  => 'required|string',
+            'answer'    => 'required|string',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'required' => 'The :attribute field is required.',
+            'string'   => 'The :attribute field must be a valid text.',
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'type' => 'FAQ Type',
         ];
     }
 }

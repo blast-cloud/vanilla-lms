@@ -177,7 +177,7 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let actionType = "POST";
-        // let endPointUrl = "{{URL::to('/')}}/api/faqs/create";
+        {{-- // let endPointUrl = "{{URL::to('/')}}/api/faqs/create"; --}}
         let endPointUrl = "{{ route('faqs.store') }}";
         let primaryId = $('#txt-faq-primary-id').val();
         
@@ -212,10 +212,10 @@ $(document).ready(function() {
             contentType: false,
             dataType: 'json',
             success: function(result){
+                $('#spinner1').css('display', 'none');
                 if(result.errors){
 					$('#div-faq-modal-error').html('');
 					$('#div-faq-modal-error').show();
-                    
                     $.each(result.errors, function(key, value){
                         $('#div-faq-modal-error').append('<li class="">'+value+'</li>');
                     });
@@ -228,7 +228,8 @@ $(document).ready(function() {
                     },28);
                 }
             }, error: function(data){
-                console.log(data);
+                // console.log(result.errors);
+                $('#spinner1').css('display', 'none');
             }
         });
     });
