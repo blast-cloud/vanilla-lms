@@ -45,6 +45,7 @@ class FAQAPIController extends AppBaseController
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
+     * 
      */
     public function store(CreateFAQAPIRequest $request)
     {

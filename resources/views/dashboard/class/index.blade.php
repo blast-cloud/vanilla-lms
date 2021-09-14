@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('cdn_scripts')
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.25/webcam.js"></script>
+<script type="text/javascript" src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+@endsection
+
 
 @section('title_postfix')
 {{ ($courseClass) ?  $courseClass->code : '' }} :: {{ ($courseClass) ? $courseClass->name : '' }}
@@ -87,6 +92,5 @@
     @include("dashboard.class.modals.modify-class-details")
     @include("dashboard.class.modals.modify-reading-material")
     @include("dashboard.class.modals.submit-assignment")
-    
 @endsection
 

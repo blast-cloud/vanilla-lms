@@ -34,6 +34,7 @@
         {{-- Sweet Alert --}}
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         
+        @yield('cdn_scripts')
         
         @yield('third_party_stylesheets')
 
@@ -193,6 +194,71 @@
 
         .brand-img{
             margin-left: -10px;
+        }
+        .capture-area{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .capture-area button{
+            margin-top: 10px;
+        }
+        .capture-error{
+            color: red;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .capture-error a{
+            color: #3fc0cc;
+        }
+
+        video {
+            border: 1px solid #ccc;
+            width: 600px;
+            height: 400px
+        }
+        .hide-cont{
+            display: none;
+        }
+        .student-info{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .student-info img{
+            border-radius: 50%;
+            height: 100px;
+            width: 100px;
+            margin-right: 10px;
+        }
+
+        .modal-body.scroll{
+            max-height: 600px !important;
+            height: auto;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        /* width */
+        div.scroll::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        /* Track */
+        div.scroll::-webkit-scrollbar-track {
+          background: #f1f1f1;
+        }
+
+        /* Handle */
+        div.scroll::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 5px;
+        }
+
+        /* Handle on hover */
+        div.scroll::-webkit-scrollbar-thumb:hover {
+          background: #555;
         }
 
         /*.fixed-sidebar-left{

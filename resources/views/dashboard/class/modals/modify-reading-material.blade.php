@@ -21,6 +21,7 @@
                             </div>
 
                             <input type="hidden" id="txt_reading_material_id" value="0" />
+                            <input type="hidden" id="current_user" value="{{ $current_user->id }}">
                                                         
                             <div class="form-wrap">
                                 
@@ -69,6 +70,16 @@
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
+
+    // get active tab
+    let curr_user_id = $('#current_user').val();
+    $(document).on('click', 'a[data-toggle="tab"]', function(e) {
+        localStorage.setItem('activeTab_'+curr_user_id, $(e.target).attr('href'));
+    });
+    let activeTab = localStorage.getItem('activeTab_'+curr_user_id);
+    if(activeTab){
+        $('#myTabs_6 a[href="' + activeTab + '"]').tab('show');
+    }
 
     //Show Modal for New Entry
     $('#btn-show-modify-reading-material-modal').click(function(){

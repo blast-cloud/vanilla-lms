@@ -25,6 +25,8 @@ use App\Repositories\ForumRepository;
 use App\Repositories\SubmissionRepository;
 use App\Repositories\StudentRepository;
 
+use App\Models\StudentLecturePhoto;
+
 use Carbon\Carbon;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
 use Response;
@@ -176,6 +178,50 @@ class ClassDashboardController extends AppBaseController
         //dd($bbb_join);
 
         return redirect()->to($bbb_join);
+    }
+
+    public function processStudentJoinDetails(Request $request, $id, $lectureId)
+    {
+        $current_user = Auth()->user();
+        $lecture_photo = new StudentLecturePhoto;
+
+        //Upload Captured Image
+        $image = $request->student_img;  // base64 encoded
+        $image = str_replace('data:image/jpeg;base64,', '', $image);
+        $image = str_replace(' ', '+', $image);
+        $imageName = time(). '.jpeg';
+    
+        $storagePath = public_path('/uploads/attendance/'.$imageName);
+        file_put_contents($storagePath, base64_decode($image));
+
+        $lecture_photo->student_id        = $current_user->student_id;
+        $lecture_photo->course_class_id   = $id;
+        $lecture_photo->class_material_id = $lectureId;
+        $lecture_photo->photo_file_path   = $imageName;
+        $lecture_photo->save();
+        return true;
+    }
+
+    public function getLectureAttDetails($id)
+    {
+        $attendance = StudentLecturePhoto::where('class_material_id', $id)->get();
+        if ($attendance->isEmpty()) {
+            return response()->json(['res_type'=>'not found', 'count'=>0]);
+        }
+
+        $att_data = [];
+
+        foreach ($attendance as $att) {
+            array_push($att_data, 
+                [
+                    'name'  => $att->student->first_name.' '.$att->student->last_name,
+                    'img'   => asset('uploads/attendance/'.$att->photo_file_path),
+                    'joined'=> $att->created_at->format('l jS F Y \a\t g:i a')
+                ]
+            );
+        }
+
+        return response()->json(['res_type'=>'success', 'atts'=>$att_data, 'count'=>$attendance->count()]);
     }
 
     public function processEndOnlineLecture(Request $request, $id, $lectureId)

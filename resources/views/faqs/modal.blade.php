@@ -173,7 +173,6 @@ $(document).ready(function() {
     $('#btn-save-mdl-faq-modal').click(function(e) {
         e.preventDefault();
         $('#spinner1').show();
-        $('#btn-new-mdl-faq-modal').prop("disabled", true);
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let actionType = "POST";
