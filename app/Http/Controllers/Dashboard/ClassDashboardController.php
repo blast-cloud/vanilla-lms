@@ -25,7 +25,7 @@ use App\Repositories\ForumRepository;
 use App\Repositories\SubmissionRepository;
 use App\Repositories\StudentRepository;
 
-use App\Models\StudentLecturePhoto;
+use App\Models\StudentAttendance;
 
 use Carbon\Carbon;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
@@ -180,31 +180,31 @@ class ClassDashboardController extends AppBaseController
         return redirect()->to($bbb_join);
     }
 
-    public function processStudentJoinDetails(Request $request, $id, $lectureId)
+    public function processStudentAttendanceDetails(Request $request, $course_class_id, $lectureId)
     {
         $current_user = Auth()->user();
-        $lecture_photo = new StudentLecturePhoto;
+        $lecture_photo = new StudentAttendance;
 
         //Upload Captured Image
-        $image = $request->student_img;  // base64 encoded
-        $image = str_replace('data:image/jpeg;base64,', '', $image);
-        $image = str_replace(' ', '+', $image);
-        $imageName = time(). '.jpeg';
+        $captured_image = $request->student_img;  // base64 encoded
+        $captured_image = str_replace('data:image/jpeg;base64,', '', $captured_image);
+        $captured_image = str_replace(' ', '+', $captured_image);
+        $captured_image_name = time(). '.jpeg';
     
-        $storagePath = public_path('/uploads/attendance/'.$imageName);
-        file_put_contents($storagePath, base64_decode($image));
+        $storagePath = public_path('/uploads/'.$captured_image_name);
+        file_put_contents($storagePath, base64_decode($captured_image));
 
         $lecture_photo->student_id        = $current_user->student_id;
-        $lecture_photo->course_class_id   = $id;
+        $lecture_photo->course_class_id   = $course_class_id;
         $lecture_photo->class_material_id = $lectureId;
-        $lecture_photo->photo_file_path   = $imageName;
+        $lecture_photo->photo_file_path   = $captured_image_name;
         $lecture_photo->save();
         return true;
     }
 
-    public function getLectureAttDetails($id)
+    public function getLectureAttendanceDetails($id)
     {
-        $attendance = StudentLecturePhoto::where('class_material_id', $id)->get();
+        $attendance = StudentAttendance::where('class_material_id', $id)->get();
         if ($attendance->isEmpty()) {
             return response()->json(['res_type'=>'not found', 'count'=>0]);
         }
