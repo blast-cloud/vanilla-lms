@@ -116,7 +116,7 @@ $(document).ready(function() {
         $('#form-modify-examination').trigger("reset");
         $('#txt_examination_id').val(0);
         let remainingGradePct = {!! json_encode($remainingGradePct) !!}
-        $('#txt_assignment_score_contriution_pct').attr('max',remainingGradePct);
+        $('#txt_examination_score_contriution_pct').attr('max',remainingGradePct);
         $('#txt_pct_grade_message').text("Remaining assignable total percentage grade is " + remainingGradePct);
     });
 
