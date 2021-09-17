@@ -121,10 +121,12 @@ class FAQController extends Controller
         return redirect(route('faqs.index'));
     }
 
-    public function showFAQ()
-    {
+    public function showFAQ( Request $request)
+    {   
+        
         $faqs = FAQ::where('type', 'faq')->paginate(10);
-        return view('faq', compact('faqs'));
+    
+        return view('faq',compact('faqs'));
     }
 
     public function showHelp()
