@@ -101,7 +101,7 @@ class ClassDashboardController extends AppBaseController
         $courseClass = $this->courseClassRepository->find($id);
         $course_class = $courseClass->id;
 
-        $remainingGradePct = 100;
+        $remainingGradePct = 0;
         $lecture_notes = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'lecture-notes']);
         $reading_materials = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'reading-materials']);
         $class_assignments = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'class-assignments']);

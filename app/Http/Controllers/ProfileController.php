@@ -102,7 +102,7 @@ class ProfileController extends AppBaseController
 
         $validation_messages = array(
             'required' => 'The :attribute field is required.',
-            'regex' => 'The :attribute field has to include at least a number, text and a character'
+            'regex' => 'The :attribute field has to include at least a number, text and a symbol'
         );
 
         $attributes = array(
