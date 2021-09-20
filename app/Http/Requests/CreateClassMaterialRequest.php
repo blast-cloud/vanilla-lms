@@ -26,7 +26,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
     public function rules()
     {
         //return ClassMaterial::$rules;
-
+        $remaining_pct_grade = $this->input('remaining_pct_grade');
         return [
             'type' => 'required',
             'title' => 'required|string|max:200',
@@ -38,7 +38,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'lecture_number' => 'required_if:type,lecture-classes|unique:class_materials|gt:0',
             'reference_material_url' => 'nullable|url',
             'grade_max_points' => 'required_if:type,class-examinations|numeric|min:0|max:100',
-            'grade_contribution_pct' => 'required_if:type,class-examinations|numeric|min:0|max:100',
+            'grade_contribution_pct' => 'required_if:type,class-examinations|numeric|min:0|max:'.$remaining_pct_grade,
             'grade_contribution_notes' => 'nullable|string|max:300',
         ];
     }

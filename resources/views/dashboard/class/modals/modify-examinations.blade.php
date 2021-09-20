@@ -29,7 +29,7 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_examination_number">examination Number</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_examination_number', null, ['id'=>'txt_examination_number', 'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_examination_number', null, ['id'=>'txt_examination_number','min' => '0', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
@@ -72,8 +72,8 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_examination_score_contriution_pct">Grade Contribution(%)</label>
                                         <div class="col-md-8">
-                                            {!! Form::number('txt_examination_score_contriution_pct', null, ['id'=>'txt_examination_score_contriution_pct','min'=>'0','max'=> $remainingGradePct ,'placeholder'=>"%",'class' => 'form-control']) !!}
-                                            <small id="txt_pct_grade_message"> Remaining assignable total percentage grade is {{$remainingGradePct}} % </small>
+                                            {!! Form::number('txt_examination_score_contriution_pct', null, ['id'=>'txt_examination_score_contriution_pct','min'=>'0' ,'placeholder'=>"%",'class' => 'form-control']) !!}
+                                            <small id="txt_pct_grade_message"></small>
                                         </div>
                                         
                                     </div>
@@ -211,6 +211,7 @@ $(document).ready(function() {
         formData.append('description', $('#txt_examination_description').val());
         formData.append('due_date', $('#txt_examination_due_date').val());
         formData.append('grade_max_points', $('#txt_examination_max_score').val());
+        formData.append('remaining_pct_grade',$('#txt_assignment_score_contriution_pct').attr('max'));
         formData.append('grade_contribution_pct', $('#txt_examination_score_contriution_pct').val());
         formData.append('id', primaryId );
 

@@ -30,7 +30,7 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
         
         return $rules;
         */
-
+        $remaining_pct_grade = $this->input('remaining_pct_grade');
         return [
             'id' => "required|numeric|exists:class_materials,id",
             'type' => 'required',
@@ -39,6 +39,7 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
             'examination_number' => 'sometimes|required_if:type,class-examinations',
             'assignment_number' => 'sometimes|required_if:type,class-assignments',
             'due_date' => 'sometimes|required_if:type,class-assignments',
+            'grade_contribution_pct' => 'required_if:type,class-examinations|numeric|min:0|max:'.$remaining_pct_grade,
             'lecture_number' => "sometimes|required_if:type,lecture-classes|gt:0|unique:class_materials,lecture_number,{$this->id}",
             'reference_material_url' => 'nullable|url'
         ];
