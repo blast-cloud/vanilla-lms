@@ -73,7 +73,7 @@
                         <a class="text-info btn-delete-lecture" href="#"  alt="Delete Lecture" style="font-size:85%;opacity:0.5;" data-val="{{$item->id}}">
                             <i class="fa fa-trash" style=""></i>&nbsp;Delete
                         </a> &nbsp;&nbsp;
-                        <a class="text-info btn-lecture-attendance view-attendance" href="#"  alt="Lecture Attendance" style="font-size:85%;opacity:0.5;" data-val="{{$item->id}}" data-url="{{ route('dashboard.class.get-att',$item->id) }}">
+                        <a class="text-info btn-lecture-attendance" href="#"  alt="Lecture Attendance" style="font-size:85%;opacity:0.5;" data-toggle="modal" data-target="#attendance_{{ $item->id }}">
                             <i class="fa fa-users" style=""></i>&nbsp;Attendance
                         </a>
                     @endif

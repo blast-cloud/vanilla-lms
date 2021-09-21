@@ -125,51 +125,5 @@
                 },
             });
         }
-
-        $(document).on('click', '.view-attendance', function(e) {
-           e.preventDefault();
-           let endPointUrl = $(this).data('url');
-           let that = $(this);
-           $.ajax({
-                url:endPointUrl,
-                type: "GET",
-                cache: false,
-                processData:false, 
-                contentType: false,
-                dataType: 'json',
-                success: function(result){
-                    let htmlCode = '';
-                    let count_txt = ` - ${result.count}`;
-                    if (result.count > 1) {
-                        count_txt = ` - ${result.count} students`;
-                    }else if(result.count == 1){
-                        count_txt = ` - ${result.count} student`;
-                    }
-                    $('#att-count').text(count_txt);
-                    if (result.res_type == 'not found') {
-                        htmlCode += '<p style="text-align: center;">No records for lecture attendance</p>';
-                    }else{
-                        htmlCode += `<table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Student name</th>
-                                    <th scope="col">Joined</th>
-                                </tr>
-                            </thead>
-                            <tbody>`;
-                        for (var i = 0; i < result.atts.length; i++) {
-                            htmlCode += `<tr>`;
-                            htmlCode += `<td class="student-info"> <img src="${result.atts[i].img}"> ${result.atts[i].name}`;
-                            htmlCode += `<td>${result.atts[i].joined}</td>`;
-                            htmlCode += `</tr>`;
-                        }
-                        htmlCode += `</tbody>
-                                     </table>`;
-                    }
-                    $('#att-modal-body').html(htmlCode);
-                    $('#attendance-modal').modal('show');
-                },
-            });
-       })
     </script>
     @endsection

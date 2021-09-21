@@ -172,4 +172,9 @@ class ClassMaterial extends Model
     {
         $this->attributes['due_date'] = (new \Carbon\Carbon($value))->format('y/m/d');
     }
+
+    public function attendance()
+    {
+        return $this->hasMany(StudentAttendance::class);
+    }
 }
