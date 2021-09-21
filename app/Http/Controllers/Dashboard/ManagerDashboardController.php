@@ -28,6 +28,7 @@ use App\Repositories\DepartmentRepository;
 use App\Repositories\CourseClassRepository;
 use App\Repositories\AnnouncementRepository;
 use App\Repositories\CalendarEntryRepository;
+use Illuminate\Support\Collection;
 
 use App\Models\User;
 use App\Models\Course;
@@ -83,9 +84,24 @@ class ManagerDashboardController extends AppBaseController
 
         $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)->get();
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
-        $department_calendar_items = $this->calendarEntryRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $course_catalog_items = $this->courseRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $student_count = $this->studentRepository->all(['department_id'=>$current_user->department_id])->count();
+        $calendars = $this->calendarEntryRepository->all(['department_id'=>$current_user->department_id],null, 10)->sortByDesc('due_date');
+        $currentDate = date('Y/m/d');
+        $lessThanCurrentDate = new Collection();
+        $equalToCurrentDate = new Collection();
+        foreach ($calendars as $key => $value) {
+            if((date('Y/m/d', strtotime($value['due_date']))) == $currentDate){
+                $equalToCurrentDate[] = $value; ;
+                unset($calendars[$key]);
+            }
+            if((date('Y/m/d', strtotime($value['due_date']))) < $currentDate){
+                $lessThanCurrentDate[] = $value;
+                unset($calendars[$key]);
+            }
+        }
+        $calendars->sortBy('due_date');
+        $department_calendar_items = collect( $equalToCurrentDate)->merge($calendars)->merge( $lessThanCurrentDate);
 
         $class_schedules_unassigned = $this->courseClassRepository->all([
             'lecturer_id'=>null,
