@@ -29,7 +29,7 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_assignment_assignment_number">Assignment Number</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_assignment_assignment_number', null, ['id'=>'txt_assignment_assignment_number', 'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_assignment_assignment_number', null, ['id'=>'txt_assignment_assignment_number','min' => '0', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
@@ -72,7 +72,8 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_assignment_score_contriution_pct">Grade Contribution (%)</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_assignment_score_contriution_pct', null, ['id'=>'txt_assignment_score_contriution_pct', 'placeholder'=>"%",'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_assignment_score_contriution_pct', null, ['id'=>'txt_assignment_score_contriution_pct', 'min' => '0','placeholder'=>"%",'class' => 'form-control']) !!}
+                                            <small id="txt_assignment_pct_grade_message"></small>
                                         </div>
                                     </div>
 
@@ -139,6 +140,9 @@ $(document).ready(function() {
         $('#modify-assignment-modal').modal('show');
         $('#form-modify-assignment').trigger("reset");
         $('#txt_assignment_id').val(0);
+        let remainingGradePct = {!! json_encode($remainingGradePct) !!}
+        $('#txt_assignment_score_contriution_pct').attr('max',remainingGradePct);
+        $('#txt_assignment_pct_grade_message').text("Remaining assignable total percentage grade is " + remainingGradePct);
     });
 
     //Show Modal for Edit Entry
@@ -157,6 +161,11 @@ $(document).ready(function() {
 
         $('#txt_assignment_max_score').val($('#spn_ass_'+itemId+'_max_points').html());
         $('#txt_assignment_score_contriution_pct').val($('#spn_ass_'+itemId+'_contrib').html());
+        let remainingGradePct = {!! json_encode($remainingGradePct) !!}
+        let pctGrade = $('#txt_assignment_score_contriution_pct').val();
+        let total = parseInt(pctGrade) + parseInt(remainingGradePct);
+        $('#txt_assignment_score_contriution_pct').attr('max',total);
+        $('#txt_assignment_pct_grade_message').text("Remaining assignable total percentage grade is " + total);
 
         $('#txt_allow_late_submission').val($('#spn_ass_'+itemId+'_submission').html());
 
@@ -235,6 +244,7 @@ $(document).ready(function() {
         formData.append('description', $('#txt_assignment_description').val());
         formData.append('due_date', $('#txt_assignment_due_date').val());
         formData.append('allow_late_submission', allow_late_submission);
+        formData.append('remaining_pct_grade',$('#txt_assignment_score_contriution_pct').attr('max'));
         formData.append('id', primaryId );
         formData.append('reference_material_url', $('#txt_assignment_reference_material_url').val());
         if (fileDetails!=null){

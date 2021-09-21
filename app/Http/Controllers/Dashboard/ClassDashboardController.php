@@ -99,7 +99,9 @@ class ClassDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
         $courseClass = $this->courseClassRepository->find($id);
+        $course_class = $courseClass->id;
 
+        $remainingGradePct = 0;
         $lecture_notes = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'lecture-notes']);
         $reading_materials = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'reading-materials']);
         $class_assignments = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'class-assignments']);
@@ -125,6 +127,10 @@ class ClassDashboardController extends AppBaseController
     
         }else if ($current_user->lecturer_id != null){
             $class_schedules = $this->courseClassRepository->all(['lecturer_id'=>$current_user->lecturer_id]);
+            $course_class = $courseClass->id;
+            $gradePctSum = $this->classMaterialRepository->all(['course_class_id'=>$course_class])->sum('grade_contribution_pct');
+            $remainingGradePct = 100 - $gradePctSum; 
+              
         }else{
             $class_schedules = null;
         }
@@ -145,7 +151,8 @@ class ClassDashboardController extends AppBaseController
                     ->with('grades', $grades)
                     ->with('forums', $forums)
                     ->with('gradeManager', $gradeManager)
-                    ->with('enrollments', $enrollments);
+                    ->with('enrollments', $enrollments)
+                    ->with('remainingGradePct', $remainingGradePct);
     }
 
     public function processJoinOnlineLecture(Request $request, $id, $lectureId)

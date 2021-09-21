@@ -29,7 +29,7 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_examination_number">examination Number</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_examination_number', null, ['id'=>'txt_examination_number', 'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_examination_number', null, ['id'=>'txt_examination_number','min' => '0', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
@@ -64,16 +64,18 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_examination_max_score">Max Score</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_examination_max_score', null, ['id'=>'txt_examination_max_score', 'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_examination_max_score', null, ['id'=>'txt_examination_max_score','min' => '0', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
                                     <!-- examination Grade Contribution Pct Field -->
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_examination_score_contriution_pct">Grade Contribution(%)</label>
-                                        <div class="col-sm-2">
-                                            {!! Form::number('txt_examination_score_contriution_pct', null, ['id'=>'txt_examination_score_contriution_pct', 'placeholder'=>"%",'class' => 'form-control']) !!}
+                                        <div class="col-md-8">
+                                            {!! Form::number('txt_examination_score_contriution_pct', null, ['id'=>'txt_examination_score_contriution_pct','min'=>'0' ,'placeholder'=>"%",'class' => 'form-control']) !!}
+                                            <small id="txt_pct_grade_message"></small>
                                         </div>
+                                        
                                     </div>
 
 
@@ -105,6 +107,7 @@ $(document).ready(function() {
         sideBySide: true
     });
 
+    
     //Show Modal
     $('#btn-show-modify-examination-modal').click(function(){
         $('.spinner1').hide();
@@ -112,6 +115,9 @@ $(document).ready(function() {
         $('#modify-examination-modal').modal('show');
         $('#form-modify-examination').trigger("reset");
         $('#txt_examination_id').val(0);
+        let remainingGradePct = {!! json_encode($remainingGradePct) !!}
+        $('#txt_examination_score_contriution_pct').attr('max',remainingGradePct);
+        $('#txt_pct_grade_message').text("Remaining assignable total percentage grade is " + remainingGradePct);
     });
 
     //Show Modal for Edit Entry
@@ -130,7 +136,13 @@ $(document).ready(function() {
 
         $('#txt_examination_max_score').val($('#spn_exam_'+itemId+'_max_points').html());
         $('#txt_examination_score_contriution_pct').val($('#spn_exam_'+itemId+'_contrib').html());
+        let remainingGradePct = {!! json_encode($remainingGradePct) !!}
+        let pctGrade = $('#txt_examination_score_contriution_pct').val();
+        let total = parseInt(pctGrade) + parseInt(remainingGradePct);
+        $('#txt_examination_score_contriution_pct').attr('max',total);
+        $('#txt_pct_grade_message').text("Remaining assignable total percentage grade is " + total);
 
+        
         $('#txt_examination_due_date').val($('#spn_exam_'+itemId+'_date').html());
     });
 
@@ -182,13 +194,14 @@ $(document).ready(function() {
         let actionType = "POST";
         let endPointUrl = "{{ route('classMaterials.store') }}";
         let primaryId = $('#txt_examination_id').val();
+        
 
         if (primaryId>0){
             actionType = "PUT";
             endPointUrl = "{{ route('classMaterials.update',0) }}"+primaryId;
         }
-
-        let formData = new FormData();
+        
+            let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
         formData.append('type', 'class-examinations');
@@ -198,8 +211,13 @@ $(document).ready(function() {
         formData.append('description', $('#txt_examination_description').val());
         formData.append('due_date', $('#txt_examination_due_date').val());
         formData.append('grade_max_points', $('#txt_examination_max_score').val());
+        formData.append('remaining_pct_grade',$('#txt_assignment_score_contriution_pct').attr('max'));
         formData.append('grade_contribution_pct', $('#txt_examination_score_contriution_pct').val());
         formData.append('id', primaryId );
+
+    
+
+        
         
 
         $.ajax({

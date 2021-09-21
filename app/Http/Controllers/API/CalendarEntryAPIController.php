@@ -69,8 +69,8 @@ class CalendarEntryAPIController extends AppBaseController
             $request->get('skip'),
             $request->get('limit')
         );
-
-        return $this->sendResponse(CalendarEntryResource::collection($calendarEntries), 'Calendar Entries retrieved successfully');
+        return "hello";
+        //return $this->sendResponse(CalendarEntryResource::collection($calendarEntries), 'Calendar Entries retrieved successfully');
     }
 
     /**
