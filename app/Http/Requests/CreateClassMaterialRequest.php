@@ -27,6 +27,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
     {
         //return ClassMaterial::$rules;
         $remaining_pct_grade = $this->input('remaining_pct_grade');
+        $today = date('Y-m-d');
         return [
             'type' => 'required',
             'title' => 'required|string|max:200',
@@ -34,7 +35,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'examination_number' => 'required_if:type,class-examinations',
             'assignment_number' => 'required_if:type,class-assignments',
             'file' => 'required_if:type,reading-materials|mimes:pdf,doc,docx,zip,xls,xlsx,xlsb,xlsm',
-            'due_date' => 'required_if:type,class-assignments',
+            'due_date' => 'required_if:type,class-assignments|date|after_or_equal:'.$today,
             'lecture_number' => 'required_if:type,lecture-classes|unique:class_materials|gt:0',
             'reference_material_url' => 'nullable|url',
             'grade_max_points' => 'required_if:type,class-examinations|numeric|min:0|max:100',
@@ -54,6 +55,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'file.required_if' => 'The :attribute field is required.',
             'grade_max_points.required_if' => 'The :attribute field is required.',
             'grade_contribution_pct.required_if' => 'The :attribute field is required.',
+            'due_date.after_or_equal' => 'The :attribute field cannot be set to a past date',
         ];
     }
 
