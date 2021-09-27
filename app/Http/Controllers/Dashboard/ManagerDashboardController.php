@@ -37,6 +37,7 @@ use App\Models\Department;
 use App\Models\Semester;
 use App\Models\CourseClass;
 use App\Models\Announcement;
+use App\Models\CalendarEntry;
 
 
 class ManagerDashboardController extends AppBaseController
@@ -84,9 +85,11 @@ class ManagerDashboardController extends AppBaseController
 
         $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)->get();
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
-        $course_catalog_items = $this->courseRepository->all(['department_id'=>$current_user->department_id],null, 10);
+
+        $department_calendar_items = CalendarEntry::where('department_id',$current_user->department_id)->get();
+        $course_catalog_items = Course::where('department_id', $current_user->department_id)->get();
         $student_count = $this->studentRepository->all(['department_id'=>$current_user->department_id])->count();
-        $calendars = $this->calendarEntryRepository->all(['department_id'=>$current_user->department_id],null, 10)->sortByDesc('due_date');
+        $calendars = $department_calendar_items->sortByDesc('due_date');
         $currentDate = date('Y/m/d');
         $lessThanCurrentDate = new Collection();
         $equalToCurrentDate = new Collection();
