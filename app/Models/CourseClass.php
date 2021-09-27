@@ -248,7 +248,10 @@ class CourseClass extends Model
     {
         return $this->hasMany(\App\Models\ClassMaterial::class, 'course_class_id');
     }
-
+    public function studentClassActivity()
+    {
+        return $this->hasMany(\App\Models\StudentClassActivity::class);
+    }
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/

@@ -26,11 +26,14 @@ use App\Repositories\SubmissionRepository;
 use App\Repositories\StudentRepository;
 
 use App\Models\StudentAttendance;
+use App\Models\StudentClassActivity;
 
 use Carbon\Carbon;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
 use Response;
 use Illuminate\Http\Request;
+use DB;
+use App\Repositories\StudentClassActivityRepository;
 
 class ClassDashboardController extends AppBaseController
 {
@@ -68,6 +71,9 @@ class ClassDashboardController extends AppBaseController
     /** @var  StudentRepository */
     private $studentRepository;
 
+    /** @var  StudentClassActivityRepository */
+    private $studentClassActivityRepository;
+
 
     public function __construct(DepartmentRepository $departmentRepo, 
                                     CourseClassRepository $courseClassRepo, 
@@ -79,7 +85,8 @@ class ClassDashboardController extends AppBaseController
                                     GradeRepository $gradeRepo,
                                     ForumRepository $forumRepo,
                                     SubmissionRepository $submissionRepo,
-                                    StudentRepository $studentRepo)
+                                    StudentRepository $studentRepo,
+                                    StudentClassActivityRepository $studentClassActivityRepo)
     {
         $this->courseRepository = $courseRepo;
         $this->announcementRepository = $announcementRepo;
@@ -92,6 +99,7 @@ class ClassDashboardController extends AppBaseController
         $this->forumRepository = $forumRepo;
         $this->submissionRepository = $submissionRepo;
         $this->studentRepository = $studentRepo;
+        $this->studentClassActivityRepository = $studentClassActivityRepo;
     }
     
     public function index(Request $request, $id)
@@ -100,7 +108,6 @@ class ClassDashboardController extends AppBaseController
         $department = $this->departmentRepository->find($current_user->department_id);
         $courseClass = $this->courseClassRepository->find($id);
         $course_class = $courseClass->id;
-
         $remainingGradePct = 0;
         $lecture_notes = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'lecture-notes']);
         $reading_materials = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'reading-materials']);
@@ -136,8 +143,32 @@ class ClassDashboardController extends AppBaseController
         }
 
         $gradeManager = new GradeManager($id);
+     
+       /* $studentClassActivity = StudentClassActivity::with('student','courseClass','classMaterial')
+                                ->select('*',DB::raw('sum(clicked) as clickTotal'),DB::raw('sum(downloaded) as downloadTotal'))
+                                ->where('course_class_id',$course_class)
+                                ->groupBy(['student_id'])
+                                ->paginate(10)
+                                ->fragment('studentClassActivity');*/
+                                
+                                
+       
+     $studentClassActivity = DB::table('student_class_activities')
+            ->join('class_materials','student_class_activities.class_material_id', '=','class_materials.id')
+            ->join('students','student_class_activities.student_id','=','students.id')
+            ->select('student_class_activities.*','students.last_name','students.first_name','students.matriculation_number',
+            DB::raw("sum(case when student_class_activities.downloaded = 1 then 1 end) as noOfDownloads"),
+            DB::raw("sum(case when class_materials.type = 'reading-materials' and student_class_activities.clicked = 1 then 1 end) as readingMaterialClick"),
+            DB::raw("sum(case when class_materials.type = 'lecture-classes' and student_class_activities.clicked = 1 then 1 end) as lectureMaterialClick"),
+            DB::raw("sum(case when class_materials.type = 'class-assignments' and student_class_activities.clicked = 1 then 1 end) as assignmentMaterialClick"))
+            ->where('student_class_activities.course_class_id',$course_class)
+            ->groupBy(['student_class_activities.student_id'])
+            ->paginate(20)
+            ->fragment('studentClassActivity');
+       
         // dd($gradeManager);
-
+       
+      
         return view("dashboard.class.index")
                     ->with('department', $department)
                     ->with('courseClass', $courseClass)
@@ -152,7 +183,8 @@ class ClassDashboardController extends AppBaseController
                     ->with('forums', $forums)
                     ->with('gradeManager', $gradeManager)
                     ->with('enrollments', $enrollments)
-                    ->with('remainingGradePct', $remainingGradePct);
+                    ->with('remainingGradePct', $remainingGradePct)
+                    ->with('studentClassActivity',$studentClassActivity);
     }
 
     public function processJoinOnlineLecture(Request $request, $id, $lectureId)

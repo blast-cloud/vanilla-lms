@@ -97,7 +97,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ClassMaterial extends Model
 {
     use SoftDeletes;
-
     use HasFactory;
 
     public $table = 'class_materials';

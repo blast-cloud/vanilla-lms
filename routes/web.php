@@ -102,6 +102,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
 
+    Route::resource('studentClassActivity', App\Http\Controllers\StudentClassActivityController::class);
+
     Route::resource('calendarEntries', App\Http\Controllers\CalendarEntryController::class);
 
     Route::resource('lecturers', App\Http\Controllers\LecturerController::class);

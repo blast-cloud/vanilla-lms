@@ -53,16 +53,28 @@
                     <span id="spn_ol_{{$item->id}}_desc">{{ $item->description }} </span>
                     @if (!empty($item->reference_material_url))
                     <br/>
+                    @if($current_user->student_id != null)
+                    <a href="{{ $item->reference_material_url }}" target="_blank" style="font-size:85%" class="btn-student-class-activity" student-id="{{$current_user->student_id}}" course-class-id="{{$item->course_class_id}}" class-material-id = "{{$item->id}}" user-click = "1" downloaded="0">
+                        <i class="zmdi zmdi-square-right mr-5" class="text-primary" style="color:blue"></i>{{ $item->reference_material_url }}
+                    </a>
+                    @else
                     <a href="{{ $item->reference_material_url }}" target="_blank" style="font-size:85%">
                         <i class="zmdi zmdi-square-right mr-5" class="text-primary" style="color:blue"></i><span id="spn_ass_{{$item->id}}_url" class="text-primary">{{ $item->reference_material_url }} </span>
                     </a>
                     @endif
+                    @endif
 
                     @if (!empty($item->upload_file_path))
                     <br/>
+                    @if($current_user->student_id != null)
+                    <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary btn-student-class-activity" target="_blank" download student-id="{{$current_user->student_id}}" course-class-id="{{$item->course_class_id}}" class-material-id = "{{$item->id}}" user-click = "0" downloaded="1">
+                        <i class="fa fa-download mr-5" class="text-primary"></i>Download
+                    </a>
+                    @else
                     <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary" target="_blank" download >
                         <i class="fa fa-download mr-5" class="text-primary"></i>Download
                     </a>
+                    @endif
                     @endif
                     
                     <br/> <br/>
@@ -88,3 +100,43 @@
     @endif
 @include('dashboard.class.modals.student-capture')
 @include('dashboard.class.modals.lecture-attendance')
+@section('js-131')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $('.btn-student-class-activity').click(function(e) {
+              
+              e.preventDefault();
+               
+                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+                let url = "{{route('studentClassActivity.store')}}";
+                let formData = new FormData();
+                formData.append('_token', $('input[name="_token"]').val());
+                formData.append('clicked',e.target.attributes['user-click'].value);
+                formData.append('downloaded',e.target.attributes['downloaded'].value)
+                formData.append('course_class_id',e.target.attributes['course-class-id'].value);
+                formData.append('student_id',e.target.attributes['student-id'].value);
+                formData.append('class_material_id',e.target.attributes['class-material-id'].value);
+                let materialUrl = e.target.href
+             
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    processData:false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(result){
+                       window.open(materialUrl,'_blank');
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+                
+            });
+
+        })
+    </script>
+ @endsection

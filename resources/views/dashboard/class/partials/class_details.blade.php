@@ -62,23 +62,47 @@
                         <span id="spn_rm_{{$item->id}}_desc">{{nl2br($item->description)}}</span>
                         @if (!empty($item->reference_material_url))
                         <br/>
-                        <a href="{{ $item->reference_material_url }}" style="font-size:85%" class="ml-15 text-primary" target="_blank">
-                            <i class="zmdi zmdi-square-right mr-5" class="text-primary"></i><span id="spn_rm_{{$item->id}}_url">{{ $item->reference_material_url }}</span>
-                        </a>
+                        
+                
+                            @if ($current_user->student_id != null)
+                            <a href="{{ $item->reference_material_url }}" style="font-size:85%" class="btn-student-class-activity ml-15 text-primary" target="_blank" student-id="{{$current_user->student_id}}" course-class-id="{{$item->course_class_id}}" class-material-id = "{{$item->id}}" user-click = "1" downloaded="0">
+                                <i class="zmdi zmdi-square-right mr-5" class="text-primary"></i>{{ $item->reference_material_url }}
+                            </a>
+                            @endif
+                            @if($current_user->lecturer_id !=null)
+                            <a href="{{ $item->reference_material_url }}" style="font-size:85%" class="ml-15 text-primary" target="_blank" id="btn-download-class-material-{{$item->id}}">
+                                <i class="zmdi zmdi-square-right mr-5" class="text-primary"></i><span id="spn_rm_{{$item->id}}_url">{{ $item->reference_material_url }}</span>
+                            </a>
+                            @endif
+                            @if($current_user->manager_id !=null)
+                            <a href="{{ $item->reference_material_url }}" style="font-size:85%" class="ml-15 text-primary" target="_blank" id="btn-download-class-material-{{$item->id}}">
+                                <i class="zmdi zmdi-square-right mr-5" class="text-primary"></i><span>{{ $item->reference_material_url }}</span>
+                            </a>
+                            @endif
+                            
+                        
+                        
                         @endif
                         @if (!empty($item->upload_file_path))
                         <br/>
-                        <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary" target="_blank">
-                            <i class="fa fa-download mr-5" class="text-primary"></i>Download
+                        @if ($current_user->student_id !=null)
+                        <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary btn-student-class-activity" target="_blank" id="btn-download-class-material-{{$item->id}}" student-id="{{$current_user->student_id}}" course-class-id="{{$item->course_class_id}}" class-material-id = "{{$item->id}}" user-click="0" downloaded="1">
+                            <i class="fa fa-download mr-5" class="text-primary" ></i>Download
                         </a>
+                        @endif
+                        @if ($current_user->manager_id !=null)
+                        <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary" target="_blank" id="">
+                            <i class="fa fa-download mr-5" class="text-primary"></i>Download
+                        </a> 
+                        @endif
                         @endif
                         <br/>
                     </li>
 
 
                 @endif
-                
             @endforeach
+            
             @else
                 <li class="ml-10"><i class="text-primary fa fa-angle-double-right mr-5"></i> None Uploaded</li>
             @endif
@@ -107,7 +131,7 @@
                     <dl>
                         <dt class="mb-0"><i class="text-primary fa fa-bullhorn mr-5"></i><span id="spn_announcement_{{$item->id}}_title">{{ $item->title }}</span>
                         @if ($current_user->lecturer_id!=null)
-                            <a href="#" data-val="{{$item->id}}" class="btn-edit-modify-announcement-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
+                        <a href="#" data-val="{{$item->id}}" class="btn-edit-modify-announcement-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
                             <a href="#" data-val="{{$item->id}}" class="btn-delete-announcement"><i class="text-info fa fa-times ml-5 mr-5" style="font-size:80%;opacity:0.5;"></i></a>
                         @endif
                         </dt>
@@ -126,3 +150,43 @@
             @endif
         </div>
     </div>
+    @section('js-131')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            
+            $('.btn-student-class-activity').click(function(e) {
+              
+              e.preventDefault();
+               
+                $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+                let url = "{{route('studentClassActivity.store')}}";
+                let formData = new FormData();
+                formData.append('_token', $('input[name="_token"]').val());
+                formData.append('clicked',e.target.attributes['user-click'].value);
+                formData.append('downloaded',e.target.attributes['downloaded'].value)
+                formData.append('course_class_id',e.target.attributes['course-class-id'].value);
+                formData.append('student_id',e.target.attributes['student-id'].value);
+                formData.append('class_material_id',e.target.attributes['class-material-id'].value);
+                let materialUrl = e.target.href
+             
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    data: formData,
+                    cache: false,
+                    processData:false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function(result){
+                       window.open(materialUrl,'_blank');
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+                
+            });
+
+        })
+    </script>
+ @endsection
