@@ -144,12 +144,7 @@ class ClassDashboardController extends AppBaseController
 
         $gradeManager = new GradeManager($id);
      
-       /* $studentClassActivity = StudentClassActivity::with('student','courseClass','classMaterial')
-                                ->select('*',DB::raw('sum(clicked) as clickTotal'),DB::raw('sum(downloaded) as downloadTotal'))
-                                ->where('course_class_id',$course_class)
-                                ->groupBy(['student_id'])
-                                ->paginate(10)
-                                ->fragment('studentClassActivity');*/
+      
                                 
                                 
        
