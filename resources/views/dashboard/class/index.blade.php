@@ -35,8 +35,9 @@
                 <li role="presentation" class=""><a data-toggle="tab" id="profile_tab_8" role="tab" href="#profile_8" aria-expanded="false">Outline</a></li>
                 @if ($current_user->lecturer_id!=null)
                 <li role="presentation" class=""><a data-toggle="tab" id="profile_tab_9" role="tab" href="#profile_9" aria-expanded="false">Grades</a></li>
+                <li role="presentation" class=""><a data-toggle="tab" id="profile_tab_12" role="tab" href="#profile_12" aria-expanded="false">Students</a></li>
+                <li role="presentation" class=""><a data-toggle="tab" id="profile_tab_10" role="tab" href="#profile_10" aria-expanded="false">Analytics</a></li>
                 @endif
-                <li role="presentation" class=""><a data-toggle="tab" id="profile_tab_10" role="tab" href="#profile_10" aria-expanded="false">Students</a></li>
             </ul>
             <div class="tab-content" id="myTabContent_6">
 
@@ -68,11 +69,14 @@
                 <div id="profile_9" class="tab-pane fade" role="tabpanel">
                     @include("dashboard.class.partials.grades")
                 </div>
-                @endif
-
                 <div id="profile_10" class="tab-pane fade" role="tabpanel">
+                    @include("dashboard.class.partials.student_class_activities")
+                </div>
+                <div id="profile_12" class="tab-pane fade" role="tabpanel">
                     @include("dashboard.class.partials.enrollments")
                 </div>
+                @endif
+                
             </div>
         </div>
 

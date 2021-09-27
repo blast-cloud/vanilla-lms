@@ -102,7 +102,8 @@ $(document).ready(function() {
 
         //Set title and url
         $('#txt_reading_material_title').val($('#spn_rm_'+itemId+'_title').html());
-        $('#txt_reading_material_reference_material_url').val($('#spn_rm_'+itemId+'_url').html());
+       // console.log($('#spn_rm_'+itemId+'_url').child('span'));
+       $('#txt_reading_material_reference_material_url').val($('#spn_rm_'+itemId+'_url').html());
 
     });
 
