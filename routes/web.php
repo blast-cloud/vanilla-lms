@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('can:isLecturer')->group(function () {
         Route::get('dashboard/lecturer', [App\Http\Controllers\Dashboard\LecturerDashboardController::class, 'index'])->name('dashboard.lecturer');
         Route::post('dashboard/grade-update/{id}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processGradeUpdate'])->name('dashboard.lecturer.grade-update');
+        Route::post('dashboard/save-comment', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processLecturerComment'])->name('dashboard.lecturer.save-comment');
         Route::get('dashboard/grade-export/{id}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processGradeExport'])->name('dashboard.lecturer.grade-export');
         
     });
