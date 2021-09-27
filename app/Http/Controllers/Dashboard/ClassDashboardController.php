@@ -26,6 +26,7 @@ use App\Repositories\SubmissionRepository;
 use App\Repositories\StudentRepository;
 
 use App\Models\StudentAttendance;
+use App\Models\Submission;
 use App\Models\StudentClassActivity;
 
 use Carbon\Carbon;
@@ -336,6 +337,8 @@ class ClassDashboardController extends AppBaseController
             $class_schedules = null;
         }
 
+        $submissions = Submission::where('course_class_id', $course_class_id)->get();
+
         return view("dashboard.class.student_submissions")
                     ->with('department', $department)
                     ->with('courseClass', $courseClass)
@@ -344,7 +347,8 @@ class ClassDashboardController extends AppBaseController
                     ->with('assignment_submissions', $assignment_submissions)
                     ->with('enrollments', $enrollments)
                     ->with('class_schedules', $class_schedules)
-                    ->with('grades', $grades);
+                    ->with('grades', $grades)
+                    ->with('submissions', $submissions);
     }
 
     public function processGradeUpdate(Request $request, $course_class_id)
@@ -465,6 +469,14 @@ class ClassDashboardController extends AppBaseController
         );
 
         return \Maatwebsite\Excel\Facades\Excel::download($grade_exporter, 'invoices.xlsx');
+    }
+
+    public function processLecturerComment(Request $request)
+    {
+        $submission = Submission::find($request->submission_id);
+        $submission->comment = $request->comment;
+        $submission->save();
+        return true;
     }
 
 }
