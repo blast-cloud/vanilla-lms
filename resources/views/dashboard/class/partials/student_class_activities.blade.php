@@ -1,7 +1,7 @@
 <div class="table-wrap">
     <div class="table-responsive">
-       <table class="table table-striped table-bordered">       
-            <tr>
+       <table class="table table-bordered">     
+            <tr style="background-color: black; color: white">
                 <th scope="col">
                     Name
                 </th>
