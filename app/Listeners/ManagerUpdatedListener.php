@@ -29,7 +29,7 @@ class ManagerUpdatedListener
     public function handle(ManagerUpdated $event)
     {
         //Update user Record
-        $user = User::where('email', $event->manager->email)->first();
+        $user = User::where('manager_id', $event->manager->id)->first();
         $user->email = $event->manager->email;
         $user->telephone = $event->manager->telephone;
         $user->lecturer_id = $event->manager->id;
