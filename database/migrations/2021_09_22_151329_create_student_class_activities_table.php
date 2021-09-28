@@ -16,18 +16,16 @@ class CreateStudentClassActivitiesTable extends Migration
         Schema::create('student_class_activities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
+            $table->foreign('student_id')->references('id')->on('students');
             $table->unsignedBigInteger('class_material_id');
+            $table->foreign('class_material_id')->references('id')->on('class_materials');
             $table->unsignedBigInteger('course_class_id');
+            $table->foreign('course_class_id')->references('id')->on('course_classes');
             $table->boolean('clicked')->default(0);
             $table->tinyInteger('downloaded')->default(0);
             $table->timestamps();
 
-            $table->index('student_id');
-            $table->foreign('student_id')->refrences('id')->on('students');
-            $table->index('class_material_id');
-            $table->foreign('class_material_id')->refrences('id')->on('class_materials');
-            $table->index('course_class_id');
-            $table->foreign('course_class_id')->refrences('id')->on('course_classes');
+           
         });
     }
 
