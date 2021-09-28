@@ -68,7 +68,7 @@
             
             const image = new Image();
             image.src= data_uri;
-            await faceapi.nets.tinyFaceDetector.loadFromUri('/face-models-service');
+            await faceapi.nets.tinyFaceDetector.loadFromUri("{{ url('/face-models-service') }}");
            
             
             //const landmarks = await faceapi.detectAllFaces(image, new faceapi.TinyFaceDetectorOptions()).withLandmarks();
