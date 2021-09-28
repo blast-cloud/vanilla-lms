@@ -28,7 +28,7 @@ class LecturerUpdatedListener
     public function handle(LecturerUpdated $event)
     {
         //Update user Record
-        $user = User::where('id', $event->lecturer->id)->first();
+        $user = User::where('lecturer_id', $event->lecturer->id)->first();
         $user->email = $event->lecturer->email;
         $user->telephone = $event->lecturer->telephone;
         $user->lecturer_id = $event->lecturer->id;
