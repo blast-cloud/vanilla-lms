@@ -31,9 +31,19 @@ class DepartmentStudentsDataTable extends StudentDataTable
         $dataTable->addColumn('matriculation_number', function ($query) {
             $link = route('dashboard.manager.student-page',$query->id);
             return "<a href='{$link}'>$query->matriculation_number</a>";
+        })->filterColumn('matriculation_number', function ($query, $keyword) {
+           
+            $query->whereRaw("matriculation_number like ?", ["%{$keyword}%"]);
+         })->orderColumn('matriculation_number', function ($query, $order) {
+            $query->orderBy('matriculation_number', $order);
         });
         $dataTable->addColumn('full_name', function ($query) {
             return "{$query->first_name} {$query->last_name}";
+        })->filterColumn('full_name', function ($query, $keyword) {
+            $keywords = trim($keyword);
+            $query->whereRaw("CONCAT(first_name, last_name) like ?", ["%{$keywords}%"]);
+         })->orderColumn('full_name', function ($query, $order) {
+            $query->orderBy('first_name',$order);
         });
 
         $dataTable->addColumn('action', 'students.datatables_actions');
