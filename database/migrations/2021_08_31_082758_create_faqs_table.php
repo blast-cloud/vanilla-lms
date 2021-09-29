@@ -14,6 +14,7 @@ class CreateFaqsTable extends Migration
     public function up()
     {
         Schema::create('faqs', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->string('type');
             $table->string('question');

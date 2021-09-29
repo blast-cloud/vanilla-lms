@@ -14,19 +14,21 @@ class CreateStudentClassActivitiesTable extends Migration
     public function up()
     {
         Schema::create('student_class_activities', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
-            $table->unsignedBigInteger('student_id');
+            $table->integer('student_id')->unsigned();
             $table->foreign('student_id')->references('id')->on('students');
-            $table->unsignedBigInteger('class_material_id');
+            $table->integer('class_material_id')->unsigned();
             $table->foreign('class_material_id')->references('id')->on('class_materials');
-            $table->unsignedBigInteger('course_class_id');
+            $table->integer('course_class_id')->unsigned();
             $table->foreign('course_class_id')->references('id')->on('course_classes');
             $table->boolean('clicked')->default(0);
-            $table->tinyInteger('downloaded')->default(0);
+            $table->boolean('downloaded')->default(0);
             $table->timestamps();
 
            
         });
+        
     }
 
     /**
@@ -36,6 +38,8 @@ class CreateStudentClassActivitiesTable extends Migration
      */
     public function down()
     {
+  
         Schema::dropIfExists('student_class_activities');
+        Schema::enableForeignKeyConstraints();
     }
 }

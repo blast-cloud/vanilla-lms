@@ -15,6 +15,7 @@ class CreateSemestersTable extends Migration
     public function up()
     {
         Schema::create('semesters', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('code');
             $table->date('start_date');

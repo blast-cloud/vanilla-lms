@@ -1,42 +1,27 @@
 <div class="table-wrap">
+   
     <div class="table-responsive">
-       <table class="table table-bordered">     
-            <tr style="background-color: black; color: white">
-                <th scope="col">
+       <table class="table table-condensed analytic-table">     
+            <tr class="analytic-table-color">
+                <th scope="col" class=" text-center">
                     Name
                 </th>
-                <th>
-                    Matric Number
+                <th scope="col" class="text-center">
+                  Lecture Clicks
                 </th>
-                <th scope="col">
-                  No. of Downloads
-                </th>
-                <th scope="col">
-                  No. of Reading Material Clicks
-                </th>
-                <th scope="col">
-                  No. of Assignment Clicks
-                </th>
-                <th scope="col">
-                  No. of Lecture Clicks
+                <th scope="col"  class="text-center">
+                  Assignment Clicks
                 </th>
 
             </tr>
             
         <tbody>
             @foreach ($studentClassActivity as $item)
-            <tr>
+            <tr class="text-center">
                 <td>
                     {{$item->last_name}} {{$item->first_name}}
-                </td>
-                <td>
+                    <br>
                     {{$item->matriculation_number}}
-                </td>
-                <td>
-                    {{$item->noOfDownloads}}
-                </td>
-                <td>
-                    {{$item->readingMaterialClick}}
                 </td>
                 <td>
                     {{$item->lectureMaterialClick}}

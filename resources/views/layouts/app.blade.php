@@ -376,6 +376,18 @@
             .pagination > li.active > a, .pagination > li.active > span:hover{
               background-color: #8BC34A !important;
             }
+          
+            .analytic-table td {
+                border: 1px solid rgb(197, 186, 228);    
+            }
+            .analytic-table-color{
+                background-color: rgb(67, 27, 175);
+                color: rgb(255,255,255);
+                align-content: center;
+                text-align: center;
+                vertical-align: middle;
+            }
+    
         /*.fixed-sidebar-left{
             top: 110px !important;
         }

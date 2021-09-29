@@ -15,6 +15,7 @@ class CreateClassMaterialsTable extends Migration
     public function up()
     {
         Schema::create('class_materials', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('type');
             $table->string('title');

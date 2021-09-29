@@ -29,7 +29,7 @@
                             <div class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_number">Lecture Number</label>
                                 <div class="col-sm-2">
-                                    {!! Form::number('txt_start_lecture_number', null, ['id'=>'txt_start_lecture_number', 'class' => 'form-control']) !!}
+                                    {!! Form::number('txt_start_lecture_number', null, ['id'=>'txt_start_lecture_number','min' => '0',  'class' => 'form-control']) !!}
                                 </div>
                             </div>
 

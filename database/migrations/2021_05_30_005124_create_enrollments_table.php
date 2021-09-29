@@ -15,6 +15,7 @@ class CreateEnrollmentsTable extends Migration
     public function up()
     {
         Schema::create('enrollments', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('status')->nullable();
             $table->integer('student_id')->unsigned();

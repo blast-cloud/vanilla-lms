@@ -153,10 +153,8 @@ class ClassDashboardController extends AppBaseController
             ->join('class_materials','student_class_activities.class_material_id', '=','class_materials.id')
             ->join('students','student_class_activities.student_id','=','students.id')
             ->select('student_class_activities.*','students.last_name','students.first_name','students.matriculation_number',
-            DB::raw("sum(case when student_class_activities.downloaded = 1 then 1 end) as noOfDownloads"),
-            DB::raw("sum(case when class_materials.type = 'reading-materials' and student_class_activities.clicked = 1 then 1 end) as readingMaterialClick"),
-            DB::raw("sum(case when class_materials.type = 'lecture-classes' and student_class_activities.clicked = 1 then 1 end) as lectureMaterialClick"),
-            DB::raw("sum(case when class_materials.type = 'class-assignments' and student_class_activities.clicked = 1 then 1 end) as assignmentMaterialClick"))
+            DB::raw("sum(case when class_materials.type = 'lecture-classes' and (student_class_activities.clicked = 1 or student_class_activities.downloaded = 1) then 1 end) as lectureMaterialClick"),
+            DB::raw("sum(case when class_materials.type = 'class-assignments' and (student_class_activities.clicked = 1 or student_class_activities.downloaded = 1) then 1 end) as assignmentMaterialClick"))
             ->where('student_class_activities.course_class_id',$course_class)
             ->groupBy(['student_class_activities.student_id'])
             ->paginate(20)
