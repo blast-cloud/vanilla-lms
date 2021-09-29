@@ -15,6 +15,7 @@ class CreateCalendarEntriesTable extends Migration
     public function up()
     {
         Schema::create('calendar_entries', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('title');
             $table->date('due_date');

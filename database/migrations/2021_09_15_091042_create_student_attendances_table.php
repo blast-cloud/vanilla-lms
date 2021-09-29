@@ -14,6 +14,7 @@ class CreateStudentAttendancesTable extends Migration
     public function up()
     {
         Schema::create('student_attendances', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->id();
             $table->integer('student_id')->unsigned();
             $table->integer('course_class_id')->unsigned();

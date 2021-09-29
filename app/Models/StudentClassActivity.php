@@ -34,15 +34,15 @@ class StudentClassActivity extends Model
 
     public function student()
     {           
-        return $this->belongsTo(Student::class, 'student_id', 'id');
+        return $this->belongsToMany(Student::class, 'student_id', 'id');
     }
     public function courseClass()
     {           
-        return $this->belongsTo(CourseClass::class, 'course_class_id', 'id');
+        return $this->belongsToMany(CourseClass::class, 'course_class_id', 'id');
     }
     public function classMaterial()
     {           
-        return $this->belongsTo(ClassMaterial::class, 'class_material_id', 'id');
+        return $this->belongsToMany(ClassMaterial::class, 'class_material_id', 'id');
     }
     
 }
