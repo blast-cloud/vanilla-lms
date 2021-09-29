@@ -377,7 +377,7 @@
               background-color: #8BC34A !important;
             }
           
-            .analytic-table, td {
+            .analytic-table td {
                 border: 1px solid rgb(197, 186, 228);    
             }
             .analytic-table-color{
