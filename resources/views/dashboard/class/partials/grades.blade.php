@@ -3,7 +3,8 @@
 </a>
 <ol id="lst_grade_messages" class="ma-20" style="font-size:90%"></ol>
 @if (count($enrollments)>0)
-    <table class="table table-bordered table-striped">
+    <div class="grade-container" style="width: 100%; overflow-x: auto;">
+    <table class="table table-bordered table-striped" style="border-collapse: collapse; overflow-x: scroll;">
         <thead>
             <tr>
                 <td>
@@ -82,6 +83,7 @@
         </tr>
         @endforeach
     </table>
+    </div>
 @else
 No Enrolled Students
 @endif
