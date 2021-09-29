@@ -263,8 +263,6 @@ $(document).ready(function() {
             contentType: false,
             dataType: 'json',
             success: function(result){
-                console.log(result);
-                return;
                 if(result.errors){
                     $('#spinner').hide();
                     $('#btn-modify-assignment').prop("disabled", false);
