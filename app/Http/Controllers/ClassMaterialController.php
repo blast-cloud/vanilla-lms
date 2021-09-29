@@ -14,6 +14,8 @@ use App\Repositories\ClassMaterialRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use App\Models\Semester;
+use App\Models\ClassMaterial;
 
 class ClassMaterialController extends AppBaseController
 {
@@ -55,7 +57,19 @@ class ClassMaterialController extends AppBaseController
      */
     public function store(CreateClassMaterialRequest $request)
     {
-        $input = $request->all();
+        $current_semester = Semester::where('is_current', true)->first();
+
+        $exist = ClassMaterial::where('type', 'class-assignments')
+                                ->where('semester_id', $current_semester->id)
+                                ->where('assignment_number', $request->assignment_number)
+                                ->first();
+
+        if ($exist) {
+            $error = ['exists'=>'An assignment with this lecture number already exists this semester'];
+            return response()->json(['errors'=>$error]);
+        }
+
+        $input = array_merge($request->all(), ['semester_id'=>$current_semester->id]);
 
         $classMaterial = $this->classMaterialRepository->create($input);
 

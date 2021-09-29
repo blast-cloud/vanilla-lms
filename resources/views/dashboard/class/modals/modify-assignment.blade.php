@@ -253,7 +253,6 @@ $(document).ready(function() {
         }
         formData.append('grade_max_points', $('#txt_assignment_max_score').val());
         formData.append('grade_contribution_pct', $('#txt_assignment_score_contriution_pct').val());
-        
 
         $.ajax({
             url:endPointUrl,
