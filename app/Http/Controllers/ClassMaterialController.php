@@ -63,7 +63,7 @@ class ClassMaterialController extends AppBaseController
                                 ->where('semester_id', $current_semester->id)
                                 ->where('assignment_number', $request->assignment_number)
                                 ->first();
-
+        // dd($exist, $current_semester->id, $request->assignment_number);
         if ($exist) {
             $error = ['exists'=>'An assignment with this lecture number already exists this semester'];
             return response()->json(['errors'=>$error]);
