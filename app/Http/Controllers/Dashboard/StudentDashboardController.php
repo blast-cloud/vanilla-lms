@@ -74,7 +74,12 @@ class StudentDashboardController extends AppBaseController
             $enrollment_ids []= $item->course_class_id;
         }
 
-        $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)->get();
+        $announcements = Announcement::where('department_id',$current_user->department_id)
+                                        ->where('course_class_id',null)
+                                        ->orWhere(function($query){
+                                            $query->where('department_id', null)
+                                                ->where('course_class_id', null);
+                                        })->get();
         $class_schedules = $this->courseClassRepository->findMany($enrollment_ids);
         $department = $this->departmentRepository->find($current_user->department_id);
 

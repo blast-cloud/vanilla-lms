@@ -83,7 +83,11 @@ class ManagerDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
 
-        $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)->get();
+        $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)
+                                      ->orWhere(function($query){
+                                            $query->where('department_id', null)
+                                                ->where('course_class_id', null);
+                                        })->get();
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
 
         $department_calendar_items = CalendarEntry::where('department_id',$current_user->department_id)->get();
