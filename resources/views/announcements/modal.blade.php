@@ -77,8 +77,8 @@ $(document).ready(function() {
 			$('#frm-announcement-modal').trigger("reset");
 			$('#txt-announcement-primary-id').val(response.data.id);
 
-            // $('#spn_announcement_').html(response.data.);
-            // $('#spn_announcement_').html(response.data.);   
+            $('#spn_announcement_title').html(response.data.title);
+            $('#spn_announcement_description').html(response.data.description);   
         });
     });
 
@@ -98,8 +98,8 @@ $(document).ready(function() {
 			$('#frm-announcement-modal').trigger("reset");
 			$('#txt-announcement-primary-id').val(response.data.id);
 
-            // $('#').val(response.data.);
-            // $('#').val(response.data.);
+            $('#title').val(response.data.title);
+            $('#description').val(response.data.description);
         });
     });
 
@@ -166,8 +166,8 @@ $(document).ready(function() {
         }
         
         formData.append('_method', actionType);
-        // formData.append('', $('#').val());
-        // formData.append('', $('#').val());
+        formData.append('title', $('#title').val());
+        formData.append('description', $('#description').val());
 
         $.ajax({
             url:endPointUrl,

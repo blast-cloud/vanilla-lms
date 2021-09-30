@@ -208,6 +208,12 @@
                     </a>
                 </li>
 
+                <li class="">
+                    <a href="{{ route('announcements.index') }}" class="{{ Request::is('announcements*') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="zmdi zmdi-surround-sound mr-20"></i><span class="right-nav-text">Announcements</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    </a>
+                </li>
+
 <!-- 
                 <li class="">
                     <a href="{{ route('semesters.index') }}" class="{{ Request::is('semesters*') ? 'active' : '' }}">
@@ -237,11 +243,6 @@
                 <li class="">
                     <a href="{{ route('grades.index') }}" class="{{ Request::is('grades*') ? 'active' : '' }}">
                         <div class="pull-left"><i class="zmdi zmdi-folder-outline mr-20"></i><span class="right-nav-text">Grades</span></div><div class="pull-right"></div><div class="clearfix"></div>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="{{ route('announcements.index') }}" class="{{ Request::is('announcements*') ? 'active' : '' }}">
-                        <div class="pull-left"><i class="zmdi zmdi-surround-sound mr-20"></i><span class="right-nav-text">Announcements</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
                 <li class="">
