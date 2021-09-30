@@ -57,14 +57,7 @@ class ClassMaterialController extends AppBaseController
      */
     public function store(CreateClassMaterialRequest $request)
     {
-        $current_semester = Semester::where('is_current', true)->first();
-
-        $exist = ClassMaterial::where('type', 'class-assignments')
-                                ->where('semester_id', $current_semester->id)
-                                ->where('assignment_number', $request->assignment_number)
-                                ->first();
-
-        if ($exist) {
+        if ($this->assignmnetExists($request->assignment_number)) {
             $error = ['exists'=>'An assignment with this lecture number already exists this semester'];
             return response()->json(['errors'=>$error]);
         }
@@ -168,5 +161,15 @@ class ClassMaterialController extends AppBaseController
 
         ClassMaterialDeleted::dispatch($classMaterial);
         return redirect(route('classMaterials.index'));
+    }
+
+    public function assignmnetExists($assignment_number)
+    {
+        $current_semester = Semester::where('is_current', true)->first();
+
+        return ClassMaterial::where('type', 'class-assignments')
+                                ->where('semester_id', $current_semester->id)
+                                ->where('assignment_number', $assignment_number)
+                                ->first();
     }
 }

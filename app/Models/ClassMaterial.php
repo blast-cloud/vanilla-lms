@@ -124,6 +124,7 @@ class ClassMaterial extends Model
         'examination_number',
         'blackboard_meeting_id',
         'blackboard_meeting_status',
+        'semester_id'
     ];
 
     /**
