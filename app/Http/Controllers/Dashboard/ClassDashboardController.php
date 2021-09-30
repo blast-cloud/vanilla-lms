@@ -155,9 +155,7 @@ class ClassDashboardController extends AppBaseController
             DB::raw("sum(case when class_materials.type = 'lecture-classes' and (student_class_activities.clicked = 1 or student_class_activities.downloaded = 1) then 1 end) as lectureMaterialClick"),
             DB::raw("sum(case when class_materials.type = 'class-assignments' and (student_class_activities.clicked = 1 or student_class_activities.downloaded = 1) then 1 end) as assignmentMaterialClick"))
             ->where('student_class_activities.course_class_id',$course_class)
-            ->groupBy(['student_class_activities.student_id'])
-            ->paginate(10)
-            ->fragment('studentClassActivity');
+            ->groupBy(['student_class_activities.student_id'])->get();
 
             foreach($enrollments as $key => $value){
                 $match = $studentClassActivity->firstWhere('student_id', '=',$value->student_id);
