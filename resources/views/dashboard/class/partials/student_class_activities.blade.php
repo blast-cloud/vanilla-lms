@@ -4,6 +4,9 @@
        <table class="table table-condensed analytic-table">     
             <tr class="analytic-table-color">
                 <th scope="col" class=" text-center">
+                    S/N
+                </th>
+                <th scope="col" class=" text-center">
                     Name
                 </th>
                 <th scope="col" class="text-center">
@@ -16,18 +19,30 @@
             </tr>
             
         <tbody>
-            @foreach ($studentClassActivity as $item)
+            @foreach ($enrolledStudentClassActivity as $key => $item)
             <tr class="text-center">
                 <td>
-                    {{$item->last_name}} {{$item->first_name}}
+                    {{$key + 1}}
+                </td>
+                <td>
+                    {{$item['first_name']}}  {{$item['last_name']}}
                     <br>
-                    {{$item->matriculation_number}}
+                        {{$item['matriculation_number']}}
                 </td>
                 <td>
-                    {{$item->lectureMaterialClick}}
+                    @if($item['assignmentClick'] == null)
+                        0
+                    @else
+                    {{$item['assignmentClick']}}
+                    @endif
                 </td>
                 <td>
-                    {{$item->assignmentMaterialClick}}
+                    
+                    @if($item['lectureMaterialClick'] == null)
+                         0
+                     @else
+                     {{$item['lectureMaterialClick']}}
+                     @endif
                 </td>
             <tr>
             @endforeach
@@ -38,4 +53,3 @@
         
     </div>
 </div>
-{{ $studentClassActivity->onEachSide(20)->links() }}

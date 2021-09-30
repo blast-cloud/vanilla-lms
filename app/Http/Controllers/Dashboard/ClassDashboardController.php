@@ -26,7 +26,6 @@ use App\Repositories\SubmissionRepository;
 use App\Repositories\StudentRepository;
 
 use App\Models\StudentAttendance;
-use App\Models\Submission;
 use App\Models\StudentClassActivity;
 
 use Carbon\Carbon;
@@ -35,7 +34,7 @@ use Response;
 use Illuminate\Http\Request;
 use DB;
 use App\Repositories\StudentClassActivityRepository;
-
+use Illuminate\Support\Collection;
 class ClassDashboardController extends AppBaseController
 {
 
@@ -145,28 +144,50 @@ class ClassDashboardController extends AppBaseController
 
         $gradeManager = new GradeManager($id);
      
+        $enrolledStudentClassActivity = [];                        
+                   
       
-                                
-                                
-       
-     $studentClassActivity = DB::table('student_class_activities')
+        $studentClassActivity = DB::table('student_class_activities')
             ->join('class_materials','student_class_activities.class_material_id', '=','class_materials.id')
             ->join('students','student_class_activities.student_id','=','students.id')
             ->select('student_class_activities.*','students.last_name','students.first_name','students.matriculation_number',
+            DB::raw("sum(case when student_class_activities.downloaded = 1 then 1 end) as noOfDownloads"),
             DB::raw("sum(case when class_materials.type = 'lecture-classes' and (student_class_activities.clicked = 1 or student_class_activities.downloaded = 1) then 1 end) as lectureMaterialClick"),
             DB::raw("sum(case when class_materials.type = 'class-assignments' and (student_class_activities.clicked = 1 or student_class_activities.downloaded = 1) then 1 end) as assignmentMaterialClick"))
             ->where('student_class_activities.course_class_id',$course_class)
-            ->groupBy(['student_class_activities.student_id'])
-            ->paginate(20)
-            ->fragment('studentClassActivity');
-       
-        // dd($gradeManager);
+            ->groupBy(['student_class_activities.student_id'])->get();
+
+            foreach($enrollments as $key => $value){
+                $match = $studentClassActivity->firstWhere('student_id', '=',$value->student_id);
+                if($match != null){
+                    $enrolledStudentClassActivity[$key] = [
+                        'first_name' => $value->student->first_name,
+                        'last_name' => $value->student->last_name,
+                        'matriculation_number' =>  $value->student->matriculation_number,
+                        'assignmentClick' => $match->assignmentMaterialClick,
+                        'lectureMaterialClick' => $match->lectureMaterialClick,
+                ];
+                }
+                else{
+                  
+                    $enrolledStudentClassActivity[$key]=[
+                        'first_name' => $value->student->first_name,
+                        'last_name' => $value->student->last_name,
+                        'matriculation_number' =>  $value->student->matriculation_number,
+                        'assignmentClick' => 0,
+                        'lectureMaterialClick' => 0,
+                    ];
+                }
+                
+            }
+           
+          
        
       
         return view("dashboard.class.index")
                     ->with('department', $department)
                     ->with('courseClass', $courseClass)
-                    ->with('current_user', $current_user)
+                   ->with('current_user', $current_user)
                     ->with('class_schedules', $class_schedules)
                     ->with('lecture_notes', $lecture_notes)
                     ->with('reading_materials', $reading_materials)
@@ -178,7 +199,7 @@ class ClassDashboardController extends AppBaseController
                     ->with('gradeManager', $gradeManager)
                     ->with('enrollments', $enrollments)
                     ->with('remainingGradePct', $remainingGradePct)
-                    ->with('studentClassActivity',$studentClassActivity);
+                    ->with('enrolledStudentClassActivity',$enrolledStudentClassActivity);
     }
 
     public function processJoinOnlineLecture(Request $request, $id, $lectureId)
@@ -335,8 +356,6 @@ class ClassDashboardController extends AppBaseController
             $class_schedules = null;
         }
 
-        $submissions = Submission::where('course_class_id', $course_class_id)->get();
-
         return view("dashboard.class.student_submissions")
                     ->with('department', $department)
                     ->with('courseClass', $courseClass)
@@ -345,8 +364,7 @@ class ClassDashboardController extends AppBaseController
                     ->with('assignment_submissions', $assignment_submissions)
                     ->with('enrollments', $enrollments)
                     ->with('class_schedules', $class_schedules)
-                    ->with('grades', $grades)
-                    ->with('submissions', $submissions);
+                    ->with('grades', $grades);
     }
 
     public function processGradeUpdate(Request $request, $course_class_id)
@@ -467,14 +485,6 @@ class ClassDashboardController extends AppBaseController
         );
 
         return \Maatwebsite\Excel\Facades\Excel::download($grade_exporter, 'invoices.xlsx');
-    }
-
-    public function processLecturerComment(Request $request)
-    {
-        $submission = Submission::find($request->submission_id);
-        $submission->comment = $request->comment;
-        $submission->save();
-        return true;
     }
 
 }

@@ -140,13 +140,22 @@
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
     
             let itemId = $(this).attr('data-val');
-            if (confirm("Are you sure you want to delete this Discussion board?")){
-    
+
+            swal({
+          title: "Are you sure you want to delete this discussion?",
+          text: "This is an irriversible action!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                let actionType = "DELETE";
                 let endPointUrl = "{{ route('forums.destroy',0) }}"+itemId;
-    
+
                 let formData = new FormData();
                 formData.append('_token', $('input[name="_token"]').val());
-                formData.append('_method', 'DELETE');
+                formData.append('_method', actionType);
                 
                 $.ajax({
                     url:endPointUrl,
@@ -160,12 +169,13 @@
                         if(result.errors){
                             console.log(result.errors)
                         }else{
-                            window.alert("The Discussion board has been deleted.");
+                            swal("Done!","The Discussion has been deleted!","success");
                             location.reload(true);
                         }
                     },
-                });            
+                });
             }
+            }); 
         });
     
         //Save details
@@ -214,7 +224,7 @@
                         $('.spinner1').hide();
                         $('#btn-save-mdl-forum-modal').prop("disabled", false);
                         window.setTimeout( function(){
-                            window.alert("The Discussion board saved successfully.");
+                            swal("Done!","Discussions saved successfully!","success");
                             $('#div-forum-modal-error').hide();
                             location.reload(true);
                         },20);
