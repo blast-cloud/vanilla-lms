@@ -84,6 +84,9 @@ $(document).ready(function() {
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-courseClass-modal", function(e) {
+       
+        $('#course_id').prepend('<option value="" selected> Select Course  </option>');
+        $('#lecturer_id').prepend('<option value="" selected> Select Lecturer</option>');
         $('#div-courseClass-modal-error').hide();
         $('.spinner1').hide();
         $('.modal-footer').show();
