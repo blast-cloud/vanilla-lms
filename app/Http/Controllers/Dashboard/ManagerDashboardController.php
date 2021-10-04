@@ -87,7 +87,7 @@ class ManagerDashboardController extends AppBaseController
                                       ->orWhere(function($query){
                                             $query->where('department_id', null)
                                                 ->where('course_class_id', null);
-                                        })->get();
+                                        })->latest()->get();
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
 
         $department_calendar_items = CalendarEntry::where('department_id',$current_user->department_id)->get();

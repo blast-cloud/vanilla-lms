@@ -79,7 +79,7 @@ class StudentDashboardController extends AppBaseController
                                         ->orWhere(function($query){
                                             $query->where('department_id', null)
                                                 ->where('course_class_id', null);
-                                        })->get();
+                                        })->latest()->get();
         $class_schedules = $this->courseClassRepository->findMany($enrollment_ids);
         $department = $this->departmentRepository->find($current_user->department_id);
 

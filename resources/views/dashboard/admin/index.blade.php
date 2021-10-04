@@ -37,6 +37,7 @@ Admin Dashboard
             @include('dashboard.admin.partials.departments')
             @include('dashboard.admin.partials.lecturers')
             @include('dashboard.admin.partials.managers')
+            @include('dashboard.admin.partials.announcements')
 
 
         </div>

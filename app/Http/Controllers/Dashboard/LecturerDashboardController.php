@@ -57,7 +57,7 @@ class LecturerDashboardController extends AppBaseController
                                       ->orWhere(function($query){
                                             $query->where('department_id', null)
                                                 ->where('course_class_id', null);
-                                        })->get();
+                                        })->latest()->get();
         
         $class_schedules = $this->courseClassRepository->all([
             'lecturer_id'=>$current_user->lecturer_id,
@@ -71,9 +71,6 @@ class LecturerDashboardController extends AppBaseController
                     ->with('class_schedules', $class_schedules);
 
     }
-
-
-
 }
 
 ?>

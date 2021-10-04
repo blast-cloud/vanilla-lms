@@ -37,6 +37,7 @@ use App\Models\User;
 use App\Models\Course;
 use App\Models\Lecturer;
 use App\Models\Department;
+use App\Models\Announcement;
 
 class AdminDashboardController extends AppBaseController
 {
@@ -129,6 +130,7 @@ class AdminDashboardController extends AppBaseController
         $semesters = $this->semesterRepository->all([],null, 10);
         $lecturers = $this->lecturerRepository->all([],null, 10);
         $departments = $this->departmentRepository->all([],null, 10);
+        $announcements = Announcement::where('department_id', null)->where('course_class_id',null)->latest()->get();
 
         return view("dashboard.admin.index")
                 ->with('department', $department)
@@ -136,6 +138,7 @@ class AdminDashboardController extends AppBaseController
                 ->with('managers', $managers)
                 ->with('semesters', $semesters)
                 ->with('lecturers', $lecturers)
+                ->with('announcements', $announcements)
                 ->with('departments', $departments);
     }
 
