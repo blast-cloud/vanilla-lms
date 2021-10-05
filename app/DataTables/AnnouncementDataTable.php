@@ -29,6 +29,9 @@ class AnnouncementDataTable extends DataTable
      */
     public function query(Announcement $model)
     {
+        if (auth()->user()->is_platform_admin == true) {
+            return $model->where('department_id', null)->where('course_class_id',null)->latest();
+        }
         return $model->newQuery();
     }
 
