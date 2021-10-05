@@ -27,6 +27,7 @@ use App\Repositories\StudentRepository;
 
 use App\Models\StudentAttendance;
 use App\Models\StudentClassActivity;
+use App\Models\Submission;
 
 use Carbon\Carbon;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
@@ -488,6 +489,13 @@ class ClassDashboardController extends AppBaseController
         );
 
         return \Maatwebsite\Excel\Facades\Excel::download($grade_exporter, 'invoices.xlsx');
+    }
+    public function processLecturerComment(Request $request)
+    {
+        $submission = Submission::find($request->submission_id);
+        $submission->comment = $request->comment;
+        $submission->save();
+        return true;
     }
 
 }
