@@ -343,6 +343,8 @@ class ClassDashboardController extends AppBaseController
         $assignment_submissions = $this->submissionRepository->all(['course_class_id'=>$course_class_id,'class_material_id'=>$class_material_id]);
         $assignment_submissions = $assignment_submissions->pluck('upload_file_path','student_id');
 
+        $submissions =  $this->submissionRepository->all(['course_class_id'=>$course_class_id,'class_material_id'=>$class_material_id]);
+
         $grades = $this->gradeRepository->all(['course_class_id'=>$course_class_id,'class_material_id'=>$class_material_id]);
         $grades = $grades->pluck('score','student_id');
 
@@ -364,7 +366,8 @@ class ClassDashboardController extends AppBaseController
                     ->with('assignment_submissions', $assignment_submissions)
                     ->with('enrollments', $enrollments)
                     ->with('class_schedules', $class_schedules)
-                    ->with('grades', $grades);
+                    ->with('grades', $grades)
+                    ->with('submissions', $submissions);
     }
 
     public function processGradeUpdate(Request $request, $course_class_id)
