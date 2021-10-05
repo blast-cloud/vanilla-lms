@@ -491,14 +491,7 @@ class ClassDashboardController extends AppBaseController
 
         return \Maatwebsite\Excel\Facades\Excel::download($grade_exporter, 'invoices.xlsx');
     }
-    public function processLecturerComment(Request $request)
-    {
-        $submission = Submission::find($request->submission_id);
-        $submission->comment = $request->comment;
-        $submission->save();
-        return true;
-    }
-
+    
     public function processLecturerComment(Request $request)
     {
         // save comment
