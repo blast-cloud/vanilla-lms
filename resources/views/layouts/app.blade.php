@@ -387,6 +387,10 @@
                 text-align: center;
                 vertical-align: middle;
             }
+
+            .grade-container td input{
+                width: 75px;
+            }
     
         /*.fixed-sidebar-left{
             top: 110px !important;

@@ -109,7 +109,7 @@
                         <td>
                             @if (isset($assignment_submissions[$item->student->id]))
                             <a href="" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#mdl-comment-modal_{{ $item->student->id }}">
-                                <i class=" fa fa-eye"></i>
+                                <i class=" fa fa-comment"></i>
                             </a>
                             @else
                             <span class="text-danger text-center" style="font-size:85%">No Submission</span>
