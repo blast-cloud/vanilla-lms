@@ -24,6 +24,8 @@ use App\Repositories\GradeRepository;
 use App\Repositories\ForumRepository;
 use App\Repositories\SubmissionRepository;
 use App\Repositories\StudentRepository;
+use App\Models\Submission;
+use App\Models\Grade;
 
 use App\Models\StudentAttendance;
 use App\Models\StudentClassActivity;
@@ -488,6 +490,25 @@ class ClassDashboardController extends AppBaseController
         );
 
         return \Maatwebsite\Excel\Facades\Excel::download($grade_exporter, 'invoices.xlsx');
+    }
+
+    public function processLecturerComment(Request $request)
+    {
+        // save comment
+        $submission = Submission::find($request->submission_id);
+        $submission->comment = $request->comment;
+        $submission->save();
+
+        //update grade
+        $grade = Grade::where('student_id', $submission->student_id)
+                        ->where('class_material_id', $submission->class_material_id)
+                        ->where('course_class_id', $submission->course_class_id)
+                        ->first();
+        if ($grade) {
+            $grade->score = $request->score;
+            $grade->save();
+        }
+        return true;
     }
 
 }
