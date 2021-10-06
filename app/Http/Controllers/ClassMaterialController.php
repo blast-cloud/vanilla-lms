@@ -61,8 +61,13 @@ class ClassMaterialController extends AppBaseController
             $error = ['exists'=>'An assignment with this lecture number already exists this semester'];
             return response()->json(['errors'=>$error]);
         }
+        $current_semester = Semester::where('is_current', true)->first();
+        $semester_id = $current_semester->id;
+        if (!$current_semester) {
+            $semester_id = 1;
+        }
 
-        $input = array_merge($request->all(), ['semester_id'=>$current_semester->id]);
+        $input = array_merge($request->all(), ['semester_id'=>$semester_id]);
 
         $classMaterial = $this->classMaterialRepository->create($input);
 
