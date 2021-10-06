@@ -211,7 +211,7 @@ $(document).ready(function() {
         formData.append('description', $('#txt_examination_description').val());
         formData.append('due_date', $('#txt_examination_due_date').val());
         formData.append('grade_max_points', $('#txt_examination_max_score').val());
-        formData.append('remaining_pct_grade',$('#txt_assignment_score_contriution_pct').attr('max'));
+        formData.append('remaining_pct_grade',$('#txt_examination_score_contriution_pct').attr('max'));
         formData.append('grade_contribution_pct', $('#txt_examination_score_contriution_pct').val());
         formData.append('id', primaryId );
 
