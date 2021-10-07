@@ -23,7 +23,7 @@
 
     <div class="col-sm-9 panel panel-default card-view">
 
-        @if ($class_material->type=="class-assignments" || $class_material->type=="class-examinations")
+        @if ( ($class_material != null) && ($class_material->type=="class-assignments" || $class_material->type=="class-examinations"))
             @if ($current_user->lecturer_id!=null)
             <a id="btn-save-student-scores" href="#" class="btn btn-xs btn-primary vertical-align-middle pull-right">
                 <i class="fa fa-save" style=""></i>&nbsp;Save
@@ -33,14 +33,17 @@
 
         <dl class="ma-10">
             <dt class="mb-0">
-                @if ($class_material->type=="class-assignments")
+                @if (($class_material != null) && $class_material->type=="class-assignments")
                 Assignment #<span id="spn_ass_{{$class_material->id}}_num">{{$class_material->assignment_number}}</span> - Due on <span id="spn_ass_{{$class_material->id}}_date">{{ date('Y-m-d', strtotime($class_material->due_date)) }} </span> - <span id="spn_ass_{{$class_material->id}}_title">{{$class_material->title}}</span>
-                @elseif ($class_material->type=="class-examinations")
+                @elseif (($class_material != null) && $class_material->type=="class-examinations")
                 Examination #<span id="spn_exam_{{$class_material->id}}_num">{{$class_material->examination_number}}</span> - Exam scheduled for <span id="spn_exam_{{$class_material->id}}_date">{{ date('Y-m-d', strtotime($class_material->due_date)) }} </span> - <span id="spn_exam_{{$class_material->id}}_title">{{$class_material->title}}</span>
                 @endif
-                <span class="text-danger" style="font-size:80%"><br/>
-                Posted on {{ $class_material->created_at->format('d-M-Y') }} &nbsp;&nbsp;|&nbsp;&nbsp;  Points <span id="spn_ass_{{$class_material->id}}_max_points">{{ $class_material->grade_max_points }}</span>, contributes <span id="spn_ass_{{$class_material->id}}_contrib">{{ $class_material->grade_contribution_pct }}</span>% to final score.
-                </span> <br>
+                @if(($class_material != null))
+                   <span class="text-danger" style="font-size:80%"><br/>
+                    Posted on {{ $class_material->created_at->format('d-M-Y') }} &nbsp;&nbsp;|&nbsp;&nbsp;  Points <span id="spn_ass_{{$class_material->id}}_max_points">{{ $class_material->grade_max_points }}</span>, contributes <span id="spn_ass_{{$class_material->id}}_contrib">{{ $class_material->grade_contribution_pct }}</span>% to final score.
+                    </span> <br> 
+                @endif
+                
             </dt>
             <dd>
                 <a href="{{ route('dashboard.class',$courseClass->id) }}" style="opacity:0.5;font-size:85%" class="text-info"><< Back to Class Details</a><br/>
@@ -60,7 +63,7 @@
                     <th>S/N</th>
                     <th>Student Name</td>
                     <th>Matric Number</th>
-                    @if ($class_material->type=="class-assignments")
+                    @if (($class_material != null) && $class_material->type=="class-assignments")
                     <th style="text-align:center">File</th>
                     @endif
                     <th style="text-align:center">Score</th>
@@ -74,8 +77,8 @@
                         $x = 0;
 
                         $selector = "";
-                        if ($class_material->type=="class-assignments"){        $selector="as-{$class_material->id}";  }
-                        else if ($class_material->type=="class-examinations"){  $selector="es-{$class_material->id}";  }
+                        if (($class_material != null) &&  $class_material->type=="class-assignments"){        $selector="as-{$class_material->id}";  }
+                        else if (($class_material != null) &&  $class_material->type=="class-examinations"){  $selector="es-{$class_material->id}";  }
 
                     @endphp
 

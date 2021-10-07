@@ -59,7 +59,7 @@ class ClassMaterialController extends AppBaseController
     {   
         $course_class_id = $request->course_class_id;
         if($request->has('assignment_number')){
-            if ($this->assignmnetExists($request->assignment_number, $course_class_id)) {
+            if ($this->assignmentExists($request->assignment_number, $course_class_id)) {
                 $error = ['exists'=>'An assignment with this assignment number already exists this semester'];
                 return response()->json(['errors'=>$error]);
             }
@@ -184,6 +184,13 @@ class ClassMaterialController extends AppBaseController
         $current_semester = Semester::where('is_current', true)->first();
 
         return ClassMaterial::where([['type','lecture-classes'],['semester_id',$current_semester->id],['lecture_number',$lecture_number],['course_class_id',$course_class_id]])->first();
+        
+    }
+    public function assignmentExists($assignment_number,$course_class_id)
+    {
+        $current_semester = Semester::where('is_current', true)->first();
+
+        return ClassMaterial::where([['type','class-assignments'],['semester_id',$current_semester->id],['assignment_number',$assignment_number],['course_class_id',$course_class_id]])->first();
         
     }
     public function examExists($examination_number,$course_class_id)
