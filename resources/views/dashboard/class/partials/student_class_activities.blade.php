@@ -35,7 +35,10 @@
                         @if($item['assignmentClick'] == null)
                             <span class="text-danger small">No Activity</span>
                         @else
-                            <span class="text-info small">{{ number_format($item['assignmentClick']) }}</span>
+                            <span class="text-primary small">
+                                {{ number_format($item['assignmentClick']) }} view(s) <br/>
+                                <span class="small text-danger">out of {{ count($class_assignments) }} assignments</span>
+                            </span>
                         @endif
                     </td>
                     <td class="text-center">
@@ -43,7 +46,10 @@
                         @if($item['lectureMaterialClick'] == null)
                             <span class="text-danger small">No Activity</span>
                         @else
-                            <span class="text-info small">{{ number_format($item['lectureMaterialClick']) }}</span>
+                            <span class="text-primary small">
+                                {{ number_format($item['lectureMaterialClick']) }} view(s) <br/>
+                                <span class="small text-danger">out of {{ count($class_assignments) }} lectures</span>
+                            </span>
                         @endif
                     </td>
                     <td class="text-center">
