@@ -29,6 +29,10 @@ class CreateStudentsTable extends Migration
             $table->softDeletes();
             $table->foreign('department_id')->references('id')->on('departments');
         });
+
+        Schema::table("forums", function(Blueprint $table) {
+            $table->foreign('student_id')->references('id')->on('students');
+        });
     }
 
     /**

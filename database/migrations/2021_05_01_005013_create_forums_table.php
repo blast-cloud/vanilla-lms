@@ -24,8 +24,8 @@ class CreateForumsTable extends Migration
             $table->integer('parent_forum_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('student_id')->references('id')->on('students');
-            $table->foreign('course_class_id')->references('id')->on('course_classes');
+            //$table->foreign('student_id')->references('id')->on('students');
+            //$table->foreign('course_class_id')->references('id')->on('course_classes');
             $table->foreign('parent_forum_id')->references('id')->on('forums');
         });
     }
