@@ -493,6 +493,23 @@ class ClassDashboardController extends AppBaseController
 
         return \Maatwebsite\Excel\Facades\Excel::download($grade_exporter, 'invoices.xlsx');
     }
+
+    public function getStudentSubmission($classMaterialId, $studentId)
+    {
+        $submission = Submission::where('class_material_id', $classMaterialId)->where('student_id', $studentId)->first();
+
+        $submission_data = [];
+        
+        if ($submission) {
+            $submission_data = [
+                'id'           => $submission->id,
+                'student_name' => $submission->student->first_name.' '.$submission->student->last_name,
+                'comment'      => $submission->comment
+            ];
+            return response()->json(['found'=>true, 'submission'=>$submission_data]);
+        }
+        return response()->json(['found'=>false, 'submission'=>$submission_data]);
+    }
     
     public function processLecturerComment(Request $request)
     {

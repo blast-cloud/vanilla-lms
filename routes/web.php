@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('dashboard/class/submitted-assignment/{courseClassId}/view/{classMaterialId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'listOfSubmittedAssignment'])->name('submitted-assignment-list');
 
+    Route::get('dashboard/class/submission/{classMaterialId}/student/{studentId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'getStudentSubmission'])->name('student.submission');
+
     Route::post('/attachment', [App\Http\Controllers\AttachmentController::class,"uploadFile"])->name('attachment-upload');
     
     Route::middleware('can:isStudent')->group(function () {

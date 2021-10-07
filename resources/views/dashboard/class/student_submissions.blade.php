@@ -108,7 +108,7 @@
                         </td>
                         <td>
                             @if (isset($assignment_submissions[$item->student->id]))
-                            <a href="" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#mdl-comment-modal_{{ $item->student->id }}">
+                            <a href="" class="btn btn-xs btn-primary comment-btn" data-student-id="{{ $item->student->id }}" data-score="{{ $score }}">
                                 <i class=" fa fa-comment"></i>
                             </a>
                             @else
@@ -135,8 +135,7 @@
     </div>
 
     {{-- Submissions comment modal --}}
-    @foreach ($submissions as $submission)
-    <div class="modal fade" id="mdl-comment-modal_{{ $submission->student->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="mdl-comment-modal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
 
@@ -149,40 +148,31 @@
                     <form class="form-horizontal" id="frm-comment-modal" role="form" method="POST" action="{{ route('dashboard.lecturer.save-comment') }}">
                         <div class="row">
                             <div class="ma-10">
-                                <input type="hidden" name="submission_id" value="{{ $submission->id }}">
+                                <input type="hidden" name="submission_id" id="submission_id">
                                 {{-- <div class="spinner2">
                                     <div class="loader" id="loader-1"></div>
                                 </div> --}}
                                 <div id="div-name" class="form-group">
-                                    <span class="ml-10 col-sm-12">
-                                        {{ $submission->student->first_name.' '.$item->student->last_name }} ({{ $submission->student->matriculation_number }})
+                                    <span class="ml-10 col-sm-12" id="student_name">
+                                        {{-- {{ $submission->student->first_name.' '.$item->student->last_name }} ({{ $submission->student->matriculation_number }}) --}}
                                     </span>
-                                    {{-- <div class="col-sm-10">
-                                        {!! Form::text('name', $submission->student->first_name.' '.$item->student->last_name, ['class' => 'form-control', 'disabled'=>true]) !!}
-                                    </div> --}}
                                 </div>
-                                {{-- <div id="div-matric" class="form-group">
-                                    <label class="control-label mb-10 col-sm-2" for="matric">Matric Number</label>
-                                    <div class="col-sm-10">
-                                        {!! Form::text('matric', $submission->student->matriculation_number, ['class' => 'form-control', 'disabled'=>true]) !!}
-                                    </div>
-                                </div> --}}
-                                @php
+                                {{-- @php
                                     $score = null;
                                     if (isset($grades[$submission->student->id])){
                                         $score = $grades[$submission->student->id];
                                     }
-                                @endphp
+                                @endphp --}}
                                 <div id="div-score" class="form-group">
                                     <label class="control-label mb-10 col-sm-2" for="score">Score</label>
                                     <div class="col-sm-10">
-                                        {!! Form::number('score', $score, ['class' => 'form-control']) !!}
+                                        {!! Form::number('score', 0, ['class' => 'form-control', 'id'=>'score_fld']) !!}
                                     </div>
                                 </div>
                                 <div id="div-comment" class="form-group">
                                     <label class="control-label mb-10 col-sm-2" for="comment">Comment</label>
                                     <div class="col-sm-10">
-                                        {!! Form::textarea('comment', $submission->comment, ['class' => 'form-control']) !!}
+                                        {!! Form::textarea('comment',0, ['class' => 'form-control', 'id'=>'comment_fld']) !!}
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +188,6 @@
             </div>
         </div>
     </div>
-    @endforeach
     
 @endsection
 
@@ -206,6 +195,26 @@
 @section('js-135')
 <script type="text/javascript">
 $(document).ready(function() {
+    // Get comment modl for view and edit
+    $(document).on('click', '.comment-btn', function(e) {
+        e.preventDefault();
+        let student_id = $(this).data('student-id');
+        let score = $(this).data('score');
+        let class_material_id = "{{$class_material->id}}"
+        $.get( "{{URL::to('/')}}/dashboard/class/submission/"+class_material_id+"/student/"+student_id).done(function( response ) {
+            if (response.found) {
+                $('#mdl-comment-modal').modal('show');
+                $('#submission_id').val(response.submission.id);
+
+                $('#student_name').html(response.submission.student_name);
+                $('#comment_fld').val(response.submission.comment);
+                $('#score_fld').val(score);
+            }else{
+                swal("Not found!", "No submission found for this Student", "info");
+            }   
+
+        });
+    })
 
     $(document).on('click', "#btn-save-student-scores", function(e) {
 
