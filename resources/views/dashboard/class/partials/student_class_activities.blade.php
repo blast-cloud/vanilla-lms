@@ -1,12 +1,9 @@
-<div class="col-sm-12 panel panel-default card-view pa-10">
+<div class="col-sm-12 panel panel-default card-view pa-20">
    
         <table class="table table-bordered table-hover table-responsive table-condensed">     
             <thead>
                 <tr>
-                    <th scope="col" class=" text-center">
-                        S/N
-                    </th>
-                    <th scope="col" class=" text-center">
+                    <th scope="col-sm-3" class=" text-left">
                         Name
                     </th>
                     <th scope="col" class="text-center">
@@ -15,37 +12,45 @@
                     <th scope="col"  class="text-center">
                     Assignment Views
                     </th>
+                    <th scope="col"  class="text-center">
+                        Reading Material Views
+                    </th>
+                    <th scope="col"  class="text-center">
+                        Discussions
+                    </th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($enrolledStudentClassActivity as $key => $item)
-                <tr class="text-center">
+                <tr class="text-left">
                     <td>
-                        {{$key + 1}}
+                        {{$item['first_name']}}  {{$item['last_name']}} - {{$item['matriculation_number']}}
                     </td>
-                    <td>
-                        {{$item['first_name']}}  {{$item['last_name']}}
-                        {{-- <br> --}}
-                            - {{$item['matriculation_number']}}
-                    </td>
-                    <td>
+                    <td class="text-center">
                         @if($item['assignmentClick'] == null)
-                            0
+                            <span class="text-danger small">No Activity</span>
                         @else
-                        {{$item['assignmentClick']}}
+                            <span class="text-success small">{{$item['assignmentClick']}}</span>
                         @endif
                     </td>
-                    <td>
+                    <td class="text-center">
                         
                         @if($item['lectureMaterialClick'] == null)
-                            0
+                            <span class="text-danger small">No Activity</span>
                         @else
-                        {{$item['lectureMaterialClick']}}
+                            <span class="text-success small">{{$item['lectureMaterialClick']}}</span>
                         @endif
+                    </td>
+                    <td class="text-center">
+                        {{-- //TODO: Get the number of times this number has viewed the reading materials --}}
+                        <span class="text-danger small">No Activity</span>
+                    </td>
+                    <td class="text-center">
+                        {{-- //TODO: Get the number of posts this student has made in the discussion forum for this class --}}
+                        <span class="text-danger small">No Activity</span>
                     </td>
                 <tr>
                 @endforeach
-                
             </tbody>
         </table>
 
