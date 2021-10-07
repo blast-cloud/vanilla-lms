@@ -56,7 +56,7 @@
        
         <ol id="lst_grade_messages" class="ma-20" style="font-size:90%"></ol>
 
-        <table class="table table-bordered table-striped table-responsive mb-10">
+        <table class="table table-bordered table-striped table-responsive mb-10 mass-grading-tbl">
 
             <thead>
                 <tr>
@@ -148,6 +148,7 @@
                 </div>
 
                 <div class="modal-body">
+                    <div id="div-comment-modal-error" class="alert alert-danger" role="alert"></div>
                     <form class="form-horizontal" id="frm-comment-modal" role="form" method="POST" action="{{ route('dashboard.lecturer.save-comment') }}">
                         <div class="row">
                             <div class="ma-10">
@@ -156,16 +157,8 @@
                                     <div class="loader" id="loader-1"></div>
                                 </div> --}}
                                 <div id="div-name" class="form-group">
-                                    <span class="ml-10 col-sm-12" id="student_name">
-                                        {{-- {{ $submission->student->first_name.' '.$item->student->last_name }} ({{ $submission->student->matriculation_number }}) --}}
-                                    </span>
+                                    <span class="ml-10 col-sm-12" id="student_name" style="font-weight: bold;"></span>
                                 </div>
-                                {{-- @php
-                                    $score = null;
-                                    if (isset($grades[$submission->student->id])){
-                                        $score = $grades[$submission->student->id];
-                                    }
-                                @endphp --}}
                                 <div id="div-score" class="form-group">
                                     <label class="control-label mb-10 col-sm-2" for="score">Score</label>
                                     <div class="col-sm-10">
@@ -201,6 +194,7 @@ $(document).ready(function() {
     // Get comment modl for view and edit
     $(document).on('click', '.comment-btn', function(e) {
         e.preventDefault();
+        $('#div-comment-modal-error').hide();
         let student_id = $(this).data('student-id');
         let score = $(this).data('score');
         let class_material_id = "{{$class_material->id}}"
@@ -213,7 +207,7 @@ $(document).ready(function() {
                 $('#comment_fld').val(response.submission.comment);
                 $('#score_fld').val(score);
             }else{
-                swal("Not found!", "No submission found for this Student", "info");
+                swal("Not found!", "No submission found for this Student", "warning");
             }   
 
         });
@@ -301,6 +295,8 @@ $(document).ready(function() {
 $(document).on('click', '#btn-save-mdl-comment-modal', function(e) {
     e.preventDefault();
     $('.spinner2').show();
+    let save_btn = $(this);
+    $(save_btn).prop("disabled", true);
     let formData = new FormData();
     formData.append('_token', $('input[name="_token"]').val());
     formData.append('_method', "POST");
@@ -317,9 +313,19 @@ $(document).on('click', '#btn-save-mdl-comment-modal', function(e) {
         contentType: false,
         dataType: 'json',
         success: function(result){
-            $('.spinner2').hide();
-            swal("Done!", "Grades saved successfully with some issues.", "success");
-            window.location.reload();
+            if (result.errors) {
+                $('#div-comment-modal-error').html('');
+                $('#div-comment-modal-error').show();
+                $(save_btn).prop("disabled", false);
+
+                $.each(result.errors, function(key, value){
+                    $('#div-comment-modal-error').append('<li class="">'+value+'</li>');
+                });
+            }else{
+                $('.spinner2').hide();
+                swal("Done!", "Grades saved successfully with some issues.", "success");
+                window.location.reload();
+            }
         },
     });
 })

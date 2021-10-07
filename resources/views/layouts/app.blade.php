@@ -391,6 +391,9 @@
             .grade-container td input{
                 width: 75px;
             }
+            .mass-grading-tbl td input{
+                width: 80px;
+            }
     
         /*.fixed-sidebar-left{
             top: 110px !important;

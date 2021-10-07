@@ -7,6 +7,7 @@ use App\DataTables\AnnouncementDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
+use App\Http\Requests\GradeCommentRequest;
 
 use Log;
 use Flash;
@@ -528,7 +529,7 @@ class ClassDashboardController extends AppBaseController
         return response()->json(['found'=>false, 'submission'=>$submission_data]);
     }
     
-    public function processLecturerComment(Request $request)
+    public function processLecturerComment(GradeCommentRequest $request)
     {
         // save comment
         $submission = Submission::find($request->submission_id);
