@@ -32,33 +32,46 @@
                         {{$item['first_name']}}  {{$item['last_name']}} - {{$item['matriculation_number']}}
                     </td>
                     <td class="text-center">
-                        @if($item['assignmentClick'] == null)
-                            <span class="text-danger small">No Activity</span>
-                        @else
-                            <span class="text-primary small">
-                                {{ number_format($item['assignmentClick']) }} view(s) <br/>
-                                <span class="small text-danger">out of {{ count($class_assignments) }} assignments</span>
-                            </span>
-                        @endif
-                    </td>
-                    <td class="text-center">
-                        
                         @if($item['lectureMaterialClick'] == null)
                             <span class="text-danger small">No Activity</span>
                         @else
                             <span class="text-primary small">
                                 {{ number_format($item['lectureMaterialClick']) }} view(s) <br/>
-                                <span class="small text-danger">out of {{ count($class_assignments) }} lectures</span>
+                                <span class="small text-danger">out of {{ count($lecture_classes) }} lectures</span>
                             </span>
                         @endif
                     </td>
                     <td class="text-center">
-                        {{-- //TODO: Get the number of times this number has viewed the reading materials --}}
+                        
+                        @if($item['assignmentClick'] == null)
+                            <span class="text-danger small">No Activity</span>
+                        @else
+                            <span class="text-primary small">
+                                {{ number_format($item['assignmentClick']) }} view(s) <br/>
+                                <span class="small text-danger">out of {{ count($class_assignments) }} assignment(s)</span>
+                            </span>
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        {{-- //TODO: Get the number of times this number has viewed the reading materials --}}    
+                    @if($item['readingMaterialClick'] == null)
                         <span class="text-danger small">No Activity</span>
+                    @else
+                        <span class="text-primary small">
+                            {{ number_format($item['readingMaterialClick']) }} view(s) <br/>
+                            <span class="small text-danger">out of {{ count($reading_materials) }} reading materials</span>
+                        </span>
+                    @endif
                     </td>
                     <td class="text-center">
                         {{-- //TODO: Get the number of posts this student has made in the discussion forum for this class --}}
+                        @if($item['discussion'] == null)
                         <span class="text-danger small">No Activity</span>
+                    @else
+                        <span class="text-primary small">
+                            {{ number_format($item['discussion']) }}<br/>
+                        </span>
+                    @endif
                     </td>
                 <tr>
                 @endforeach
