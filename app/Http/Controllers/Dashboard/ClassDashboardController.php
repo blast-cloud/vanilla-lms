@@ -28,6 +28,7 @@ use App\Models\Submission;
 use App\Models\Grade;
 
 use App\Models\StudentAttendance;
+use App\Models\ClassMaterial;
 use App\Models\StudentClassActivity;
 
 use Carbon\Carbon;
@@ -137,7 +138,8 @@ class ClassDashboardController extends AppBaseController
         }else if ($current_user->lecturer_id != null){
             $class_schedules = $this->courseClassRepository->all(['lecturer_id'=>$current_user->lecturer_id]);
             $course_class = $courseClass->id;
-            $gradePctSum = $this->classMaterialRepository->all(['course_class_id'=>$course_class])->sum('grade_contribution_pct');
+            $gradePctSum = ClassMaterial::where(['course_class_id'=>$course_class])->sum('grade_contribution_pct');
+            
             $remainingGradePct = 100 - $gradePctSum; 
               
         }else{
@@ -148,7 +150,7 @@ class ClassDashboardController extends AppBaseController
      
         $enrolledStudentClassActivity = [];                        
                    
-      
+        
         $studentClassActivity = DB::table('student_class_activities')
             ->join('class_materials','student_class_activities.class_material_id', '=','class_materials.id')
             ->join('students','student_class_activities.student_id','=','students.id')

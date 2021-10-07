@@ -154,17 +154,19 @@
                                     <div class="loader" id="loader-1"></div>
                                 </div> --}}
                                 <div id="div-name" class="form-group">
-                                    <label class="control-label mb-10 col-sm-2" for="name">Student Name</label>
-                                    <div class="col-sm-10">
+                                    <span class="ml-10 col-sm-12">
+                                        {{ $submission->student->first_name.' '.$item->student->last_name }} ({{ $submission->student->matriculation_number }})
+                                    </span>
+                                    {{-- <div class="col-sm-10">
                                         {!! Form::text('name', $submission->student->first_name.' '.$item->student->last_name, ['class' => 'form-control', 'disabled'=>true]) !!}
-                                    </div>
+                                    </div> --}}
                                 </div>
-                                <div id="div-matric" class="form-group">
+                                {{-- <div id="div-matric" class="form-group">
                                     <label class="control-label mb-10 col-sm-2" for="matric">Matric Number</label>
                                     <div class="col-sm-10">
                                         {!! Form::text('matric', $submission->student->matriculation_number, ['class' => 'form-control', 'disabled'=>true]) !!}
                                     </div>
-                                </div>
+                                </div> --}}
                                 @php
                                     $score = null;
                                     if (isset($grades[$submission->student->id])){

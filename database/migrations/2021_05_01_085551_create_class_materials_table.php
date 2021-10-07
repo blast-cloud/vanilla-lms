@@ -31,7 +31,7 @@ class CreateClassMaterialsTable extends Migration
             $table->integer('course_class_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign('course_class_id')->references('id')->on('course_classes');
+            //$table->foreign('course_class_id')->references('id')->on('course_classes');
         });
     }
 

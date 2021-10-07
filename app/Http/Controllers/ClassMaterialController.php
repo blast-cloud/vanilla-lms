@@ -56,18 +56,29 @@ class ClassMaterialController extends AppBaseController
      * @return Response
      */
     public function store(CreateClassMaterialRequest $request)
-    {
-        if ($this->assignmnetExists($request->assignment_number)) {
-            $error = ['exists'=>'An assignment with this lecture number already exists this semester'];
-            return response()->json(['errors'=>$error]);
+    {   
+        $course_class_id = $request->course_class_id;
+        if($request->has('assignment_number')){
+            if ($this->assignmnetExists($request->assignment_number, $course_class_id)) {
+                $error = ['exists'=>'An assignment with this assignment number already exists this semester'];
+                return response()->json(['errors'=>$error]);
+            }
+        }
+        if($request->has('lecture_number')){
+            if ($this->lectureExists($request->lecture_number, $course_class_id)) {
+                $error = ['exists'=>'A lecture with this lecture number already exists this semester'];
+                return response()->json(['errors'=>$error]);
+            }
+        }
+        if($request->has('examination_number')){
+            if ($this->examExists($request->examination_number, $course_class_id)) {
+                $error = ['exists'=>'An Examination with this Examination number already exists this semester'];
+                return response()->json(['errors'=>$error]);
+            }
         }
         $current_semester = Semester::where('is_current', true)->first();
-        $semester_id = $current_semester->id;
-        if (!$current_semester) {
-            $semester_id = 1;
-        }
 
-        $input = array_merge($request->all(), ['semester_id'=>$semester_id]);
+        $input = array_merge($request->all(), ['semester_id'=>$current_semester->id]);
 
         $classMaterial = $this->classMaterialRepository->create($input);
 
@@ -168,13 +179,21 @@ class ClassMaterialController extends AppBaseController
         return redirect(route('classMaterials.index'));
     }
 
-    public function assignmnetExists($assignment_number)
+    public function lectureExists($lecture_number,$course_class_id)
     {
         $current_semester = Semester::where('is_current', true)->first();
 
-        return ClassMaterial::where('type', 'class-assignments')
-                                ->where('semester_id', $current_semester->id)
-                                ->where('assignment_number', $assignment_number)
-                                ->first();
+        return ClassMaterial::where([['type','lecture-classes'],['semester_id',$current_semester->id],['lecture_number',$lecture_number],['course_class_id',$course_class_id]])->first();
+        
     }
+    public function examExists($examination_number,$course_class_id)
+    {
+       $current_semester = Semester::where('is_current', true)->first();
+       
+        
+
+        return ClassMaterial::where([['type','class-examinations'],['semester_id',$current_semester->id],['examination_number',$examination_number],['course_class_id',$course_class_id]])->first();
+        
+    }
+    
 }

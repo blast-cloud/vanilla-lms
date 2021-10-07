@@ -44,6 +44,18 @@ class CreateCourseClassesTable extends Migration
             $table->foreign('department_id')->references('id')->on('departments');
             $table->foreign('lecturer_id')->references('id')->on('lecturers');
         });
+
+        Schema::table("forums", function(Blueprint $table) {
+            $table->foreign('course_class_id')->references('id')->on('course_classes');
+        });
+
+        Schema::table("class_materials", function(Blueprint $table) {
+            $table->foreign('course_class_id')->references('id')->on('course_classes');
+        });
+
+        Schema::table("submissions", function(Blueprint $table) {
+            $table->foreign('course_class_id')->references('id')->on('course_classes');
+        });
     }
 
     /**

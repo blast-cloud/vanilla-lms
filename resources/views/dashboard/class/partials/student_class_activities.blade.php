@@ -1,55 +1,75 @@
-<div class="table-wrap">
+<div class="col-sm-12 panel panel-default card-view pa-20">
    
-    <div class="table-responsive">
-       <table class="table table-condensed analytic-table">     
-            <tr class="analytic-table-color">
-                <th scope="col" class=" text-center">
-                    S/N
-                </th>
-                <th scope="col" class=" text-center">
-                    Name
-                </th>
-                <th scope="col" class="text-center">
-                  Lecture Clicks
-                </th>
-                <th scope="col"  class="text-center">
-                  Assignment Clicks
-                </th>
+        <table class="table table-bordered table-hover table-responsive table-condensed">     
+            <thead>
+                <tr>
+                    <th scope="col-sm-3" class="text-left">
+                        Student
+                    </th>
+                    <th scope="col" class="text-center" style="font-size:80%">
+                        Lectures <br/>
+                        <span class="text-info small">(# of Views)</span>
+                    </th>
+                    <th scope="col"  class="text-center" style="font-size:80%">
+                        Assignments <br/>
+                        <span class="text-info small">(# of Views)</span>
+                    </th>
+                    <th scope="col"  class="text-center" style="font-size:80%">
+                        Reading Materials <br/>
+                        <span class="text-info small">(# of Views)</span>
+                    </th>
+                    <th scope="col"  class="text-center" style="font-size:80%">
+                        Discussions <br/>
+                        <span class="text-info small">(# of Posts)</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if ($enrolledStudentClassActivity != null && count($enrolledStudentClassActivity)>0)
+                @foreach ($enrolledStudentClassActivity as $key => $item)
+                <tr class="text-left">
+                    <td>
+                        {{$item['first_name']}}  {{$item['last_name']}} - {{$item['matriculation_number']}}
+                    </td>
+                    <td class="text-center">
+                        @if($item['assignmentClick'] == null)
+                            <span class="text-danger small">No Activity</span>
+                        @else
+                            <span class="text-primary small">
+                                {{ number_format($item['assignmentClick']) }} view(s) <br/>
+                                <span class="small text-danger">out of {{ count($class_assignments) }} assignments</span>
+                            </span>
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        
+                        @if($item['lectureMaterialClick'] == null)
+                            <span class="text-danger small">No Activity</span>
+                        @else
+                            <span class="text-primary small">
+                                {{ number_format($item['lectureMaterialClick']) }} view(s) <br/>
+                                <span class="small text-danger">out of {{ count($class_assignments) }} lectures</span>
+                            </span>
+                        @endif
+                    </td>
+                    <td class="text-center">
+                        {{-- //TODO: Get the number of times this number has viewed the reading materials --}}
+                        <span class="text-danger small">No Activity</span>
+                    </td>
+                    <td class="text-center">
+                        {{-- //TODO: Get the number of posts this student has made in the discussion forum for this class --}}
+                        <span class="text-danger small">No Activity</span>
+                    </td>
+                <tr>
+                @endforeach
+                @else
+                <tr class="text-left">
+                    <td class="text-center" colspan="5">
+                        No students enrolled.
+                    </td>
+                </tr>
+                @endif
+            </tbody>
+        </table>
 
-            </tr>
-            
-        <tbody>
-            @foreach ($enrolledStudentClassActivity as $key => $item)
-            <tr class="text-center">
-                <td>
-                    {{$key + 1}}
-                </td>
-                <td>
-                    {{$item['first_name']}}  {{$item['last_name']}}
-                    <br>
-                        {{$item['matriculation_number']}}
-                </td>
-                <td>
-                    @if($item['assignmentClick'] == null)
-                        0
-                    @else
-                    {{$item['assignmentClick']}}
-                    @endif
-                </td>
-                <td>
-                    
-                    @if($item['lectureMaterialClick'] == null)
-                         0
-                     @else
-                     {{$item['lectureMaterialClick']}}
-                     @endif
-                </td>
-            <tr>
-            @endforeach
-            
-        </tbody>
-       </table>
-       
-        
-    </div>
 </div>
