@@ -29,6 +29,10 @@ class CreateGradesTable extends Migration
             $table->foreign('course_class_id')->references('id')->on('course_classes');
             $table->foreign('class_material_id')->references('id')->on('class_materials');
         });
+
+        Schema::table("submissions", function(Blueprint $table) {
+            $table->foreign('grade_id')->references('id')->on('grades');
+        });
     }
 
     /**
