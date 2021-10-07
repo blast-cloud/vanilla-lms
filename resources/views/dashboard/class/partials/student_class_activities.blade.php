@@ -3,24 +3,29 @@
         <table class="table table-bordered table-hover table-responsive table-condensed">     
             <thead>
                 <tr>
-                    <th scope="col-sm-3" class=" text-left">
-                        Name
+                    <th scope="col-sm-3" class="text-left">
+                        Student
                     </th>
-                    <th scope="col" class="text-center">
-                    Lecture Views
+                    <th scope="col" class="text-center" style="font-size:80%">
+                        Lectures <br/>
+                        <span class="text-info small">(# of Views)</span>
                     </th>
-                    <th scope="col"  class="text-center">
-                    Assignment Views
+                    <th scope="col"  class="text-center" style="font-size:80%">
+                        Assignments <br/>
+                        <span class="text-info small">(# of Views)</span>
                     </th>
-                    <th scope="col"  class="text-center">
-                        Reading Material Views
+                    <th scope="col"  class="text-center" style="font-size:80%">
+                        Reading Materials <br/>
+                        <span class="text-info small">(# of Views)</span>
                     </th>
-                    <th scope="col"  class="text-center">
-                        Discussions
+                    <th scope="col"  class="text-center" style="font-size:80%">
+                        Discussions <br/>
+                        <span class="text-info small">(# of Posts)</span>
                     </th>
                 </tr>
             </thead>
             <tbody>
+                @if ($enrolledStudentClassActivity != null && count($enrolledStudentClassActivity)>0)
                 @foreach ($enrolledStudentClassActivity as $key => $item)
                 <tr class="text-left">
                     <td>
@@ -30,7 +35,7 @@
                         @if($item['assignmentClick'] == null)
                             <span class="text-danger small">No Activity</span>
                         @else
-                            <span class="text-success small">{{$item['assignmentClick']}}</span>
+                            <span class="text-info small">{{ number_format($item['assignmentClick']) }}</span>
                         @endif
                     </td>
                     <td class="text-center">
@@ -38,7 +43,7 @@
                         @if($item['lectureMaterialClick'] == null)
                             <span class="text-danger small">No Activity</span>
                         @else
-                            <span class="text-success small">{{$item['lectureMaterialClick']}}</span>
+                            <span class="text-info small">{{ number_format($item['lectureMaterialClick']) }}</span>
                         @endif
                     </td>
                     <td class="text-center">
@@ -51,6 +56,13 @@
                     </td>
                 <tr>
                 @endforeach
+                @else
+                <tr class="text-left">
+                    <td class="text-center" colspan="5">
+                        No students enrolled.
+                    </td>
+                </tr>
+                @endif
             </tbody>
         </table>
 
