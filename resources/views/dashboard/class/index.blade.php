@@ -42,44 +42,44 @@
             <div class="tab-content" id="myTabContent_6">
 
                 <div id="home_6" class="tab-pane fade active in" role="tabpanel">
-                    <div class="col-sm-12 panel panel-default card-view pa-10">
+                    <div class="col-sm-12 panel panel-default card-view pa-20">
                         @include("dashboard.class.partials.class_details")
                     </div>
                 </div>
 
                 <div id="profile_7" class="tab-pane fade" role="tabpanel">
-                    <div class="col-sm-12 panel panel-default card-view pa-10">
+                    <div class="col-sm-12 panel panel-default card-view pa-20">
                         @include("dashboard.class.partials.online_lectures")
                     </div>
                 </div>
 
                 <div id="profile_5" class="tab-pane fade" role="tabpanel">
-                    <div class="col-sm-12 panel panel-default card-view pa-10">
+                    <div class="col-sm-12 panel panel-default card-view pa-20">
                         @include("dashboard.class.partials.assignments")
                     </div>
                 </div>
 
                 <div id="profile_11" class="tab-pane fade" role="tabpanel">
-                    <div class="col-sm-12 panel panel-default card-view pa-10">
+                    <div class="col-sm-12 panel panel-default card-view pa-20">
                         @include("dashboard.class.partials.exams")
                     </div>
                 </div>
 
                 <div id="profile_6" class="tab-pane fade" role="tabpanel">
-                    <div class="col-sm-12 panel panel-default card-view pa-10">
+                    <div class="col-sm-12 panel panel-default card-view pa-20">
                         @include("dashboard.class.partials.discussion_board")
                     </div>
                 </div>
 
                 <div id="profile_8" class="tab-pane fade" role="tabpanel">
-                    <div class="col-sm-12 panel panel-default card-view pa-10">
+                    <div class="col-sm-12 panel panel-default card-view pa-20">
                         @include("dashboard.class.partials.outline")
                     </div>
                 </div>
                 
                 @if ($current_user->lecturer_id!=null)
                 <div id="profile_9" class="tab-pane fade" role="tabpanel">
-                    <div class="col-sm-12 panel panel-default card-view pa-10">
+                    <div class="col-sm-12 panel panel-default card-view pa-20">
                         @include("dashboard.class.partials.grades")
                     </div>
                 </div>
@@ -87,7 +87,7 @@
                     @include("dashboard.class.partials.student_class_activities")
                 </div>
                 <div id="profile_12" class="tab-pane fade" role="tabpanel">
-                    <div class="col-sm-12 panel panel-default card-view pa-10">
+                    <div class="col-sm-12 panel panel-default card-view pa-20">
                         @include("dashboard.class.partials.enrollments")
                     </div>
                 </div>
