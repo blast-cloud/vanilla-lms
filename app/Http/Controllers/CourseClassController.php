@@ -58,10 +58,12 @@ class CourseClassController extends AppBaseController
     public function store(CreateCourseClassRequest $request)
     {
         $input = $request->all();
-        $course_exist = CourseClass::where('code', $request->code)->where('lecturer_id', $request->lecturer_id)->get();
+        $course_class_exist = CourseClass::where('code', $request->code)->where('lecturer_id', $request->lecturer_id)->first();
 
-        dd($course_exist);
-
+        if ($course_class_exist) {
+            Flash::error('Course Class already exists');
+            return redirect(route('courseClasses.index'));
+        }
 
         $courseClass = $this->courseClassRepository->create($input);
 
