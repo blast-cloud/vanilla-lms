@@ -46,7 +46,9 @@
             @endif
             <br/>
             <br/>
-
+             @php
+                 $reading_materials = $classActivities->get_reading_materials(); 
+             @endphp   
             <h6>Reading Materials</h6>
             <ul class="list-icons" style="font-size:95%">
             @if ($reading_materials!=null && count($reading_materials)>0)

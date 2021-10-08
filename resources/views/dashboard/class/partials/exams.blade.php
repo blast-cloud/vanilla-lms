@@ -4,7 +4,9 @@
 </a>
 <br/>
 @endif
-
+@php
+    $class_examinations = $classActivities-> get_examination();    
+@endphp
 <hr class="light-grey-hr mb-10 mt-0"/>
 
 @if ($class_examinations!=null && count($class_examinations)>0)

@@ -41,8 +41,28 @@
                                         @endif
                                         <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Assignment #1 is due Monday, 12-Jun-21 </span></li> -->
                                         <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Enrolled Students: <span class="text-danger">50</span> </li> -->
+                                        <br>
+                                        <li>
+                                            @if (isset($current_user) && $current_user->student_id != null)
+                                            
+                                        @php
+                                            $message = $activity->get_activity_score($classDetailItem->id, $current_user->student_id);
+                                        @endphp
+                                        @if($message == null)
+                                            <span class="text-danger">You have not participated in this class</span>
+                                        @endif
+                                        @if($message == 'low')
+                                            <span class="text-danger">Your class participation for this class is low you need to participate more as this might affect your final grading</span>
+                                        @endif
+                                        @if($message == 'moderate')
+                                        <span class="text-danger">Your class participation for this class is moderate</span>
+                                        @endif
+                                        @if($message == 'high')
+                                        <span class="text-danger">Your class particpation for this class is high keep it up </span>
+                                        @endif
+                                    @endif
+                                        </li>
                                     </ul>
-
                                 </div>
                                 <!-- <div class="col-sm-6 text-right">
                                     <p style="font-size:80%;" class="text-danger muted">Class outline and notes have NOT been uploaded.</p>

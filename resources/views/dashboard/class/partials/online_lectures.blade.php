@@ -6,6 +6,9 @@
     @endif
 
     <hr class="light-grey-hr mb-10 mt-0"/>
+    @php
+        $lecture_classes = $classActivities->get_class_lectures();    
+    @endphp
 
     @if ($lecture_classes!=null && count($lecture_classes)>0)
     @foreach($lecture_classes as $item)
