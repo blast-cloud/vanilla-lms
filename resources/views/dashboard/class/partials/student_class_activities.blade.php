@@ -1,10 +1,16 @@
 <div class="col-sm-12 panel panel-default card-view pa-20">
+    @php
+        $enrolledStudentClassActivity  = $classActivities->get_map();
+    @endphp
    
         <table class="table table-bordered table-hover table-responsive table-condensed">     
             <thead>
                 <tr>
                     <th scope="col-sm-3" class="text-left">
                         Student
+                    </th>
+                    <th  scope="col-sm-3" class="text-center">
+                        Participation
                     </th>
                     <th scope="col" class="text-center" style="font-size:80%">
                         Lectures <br/>
@@ -31,13 +37,28 @@
                     <td>
                         {{$item['first_name']}}  {{$item['last_name']}} - {{$item['matriculation_number']}}
                     </td>
+                     @php
+                         $score = $classActivities->get_activity_score($courseClass->id, $item['student_id']);
+                    @endphp
+                    <td class="text-center">
+                        @if ($score == null)
+
+                        <span class="small text-danger">No Activity</span>
+    
+                        @else
+                            <span class="text-primary"> {{$score}} </span>
+                        @endif
+                    </td>
                     <td class="text-center">
                         @if($item['lectureMaterialClick'] == null)
                             <span class="text-danger small">No Activity</span>
                         @else
                             <span class="text-primary small">
                                 {{ number_format($item['lectureMaterialClick']) }} view(s) <br/>
-                                <span class="small text-danger">out of {{ count($lecture_classes) }} lectures</span>
+                                @php
+                                     $lecture_classes = $classActivities->get_class_lectures();
+                                @endphp
+                                <span class="small text-danger">out of {{ count(($lecture_classes)) }} lectures</span>
                             </span>
                         @endif
                     </td>
@@ -48,6 +69,9 @@
                         @else
                             <span class="text-primary small">
                                 {{ number_format($item['assignmentClick']) }} view(s) <br/>
+                                @php
+                                     $class_assignments = $classActivities->get_class_assignment(); 
+                                @endphp
                                 <span class="small text-danger">out of {{ count($class_assignments) }} assignment(s)</span>
                             </span>
                         @endif
@@ -59,6 +83,9 @@
                     @else
                         <span class="text-primary small">
                             {{ number_format($item['readingMaterialClick']) }} view(s) <br/>
+                                @php
+                                    $reading_materials = $classActivities->get_reading_materials()
+                                @endphp 
                             <span class="small text-danger">out of {{ count($reading_materials) }} reading materials</span>
                         </span>
                     @endif
@@ -70,6 +97,7 @@
                     @else
                         <span class="text-primary small">
                             {{ number_format($item['discussion']) }}<br/>
+                            <span class="text-danger"> post(s)</span>
                         </span>
                     @endif
                     </td>

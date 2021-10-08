@@ -18,6 +18,7 @@ use App\Repositories\GradeRepository;
 use Response;
 use Request;
 use App\Models\Announcement;
+use App\Managers\StudentActivityManager;
 
 class StudentDashboardController extends AppBaseController
 {
@@ -82,12 +83,13 @@ class StudentDashboardController extends AppBaseController
                                         })->latest()->get();
         $class_schedules = $this->courseClassRepository->findMany($enrollment_ids);
         $department = $this->departmentRepository->find($current_user->department_id);
-
+        $activity = new StudentActivityManager(1);
         return view("dashboard.student.index")
                 ->with('department', $department)
                 ->with('announcements', $announcements)
                 ->with('current_user', $current_user)
-                ->with('class_schedules', $class_schedules);
+                ->with('class_schedules', $class_schedules)
+                ->with('activity',$activity);
     }
 
 }
