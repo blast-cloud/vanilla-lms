@@ -37,7 +37,7 @@
                 </form>
             </div>
 
-            <div class="modal-footer">
+            <div class="modal-footer" id="div-announcement-modal-footer">
                 <hr class="light-grey-hr mb-10" />
                 <button type="button" class="btn btn-primary" id="btn-save-mdl-announcement-modal" value="add">Save</button>
             </div>
@@ -53,6 +53,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-announcement-modal", function(e) {
         $('#div-announcement-modal-error').hide();
+        $('#div-announcement-modal-footer').show();
         $('#mdl-announcement-modal').modal('show');
         $('#frm-announcement-modal').trigger("reset");
         $('#txt-announcement-primary-id').val(0);
@@ -73,6 +74,7 @@ $(document).ready(function() {
         // $.get( "{{URL::to('/')}}/api/announcements/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/announcements/"+itemId).done(function( response ) {
 			$('#div-announcement-modal-error').hide();
+            $('#div-announcement-modal-footer').hide();
 			$('#mdl-announcement-modal').modal('show');
 			$('#frm-announcement-modal').trigger("reset");
 			$('#txt-announcement-primary-id').val(response.data.id);
@@ -94,6 +96,7 @@ $(document).ready(function() {
         // $.get( "{{URL::to('/')}}/api/announcements/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/announcements/"+itemId).done(function( response ) {            
 			$('#div-announcement-modal-error').hide();
+            $('#div-announcement-modal-footer').show();
 			$('#mdl-announcement-modal').modal('show');
 			$('#frm-announcement-modal').trigger("reset");
 			$('#txt-announcement-primary-id').val(response.data.id);
