@@ -5,6 +5,9 @@
 @if (count($enrollments)>0)
     <div class="grade-container" style="width: 100%; overflow-x: auto;">
     <table class="table table-bordered table-striped" style="border-collapse: collapse; overflow-x: scroll;">
+        <div class="spinner1">
+            <div class="loader" id="loader-1"></div>
+        </div>
         <thead>
             <tr>
                 <td>
@@ -91,10 +94,10 @@ No Enrolled Students
 
 
 
-@section('js-135')
+@section('js-129')
 <script type="text/javascript">
 $(document).ready(function() {
-
+    $('.spinner1').hide();
     //Show Modal for Edit
     $(document).on('click', "#btn-save-student-scores", function(e) {
 
@@ -166,16 +169,13 @@ $(document).ready(function() {
                 }
 
                 if(result.message && Object.keys(result.message).length>0){
-
+                    // swal("Done!", "Grades saved successfully with some issues.", "success");
                     $.each(result.message, function(key, value){
                         $('#lst_grade_messages').append('<li class="text-danger">'+value+'</li>');
                         $('.'+key).css('border-color','red');
                     });
-
-                    window.alert("Grades saved successfully with some issues.");
-
                 }else{
-                    window.alert("Grades saved successfully.");
+                    swal("Done!", "Grades saved successfully.", "success");
                 }
 
                 window.setTimeout( function(){
