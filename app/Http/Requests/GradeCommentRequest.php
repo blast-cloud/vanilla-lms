@@ -25,7 +25,7 @@ class GradeCommentRequest extends AppBaseFormRequest
     {
         return [
             'comment' => "required|string",
-            'score' => "required|gt:0",
+            'score' => "required|gt:0|max:100",
         ];
     }
 }
