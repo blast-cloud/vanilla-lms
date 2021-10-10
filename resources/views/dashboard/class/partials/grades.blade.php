@@ -48,7 +48,10 @@
         </thead>
         @foreach($gradeManager->get_map() as $idx=>$grade_item)
         <tr>
-            <td>{{$grade_item['name']}} - {{$grade_item['matric_num']}}</td>
+            <td>
+                {{$grade_item['name']}} - {{$grade_item['matric_num']}}
+                <span id="grade_class_participation_{{$grade_item['matric_num']}}" class="small grade_class_participation"></span>
+            </td>
             <td>
                 @php
                     $score = null;
@@ -98,6 +101,19 @@ No Enrolled Students
 <script type="text/javascript">
 $(document).ready(function() {
     $('.spinner1').hide();
+
+    //Load the class participation in grading window
+    $(".participation_score").each(function() {
+        let matric = $(this).attr("data-participation-matric");
+        let score = $(this).attr("data-participation-score");
+
+        if (score===null || score==="" ){
+            score = "No Acticity";
+        }
+
+        $("#grade_class_participation_"+matric).html("<br/> Participation : <span class='text-primary'>"+score+"</span>");
+    });
+
     //Show Modal for Edit
     $(document).on('click', "#btn-save-student-scores", function(e) {
 

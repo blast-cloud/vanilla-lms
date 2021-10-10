@@ -34,19 +34,21 @@
                 @if ($enrolledStudentClassActivity != null && count($enrolledStudentClassActivity)>0)
                 @foreach ($enrolledStudentClassActivity as $key => $item)
                 <tr class="text-left">
-                    <td>
+                    @php
+                        $score = $classActivities->get_activity_score($courseClass->id, $item['student_id']);
+                        $score_color = "text-danger";
+                        if ($score !=null && strtolower($score)=="high"){
+                            $score_color = "text-primary";
+                        }
+                    @endphp
+                    <td class="participation_score" data-participation-score="{{ucwords($score)}}" data-participation-matric="{{$item['matriculation_number']}}">
                         {{$item['first_name']}}  {{$item['last_name']}} - {{$item['matriculation_number']}}
                     </td>
-                     @php
-                         $score = $classActivities->get_activity_score($courseClass->id, $item['student_id']);
-                    @endphp
                     <td class="text-center">
                         @if ($score == null)
-
-                        <span class="small text-danger">No Activity</span>
-    
+                            <span class="small text-danger">No Activity</span>
                         @else
-                            <span class="text-primary"> {{$score}} </span>
+                            <h4 class="{{$score_color}} small" style="font-weight:900;">{{ strtoupper($score) }}</h4>
                         @endif
                     </td>
                     <td class="text-center">
@@ -77,7 +79,6 @@
                         @endif
                     </td>
                     <td class="text-center">
-                        {{-- //TODO: Get the number of times this number has viewed the reading materials --}}    
                     @if($item['readingMaterialClick'] == null)
                         <span class="text-danger small">No Activity</span>
                     @else
@@ -91,7 +92,6 @@
                     @endif
                     </td>
                     <td class="text-center">
-                        {{-- //TODO: Get the number of posts this student has made in the discussion forum for this class --}}
                         @if($item['discussion'] == null)
                         <span class="text-danger small">No Activity</span>
                     @else

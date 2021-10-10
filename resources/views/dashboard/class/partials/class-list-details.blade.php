@@ -23,7 +23,7 @@
                         
                         <div class="panel-body" style="padding: 10px 15px;">
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-10">
                                 
                                     <ul class="list-icons" style="font-size:95%">
                                         @if (!empty($classDetailItem->email_address))
@@ -41,26 +41,28 @@
                                         @endif
                                         <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Assignment #1 is due Monday, 12-Jun-21 </span></li> -->
                                         <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Enrolled Students: <span class="text-danger">50</span> </li> -->
-                                        <br>
+
                                         <li>
-                                            @if (isset($current_user) && $current_user->student_id != null)
-                                            
-                                        @php
-                                            $message = $activity->get_activity_score($classDetailItem->id, $current_user->student_id);
-                                        @endphp
-                                        @if($message == null)
-                                            <span class="text-danger">You have not participated in this class</span>
-                                        @endif
-                                        @if($message == 'low')
-                                            <span class="text-danger">Your class participation for this class is low you need to participate more as this might affect your final grading</span>
-                                        @endif
-                                        @if($message == 'moderate')
-                                        <span class="text-danger">Your class participation for this class is moderate</span>
-                                        @endif
-                                        @if($message == 'high')
-                                        <span class="text-danger">Your class particpation for this class is high keep it up </span>
-                                        @endif
-                                    @endif
+                                            @if (isset($current_user) && $current_user->student_id != null)                                                    
+                                                @php
+                                                    $message = $activity->get_activity_score($classDetailItem->id, $current_user->student_id);
+                                                @endphp
+                                                @if($message == null)
+                                                    <i class="text-danger fa fa-warning mr-5"></i>
+                                                    <span class="text-danger">You seem not to be participating in this class. Kindly followup on reading materials, assignments, and use the discussion forum if you have questions.</span>
+                                                @endif
+                                                @if($message == 'low')
+                                                    <i class="text-danger fa fa-warning mr-5"></i>
+                                                    <span class="text-danger">Your participation in this class is low, and it might affect your final score. Kindly followup on reading materials, assignments, and use the discussion forum if you have questions.</span>
+                                                @endif
+                                                @if($message == 'moderate')
+                                                    {{-- <span class="text-danger">Your participation in this class is moderate</span> --}}
+                                                @endif
+                                                @if($message == 'high')
+                                                    <i class="text-primary fa fa-thimbs-o-up mr-5"></i>
+                                                    <span class="text-primary">Your particpation in this class is high, please keep it up.</span>
+                                                @endif
+                                            @endif
                                         </li>
                                     </ul>
                                 </div>
