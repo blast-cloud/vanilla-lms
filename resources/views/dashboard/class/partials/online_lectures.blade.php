@@ -101,6 +101,7 @@
     @else
         <p style="font-size:95%;" class="muted">No Lectures available.</p>
     @endif
+    @include('dashboard.class.modals.lecture-start')
 @include('dashboard.class.modals.student-capture')
 @include('dashboard.class.modals.lecture-attendance')
 @section('js-131')
