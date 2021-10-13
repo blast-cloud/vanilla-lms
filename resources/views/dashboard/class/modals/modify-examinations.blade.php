@@ -73,7 +73,7 @@
                                         <label class="control-label mb-10 col-sm-3" for="txt_examination_score_contriution_pct">Grade Contribution(%)</label>
                                         <div class="col-md-8">
                                             {!! Form::number('txt_examination_score_contriution_pct', null, ['id'=>'txt_examination_score_contriution_pct','min'=>'0' ,'placeholder'=>"%",'class' => 'form-control']) !!}
-                                            <small id="txt_pct_grade_message"></small>
+                                            <small id="txt_pct_grade_message" class="text-danger"></small>
                                         </div>
                                         
                                     </div>
@@ -116,8 +116,10 @@ $(document).ready(function() {
         $('#form-modify-examination').trigger("reset");
         $('#txt_examination_id').val(0);
         let remainingGradePct = {!! json_encode($remainingGradePct) !!}
+        if(remainingGradePct <= 0){
+            $('#txt_pct_grade_message').text("You have reached 100% grade limit for this course");
+        }
         $('#txt_examination_score_contriution_pct').attr('max',remainingGradePct);
-        $('#txt_pct_grade_message').text("Remaining assignable total percentage grade is " + remainingGradePct);
     });
 
     //Show Modal for Edit Entry
@@ -140,7 +142,10 @@ $(document).ready(function() {
         let pctGrade = $('#txt_examination_score_contriution_pct').val();
         let total = parseInt(pctGrade) + parseInt(remainingGradePct);
         $('#txt_examination_score_contriution_pct').attr('max',total);
-        $('#txt_pct_grade_message').text("Remaining assignable total percentage grade is " + total);
+        if(remainingGradePct <= 0){
+            $('#txt_pct_grade_message').text("You have reached 100% grade limit for this course");
+        }
+        
 
         
         $('#txt_examination_due_date').val($('#spn_exam_'+itemId+'_date').html());

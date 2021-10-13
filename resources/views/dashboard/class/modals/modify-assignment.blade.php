@@ -73,7 +73,7 @@
                                         <label class="control-label mb-10 col-sm-3" for="txt_assignment_score_contriution_pct">Grade Contribution (%)</label>
                                         <div class="col-sm-2">
                                             {!! Form::number('txt_assignment_score_contriution_pct', null, ['id'=>'txt_assignment_score_contriution_pct', 'min' => '0','placeholder'=>"%",'class' => 'form-control']) !!}
-                                            <small id="txt_assignment_pct_grade_message"></small>
+                                            <small id="txt_assignment_pct_grade_message" class="text-danger"></small>
                                         </div>
                                     </div>
 
@@ -142,7 +142,10 @@ $(document).ready(function() {
         $('#txt_assignment_id').val(0);
         let remainingGradePct = {!! json_encode($remainingGradePct) !!}
         $('#txt_assignment_score_contriution_pct').attr('max',remainingGradePct);
-        $('#txt_assignment_pct_grade_message').text("Remaining assignable total percentage grade is " + remainingGradePct);
+        if(remainingGradePct <= 0){
+            $('#txt_assignment_pct_grade_message').text("You have reached 100% grade limit for this course");
+        }
+         
     });
 
     //Show Modal for Edit Entry
@@ -165,10 +168,10 @@ $(document).ready(function() {
         let pctGrade = $('#txt_assignment_score_contriution_pct').val();
         let total = parseInt(pctGrade) + parseInt(remainingGradePct);
         $('#txt_assignment_score_contriution_pct').attr('max',total);
-        $('#txt_assignment_pct_grade_message').text("Remaining assignable total percentage grade is " + total);
-
+        if(remainingGradePct <= 0){
+            $('#txt_assignment_pct_grade_message').text("You have reached 100% grade limit for this course");      
+        }
         $('#txt_allow_late_submission').val($('#spn_ass_'+itemId+'_submission').html());
-
         $('#txt_assignment_due_date').val($('#spn_ass_'+itemId+'_date').html());
         $('#txt_assignment_reference_material_url').val($('#spn_ass_'+itemId+'_url').html());
     });

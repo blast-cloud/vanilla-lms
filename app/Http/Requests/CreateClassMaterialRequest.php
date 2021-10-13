@@ -56,6 +56,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'grade_max_points.required_if' => 'The :attribute field is required.',
             'grade_contribution_pct.required_if' => 'The :attribute field is required.',
             'due_date.after_or_equal' => 'The :attribute field cannot be set to a past date',
+            'grade_contribution_pct.max' => 'The :attribute field cannot be zero or greater than the remaining available pecentage grade contribution'
         ];
     }
 

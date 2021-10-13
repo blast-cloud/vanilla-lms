@@ -55,6 +55,7 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
             'due_date.required_if' => 'The :attribute field is required.',
             'reference_material_url.url' => 'The :attribute Must Start with http://',
             'due_date.after_or_equal' => 'The :attribute field cannot be set to a past date',
+            'grade_contribution_pct.max' => 'The :attribute field cannot be zero or greater than the available assignable percentage grade contribution'
         ];
     }
 
@@ -64,7 +65,8 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
             'lecture_number' => 'Lecture Number',
             'title' => 'Title',
             'description' => 'Description',
-            'reference_material_url' => 'Reference Material URL'
+            'reference_material_url' => 'Reference Material URL',
+            'grade_contribution_pct' => 'Percent Contribution to Grade',
         ];
     }
 }
