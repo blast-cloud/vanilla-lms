@@ -20,6 +20,9 @@
                             <div class="form-wrap">
                                 
                                 <div class="col-sm-12">
+                                    <div id="spinner" class="spinner">
+                                        <div class="loader" id="loader-1"></div>
+                                    </div>
 
                                     
                                     <div class="form-group">
@@ -110,7 +113,7 @@
     </div>
 </div>
 
-@section('js-131')
+@section('js-136')
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -132,6 +135,7 @@ $(document).ready(function() {
     //Show Modal
     $('#btn-show-modify-class-detail-modal').click(function(){
         $('#modify-class-detail-error-div').hide();
+        $('.spinner').hide();
         $('#modify-class-detail-modal').modal('show');
 
         $('#txt_class_email').val($('#spn_class_email').html());
@@ -142,8 +146,9 @@ $(document).ready(function() {
 
     //Save lecturer
     $('#btn-modify-class-detail').click(function(e) {
-        e.preventDefault();
 
+        e.preventDefault();
+        $('.spinner').show();
         //check for internet status 
         if (!window.navigator.onLine) {
             $('.offline').fadeIn(300);
@@ -174,6 +179,7 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(result){
                 if(result.errors){
+                    $('.spinner').hide();
                     $('#modify-class-detail-error-div').html('');
                     $('#modify-class-detail-error-div').show();
                     
@@ -181,6 +187,7 @@ $(document).ready(function() {
                         $('#modify-class-detail-error-div').append('<li class="">'+value+'</li>');
                     });
                 }else{
+                    $('.spinner').hide();
                     $('#modify-class-detail-error-div').hide();
                     window.setTimeout( function(){
                         swal("Done!","Class details saved successfully!","success");

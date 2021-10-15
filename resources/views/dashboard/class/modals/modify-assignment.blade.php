@@ -64,7 +64,7 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_assignment_max_score">Max Score</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_assignment_max_score', null, ['id'=>'txt_assignment_max_score', 'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_assignment_max_score', null, ['id'=>'txt_assignment_max_score', 'class' => 'form-control', 'min' => '0']) !!}
                                         </div>
                                     </div>
 

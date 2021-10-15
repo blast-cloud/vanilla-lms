@@ -26,9 +26,9 @@ class CreateCalendarEntryRequest extends AppBaseFormRequest
     public function rules()
     {
         //return CalendarEntry::$rules;
-
+        $today = date('Y-m-d');
         return [
-            'due_date' => 'required',
+            'due_date' => 'required|date|after_or_equal:'.$today,
             'title' => 'required|string|max:200',
             'description' => 'nullable|string|max:100000'
         ];

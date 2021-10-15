@@ -565,5 +565,10 @@
         @stack('js-135')
         @yield('js-135')
 
+        @stack('js-136')
+        @yield('js-136')
+        @stack('js-137')
+        @yield('js-137')
+
     </body>
 </html>

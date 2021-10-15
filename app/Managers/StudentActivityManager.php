@@ -59,11 +59,11 @@ class StudentActivityManager{
         
         $this->courseClass = $this->courseClassRepository->find($id);
         $current_semester =$this->semesterRepository->all(['is_current'=>true])->first();
-        $this->lectureNotes = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'lecture-notes','semester_id'=> $current_semester->id]);
-        $this->classReadingMaterials = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'reading-materials','semester_id'=> $current_semester->id]);
-        $this->classAssignments = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'class-assignments','semester_id'=> $current_semester->id]);
-        $this->classExaminations = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'class-examinations','semester_id'=> $current_semester->id]);
-        $this->classLectures = $this->classMaterialRepository->all(['course_class_id'=>$id,'type'=>'lecture-classes','semester_id'=> $current_semester->id]);
+        $this->lectureNotes = ClassMaterial::where([['course_class_id',$id],['type','lecture-notes'],['semester_id',$current_semester->id]])->get();
+        $this->classReadingMaterials = ClassMaterial::where([['course_class_id',$id],['type','reading-materials'],['semester_id',$current_semester->id]])->get();
+        $this->classAssignments = ClassMaterial::where([['course_class_id',$id],['type','class-assignments'],['semester_id',$current_semester->id]])->get();
+        $this->classExaminations = ClassMaterial::where([['course_class_id',$id],['type','class-examinations'],['semester_id',$current_semester->id]])->get();
+        $this->classLectures = ClassMaterial::where([['course_class_id',$id],['type','lecture-classes'],['semester_id',$current_semester->id]])->get();
     }
     private function get_studentClassActivity($courseClassId){
         $this->studentClassActivity =  DB::table('student_class_activities')

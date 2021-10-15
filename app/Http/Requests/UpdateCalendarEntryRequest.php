@@ -30,9 +30,10 @@ class UpdateCalendarEntryRequest extends AppBaseFormRequest
         
         return $rules;
         */
-
+        $today = date('Y-m-d');
         return [
             'id' => 'required|numeric|exists:calendar_entries,id',
+            'due_date' => 'required|date|after_or_equal:'.$today,
             'title' => 'required|string|max:200',
             'description' => 'nullable|string|max:100000'
         ];

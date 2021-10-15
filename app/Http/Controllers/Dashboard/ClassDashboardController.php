@@ -117,6 +117,7 @@ class ClassDashboardController extends AppBaseController
     public function index(Request $request, $id)
     {
         $current_user = Auth()->user();
+        $submissions = Submission::where('course_class_id');
         $department = $this->departmentRepository->find($current_user->department_id);
         $courseClass = $this->courseClassRepository->find($id);
         $course_class = $courseClass->id;
@@ -162,6 +163,7 @@ class ClassDashboardController extends AppBaseController
                     ->with('forums', $forums)
                     ->with('gradeManager', $gradeManager)
                     ->with('enrollments', $enrollments)
+                    ->with('submissions',$submissions)
                     ->with('remainingGradePct', $remainingGradePct)
                     ->with('classActivities',$classActivities);
     }
@@ -386,10 +388,20 @@ class ClassDashboardController extends AppBaseController
                                 if ($grade->score != $grade_model->score){
                                     //Update grade record if the record exists and the grade is different,
                                     $this->gradeRepository->update($grade_query, $grade_model->id);
+                                    Submission::where([['student_id',$grade_query['student_id']],
+                                                        ['course_class_id',$grade_query['course_class_id']],
+                                                        ['class_material_id',$grade_query['class_material_id']],
+                                                        ])
+                                                        ->update(['grade_id' => $grade_model->id]);
                                 }
                             } else {
                                 //Create a new grade since one doesn't exist.
-                                $this->gradeRepository->create($grade_query);
+                               $grade = $this->gradeRepository->create($grade_query);
+                                Submission::where([['student_id',$grade_query['student_id']],
+                                ['course_class_id',$grade_query['course_class_id']],
+                                ['class_material_id',$grade_query['class_material_id']],
+                                ])
+                                ->update(['grade_id' => $grade->id]);
                             }
 
                         } else{

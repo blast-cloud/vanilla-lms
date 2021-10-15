@@ -20,9 +20,9 @@
                         <div class="col-lg-11 ma-10">
                             @csrf
 
-                            <div class="spinner1" >
+                            <div class="spinner">
                                 <div class="loader" id="loader-1"></div>
-                            </div>
+                              </div>
 
                             <input type="hidden" id="txt_lecture_id" value="0" />
                             <!-- Assignment Number Field -->
@@ -86,7 +86,7 @@ $(document).ready(function() {
     //Show Modal
     $('#btn-show-start-lecture-modal').click(function(e){
         $('#start-lecture-error-div').hide();
-        $('.spinner1').hide();
+        $('.spinner').hide();
         $('#start-lecture-modal').modal('show');
         $('#form-start-lecture').trigger("reset");
         $('#txt_lecture_id').val(0);
@@ -95,7 +95,7 @@ $(document).ready(function() {
     //Show Modal for Edit Entry
     $('.btn-edit-start-lecture-modal').click(function(e){
         $('#start-lecture-error-div').hide();
-        $('.spinner1').hide();
+        $('.spinner').hide();
         $('#start-lecture-modal').modal('show');
         $('#form-start-lecture').trigger("reset");
 
@@ -157,7 +157,7 @@ $(document).ready(function() {
         if( lecture_file == undefined) {
             lecture_file = '';
         }
-        $('.spinner1').show();
+        $('.spinner').show();
         $('#btn-start-lecture').prop("disabled", true);
         let actionType = "POST";
         let endPointUrl = "{{ route('classMaterials.store') }}";
@@ -199,7 +199,7 @@ $(document).ready(function() {
 
                     $('#start-lecture-error-div').html('');
                     $('#start-lecture-error-div').show();
-                    $('.spinner1').hide();
+                    $('.spinner').hide();
                     $('#btn-start-lecture').prop("disabled", false);
                     
                     $.each(result.errors, function(key, value){
@@ -208,7 +208,7 @@ $(document).ready(function() {
 
                 }else{
                     $('#start-lecture-error-div').hide();
-                    $('.spinner1').hide();
+                    $('.spinner').hide();
                     $('#btn-start-lecture').prop("disabled", false);
                     window.setTimeout( function(){
                         swal("Done!","Online lecture created, please click Start Online Blackboard to continue!","success");
@@ -233,14 +233,14 @@ $(document).ready(function() {
             $('.offline').fadeOut(300);
         }
 
-        $('.spinner1').show();
+        $('.spinner').show();
         $('#btn-start-lecture').prop("disabled", true);
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
        
         if ($('#txt_start_lecture_upload_file_path')[0].files[0] == null){
             
             save_lecture_details(null);
-            $('.spinner1').hide();
+            $('.spinner').show();
 
         }else{
 
@@ -253,11 +253,12 @@ $(document).ready(function() {
                 contentType: false, data: formData,
                 success: function(data){
                     console.log(data); 
+                    $('.spinner').hide()
                     save_lecture_details(data.message);  
                 },
                 error: function(data){ 
                     console.log(data);
-                    $('.spinner1').hide();
+                    $('.spinner').hide();
                     $('#btn-start-lecture').prop("disabled", false);
                 }
             });

@@ -17,7 +17,7 @@
                 <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Assignment #1 is due Monday, 12-Jun-21 </span></li> -->
             </ul>
             @if ($current_user->lecturer_id!=null)
-            <a id="btn-show-modify-class-detail-modal" class="text-info" style="font-size:70%" href="#">
+            <a  href="#" data-val="{{$courseClass->id}}" id="btn-show-modify-class-detail-modal" class="text-info" style="font-size:70%">
                 <i class="text-info fa fa-edit ml-10 mr-5"></i>Edit Class Details
             </a>
             @endif
