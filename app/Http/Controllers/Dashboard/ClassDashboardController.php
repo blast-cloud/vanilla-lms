@@ -117,7 +117,6 @@ class ClassDashboardController extends AppBaseController
     public function index(Request $request, $id)
     {
         $current_user = Auth()->user();
-        $submissions = Submission::where('course_class_id');
         $department = $this->departmentRepository->find($current_user->department_id);
         $courseClass = $this->courseClassRepository->find($id);
         $course_class = $courseClass->id;
@@ -163,7 +162,6 @@ class ClassDashboardController extends AppBaseController
                     ->with('forums', $forums)
                     ->with('gradeManager', $gradeManager)
                     ->with('enrollments', $enrollments)
-                    ->with('submissions',$submissions)
                     ->with('remainingGradePct', $remainingGradePct)
                     ->with('classActivities',$classActivities);
     }
