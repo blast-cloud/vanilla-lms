@@ -30,7 +30,8 @@ class UpdateCourseClassRequest extends AppBaseFormRequest
         
         return $rules;
         */
-
+        $today = date('Y/m/d');
+        
         return [
             'id' => 'required|numeric|exists:course_classes,id',
             'code' => 'sometimes|required',
@@ -39,6 +40,9 @@ class UpdateCourseClassRequest extends AppBaseFormRequest
             'course_id' => 'sometimes|required',
             'lecturer_id' => 'sometimes|required',
             'semester_id' => 'sometimes|required',
+            'next_lecture_date' => 'sometimes|required|date|after_or_equal:'.$today,
+            'next_exam_date' => 'sometimes|required|date|after_or_equal:'.$today,
+            'lecture_date' => 'required_if:type,lecture_classes|date|after_or_equal:'.$todayDateTime,
         ];
     }
 

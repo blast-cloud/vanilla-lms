@@ -27,7 +27,8 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
     {
         //return ClassMaterial::$rules;
         $remaining_pct_grade = $this->input('remaining_pct_grade');
-        $today = date('Y-m-d');
+        $today = date('Y-m-d g:i A');
+        $todayDateTime = date('Y-m-d g:i A');
         return [
             'type' => 'required',
             'title' => 'required|string|max:200',
@@ -41,6 +42,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'grade_max_points' => 'required_if:type,class-examinations|numeric|min:0|max:100',
             'grade_contribution_pct' => 'required_if:type,class-examinations|numeric|min:0|max:'.$remaining_pct_grade,
             'grade_contribution_notes' => 'nullable|string|max:300',
+            'lecture_date' => 'required_if:type,lecture_classes|date|after_or_equal:'.$todayDateTime,
         ];
     }
 
@@ -56,7 +58,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'grade_max_points.required_if' => 'The :attribute field is required.',
             'grade_contribution_pct.required_if' => 'The :attribute field is required.',
             'due_date.after_or_equal' => 'The :attribute field cannot be set to a past date',
-            'grade_contribution_pct.max' => 'The :attribute field cannot be zero or greater than the remaining available pecentage grade contribution'
+            'grade_contribution_pct.max' => 'The :attribute field cannot be zero or greater than the remaining available percentage grade contribution'
         ];
     }
 

@@ -124,7 +124,8 @@ class ClassMaterial extends Model
         'examination_number',
         'blackboard_meeting_id',
         'blackboard_meeting_status',
-        'semester_id'
+        'semester_id',
+        'lecture_date',
     ];
 
     /**
@@ -148,7 +149,8 @@ class ClassMaterial extends Model
         'grade_max_points' => 'integer',
         'grade_contribution_pct' => 'integer',
         'grade_contribution_notes' => 'string',
-        'examination_number' => 'integer'
+        'examination_number' => 'integer',
+        'lecture_date' => 'datetime'
     ];
 
 

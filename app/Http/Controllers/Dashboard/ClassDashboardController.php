@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Requests\CreateAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 use App\Http\Requests\GradeCommentRequest;
+use Carbon\Carbon;
 
 use Log;
 use Flash;
@@ -34,8 +35,6 @@ use App\Models\StudentAttendance;
 use App\Models\ClassMaterial;
 use App\Models\StudentClassActivity;
 use App\Models\Forum;
-
-use Carbon\Carbon;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
 use Response;
 use Illuminate\Http\Request;
@@ -124,7 +123,7 @@ class ClassDashboardController extends AppBaseController
         $forums = $this->forumRepository->all(['course_class_id'=>$id,'parent_forum_id'=>null]);
         $grades = $this->gradeRepository->all(['course_class_id'=>$id]);
         $enrollments = $this->enrollmentRepository->all(['course_class_id'=>$id]);
-
+        $timeObj = new Carbon;
         if ($current_user->manager_id != null){
             $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id]);
 
@@ -163,7 +162,8 @@ class ClassDashboardController extends AppBaseController
                     ->with('gradeManager', $gradeManager)
                     ->with('enrollments', $enrollments)
                     ->with('remainingGradePct', $remainingGradePct)
-                    ->with('classActivities',$classActivities);
+                    ->with('classActivities',$classActivities)
+                    ->with('timeObj',$timeObj);
     }
 
     public function processJoinOnlineLecture(Request $request, $id, $lectureId)

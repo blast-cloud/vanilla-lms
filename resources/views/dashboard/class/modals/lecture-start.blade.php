@@ -50,6 +50,14 @@
                                 </div>
                             </div>
 
+                            <!-- Lecture Date and time Field -->
+                            <div class="form-group">
+                                <label class="control-label mb-10 col-sm-3" for="txt_lecture_date">Lecture Date</label>
+                                <div class="col-sm-6">
+                                    {!! Form::text('txt_lecture_date', null, ['id'=>'txt_lecture_date', 'class' => 'form-control']) !!}
+                                </div>
+                            </div>
+
                             <!-- Upload File Path Field -->
                             <div class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_upload_file_path">Lecture File</label>
@@ -82,7 +90,8 @@
 @section('js-129')
 <script type="text/javascript">
 $(document).ready(function() {
-
+$('#txt_lecture_date').datetimepicker({
+});
     //Show Modal
     $('#btn-show-start-lecture-modal').click(function(e){
         $('#start-lecture-error-div').hide();
@@ -107,6 +116,9 @@ $(document).ready(function() {
         $('#txt_start_lecture_title').val($('#spn_ol_'+itemId+'_title').html());
         $('#txt_start_lecture_number').val($('#spn_ol_'+itemId+'_num').html());
         $('#txt_start_lecture_reference_material_url').val($('#spn_ass_'+itemId+'_url').html());
+        $('#txt_lecture_date').val($('#spn_ol_'+itemId+'_lecture_date').html());
+        console.log($('#spn_ol_'+itemId+'_lecture_date').html());
+
     });
 
     //Delete action
@@ -177,6 +189,7 @@ $(document).ready(function() {
         formData.append('title', $('#txt_start_lecture_title').val());
         formData.append('id', primaryId);
         formData.append('description', $('#txt_start_lecture_description').val());
+        formData.append('lecture_date',$('#txt_lecture_date').val());
         if (fileDetails!=null){
             formData.append('upload_file_path', fileDetails[0]);
             formData.append('upload_file_type', fileDetails[1]);
