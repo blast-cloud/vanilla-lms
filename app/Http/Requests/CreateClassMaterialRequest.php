@@ -27,7 +27,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
     {
         //return ClassMaterial::$rules;
         $remaining_pct_grade = $this->input('remaining_pct_grade');
-        $today = date('Y-m-d g:i A');
+        $today = date('Y-m-d');
         $todayDateTime = date('Y-m-d g:i A');
         return [
             'type' => 'required',

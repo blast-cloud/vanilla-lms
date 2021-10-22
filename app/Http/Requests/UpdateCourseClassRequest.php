@@ -31,7 +31,7 @@ class UpdateCourseClassRequest extends AppBaseFormRequest
         return $rules;
         */
         $today = date('Y/m/d');
-        
+        $todayDateTime = date('Y-m-d g:i A');
         return [
             'id' => 'required|numeric|exists:course_classes,id',
             'code' => 'sometimes|required',
