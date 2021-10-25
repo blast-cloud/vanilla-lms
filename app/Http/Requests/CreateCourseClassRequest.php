@@ -28,7 +28,7 @@ class CreateCourseClassRequest extends AppBaseFormRequest
     public function rules()
     {
         //return CourseClass::$rules;
-
+        $today = date('Y/m/d');
         return [
             'code' => 'required',
             'name' => 'required',
@@ -36,6 +36,8 @@ class CreateCourseClassRequest extends AppBaseFormRequest
             'course_id' => 'required',
             'lecturer_id' => 'required',
             'semester_id' => 'required',
+            'next_lecture_date' => 'required|date|after_or_equal:'.$today,
+            'next_exam_date' => 'required|date|after_or_equal:'.$today,
         ];
     }
 
