@@ -305,12 +305,12 @@ class ClassDashboardController extends AppBaseController
         $courseClass = $this->courseClassRepository->find($course_class_id);
 
         $assignment_submissions = $this->submissionRepository->all(['course_class_id'=>$course_class_id,'class_material_id'=>$class_material_id]);
-        $assignment_submissions = $assignment_submissions->pluck('upload_file_path','student_id');
+       
 
         $submissions =  $this->submissionRepository->all(['course_class_id'=>$course_class_id,'class_material_id'=>$class_material_id]);
 
         $grades = $this->gradeRepository->all(['course_class_id'=>$course_class_id,'class_material_id'=>$class_material_id]);
-        $grades = $grades->pluck('score','student_id');
+       
 
         $enrollments = $this->enrollmentRepository->all(['course_class_id'=>$course_class_id]);
         $class_material = $this->classMaterialRepository->find($class_material_id);

@@ -87,11 +87,19 @@
                         <td>{{ ++$x }}</td>
                         <td style="width:40%">{{ $item->student->last_name }}  {{ $item->student->first_name }}</td>
                         <td style="width:20%">{{ $item->student->matriculation_number }}</td>
-
+                        @php
+                            $check_submission = $assignment_submissions->firstWhere('student_id',$item->student->id);
+                            $student_assignment_file = null; 
+                            echo $item->student->first_name;
+                            if($check_submission != null)  {
+                               $student_assignment_file = $check_submission->upload_file_path;
+                           } 
+                                
+                        @endphp
                         @if ($class_material->type=="class-assignments")
                         <td style="width:10%" class="text-center">
-                            @if (isset($assignment_submissions[$item->student->id]))
-                            <a href="{{ asset($assignment_submissions[$item->student->id]) }}"  class="btn btn-xs btn-info" download>
+                            @if ($student_assignment_file != null)
+                            <a href="{{ asset($student_assignment_file) }}"  class="btn btn-xs btn-info" download>
                                 <i class="fa fa-download" style=""></i>
                             </a>
                             @else
@@ -102,15 +110,18 @@
                         
                         <td style="width:200px">
                             @php
+                                $check_score = $grades->firstWhere('student_id',$item->student->id);
                                 $score = null;
-                                if (isset($grades[$item->student->id])){
-                                    $score = $grades[$item->student->id];
+                                if($check_score != null){
+                                    $score = $check_score->score;
                                 }
+                                   
+                                
                             @endphp
-                            {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control score-input scores text-right {$selector}-{$item->student->matriculation_number}",'data-val-id'=>"{$class_material->id}",'data-val-lbl'=>"",'data-val-mp'=>"{$class_material->grade_max_points}",'data-val-matric'=>"{$item->student->matriculation_number}",$score == null ? 'disabled': '']) !!}
+                            {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control score-input scores text-right {$selector}-{$item->student->matriculation_number}",'data-val-id'=>"{$class_material->id}",'data-val-lbl'=>"",'data-val-mp'=>"{$class_material->grade_max_points}",'data-val-matric'=>"{$item->student->matriculation_number}",$student_assignment_file == null ? 'disabled': '']) !!}
                         </td>
                         <td>
-                            @if (isset($assignment_submissions[$item->student->id]))
+                            @if ($student_assignment_file != null)
                             <a href="" class="btn btn-xs btn-primary comment-btn" data-student-id="{{ $item->student->id }}" data-score="{{ $score }}">
                                 <i class=" fa fa-comment"></i>
                             </a>
