@@ -33,16 +33,19 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
         $remaining_pct_grade = $this->input('remaining_pct_grade');
         $today = date('Y-m-d');
         return [
-            'id' => "required|numeric|exists:class_materials,id",
             'type' => 'required',
             'title' => 'required|string|max:200',
             'description' => 'nullable|string|max:100000',
-            'examination_number' => 'sometimes|required_if:type,class-examinations',
-            'assignment_number' => 'sometimes|required_if:type,class-assignments',
-            'due_date' => 'sometimes|required_if:type,class-assignments|date|after_or_equal:'.$today,
+            'examination_number' => 'required_if:type,class-examinations|gt:0',
+            'assignment_number' => 'required_if:type,class-assignments|gt:0',
+            'due_date' => 'required_if:type,class-assignments|date|after_or_equal:'.$today,
+            'lecture_number' => 'required_if:type,lecture-classes|gt:0',
+            'reference_material_url' => 'nullable|url',
+            'grade_max_points' => 'required_if:type,class-examinations|numeric|min:0|max:100',
             'grade_contribution_pct' => 'required_if:type,class-examinations|numeric|min:0|max:'.$remaining_pct_grade,
-            'lecture_number' => "sometimes|required_if:type,lecture-classes|gt:0|unique:class_materials,lecture_number,{$this->id}",
-            'reference_material_url' => 'nullable|url'
+            'grade_contribution_notes' => 'nullable|string|max:300',
+            'lecture_date' => 'required_if:type,lecture_classes|date|after_or_equal:today',
+            'lecture_time' => 'required_if:type,lecture_classes|date_format:h:i A',
         ];
     }
 
@@ -55,7 +58,8 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
             'due_date.required_if' => 'The :attribute field is required.',
             'reference_material_url.url' => 'The :attribute Must Start with http://',
             'due_date.after_or_equal' => 'The :attribute field cannot be set to a past date',
-            'grade_contribution_pct.max' => 'The :attribute field cannot be zero or greater than the available assignable percentage grade contribution'
+            'grade_contribution_pct.max' => 'The :attribute field cannot be zero or greater than the available assignable percentage grade contribution',
+            'lecture_time.date_format' => 'The :attribute field should be a time in 12 hours format'
         ];
     }
 
