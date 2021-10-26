@@ -67,7 +67,9 @@
                     <th style="text-align:center">File</th>
                     @endif
                     <th style="text-align:center">Score</th>
+                    @if (($class_material != null) && $class_material->type=="class-assignments")
                     <th>Comment</th>
+                    @endif
                 </tr>
             </thead>
 
@@ -118,17 +120,24 @@
                                    
                                 
                             @endphp
-                            {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control score-input scores text-right {$selector}-{$item->student->matriculation_number}",'data-val-id'=>"{$class_material->id}",'data-val-lbl'=>"",'data-val-mp'=>"{$class_material->grade_max_points}",'data-val-matric'=>"{$item->student->matriculation_number}",$student_assignment_file == null ? 'disabled': '']) !!}
-                        </td>
-                        <td>
-                            @if ($student_assignment_file != null)
-                            <a href="" class="btn btn-xs btn-primary comment-btn" data-student-id="{{ $item->student->id }}" data-score="{{ $score }}">
-                                <i class=" fa fa-comment"></i>
-                            </a>
+                            @if (($class_material != null) && $class_material->type=="class-assignments")
+                                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control score-input scores text-right {$selector}-{$item->student->matriculation_number}",'data-val-id'=>"{$class_material->id}",'data-val-lbl'=>"",'data-val-mp'=>"{$class_material->grade_max_points}",'data-val-matric'=>"{$item->student->matriculation_number}",$student_assignment_file == null ? 'disabled': '']) !!}
                             @else
-                            <span class="text-danger text-center" style="font-size:85%">No Submission</span>
+                                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control score-input scores text-right {$selector}-{$item->student->matriculation_number}",'data-val-id'=>"{$class_material->id}",'data-val-lbl'=>"",'data-val-mp'=>"{$class_material->grade_max_points}",'data-val-matric'=>"{$item->student->matriculation_number}"]) !!}
                             @endif
+                           
                         </td>
+                        @if (($class_material != null) && $class_material->type=="class-assignments") 
+                            <td>           
+                                @if ($student_assignment_file != null)
+                                    <a href="" class="btn btn-xs btn-primary comment-btn" data-student-id="{{ $item->student->id }}" data-score="{{ $score }}">
+                                        <i class=" fa fa-comment"></i>
+                                    </a>
+                                @else
+                                    <span class="text-danger text-center" style="font-size:85%">No Submission</span>
+                                @endif
+                            </td>
+                        @endif
                     </tr>
                     @endforeach
 
