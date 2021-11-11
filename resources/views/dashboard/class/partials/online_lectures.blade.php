@@ -46,7 +46,7 @@
                     @endif
                     <span class="text-danger">
                     @php
-                         if($item->lecture_date){
+                         if($item->lecture_date != null && $item->blackboard_meeting_status=="new"){
                            $lectureDate = $timeObj->parse($item->lecture_date)->format('Y-m-d')." ".$timeObj->parse($item->lecture_time)->format('h:i');
                                 $remaining_time = $current_time->diffForHumans($lectureDate);
                                 if(strpos($remaining_time,"before")){
