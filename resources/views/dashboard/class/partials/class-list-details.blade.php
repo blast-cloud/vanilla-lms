@@ -45,7 +45,7 @@
                                         <li>
                                             @if (isset($current_user) && $current_user->student_id != null)                                                    
                                                 @php
-                                                    $message = $activity->get_activity_score($classDetailItem->id, $current_user->student_id);
+                                                    $message = $classActivities->get_activity_score($classDetailItem->id, $current_user->student_id);
                                                 @endphp
                                                 @if($message == null)
                                                     <i class="text-danger fa fa-warning mr-5"></i>

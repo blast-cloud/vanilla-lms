@@ -77,7 +77,7 @@ class ClassMaterialController extends AppBaseController
             }
         }
         $current_semester = Semester::where('is_current', true)->first();
-
+       
         $input = array_merge($request->all(), ['semester_id'=>$current_semester->id]);
 
         $classMaterial = $this->classMaterialRepository->create($input);

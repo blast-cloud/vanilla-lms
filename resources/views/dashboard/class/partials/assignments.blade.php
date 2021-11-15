@@ -90,7 +90,6 @@
                                     ->where('course_class_id', $item->course_class_id)->first();
                             $assignment_graded = $item->submissions()->where('student_id', $current_user->student_id)
                                     ->where('class_material_id', $item->id)
-                                    ->where('grade_id','<>', null)
                                     ->where('course_class_id', $item->course_class_id)->pluck('grade_id')->first();
                             $assignment_due_date =  strtotime($item->due_date) - time();
                     @endphp

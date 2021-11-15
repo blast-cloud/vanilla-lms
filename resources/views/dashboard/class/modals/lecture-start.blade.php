@@ -58,6 +58,13 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="control-label mb-10 col-sm-3" for="txt_lecture_time">Lecture Time</label>
+                                <div class="col-sm-6">
+                                    {!! Form::text('txt_lecture_time', null, ['id'=>'txt_lecture_time', 'class' => 'form-control']) !!}
+                                </div>
+                            </div>
+
                             <!-- Upload File Path Field -->
                             <div class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_upload_file_path">Lecture File</label>
@@ -90,8 +97,16 @@
 @section('js-129')
 <script type="text/javascript">
 $(document).ready(function() {
-$('#txt_lecture_date').datetimepicker({
-});
+    $('#txt_lecture_date').datetimepicker({
+        //format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'YYYY-MM-DD',
+        minDate: new Date(),
+    });
+    $('#txt_lecture_time').datetimepicker({
+        //format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'hh:mm A',
+    })
+
     //Show Modal
     $('#btn-show-start-lecture-modal').click(function(e){
         $('#start-lecture-error-div').hide();
@@ -117,7 +132,7 @@ $('#txt_lecture_date').datetimepicker({
         $('#txt_start_lecture_number').val($('#spn_ol_'+itemId+'_num').html());
         $('#txt_start_lecture_reference_material_url').val($('#spn_ass_'+itemId+'_url').html());
         $('#txt_lecture_date').val($('#spn_ol_'+itemId+'_lecture_date').html());
-        console.log($('#spn_ol_'+itemId+'_lecture_date').html());
+        $('#txt_lecture_time').val($('#spn_ol_'+itemId+'_lecture_time').html());
 
     });
 
@@ -190,6 +205,7 @@ $('#txt_lecture_date').datetimepicker({
         formData.append('id', primaryId);
         formData.append('description', $('#txt_start_lecture_description').val());
         formData.append('lecture_date',$('#txt_lecture_date').val());
+        formData.append('lecture_time',$('#txt_lecture_time').val());
         if (fileDetails!=null){
             formData.append('upload_file_path', fileDetails[0]);
             formData.append('upload_file_type', fileDetails[1]);

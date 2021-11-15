@@ -46,8 +46,9 @@
                     @endif
                     <span class="text-danger">
                     @php
-                         if($item->lecture_date){
-                                $remaining_time = $current_time->diffForHumans($item->lecture_date);
+                         if($item->lecture_date != null && $item->blackboard_meeting_status=="new"){
+                           $lectureDate = $timeObj->parse($item->lecture_date)->format('Y-m-d')." ".$timeObj->parse($item->lecture_time)->format('h:i');
+                                $remaining_time = $current_time->diffForHumans($lectureDate);
                                 if(strpos($remaining_time,"before")){
                                     echo "- ".$remaining_time. " Lecture starts";
                                 }
@@ -71,7 +72,7 @@
                     <br>
                     </span>
                     @if($item->lecture_date)
-                    lecture Date:  <span id="spn_ol_{{$item->id}}_lecture_date"> @php echo date('Y-m-d g:i A', strtotime($item->lecture_date)); @endphp
+                    lecture Date:  <span id="spn_ol_{{$item->id}}_lecture_date">@php echo $timeObj->parse($item->lecture_date)->format('Y-m-d'); @endphp</span> <span id="spn_ol_{{$item->id}}_lecture_time">@php echo $timeObj->parse($item->lecture_time)->format('h:i A');@endphp</span>
                     </span>
                     @endif
                     

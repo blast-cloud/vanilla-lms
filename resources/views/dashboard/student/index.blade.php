@@ -43,6 +43,6 @@ Student Dashboard
             @include("dashboard.partials.side-panel")
 
         </div>
-
+@include('dashboard.student.modals.modify-enrollment')
 @endsection
 

@@ -36,7 +36,7 @@
 
                                     <!-- Description Field -->
                                     <div class="form-group">
-                                        <label class="control-label mb-10 col-sm-2" for="txt_announcement_description"></label>
+                                        <label class="control-label mb-10 col-sm-2" for="txt_announcement_description">Description</label>
                                         <div class="col-sm-9">
                                             {!! Form::textarea('txt_announcement_description', null, ['id'=>'txt_announcement_description','rows'=>'4','class' => 'form-control']) !!}
                                         </div>
