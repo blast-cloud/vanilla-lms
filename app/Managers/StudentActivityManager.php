@@ -9,6 +9,7 @@ use App\Repositories\EnrollmentRepository;
 use App\Repositories\CourseClassRepository;
 use App\Repositories\ClassMaterialRepository;
 use App\Repositories\SemesterRepository;
+use App\Repositories\SettingRepository;
 
 use App\Models\Forum;
 use App\Models\ClassMaterial;
@@ -39,7 +40,33 @@ class StudentActivityManager{
     private $enrollments;
     private $lectureNotes;
     private $semesterRepository;
+    /** @var  SettingRepository */
+    private $settingRepository;
+    private $setting_keys = [
+        'txt_app_name',
+        'txt_long_name',
+        'txt_short_name',
+        'txt_official_website',
+        'txt_official_email',
+        'cbx_display_course_list',
+        'cbx_display_lecturer_profiles',
+        'cbx_require_enrollment_confirmation',
+        'cbx_allow_lecturer_registration',
+        'cbx_allow_student_registration',
+        'cbx_class_enrollment',
+        'txt_welcome_text',
+        'txt_registration_text',
+        'txt_enrollment_text',
+        'file_high_res_picture',
+        'file_icon_picture',
+        'file_landing_page_picture',
+        'txt_portal_contact_phone',
+        'txt_portal_contact_name',
+        'txt_portal_contact_email',
+        'txt_maximum_enrollment_limit',
+    ];
     
+
     public function __construct($courseClassId)
     {
         $this->classMaterialRepository = new ClassMaterialRepository(app());
@@ -47,7 +74,7 @@ class StudentActivityManager{
         $this->submissionRepository = new SubmissionRepository(app());
         $this->semesterRepository =  new SemesterRepository(app());
         $this->enrollmentRepository =  new EnrollmentRepository(app());
-        
+        $this->settingRepository = new SettingRepository(app());
         $this->enrollments = $this->enrollmentRepository->all(['course_class_id'=>$courseClassId]);
         $this->assignmentList = array();
         $this->examinationList = array();
@@ -172,6 +199,15 @@ class StudentActivityManager{
 
         return $message;
         
+    }
+
+    public function getAppSettings(){
+        $db_settings = $this->settingRepository
+        ->allWhereInQuery(['key'=>$this->setting_keys],null,100)
+        ->pluck('value','key')
+        ->toArray();
+        
+        return $db_settings;
     }
 
 }

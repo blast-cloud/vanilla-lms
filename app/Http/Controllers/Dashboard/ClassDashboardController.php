@@ -119,7 +119,7 @@ class ClassDashboardController extends AppBaseController
         $department = $this->departmentRepository->find($current_user->department_id);
         $courseClass = $this->courseClassRepository->find($id);
         $course_class = $courseClass->id;
-        $remainingGradePct = 0;
+        $remainingGradePct = 100;
         $forums = $this->forumRepository->all(['course_class_id'=>$id,'parent_forum_id'=>null]);
         $grades = $this->gradeRepository->all(['course_class_id'=>$id]);
         $enrollments = $this->enrollmentRepository->all(['course_class_id'=>$id]);
