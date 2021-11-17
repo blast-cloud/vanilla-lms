@@ -171,6 +171,10 @@ class ClassMaterial extends Model
     {
         return $this->hasMany(Submission::class, 'class_material_id', 'id');
     }
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'class_material_id', 'id');
+    }
 
     public function setDueDateAttribute($value)
     {
