@@ -37,7 +37,6 @@
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
                                             <div class="col-sm-9">
                                                 {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
-
                                                 <select class="form-control select2" id="course_id" name="course_id">
          
                                                     @foreach ( $courseItems as $item)
@@ -45,7 +44,16 @@
                                                     @endforeach
 
                                                   </select>
+                                             
+                                               
+                                            </div>
+                                        </div>
 
+                                        <div class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="course_id">Semester</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control select2" id="semester_id" name="semester_id">
+                                                </select>
                                             </div>
                                         </div>
 
@@ -72,8 +80,18 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-    //Show Modal for New Entry
+   
+    $.get(   "{{URL::to('/')}}/api/semesters").done(function( response ) {   
+            console.log(response);
+            $('#semester_id').prepend('<option> select semester </option>');
+            $.each(response.data,function(k,v){
+                $('#semester_id').append('<option value ="'+v.id+'">'+ v.code+ '</option>');
+            });
+            
+        });
+         //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-enrollment-modal", function(e) {
+        
         $('#div-enrollment-modal-error').hide();
         $('#mdl-enrollment-modal').modal('show');
         $('#frm-enrollment-modal').trigger("reset");
@@ -81,6 +99,7 @@ $(document).ready(function() {
         $('.spinner1').hide();
         $('#div-show-txt-enrollment-primary-id').hide();
         $('#div-edit-txt-enrollment-primary-id').show();
+
     });
 
     //Show Modal for View
@@ -98,10 +117,12 @@ $(document).ready(function() {
 			$('#mdl-enrollment-modal').modal('show');
 			$('#frm-enrollment-modal').trigger("reset");
 			$('#txt-enrollment-primary-id').val(response.data.id);
-
+            $('#semester_id option:eq("'+response.data.semester_id+'")').prop('selected',true);
             // $('#spn_enrollment_').html(response.data.);
             // $('#spn_enrollment_').html(response.data.);   
         });
+
+       
     });
 
     //Show Modal for Edit
@@ -193,11 +214,12 @@ $(document).ready(function() {
             endPointUrl = "{{ route('enrollments.update',0) }}"+primaryId;
             formData.append('id', primaryId);
         }
-        
+        console.log( $('#semester_id').val());
         formData.append('_method', actionType);
         formData.append('course_class_id', $('#course_id').val());
         formData.append('student_id', {{$student->id}} );
         formData.append('department_id', {{$department->id}} );
+        formData.append('semester_id', $('#semester_id').val() );
 
         $.ajax({
             url:endPointUrl,

@@ -40,9 +40,8 @@
                 <a class="text-info btn-assignment-submissions" href="{{ route('submitted-assignment-list', [$item->course_class_id, $item->id]) }}"  alt="Submissions" style="opacity:1;font-size:85%"
                     data-val="{{$item->id}}" > <strong>
                         @php
-                            $no = $item->submissions()->where('class_material_id', $item->id)
-                                                                ->where('grade_id', null)
-                                                            ->where('course_class_id', $item->course_class_id)->count();
+                            $no = $item->grades()->where('class_material_id', $item->id)             
+                                                ->where('course_class_id', $item->course_class_id)->count();
                             if( $no == 0){
                                 $submissions = "No scores entered";
                             }elseif($no == 1){

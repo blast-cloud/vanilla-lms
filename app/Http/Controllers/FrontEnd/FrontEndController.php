@@ -33,6 +33,7 @@ class FrontEndController extends AppBaseController
 
     public function __construct(LecturerRepository $lecturerRepo, StudentRepository $studentRepo)
     {
+        $this->middleware('guest');
         $this->lecturerRepository = $lecturerRepo;
         $this->studentRepository = $studentRepo;
 

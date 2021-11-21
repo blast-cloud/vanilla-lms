@@ -7,10 +7,10 @@
 
     <hr class="light-grey-hr mb-10 mt-0"/>
     @php
-        $current_time = $timeObj->now();    
+         $current_time = $timeObj->now( $_COOKIE['myTimezone']);    
     @endphp
     @php
-        $lecture_classes = $classActivities->get_class_lectures();    
+        $lecture_classes = $classActivities->get_class_lectures();  
     @endphp
 
     @if ($lecture_classes!=null && count($lecture_classes)>0)
@@ -61,7 +61,11 @@
                     @if ($item->blackboard_meeting_status=="in-progress" && $current_user->manager_id == null && $current_user->lecturer_id == null)
                         Online class is IN PROGRESS from {{ $item->created_at->format('d-M-Y h:m') }}, click the Join button to join the lecture
                     @elseif ($item->blackboard_meeting_status=="new")
-                        Online class is READY to start, click the Start button to commence the Lecture.
+                        @if($current_user->lecturer_id != null)
+                            Online class is READY to start, click the Start button to commence the Lecture.
+                        @else
+                            Online class is READY to start, you can click the Start button to Join when the Lecturer starts the Lecture.
+                        @endif
                     @elseif ($item->blackboard_meeting_status=="ended") 
                         Online class has ENDED, the lecture recordings will soon be available soon.
                     @elseif ($item->blackboard_meeting_status=="video-available") 
