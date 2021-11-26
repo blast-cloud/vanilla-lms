@@ -394,6 +394,10 @@
             .mass-grading-tbl td input{
                 width: 80px;
             }
+            .btn-primary-alt{
+                background: #878787;
+                height: 34px;
+            }
     
         /*.fixed-sidebar-left{
             top: 110px !important;
