@@ -7,7 +7,7 @@
 
     <hr class="light-grey-hr mb-10 mt-0"/>
     @php
-        $current_time = $timeObj->now();    
+         $current_time = $timeObj->now( $_COOKIE['myTimezone']);    
     @endphp
     @php
         $lecture_classes = $classActivities->get_class_lectures();  
