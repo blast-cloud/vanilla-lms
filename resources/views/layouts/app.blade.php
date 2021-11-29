@@ -34,6 +34,20 @@
         {{-- Sweet Alert --}}
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         
+        <script type="text/javascript"> 
+            let current_date = new Date();
+                let timezone = parseInt(-current_date.getTimezoneOffset()/60);
+                if(timezone > 0){
+                    document.cookie = "myTimezone = GMT+"+timezone;
+                }
+                if(timezone < 0){
+                    document.cookie = "myTimezone = GMT"+timezone;
+                }
+                if(timezone == 0){
+                    document.cookie = "myTimezone = GMT"; 
+                }
+        </script>
+        
         @yield('cdn_scripts')
         
         @yield('third_party_stylesheets')
@@ -393,6 +407,10 @@
             }
             .mass-grading-tbl td input{
                 width: 80px;
+            }
+            .btn-primary-alt{
+                background: #878787;
+                height: 34px;
             }
     
         /*.fixed-sidebar-left{

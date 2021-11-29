@@ -258,10 +258,10 @@ $(document).ready(function() {
                     'max_mp':$(this).attr("data-val-mp"),
                     'label':$(this).attr("data-val-lbl"),
                     @if ($class_material != null)
-                        @if ($class_material->type="class-assignments")
+                        @if ($class_material->type=="class-assignments")
                             'type':"assignment",
                             'assignment_id':$(this).attr("data-val-id"),
-                        @elseif ($class_material->type="class-examinations")
+                        @elseif ($class_material->type=="class-examinations")
                             'type':"exam",
                             'exam_id':$(this).attr("data-val-id"),
                         @endif

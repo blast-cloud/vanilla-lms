@@ -30,6 +30,9 @@
                 <div class="pull-right">
                     <div class="pull-left inline-block dropdown">
                         <a id="btn-show-modify-student-modal" href="#" class="btn-new-mdl-student-modal btn btn-primary btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Enroll New Student</a>
+                        <a class="btn btn-xs btn-primary-alt pull-right ml-10"href="#" data-toggle="modal" data-target="#mdl-bulk-student-modal">
+                            <i class="fa fa-upload"></i> Bulk upload
+                        </a>
                     </div>
                 </div>
                 <div class="clearfix"></div>
