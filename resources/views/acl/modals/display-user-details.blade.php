@@ -1,5 +1,4 @@
 
-
 <div class="modal fade" id="modify-user-details-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -160,10 +159,74 @@
     </div>
 </div>
 
+{{-- Bulk upload modal --}}
+<div class="modal fade" id="mdl-bulk-user-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 id="lbl-student-modal-title" class="modal-title">Bulk Users Upload</h4>
+            </div>
+
+            <div class="modal-body">
+                <div id="div-bulk-user-modal-error" class="alert alert-danger" role="alert"></div>
+                <form class="form-horizontal" id="frm-user-modal" role="form" method="POST" enctype="multipart/form-data" action="">
+                    <div class="row">
+                        @csrf
+                        <div class="col-lg-12 ma-10">
+                            <div id="bulk-user-type" class="form-group">
+                                <label class="control-label col-sm-3">Type of users</label>
+                                <div class="col-sm-7">
+                                    <select id="type" class="form-control select2">
+                                        <option value="">--Choose type--</option>
+                                        <option value="student">Student</option>
+                                        <option value="lecturer">Lecturer</option>
+                                        <option value="manager">Manager</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="offline-flag"><span class="no-file">Please upload a csv file</span></div>
+                            <div id="spinner-user" class="">
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
+                            <div id="div-show-txt-user-primary-id" style="display: none;" class="upload-tem">
+                                <div class="row">
+                                    <div class="col-lg-12 ma-10">                            
+                                        <div id="div-bulk_user" class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="bulk_user">Upload CSV</label>
+                                            <div class="col-sm-9">
+                                                {!! Form::file('bulk_user', ['class' => 'custom-file-input', 'id'=>'bulk_user']) !!}
+                                            </div>
+                                        </div>
+                                        <span class="badge badge-pill badge-secondary mb-5 ml-30">Users csv file format:</span>
+                                        <img id="format_img" src="" class="col-md-9 ml-20" data-toggle="tootip" title="Users csv file format">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="div-save-mdl-user-modal" class="modal-footer upload-tem" style="display: none;">
+                <hr class="light-grey-hr mb-10" />
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-bulk-user-modal" value="add">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
-    
+    $('.no-file').hide();
+$("#spinner-user").fadeOut(1);
+$('#div-bulk-user-modal-error').hide();
+
     $('#department_id').select2();
     $('#div_registration_num').hide();
     
@@ -423,6 +486,90 @@ $(document).ready(function() {
         
     });
 
+});
+
+$(document).on('change', '#type', function() {
+    $('.upload-tem').fadeOut(300);
+    let img_area = $('#format_img');
+    let type = $(this).val();
+
+    if (type == 'student') {
+        $(img_area).attr("src", "{{asset('imgs/student_accts_csv_format.png')}}");
+    }else if (type == 'lecturer') {
+        $(img_area).attr("src", "{{asset('imgs/staff_csv_format.png')}}");
+    }else if (type == 'manager') {
+        $(img_area).attr("src", "{{asset('imgs/staff_csv_format.png')}}");
+    }else{
+        return;
+    }
+    $('.upload-tem').fadeIn(400);
+})
+
+$(document).on('click', '#btn-save-mdl-bulk-user-modal', function(e) {
+    e.preventDefault();
+    
+    $('.no-file').hide();
+    $("#spinner-user").show();
+    $(this).attr('disabled', true);
+
+    let formData = new FormData();
+    formData.append('_method', "POST");
+    endPointUrl = "{{ route('user.bulk') }}";
+    @if (isset($organization) && $organization!=null)
+        formData.append('organization_id', '{{$organization->id}}');
+    @endif
+    formData.append('type', $('#type').val());
+    formData.append('_token', $('input[name="_token"]').val());
+    if ($('#bulk_user')[0].files.length > 0) {
+        formData.append('bulk_user_file', $('#bulk_user')[0].files[0]);
+        $.ajax({
+            url:endPointUrl,
+            type: "POST",
+            data: formData,
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(result){
+                console.log(result);
+                $("#spinner-user").fadeOut(100);
+                $('#btn-save-mdl-bulk-user-modal').attr('disabled', false);
+                if(result.errors){
+                    $('#div-bulk-user-modal-error').html('');
+                    $('#div-bulk-user-modal-error').show();
+                    
+                    $.each(result.errors, function(key, value){
+                        $('#div-bulk-user-modal-error').append('<li class="">'+value+'</li>');
+                    });
+                }else{
+                    $('#div-bulk-user-modal-error').hide();
+                    window.setTimeout( function(){
+                        swal("Saved", "Users saved successfully.", "success");
+
+                        $('#div-bulk-user-modal-error').hide();
+                        location.reload(true);
+
+                    },20);
+                }
+
+                $("#spinner-user").hide();
+                $("#div-save-mdl-user-modal").attr('disabled', false);
+                
+            }, error: function(data){
+                console.log(data);
+                swal("Error", "Oops an error occurred. Please try again.", "error");
+
+                $("#spinner-user").hide();
+                $("#btn-save-mdl-bulk-user-modal").attr('disabled', false);
+
+            }
+        })
+    }else{
+        $("#spinner-user").fadeOut(100);
+        $('.no-file').fadeIn();
+        $("#btn-save-mdl-bulk-user-modal").attr('disabled', false);
+    }
+   
 });
 </script>
 @endsection

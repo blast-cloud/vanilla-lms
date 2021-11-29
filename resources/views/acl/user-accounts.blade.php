@@ -27,6 +27,9 @@ User Accounts
                         <h4>
                             <div class="pull-right">
                                 <a id="btn-show-modify-user-details-modal" href="#" class="btn btn-xs btn-default"><i class="fa fa-user"></i>&nbsp;Create User</a>
+                                <a class="btn btn-xs btn-primary-alt pull-right ml-10" href="#" data-toggle="modal" data-target="#mdl-bulk-user-modal">
+                                    <i class="fa fa-upload"></i> Bulk upload
+                                </a>
                                 <!-- <a href="#" class="btn btn-xs btn-default"><i class="fa fa-key"></i>&nbsp;Bulk Password</a> -->
                             </div>
                         </h4>

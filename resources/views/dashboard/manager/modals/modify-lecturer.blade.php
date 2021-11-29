@@ -107,8 +107,8 @@
 <script type="text/javascript">
 $(document).ready(function() {
 $('.no-file').hide();
-    $("#spinner-staff").hide();
-    $('#div-bulk-staff-modal-error').hide();
+$("#spinner-staff").hide();
+$('#div-bulk-staff-modal-error').hide();
 
     //Hide irrelevant fields
     function hide_unused_fields(){
