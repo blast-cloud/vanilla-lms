@@ -69,9 +69,9 @@
                             @csrf
                             
                             <div class="offline-flag"><span class="no-file">Please upload a csv file</span></div>
-                            {{-- <div id="spinner-departments" class="">
+                            <div id="spinner-departments" class="">
                                 <div class="loader" id="loader-1"></div>
-                            </div> --}}
+                            </div>
 
                             <div id="div-show-txt-department-primary-id">
                                 <div class="row">
@@ -106,6 +106,7 @@
 $(document).ready(function() {
 $('#div-bulk-department-modal-error').hide();
 $('.no-file').hide();
+$('spinner-departments').fadeOut(1);
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-department-modal", function(e) {
@@ -302,6 +303,7 @@ $(document).on('click', '#btn-save-mdl-bulk-department-modal', function(e) {
             contentType: false,
             dataType: 'json',
             success: function(result){
+                $('spinner-departments').fadeOut(100);
                 $('#btn-save-mdl-bulk-department-modal').attr('disabled', false);
                 if(result.errors){
                     $('#div-bulk-department-modal-error').html('');
@@ -334,6 +336,7 @@ $(document).on('click', '#btn-save-mdl-bulk-department-modal', function(e) {
             }
         })
     }else{
+        $('spinner-departments').fadeOut(100);
         $('.no-file').fadeIn();
         $("#btn-save-mdl-bulk-department-modal").attr('disabled', false);
     }

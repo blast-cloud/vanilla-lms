@@ -71,9 +71,9 @@
                             @csrf
                             
                             <div class="offline-flag"><span class="no-file">Please upload a csv file</span></div>
-                            {{-- <div id="spinner-students" class="">
+                            <div id="spinner-students" class="">
                                 <div class="loader" id="loader-1"></div>
-                            </div> --}}
+                            </div>
 
                             <div id="div-show-txt-student-primary-id">
                                 <div class="row">
@@ -107,7 +107,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 $('.no-file').hide();
-$("#spinner-students").hide();
+$("#spinner-students").fadeOut(1);
 $('#div-bulk-student-modal-error').hide();
 
     //Show Modal for New Entry
@@ -307,6 +307,7 @@ $(document).on('click', '#btn-save-mdl-bulk-student-modal', function(e) {
         formData.append('organization_id', '{{$organization->id}}');
     @endif
     formData.append('_token', $('input[name="_token"]').val());
+    formData.append('department_id', '{{auth()->user()->department_id ?? null}}');
     if ($('#bulk_students')[0].files.length > 0) {
         formData.append('bulk_student_file', $('#bulk_students')[0].files[0]);
         $.ajax({
@@ -318,7 +319,7 @@ $(document).on('click', '#btn-save-mdl-bulk-student-modal', function(e) {
             contentType: false,
             dataType: 'json',
             success: function(result){
-                console.log(result);
+                $("#spinner-students").fadeOut(100);
                 $('#btn-save-mdl-bulk-student-modal').attr('disabled', false);
                 if(result.errors){
                     $('#div-bulk-student-modal-error').html('');
@@ -351,6 +352,7 @@ $(document).on('click', '#btn-save-mdl-bulk-student-modal', function(e) {
             }
         })
     }else{
+        $("#spinner-students").fadeOut(100);
         $('.no-file').fadeIn();
         $("#btn-save-mdl-bulk-student-modal").attr('disabled', false);
     }
