@@ -70,9 +70,9 @@
                             @csrf
                             
                             <div class="offline-flag"><span class="no-file">Please upload a csv file</span></div>
-                            {{-- <div id="spinner-students" class="">
+                            <div id="spinner-staff" class="">
                                 <div class="loader" id="loader-1"></div>
-                            </div> --}}
+                            </div>
 
                             <div id="div-show-txt-staff-primary-id">
                                 <div class="row">
@@ -107,7 +107,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
 $('.no-file').hide();
-$("#spinner-staff").hide();
+$("#spinner-staff").fadeOut(1);
 $('#div-bulk-staff-modal-error').hide();
 
     //Hide irrelevant fields
@@ -328,6 +328,7 @@ $(document).on('click', '#btn-save-mdl-bulk-staff-modal', function(e) {
             dataType: 'json',
             success: function(result){
                 console.log(result);
+                $("#spinner-staff").fadeOut(100);
                 $('#btn-save-mdl-bulk-staff-modal').attr('disabled', false);
                 if(result.errors){
                     $('#div-bulk-staff-modal-error').html('');
@@ -360,6 +361,7 @@ $(document).on('click', '#btn-save-mdl-bulk-staff-modal', function(e) {
             }
         })
     }else{
+        $("#spinner-staff").fadeOut(100);
         $('.no-file').fadeIn();
         $("#btn-save-mdl-bulk-staff-modal").attr('disabled', false);
     }
