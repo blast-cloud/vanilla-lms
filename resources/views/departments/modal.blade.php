@@ -106,7 +106,7 @@
 $(document).ready(function() {
 $('#div-bulk-department-modal-error').hide();
 $('.no-file').hide();
-$('spinner-departments').fadeOut(1);
+$('#spinner-departments').fadeOut(1);
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-department-modal", function(e) {
@@ -336,7 +336,7 @@ $(document).on('click', '#btn-save-mdl-bulk-department-modal', function(e) {
             }
         })
     }else{
-        $('spinner-departments').fadeOut(100);
+        $('#spinner-departments').fadeOut(100);
         $('.no-file').fadeIn();
         $("#btn-save-mdl-bulk-department-modal").attr('disabled', false);
     }

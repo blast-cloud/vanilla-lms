@@ -315,6 +315,13 @@ class DepartmentAPIController extends AppBaseController
                     $dept = Department::create($dept_data); 
                     DepartmentCreated::dispatch($dept);
                   }
+                }else{
+                    $headers = explode(',', $line);
+                    if (strtolower($headers[0]) != 'code' || strtolower(trim($headers[1])) != 'name' || isset($headers[2])) {
+                        $invalids['inc'] = 'The file format is incorrect';
+                        array_push($errors, $invalids);
+                        break;
+                    }
                 }
                 $loop++;
             }
@@ -332,8 +339,8 @@ class DepartmentAPIController extends AppBaseController
     {
         $errors = [];
 
-        $user = Department::where('code', $data[0])->first();
-        if ($user) {
+        $department = Department::where('code', $data[0])->first();
+        if ($department) {
             $errors[] = 'The code: '.$data[0].' already belongs to a department';
         }
         return $errors;
