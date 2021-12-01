@@ -302,7 +302,7 @@ class ACLController extends AppBaseController
                         'last_name' => $data[2],
                         'telephone' => $data[3],
                         'matriculation_number' => $data[4],
-                        'department_id' => auth()->user()->department_id ?? null;
+                        'department_id' => auth()->user()->department_id ?? null
                     ]);     
                 $student = $this->studentRepository->create($student_data);
                 StudentCreated::dispatch($student);
