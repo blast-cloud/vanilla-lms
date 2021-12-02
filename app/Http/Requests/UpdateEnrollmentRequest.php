@@ -35,7 +35,8 @@ class UpdateEnrollmentRequest extends AppBaseFormRequest
             'id' => 'required|numeric|exists:enrollments,id',
             'status' => 'nullable',
             'student_id' => 'sometimes|required',
-            'course_class_id' => 'sometimes|required'
+            'course_class_id' => 'sometimes|required',
+            'semester_id' => 'sometimes|required',
         ];
     }
 
@@ -50,5 +51,13 @@ class UpdateEnrollmentRequest extends AppBaseFormRequest
                 $validator->errors()->add('enrollment_exist', 'This Student is Already enroll for this Class');
             }
         });
+    }
+
+    public function attributes(){
+        return [
+            'semester_id' => 'semester',
+            'course_class_id' => 'course'
+        ];
+        
     }
 }

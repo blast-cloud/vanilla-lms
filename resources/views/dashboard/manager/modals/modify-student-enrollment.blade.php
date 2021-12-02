@@ -251,7 +251,7 @@ $(document).ready(function() {
                 $('#div-enrollment-modal-error').html('');
                 $('#div-enrollment-modal-error').show();
                 $('.spinner1').hide();
-                console.log(data);
+                
             }
         });
     });

@@ -105,7 +105,7 @@ class StudentDashboardController extends AppBaseController
         $courseItems = Course::select(DB::raw("CONCAT(name,' - ',code) AS full_name"),'id')
         ->where('department_id', $current_user->department_id )
         ->pluck('full_name','id');
-        
+        $semesterItems = Semester::pluck('code','id');
 
         $enrollment_ids = [];
         $enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
@@ -129,7 +129,8 @@ class StudentDashboardController extends AppBaseController
                 ->with('current_user', $current_user)
                 ->with('class_schedules', $class_schedules)
                 ->with('classActivities',$classActivities)
-                ->with('courseItems', $courseItems);
+                ->with('courseItems', $courseItems)
+                ->with('semesterItems', $semesterItems);
     }
 
 }

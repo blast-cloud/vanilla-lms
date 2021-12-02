@@ -36,9 +36,14 @@
                                         <div id="div-course_id" class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
                                             <div class="col-sm-9">
-                                                {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} 
+                                                {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control ']) !!}
+                                            </div>
+                                        </div>
 
-                                               
+                                        <div id="div-semester_id" class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="course_id">Semester</label>
+                                            <div class="col-sm-9">
+                                                {!! Form::select('semester_id', $semesterItems, null, ['id'=>'semester_id','class'=>'form-control']) !!}
                                             </div>
                                         </div>
 
@@ -64,7 +69,7 @@
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
-
+    $('#semester_id').prepend('<option>-- -select semester -- </option>')
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-enrollment-modal", function(e) {
         $('#div-enrollment-modal-error').hide();
@@ -191,6 +196,7 @@ $(document).ready(function() {
         formData.append('course_class_id', $('#course_id').val());
         formData.append('student_id', {{$current_user->student_id}} );
         formData.append('department_id', {{$department->id}} );
+        formData.append('semester_id',$('#semester_id').val());
 
         $.ajax({
             url:endPointUrl,
