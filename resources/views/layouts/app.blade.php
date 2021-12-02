@@ -408,6 +408,24 @@
             .mass-grading-tbl td input{
                 width: 80px;
             }
+            .btn-primary-alt{
+                background: #878787;
+                height: 34px;
+            }
+            a.btn-xs.pull-right{
+               display: flex;
+               align-items: center;
+               color: black; 
+               background: #878787; 
+               border: 1px solid #878787; 
+               height: 32px;
+            }
+            a.btn-xs.pull-right:hover{
+                background: #878787;
+            }
+            a.btn-xs.pull-right > i{
+                margin-right: 5px;
+            }
     
         /*.fixed-sidebar-left{
             top: 110px !important;

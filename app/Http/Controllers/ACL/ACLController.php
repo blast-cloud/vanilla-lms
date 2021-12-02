@@ -9,6 +9,8 @@ use Validator;
 
 use App\Models\User;
 use App\Models\Department;
+use App\Models\Student;
+use App\Models\Lecturer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AppBaseController;
@@ -21,6 +23,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UpdateUserPasswordResetRequest;
+use App\Http\Requests\API\BulkUsersApiRequest;
 
 use App\Repositories\StudentRepository;
 use App\Repositories\ManagerRepository;
@@ -193,6 +196,146 @@ class ACLController extends AppBaseController
                     ->with("current_user", $current_user)
                     ->with("departmentItems", $departmentItems)
                     ->with('dataTable', $userAccountsDataTable->html());
+    }
+
+    public function uploadBulkUsers(BulkUsersApiRequest $request)
+    {
+        $extension = $request->file('bulk_user_file')->getClientOriginalExtension();
+        $attachedFileName = time() . '.' . $extension;
+        $request->file('bulk_user_file')->move(public_path('uploads'), $attachedFileName);
+        $path_to_file = public_path('uploads').'/'.$attachedFileName;
+
+        $errors = [];
+        $loop = 1;
+        $lines = file($path_to_file);
+        if (count($lines) > 1) {
+            foreach ($lines as $line) {
+                // skip first line (heading line)
+                if ($loop > 1) {
+                    $data = explode(',', $line);
+                    // dd($data);
+                    $invalids = $this->validateValues($data, $request->type);
+                  if (count($invalids) > 0) {
+                    array_push($errors, $invalids);
+                    continue;
+                  }else{
+                   list($valid, $msg) = $this->checknStoreUserType($request->type, $data);
+
+                   if (!$valid) {
+                       $errors[] = $msg;
+                   }
+                  }
+                }
+                $loop++;
+            }
+        }else{
+            $errors[] = 'The uploaded csv file is empty';
+        }
+        
+        if (count($errors) > 0) {
+            return response()->json(['errors' => $this->array_flatten($errors)]);
+        }
+        return true;
+    }
+
+    public function validateValues($data, $type)
+    {
+        $errors = [];
+        // validte email
+        if (!filter_var($data[0], FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'The email: '.$data[0].' is invalid';
+        }
+
+        $user = User::where('email', $data[0])->first();
+        if ($user) {
+            $errors[] = 'The email: '.$data[0].' already belongs to a user';
+        }
+
+        $user = User::where('telephone', $data[3])->first();
+        if ($user) {
+            $errors[] = 'The telephone number: '.$data[3].' already belongs to a user';
+        }
+
+        if ($type  == 'student') {
+            // validate matric number
+            $student = Student::where('matriculation_number', $data[4])->first();
+            if ($student) {
+                $errors[] = 'The matriculation number: '.$data[4].' already belongs to a student';
+            }
+
+            $student = Student::where('email', $data[0])->first();
+            if ($student) {
+                $errors[] = 'The email: '.$data[0].' already belongs to a student';
+            }
+        }elseif ($type == 'lecturer') {
+            $lecturer = Lecturer::where('email', $data[0])->first();
+            if ($lecturer) {
+                $errors[] = 'This email: '.$data[0].' already belongs to a lecturer';
+            }
+        }elseif ($type == 'manager') {
+            $lecturer = Manager::where('email', $data[0])->first();
+            if ($lecturer) {
+                $errors[] = 'This email: '.$data[0].' already belongs to a manager';
+            }
+        }
+        return $errors;
+    }
+
+    public function array_flatten($array) {
+
+       $return = array();
+       foreach ($array as $key => $value) {
+           if (is_array($value)){ $return = array_merge($return, $this->array_flatten($value));}
+           else {$return[$key] = $value;}
+       }
+       return $return;
+    }
+
+    public function checknStoreUserType($type, $data)
+    {
+        // check for the type
+        switch ($type) {
+            case 'student':
+                $student_data = array_merge($request->input(), [
+                        'email' => $data[0],
+                        'first_name' => $data[1],
+                        'last_name' => $data[2],
+                        'telephone' => $data[3],
+                        'matriculation_number' => $data[4],
+                        'department_id' => auth()->user()->department_id ?? null
+                    ]);     
+                $student = $this->studentRepository->create($student_data);
+                StudentCreated::dispatch($student);
+            break;
+
+            case 'lecturer':
+                $lecturer_data = array_merge($request->input(), [
+                        'email' => $data[0],
+                        'first_name' => $data[1],
+                        'last_name' => $data[2],
+                        'telephone' => $data[3],
+                    ]);     
+                $lecturer = $this->lecturerRepository->create($lecturer_data);
+                LecturerCreated::dispatch($lecturer);
+            break;
+
+            case 'manager':
+                $manager_data = array_merge($request->input(), [
+                        'email' => $data[0],
+                        'first_name' => $data[1],
+                        'last_name' => $data[2],
+                        'telephone' => $data[3],
+                    ]);     
+                $manager = $this->managerRepository->create($manager_data); 
+                ManagerCreated::dispatch($manager);
+            break;
+            
+            default:
+                return array(false, 'Invalid user type: '.$type);
+                break;
+        }
+
+        return array(true,'');
     }
 
 }

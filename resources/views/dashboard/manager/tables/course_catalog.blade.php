@@ -31,6 +31,7 @@
                 <div class="pull-right">
                     <div class="pull-left inline-block dropdown">
                         <a id="btn-show-modify-course-modal" href="#" class="btn-new-mdl-course-modal btn btn-primary btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Add New</a>
+                        <a data-toggle="modal" data-target="#mdl-bulk-course-modal" href="#" class="btn btn-primary-alt btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Bulk upload</a>
                     </div>
                 </div>
                 <div class="clearfix"></div>

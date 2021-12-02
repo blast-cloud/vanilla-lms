@@ -51,9 +51,64 @@
     </div>
 </div>
 
+{{-- Bulk upload modal --}}
+<div class="modal fade" id="mdl-bulk-course-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 id="lbl-course-modal-title" class="modal-title">Bulk Course Upload</h4>
+            </div>
+
+            <div class="modal-body">
+                <div id="div-bulk-course-modal-error" class="alert alert-danger" role="alert"></div>
+                <form class="form-horizontal" id="frm-course-modal" role="form" method="POST" enctype="multipart/form-data" action="">
+                    <div class="row">
+                        <div class="col-lg-12 ma-10">
+                            
+                            @csrf
+                            
+                            <div class="offline-flag"><span class="no-file">Please upload a csv file</span></div>
+                            <div id="spinner-course" class="">
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
+                            <div id="div-show-txt-course-primary-id">
+                                <div class="row">
+                                    <div class="col-lg-12 ma-10">                            
+                                        <div id="div-bulk_student" class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="bulk_course">Upload CSV</label>
+                                            <div class="col-sm-9">
+                                                {!! Form::file('bulk_course', ['class' => 'custom-file-input', 'id'=>'bulk_course']) !!}
+                                            </div>
+                                        </div>
+                                        <span class="badge badge-pill badge-secondary mb-5 ml-30">Courses csv file format:</span>
+                                        <img src="{{asset('imgs/course_csv.png')}}" class="col-md-9 ml-20" data-toggle="tootip" title="Courses csv file format">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div id="div-save-mdl-course-modal" class="modal-footer">
+                <hr class="light-grey-hr mb-10" />
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-bulk-course-modal" value="add">Save</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 @section('js-115')
 <script type="text/javascript">
 $(document).ready(function() {
+
+    $('.no-file').hide();
+    $("#spinner-course").fadeOut(1);
+    $('#div-bulk-course-modal-error').hide();
 
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-course-modal", function(e) {
@@ -242,5 +297,69 @@ $(document).ready(function() {
     });
 
 });
+
+$(document).on('click', '#btn-save-mdl-bulk-course-modal', function(e) {
+    e.preventDefault();
+    $('.no-file').hide();
+    $("#spinner-course").show();
+    $(this).attr('disabled', true);
+
+    let formData = new FormData();
+    formData.append('_method', "POST");
+    endPointUrl = "{{ route('courses.bulk') }}";
+    @if (isset($organization) && $organization!=null)
+        formData.append('organization_id', '{{$organization->id}}');
+    @endif
+    formData.append('_token', $('input[name="_token"]').val());
+    formData.append('department_id', '{{auth()->user()->department_id ?? null}}');
+    if ($('#bulk_course')[0].files.length > 0) {
+        formData.append('bulk_course_file', $('#bulk_course')[0].files[0]);
+        $.ajax({
+            url:endPointUrl,
+            type: "POST",
+            data: formData,
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(result){
+                $("#spinner-course").fadeOut(100);
+                $('#btn-save-mdl-bulk-course-modal').attr('disabled', false);
+                if(result.errors){
+                    $('#div-bulk-course-modal-error').html('');
+                    $('#div-bulk-course-modal-error').show();
+                    
+                    $.each(result.errors, function(key, value){
+                        $('#div-bulk-course-modal-error').append('<li class="">'+value+'</li>');
+                    });
+                }else{
+                    $('#div-bulk-course-modal-error').hide();
+                    window.setTimeout( function(){
+                        swal("Saved", "Courses saved successfully.", "success");
+
+                        $('#div-bulk-course-modal-error').hide();
+                        location.reload(true);
+
+                    },20);
+                }
+
+                $("#spinner-course").hide();
+                $("#div-save-mdl-course-modal").attr('disabled', false);
+                
+            }, error: function(data){
+                console.log(data);
+                swal("Error", "Oops an error occurred. Please try again.", "error");
+
+                $("#spinner-course").hide();
+                $("#btn-save-mdl-bulk-course-modal").attr('disabled', false);
+
+            }
+        })
+    }else{
+        $("#spinner-course").fadeOut(100);
+        $('.no-file').fadeIn();
+        $("#btn-save-mdl-bulk-course-modal").attr('disabled', false);
+    }
+})
 </script>
 @endsection

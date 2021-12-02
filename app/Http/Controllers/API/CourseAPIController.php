@@ -8,6 +8,7 @@ use App\Events\CourseDeleted;
 
 use App\Http\Requests\API\CreateCourseAPIRequest;
 use App\Http\Requests\API\UpdateCourseAPIRequest;
+use App\Http\Requests\API\BulkCourseApiRequest;
 use App\Models\Course;
 use App\Repositories\CourseRepository;
 use Illuminate\Http\Request;
@@ -284,5 +285,69 @@ class CourseAPIController extends AppBaseController
         $course->delete();
         CourseDeleted::dispatch($course);
         return $this->sendSuccess('Course deleted successfully');
+    }
+
+    public function uploadBulkCourses(BulkCourseApiRequest $request)
+    {
+        $extension = $request->file('bulk_course_file')->getClientOriginalExtension();
+        $attachedFileName = time() . '.' . $extension;
+        $request->file('bulk_course_file')->move(public_path('uploads'), $attachedFileName);
+        $path_to_file = public_path('uploads').'/'.$attachedFileName;
+
+        $errors = [];
+        $loop = 1;
+        $lines = file($path_to_file);
+        if (count($lines) > 1) {
+            foreach ($lines as $line) {
+                // skip first line (heading line)
+                if ($loop > 1) {
+                    $data = explode(',', $line);
+                    // dd($data);
+                    $invalids = $this->validateValues($data);
+                  if (count($invalids) > 0) {
+                    array_push($errors, $invalids);
+                    continue;
+                  }else{
+                    $course_data = array_merge($request->input(), [
+                    'code' => $data[0],
+                    'name' => $data[1],
+                    'description' => $data[2],
+                    'credit_hours' => $data[3],
+                  ]);     
+                    $course = Course::create($course_data); 
+                    CourseCreated::dispatch($course);
+                  }
+                }
+                $loop++;
+            }
+        }else{
+            $errors[] = 'The uploaded csv file is empty';
+        }
+
+        if (count($errors) > 0) {
+            return response()->json(['errors' => $this->array_flatten($errors)]);
+        }
+        return true;
+    }
+
+    public function validateValues($data)
+    {
+        $errors = [];
+
+        $user = Course::where('code', $data[0])->first();
+        if ($user) {
+            $errors[] = 'The code: '.$data[0].' already belongs to a course';
+        }
+        return $errors;
+    }
+
+    public function array_flatten($array) {
+
+       $return = array();
+       foreach ($array as $key => $value) {
+           if (is_array($value)){ $return = array_merge($return, $this->array_flatten($value));}
+           else {$return[$key] = $value;}
+       }
+       return $return;
     }
 }
