@@ -319,6 +319,13 @@ class StudentAPIController extends AppBaseController
                     $student = Student::create($student_data); 
                     StudentCreated::dispatch($student);
                   }
+                }else{
+                    $headers = explode(',', $line);
+                    if (strtolower($headers[1]) != 'matric') {
+                        $invalids['inc'] = 'The file format is incorrect';
+                        array_push($errors, $invalids);
+                        break;
+                    }
                 }
                 $loop++;
             }   
@@ -335,6 +342,7 @@ class StudentAPIController extends AppBaseController
     public function validateValues($data)
     {
         $errors = [];
+
         // validte email
         if (!filter_var($data[0], FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'The email: '.$data[0].' is invalid';
