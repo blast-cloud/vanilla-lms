@@ -125,4 +125,9 @@ class Student extends Model
     public function getFullName(){
         return "{$this->last_name}, {$this->first_name}";
     }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
 }

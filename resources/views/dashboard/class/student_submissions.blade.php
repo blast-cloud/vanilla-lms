@@ -236,6 +236,9 @@ $(document).ready(function() {
     $(document).on('click', "#btn-save-student-scores", function(e) {
 
         e.preventDefault();
+        let btn = $(this);
+        $(btn).attr('disabled', true);
+        $(btn).html('<i class="fa fa-save" style=""></i>&nbsp;Saving..');
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                 
         let actionType = "POST";
@@ -281,7 +284,8 @@ $(document).ready(function() {
             contentType: false,
             dataType: 'json',
             success: function(result){
-
+                $(btn).html('<i class="fa fa-save" style=""></i>&nbsp;Save');
+                $(btn).attr('disabled', false);
                 $('#lst_grade_messages').empty();
                 $('.score-input').css('border-color','#ccc');
 
