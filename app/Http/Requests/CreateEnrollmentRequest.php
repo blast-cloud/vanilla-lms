@@ -43,7 +43,7 @@ class CreateEnrollmentRequest extends AppBaseFormRequest
     {
         $validator->after(function ($validator) {
             if (count($this->enrollment_exist()) != 0) {
-                $validator->errors()->add('enrollment_exist', 'This Student is Already enroll for this Class');
+                $validator->errors()->add('enrollment_exist', 'This Student is already enrolled for this Class');
             }
         });
     }

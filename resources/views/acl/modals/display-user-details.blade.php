@@ -223,17 +223,14 @@
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
-<<<<<<< HEAD
     
     $('#department_id').prepend('<option value="">-- select department--</option>')
    
-=======
     $('.no-file').hide();
 $("#spinner-user").fadeOut(1);
 $('#div-bulk-user-modal-error').hide();
 
-    $('#department_id').select2();
->>>>>>> d417e7d167a4317d7cd2d31ee4d1432b4c79e0df
+   
     $('#div_registration_num').hide();
     
     $('#sel_account_type').on('change', function() {

@@ -43,6 +43,8 @@ class DepartmentStudentEnrollmentDataTable extends EnrollmentDataTable
             return "N/A";
         });
 
+        $dataTable->addColumn('action', 'acl.partials.datatables_actions');
+
         // $dataTable->addColumn('action', 'calendar_entries.datatables_actions');
         $dataTable->rawColumns(['Course','action']);
 
@@ -65,6 +67,9 @@ class DepartmentStudentEnrollmentDataTable extends EnrollmentDataTable
             //     ->addClass('text-right')
             // ,
             Column::make('status')
+                ->addClass('text-right')
+                ->width(80),
+                Column::make('action')
                 ->addClass('text-right')
                 ->width(80)
         ];
