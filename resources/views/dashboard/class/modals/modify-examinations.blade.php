@@ -99,12 +99,15 @@
 @section('js-132')
 <script type="text/javascript">
 $(document).ready(function() {
+    var minDate = new Date();
+    minDate.setDate(minDate.getDate() + 1);
 
     $('#txt_examination_due_date').datetimepicker({
         //format: 'YYYY-MM-DD HH:mm:ss',
         format: 'YYYY-MM-DD',
         useCurrent: true,
-        sideBySide: true
+        sideBySide: true,
+        minDate: minDate
     });
 
     

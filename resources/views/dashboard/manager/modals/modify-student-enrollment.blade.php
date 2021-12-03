@@ -76,10 +76,66 @@
     </div>
 </div>
 
+<div class="modal fade" id="mdl-unenrollment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 id="lbl-enrollment-modal-title" class="modal-title">Student Unenrollment</h4>
+            </div>
+
+            <div class="modal-body">
+                {{-- <div id="div-enrollment-modal-error" class="alert alert-danger" role="alert"></div> --}}
+                <form class="form-horizontal" id="frm-unenrollment-modal" role="form" method="POST" enctype="multipart/form-data" action="">
+                    <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
+                        <div class="col-lg-12 ma-10">
+                            @csrf
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
+                            <div id="div-edit-txt-unenrollment-primary-id">
+                                <div class="row">
+                                    <div class="col-lg-10 ma-10">
+                                    
+                                        <!-- Course Id Field -->
+                                        <div id="div-course_id" class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
+                                            <div class="col-sm-9">
+                                                {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
+                                                <select class="form-control select2" id="unenroll_course_id" name="course_id">
+         
+                                                    @foreach ( $student->enrollments as $item)
+                                                        <option value="{{ $item->id }}">{{ $item->courseclass->name }}</option>
+                                                    @endforeach
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <hr class="light-grey-hr mb-10" />
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-unenrollment-modal" value="add">Unenroll</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
-
+$('.spinner1').fadeOut(1);
    
     $.get(   "{{URL::to('/')}}/api/semesters").done(function( response ) {   
             console.log(response);
@@ -257,5 +313,47 @@ $(document).ready(function() {
     });
 
 });
+
+$(document).on('click', '#btn-save-mdl-unenrollment-modal', function (e) {
+    e.preventDefault();
+
+    swal({
+          title: "Are you sure you want to enroll this student from this class?",
+          text: "You can still enroll this student",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+        })
+        .then((willDelete) => {
+          if (willDelete) {
+            $('.spinner1').fadeIn(100);
+            let itemId = $('#unenroll_course_id').val();
+            let endPointUrl = "{{ route('enrollments.destroy',0) }}"+itemId;
+
+            let formData = new FormData();
+            formData.append('_token', $('input[name="_token"]').val());
+            formData.append('_method', 'DELETE');
+            
+            $.ajax({
+                url:endPointUrl,
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData:false,
+                contentType: false,
+                dataType: 'json',
+                success: function(result){
+                    $('.spinner1').fadeOut(100);
+                    if(result.errors){
+                        console.log(result.errors)
+                    }else{
+                        swal("Done!", "The student has successfully been unenrolled", "success");
+                        location.reload(true);
+                    }
+                },
+            });
+          }
+        });
+})
 </script>
 @endsection
