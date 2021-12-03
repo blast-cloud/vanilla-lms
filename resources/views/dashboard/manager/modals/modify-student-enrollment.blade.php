@@ -169,6 +169,8 @@ $('.spinner1').fadeOut(1);
 
         // $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( response ) {
+            console.log(itemId);
+            console.log(response);
 			$('#div-enrollment-modal-error').hide();
 			$('#mdl-enrollment-modal').modal('show');
 			$('#frm-enrollment-modal').trigger("reset");
@@ -191,7 +193,9 @@ $('.spinner1').fadeOut(1);
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( data ) {
-        $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( response ) {            
+        $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( response ) {     
+            console.log(response);  
+            conpsole.log(itemId) ;    
 			$('#div-enrollment-modal-error').hide();
 			$('#mdl-enrollment-modal').modal('show');
 			$('#frm-enrollment-modal').trigger("reset");
@@ -307,7 +311,7 @@ $('.spinner1').fadeOut(1);
                 $('#div-enrollment-modal-error').html('');
                 $('#div-enrollment-modal-error').show();
                 $('.spinner1').hide();
-                console.log(data);
+                
             }
         });
     });

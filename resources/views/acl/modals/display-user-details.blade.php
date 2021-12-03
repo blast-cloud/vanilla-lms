@@ -223,11 +223,14 @@
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
+    
+    $('#department_id').prepend('<option value="">-- select department--</option>')
+   
     $('.no-file').hide();
 $("#spinner-user").fadeOut(1);
 $('#div-bulk-user-modal-error').hide();
 
-    $('#department_id').select2();
+   
     $('#div_registration_num').hide();
     
     $('#sel_account_type').on('change', function() {
@@ -247,6 +250,7 @@ $('#div-bulk-user-modal-error').hide();
         $('#form-modify-user-details').trigger("reset");
         $('#txt_user_account_id').val(0);
         $('#div_account_type').show();
+        $('#department_id option').attr('selected',false);
 
         $('#modify-user-details-title').html("Create User Account");
     });
@@ -264,7 +268,8 @@ $('#div-bulk-user-modal-error').hide();
         $('#modify-user-details-title').html("Modify User Account");
 
         $.get( "{{ route('dashboard.user',0) }}"+itemId).done(function( data ) {
-
+            $('#department_id option').attr('selected',false);
+            $('#department_id option[value="'+data.department_id+'"]').attr('selected',true);
             $('#modify-user-details-modal').modal('show');
             $('#form-modify-user-details').trigger("reset");
             $('#div_registration_num').hide();
