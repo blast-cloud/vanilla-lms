@@ -322,7 +322,7 @@ class StudentAPIController extends AppBaseController
                 }else{
                     $headers = explode(',', $line);
                     if (strtolower($headers[1]) != 'matric') {
-                        $invalids['inc'] = 'The file format is incorrect';
+                        $invalids['inc'] = 'The file format is incorrect. Must be - "email,matriculation_number,first_name,last_name,telephone"';
                         array_push($errors, $invalids);
                         break;
                     }
