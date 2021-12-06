@@ -318,6 +318,13 @@ class LecturerAPIController extends AppBaseController
                     $lecturer = Lecturer::create($staff_data); 
                     LecturerCreated::dispatch($lecturer);
                   }
+                }else{
+                    $headers = explode(',', $line);
+                    if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first_name') {
+                        $invalids['inc'] = 'The file format is incorrect. Must be - "email,first_name,last_name,telephone"';
+                        array_push($errors, $invalids);
+                        break;
+                    }
                 }
                 $loop++;
             }
