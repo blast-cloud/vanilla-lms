@@ -37,6 +37,7 @@ class UpdateEnrollmentRequest extends AppBaseFormRequest
             'student_id' => 'sometimes|required',
             'course_class_id' => 'sometimes|required',
             'semester_id' => 'sometimes|required',
+            'department_id' => 'required'
         ];
     }
 
@@ -56,7 +57,9 @@ class UpdateEnrollmentRequest extends AppBaseFormRequest
     public function attributes(){
         return [
             'semester_id' => 'semester',
-            'course_class_id' => 'course'
+            'course_class_id' => 'course',
+            'department_id' => 'department'
+
         ];
         
     }
