@@ -32,6 +32,7 @@ class CreateEnrollmentRequest extends AppBaseFormRequest
             'student_id' => 'required',
             'course_class_id' => 'required',
             'semester_id' => 'required',
+            'department_id' => 'required'
         ];
     }
 
@@ -51,7 +52,9 @@ class CreateEnrollmentRequest extends AppBaseFormRequest
     public function attributes(){
         return [
             'semester_id' => 'semester',
-            'course_class_id' => 'course'
+            'course_class_id' => 'course',
+            'department_id' => 'department'
+
         ];
         
     }

@@ -23,6 +23,7 @@ Route::post('/bulkDepartment', [\App\Http\Controllers\API\DepartmentAPIControlle
 Route::post('/bulkStaff', [\App\Http\Controllers\API\LecturerAPIController::class, 'uploadBulkStaff'])->name('staff.bulk');
 Route::post('/bulkUser', [App\Http\Controllers\ACL\ACLController::class, 'uploadBulkUsers'])->name('user.bulk');
 Route::post('/bulkCourse', [App\Http\Controllers\API\CourseAPIController::class, 'uploadBulkCourses'])->name('courses.bulk');
+Route::post('/department/semester/course', [App\Http\Controllers\API\CourseClassAPIController::class, 'departmentSemesterCourse'])->name('department.semester.course');
 
 // Route::middleware(['auth:api'])->group(function () {
         

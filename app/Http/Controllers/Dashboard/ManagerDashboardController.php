@@ -274,6 +274,8 @@ class ManagerDashboardController extends AppBaseController
     public function displayDepartmentStudentPage(Request $request, $student_id)
     {
         $current_user = Auth()->user();
+        $departmentItems = $this->departmentRepository->all();
+        //dd( $departmentItems);
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 20);
         
@@ -289,8 +291,8 @@ class ManagerDashboardController extends AppBaseController
 
         return view("dashboard.manager.student")
                     ->with('student', $student)
+                    ->with('departmentItems',$departmentItems)
                     ->with('department', $department)
-                    ->with('courseItems', $courseItems)
                     ->with('current_user', $current_user)
                     ->with('class_schedules', $class_schedules)
                     ->with('dataTable', $studentEnrollmentDataTable->html());

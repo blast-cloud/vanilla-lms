@@ -285,4 +285,10 @@ class CourseClassAPIController extends AppBaseController
         CourseClassDeleted::dispatch($courseClass);
         return $this->sendSuccess('Course Class deleted successfully');
     }
+    public function departmentSemesterCourse(Request $request){
+
+        $courseClasses = CourseClass::with('lecturer')->where('semester_id',$request->semester_id)->where('department_id',$request->department_id)->get();
+
+        return $this->sendResponse($courseClasses->toArray(), "courseClases retrieved Successfully");
+    }
 }

@@ -31,24 +31,6 @@
                             <div id="div-edit-txt-enrollment-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
-                                    
-                                        <!-- Course Id Field -->
-                                        <div id="div-course_id" class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
-                                            <div class="col-sm-9">
-                                                {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
-                                                <select class="form-control select2" id="course_id" name="course_id">
-         
-                                                    @foreach ( $courseItems as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->code }} :: {{ $item->name }} taught by {{ $item->lecturer->job_title }} {{ $item->lecturer->last_name }}  {{ $item->lecturer->first_name }}  </option>
-                                                    @endforeach
-
-                                                  </select>
-                                             
-                                               
-                                            </div>
-                                        </div>
-
                                         <div class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Semester</label>
                                             <div class="col-sm-9">
@@ -56,6 +38,34 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="course_id">Department</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control select2" id="department_id" name="department_id">
+                                                    @foreach ($departmentItems as $item)
+                                                        <option value="{{$item->id}}">{{$item->name}} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- Course Id Field -->
+                                        --<div id="div-course_id" class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
+                                            <div class="col-sm-9">
+                                                {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
+                                                <select class="form-control select2" id="course_id" name="course_id">
+         
+                                                  
+                                                        <option value=""> --select course--</option>
+                                                
+                                                </select>
+                                             
+                                               
+                                            </div>
+                                        </div>
+
+                                      
 
 
                                     </div>
@@ -138,15 +148,46 @@
 <script type="text/javascript">
 $(document).ready(function() {
 $('.spinner1').fadeOut(1);
-   
+
+$('#department_id').prepend('<option value=""> -- select department --</option>');
     $.get(   "{{URL::to('/')}}/api/semesters").done(function( response ) {   
             console.log(response);
-            $('#semester_id').prepend('<option> select semester </option>');
+            $('#semester_id').prepend('<option value=""> select semester </option>');
             $.each(response.data,function(k,v){
                 $('#semester_id').append('<option value ="'+v.id+'">'+ v.code+ '</option>');
             });
             
         });
+    });
+    $(document).on('change', "#department_id", function(e) {
+       let endPointUrl = "{{route('department.semester.course')}}" ;  
+       let formData = new FormData();
+       formData.append('semester_id',$('#semester_id').val());
+       formData.append('department_id',$('#department_id').val());
+        $.ajax({
+            url:endPointUrl,
+            type: "POST",
+            data: formData,
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(response){
+                console.log(response);
+                $('#course_id').empty();
+                $('#course_id').append('<option value=""> -- select course -- </option>')
+                if(response.data.length > 0){
+                    $.each(response.data,function(k,v){
+                        $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + "taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
+                    });
+                   
+                }
+            }, 
+            error: function(data){
+                    conole.log(data);
+            }
+        });
+    });
          //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-enrollment-modal", function(e) {
         
@@ -280,7 +321,7 @@ $('.spinner1').fadeOut(1);
         formData.append('_method', actionType);
         formData.append('course_class_id', $('#course_id').val());
         formData.append('student_id', {{$student->id}} );
-        formData.append('department_id', {{$department->id}} );
+        formData.append('department_id', $('#department_id').val() );
         formData.append('semester_id', $('#semester_id').val() );
 
         $.ajax({
@@ -318,7 +359,7 @@ $('.spinner1').fadeOut(1);
         });
     });
 
-});
+
 
 $(document).on('click', '#btn-save-mdl-unenrollment-modal', function (e) {
     e.preventDefault();

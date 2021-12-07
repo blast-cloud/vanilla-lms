@@ -106,7 +106,7 @@ class StudentDashboardController extends AppBaseController
         ->where('department_id', $current_user->department_id )
         ->pluck('full_name','id');
         $semesterItems = Semester::pluck('code','id');
-
+        $departmentItems = $this->departmentRepository->all();
         $enrollment_ids = [];
         $enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
         foreach ($enrollments as $item){
@@ -130,7 +130,8 @@ class StudentDashboardController extends AppBaseController
                 ->with('class_schedules', $class_schedules)
                 ->with('classActivities',$classActivities)
                 ->with('courseItems', $courseItems)
-                ->with('semesterItems', $semesterItems);
+                ->with('semesterItems', $semesterItems)
+                ->with('departmentItems',$departmentItems);
     }
 
 }
