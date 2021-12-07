@@ -102,13 +102,15 @@
                                     
                                         <!-- Course Id Field -->
                                         <div id="div-course_id" class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
+                                            <label class="control-label mb-10 col-sm-3" for="course_id">Course class</label>
                                             <div class="col-sm-9">
                                                 {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
                                                 <select class="form-control select2" id="unenroll_course_id" name="course_id">
-         
+                                                    <option value="">--Select class to unenroll--</option>
                                                     @foreach ( $student->enrollments as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->courseclass->name }}</option>
+                                                        <option value="{{ $item->id }}">
+                                                            {{ $item->courseclass->name }} - {{ $item->courseclass->code }}
+                                                        </option>
                                                     @endforeach
 
                                                 </select>
