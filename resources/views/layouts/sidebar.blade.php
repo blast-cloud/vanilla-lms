@@ -70,7 +70,7 @@
                         </a>
                     </li>
                     @php 
-                        if (!empty($classActivities->getAppSettings())){
+                        if (isset($classActivities) && $classActivities->getAppSettings()){
                             $db_settings = $classActivities->getAppSettings();
                         }
                     @endphp
