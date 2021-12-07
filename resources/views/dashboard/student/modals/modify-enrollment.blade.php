@@ -69,7 +69,8 @@
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#semester_id').prepend('<option>-- -select semester -- </option>')
+    $('#semester_id').prepend('<option value="">-- -select semester -- </option>');
+    $('#course_id').prepend('<option value="">-- -select course-- </option>');
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-enrollment-modal", function(e) {
         $('#div-enrollment-modal-error').hide();
