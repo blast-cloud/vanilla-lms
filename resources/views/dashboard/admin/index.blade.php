@@ -34,10 +34,12 @@ Admin Dashboard
             @endif
 
             {{-- @include('dashboard.admin.partials.semesters') --}}
-            @include('dashboard.admin.partials.departments')
-            @include('dashboard.admin.partials.lecturers')
-            @include('dashboard.admin.partials.managers')
-            @include('dashboard.admin.partials.announcements')
+            {{-- <div class="row"> --}}
+                @include('dashboard.admin.partials.departments')
+                @include('dashboard.admin.partials.lecturers')
+                @include('dashboard.admin.partials.managers')
+                @include('dashboard.admin.partials.announcements')
+            {{-- </div> --}}
 
 
         </div>

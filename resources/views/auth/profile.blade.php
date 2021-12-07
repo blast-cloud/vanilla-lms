@@ -118,6 +118,16 @@ Account Profile
                                         </div>
                                     </div>
                                 </div>
+                                @if($current_user->department)
+                                <div class="form-group">
+                                    <label class="control-label mb-5 col-sm-3" for="code">Department</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group mb-5" style="padding-top:7px;">
+                                            {{ $current_user->department->name }}
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
 
                                 <hr class="light-grey-hr mb-10">
 
