@@ -317,6 +317,13 @@ class CourseAPIController extends AppBaseController
                     $course = Course::create($course_data); 
                     CourseCreated::dispatch($course);
                   }
+                }else{
+                    $headers = explode(',', $line);
+                    if (count($headers) != 4 || strtolower($headers[2]) != 'description') {
+                        $invalids['inc'] = 'The file format is incorrect: Must be - "code,name,description,credit_hours" ';
+                        array_push($errors, $invalids);
+                        break;
+                    }
                 }
                 $loop++;
             }

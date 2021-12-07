@@ -68,6 +68,12 @@ class UserAccountsDataTable extends DataTable
             }
             return "No";
         });
+
+        $dataTable->addColumn('department', function($query)
+        {
+            return $query->department ? $query->department->name:'N/A';
+        });
+
         $dataTable->addColumn('action', 'acl.partials.user-account-action-buttons');
         return $dataTable;
     }
@@ -124,6 +130,7 @@ class UserAccountsDataTable extends DataTable
             // 'job_title',
             'disabled',
             'type',
+            'department',
             //'last_login_date'
         ];
     }
