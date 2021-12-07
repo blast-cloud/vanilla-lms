@@ -6,7 +6,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 id="modify-reading-material-title" class="modal-title">Modify Reading Materials</h4>
+                <h4 id="modify-reading-material-title" class="modal-title"><span id="class-action"></span> Reading Materials</h4>
             </div>
 
             <div class="modal-body">
@@ -50,6 +50,14 @@
                                         </div>
                                     </div>
 
+                                    <!-- Description Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_reading_material_upload_file_path">Description</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" rows="5" id="description"></textarea>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 
                             </div>
@@ -83,6 +91,7 @@ $(document).ready(function() {
 
     //Show Modal for New Entry
     $('#btn-show-modify-reading-material-modal').click(function(){
+        $('#class-action').text("Add");
         $('#modify-reading-material-error-div').hide();
         $('#modify-reading-material-modal').modal('show');
         $('#form-modify-reading-material').trigger("reset");
@@ -92,6 +101,7 @@ $(document).ready(function() {
 
     //Show Modal for Edit Entry
     $('.btn-edit-modify-reading-material-modal').click(function(){
+        $('#class-action').text("Modify");
         $('#modify-reading-material-error-div').hide();
         $('.spinner1').hide();
         $('#modify-reading-material-modal').modal('show');
@@ -174,6 +184,7 @@ $(document).ready(function() {
         formData.append('type', 'reading-materials');
         formData.append('file', reading_file);
         formData.append('title', $('#txt_reading_material_title').val());
+        formData.append('description', $('#description').val());
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : '' }});
         if (fileDetails!=null){
             formData.append('upload_file_path', fileDetails[0]);

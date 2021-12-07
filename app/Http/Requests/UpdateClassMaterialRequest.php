@@ -35,7 +35,7 @@ class UpdateClassMaterialRequest extends AppBaseFormRequest
         return [
             'type' => 'required',
             'title' => 'required|string|max:200',
-            'description' => 'required_without_all:upload_file,reference_material_url',
+            'description' => 'required_without_all:upload_file,reference_material_url|string',
             'file' => 'required_if:type,reading-materials|mimes:pdf,doc,docx,zip,xls,xlsx,xlsb,xlsm',
             'due_date' => 'required_if:type,class-assignments|date|after_or_equal:'.$today,
             'assignment_number' => 'required_if:type,class-assignments|gt:0|unique:class_materials,assignment_number,'.$this->get('id').',id,course_class_id,'.$this->get('course_class_id'),
