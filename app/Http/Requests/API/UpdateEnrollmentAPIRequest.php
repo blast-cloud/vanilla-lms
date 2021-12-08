@@ -34,7 +34,18 @@ class UpdateEnrollmentAPIRequest extends AppBaseFormRequest
             'id' => 'required|numeric|exists:enrollments,id',
             'status' => 'required',
             'student_id' => 'required',
-            'course_class_id' => 'required'
+            'course_class_id' => 'required',
+            'department_id' => 'required'
         ];
+    }
+
+    public function attributes(){
+        return [
+            'semester_id' => 'semester',
+            'course_class_id' => 'course',
+            'department_id' => 'department'
+
+        ];
+        
     }
 }
