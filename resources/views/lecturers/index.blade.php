@@ -10,7 +10,6 @@ Lecturers
 @stop
 
 
-
 @section('content')
     
     @include('flash::message')
@@ -24,8 +23,6 @@ Lecturers
                     <div class="table-wrap">
                         <div class="table-responsive">
                             @include('lecturers.table')
-
-                            
                         </div>
                     </div>
 
@@ -37,7 +34,7 @@ Lecturers
     <div class="col-sm-3">
         @include("dashboard.partials.side-panel")
     </div>
-
+    
     @include('lecturers.modal')
 @endsection
 

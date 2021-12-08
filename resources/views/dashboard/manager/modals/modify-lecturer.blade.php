@@ -102,6 +102,59 @@
     </div>
 </div>
 
+{{-- password reset --}}
+<div class="modal fade" id="lecturer-password-reset-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 id="modify-user-password-reset-title" class="modal-title">Reset Lecturer Password</h4>
+            </div>
+
+            <div class="modal-body">
+                <div id="modify-user-password-reset-error-div" class="alert alert-danger" role="alert"></div>
+                <form class="form-horizontal" id="form-modify-user-password-reset" role="form" method="POST" enctype="multipart/form-data" action="">
+                    <div class="row">
+                        <div class="offline-flag"><span id="offline">You are currently offline</span></div>
+                        <div class="col-lg-12 ma-10">
+                            @csrf
+                            <div class="spinner1" >
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
+                            <input type="hidden" id="txt_reset_account_id" value="0" />
+
+                            <div class="form-group">
+                                <label class="control-label mb-10 col-sm-3" for="code">Password</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group mb-3">
+                                        <input type="text"
+                                            id="password"
+                                            name="password"
+                                            class="form-control @error('password') is-invalid @enderror"
+                                            placeholder="Password">
+                                        @error('password')
+                                        <span class="error invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>                    
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-modify-user-password-reset" value="add">Reset</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 @section('js-128')
 <script type="text/javascript">
@@ -316,6 +369,7 @@ $(document).on('click', '#btn-save-mdl-bulk-staff-modal', function(e) {
         formData.append('organization_id', '{{$organization->id}}');
     @endif
     formData.append('_token', $('input[name="_token"]').val());
+    formData.append('department_id', '{{auth()->user()->department_id ?? null}}');
     if ($('#bulk_staff')[0].files.length > 0) {
         formData.append('bulk_staff_file', $('#bulk_staff')[0].files[0]);
         $.ajax({
@@ -367,5 +421,77 @@ $(document).on('click', '#btn-save-mdl-bulk-staff-modal', function(e) {
     }
    
 });
+
+//Show Modal for Password reset
+    $(document).on('click', ".btn-lecturer-password-reset-modal", function(e) {
+        e.preventDefault();
+
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+        let itemId = $(this).data('val');
+        $('#txt_reset_account_id').val(itemId);
+        $('.spinner1').hide();
+        $('#lecturer-password-reset-modal').modal('show');
+        $('#form-modify-user-password-reset').trigger("reset");
+        $('#modify-user-password-reset-error-div').hide();
+
+    });
+
+    //Save user password-reset
+    $('#btn-modify-user-password-reset').click(function(e) {
+        e.preventDefault();
+
+        //check for internet status 
+        if (!window.navigator.onLine) {
+            $('#offline').fadeIn(300);
+            return;
+        }else{
+            $('#offline').fadeOut(300);
+        }
+
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+        $('#btn-modify-user-password-reset').prop("disabled", true);
+        $('.spinner1').show();
+        let actionType = "POST";        
+        let endPointUrl = "{{ route('staff.reset-psw') }}";
+
+        let formData = new FormData();
+        formData.append('_token', $('input[name="_token"]').val());
+        formData.append('_method', actionType);
+        formData.append('password', $('#password').val());
+        formData.append('id', $('#txt_reset_account_id').val());
+
+        $.ajax({
+            url:endPointUrl,
+            type: "POST",
+            data: formData,
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(result){
+                if(result.errors){
+                    $('#modify-user-password-reset-error-div').html('');
+                    $('#modify-user-password-reset-error-div').show();
+                    $('#btn-modify-user-password-reset').prop("disabled", false);
+                    $('.spinner1').hide();
+                    $.each(result.errors, function(key, value){
+                        $('#modify-user-password-reset-error-div').append('<li class="">'+value+'</li>');
+                    });
+
+                }else{
+                    $('#modify-user-password-reset-error-div').hide();
+                    $('#btn-modify-user-password-reset').prop("disabled", false);
+                    $('.spinner1').hide();
+                    window.setTimeout( function(){
+                        swal("Done!","User account password reset successfully!","success");
+                        $('#modify-user-password-reset-modal').modal('hide');
+                        location.reload(true);
+                    }, 50);
+                }
+            },
+        });
+        
+    });
 </script>
 @endsection

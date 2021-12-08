@@ -9,6 +9,7 @@ use App\Events\LecturerDeleted;
 use App\Http\Requests\API\CreateLecturerAPIRequest;
 use App\Http\Requests\API\UpdateLecturerAPIRequest;
 use App\Http\Requests\API\BulkLecturerApiRequest;
+use App\Http\Requests\UpdateUserPasswordResetRequest;
 use App\Models\Lecturer;
 use App\Models\User;
 use App\Repositories\LecturerRepository;
@@ -378,5 +379,18 @@ class LecturerAPIController extends AppBaseController
            else {$return[$key] = $value;}
        }
        return $return;
+    }
+
+    public function resetLecturerPassword(UpdateUserPasswordResetRequest $request)
+    {
+        $lecturer = Lecturer::find($request->id);
+        if (!$lecturer) {
+            return response()->json(['errors'=>['not found'=>'Lecturer not found']]);
+        }
+        $user = $lecturer->user;
+        $user->password = \Hash::make($request->password);
+        $user->save();
+
+        return true;
     }
 }

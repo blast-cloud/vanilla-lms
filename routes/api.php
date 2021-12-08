@@ -25,6 +25,9 @@ Route::post('/bulkUser', [App\Http\Controllers\ACL\ACLController::class, 'upload
 Route::post('/bulkCourse', [App\Http\Controllers\API\CourseAPIController::class, 'uploadBulkCourses'])->name('courses.bulk');
 Route::post('/department/semester/course', [App\Http\Controllers\API\CourseClassAPIController::class, 'departmentSemesterCourse'])->name('department.semester.course');
 
+Route::post('/staff-password', [\App\Http\Controllers\API\LecturerAPIController::class, 'resetLecturerPassword'])->name('staff.reset-psw');
+Route::post('/student-password', [\App\Http\Controllers\API\StudentAPIController::class, 'resetStudentPassword'])->name('student.reset-psw');
+
 // Route::middleware(['auth:api'])->group(function () {
         
     Route::resource('semesters', App\Http\Controllers\API\SemesterAPIController::class);

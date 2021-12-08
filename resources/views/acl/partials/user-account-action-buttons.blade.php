@@ -11,7 +11,7 @@
         <i class="fa fa-check" data-toggle="tootip" title="Enable user account"></i>
     </a>
     @endif
-    <a id="btn-reset-{{$id}}" href="#" alt="Reset Password" data-val="{{$id}}" data-toggle="modal" data-target="#reset" class='pa-5 btn btn-default btn-xs btn-edit-modify-user-password-reset-modal'>
+    <a id="btn-reset-{{$id}}" href="#" alt="Reset Password" data-val="{{$id}}" data-toggle="modal" data-target="#reset" class='pa-5 btn btn-default btn-xs btn-edit-modify-user-password-reset-modal' data-user-type='user'>
         <i class="fa fa-key" data-toggle="Reset user password"></i>
     </a>
     <!-- <a id="btn-delete-{{$id}}" href="#" alt="Delete Account" data-val="{{$id}}" data-toggle="modal" data-target="#delete" class='pa-5 btn btn-default btn-xs btn-delete-user-details'>

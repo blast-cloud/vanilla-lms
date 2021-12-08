@@ -79,7 +79,7 @@
 
             <div class="modal-footer">
                 <hr class="light-grey-hr mb-10" />
-                <button type="button" class="btn btn-primary" id="btn-save-mdl-enrollment-modal" value="add">Save</button>
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-enrollment-modal" value="add">Enroll</button>
             </div>
 
         </div>
