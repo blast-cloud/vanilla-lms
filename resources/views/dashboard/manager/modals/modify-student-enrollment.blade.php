@@ -51,13 +51,13 @@
                                         </div>
                                         <!-- Course Id Field -->
                                         --<div id="div-course_id" class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
+                                            <label class="control-label mb-10 col-sm-3" for="course_id">Course Class</label>
                                             <div class="col-sm-9">
                                                 {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
                                                 <select class="form-control select2" id="course_id" name="course_id">
          
                                                   
-                                                        <option value=""> --select course--</option>
+                                                        <option value=""> --select course class--</option>
                                                 
                                                 </select>
                                              
@@ -162,6 +162,35 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
         });
     });
     $(document).on('change', "#department_id", function(e) {
+       let endPointUrl = "{{route('department.semester.course')}}" ;  
+       let formData = new FormData();
+       formData.append('semester_id',$('#semester_id').val());
+       formData.append('department_id',$('#department_id').val());
+        $.ajax({
+            url:endPointUrl,
+            type: "POST",
+            data: formData,
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(response){
+                console.log(response);
+                $('#course_id').empty();
+                $('#course_id').append('<option value=""> -- select course -- </option>')
+                if(response.data.length > 0){
+                    $.each(response.data,function(k,v){
+                        $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + "taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
+                    });
+                   
+                }
+            }, 
+            error: function(data){
+                    conole.log(data);
+            }
+        });
+    });
+    $(document).on('change', "#semester_id", function(e) {
        let endPointUrl = "{{route('department.semester.course')}}" ;  
        let formData = new FormData();
        formData.append('semester_id',$('#semester_id').val());
