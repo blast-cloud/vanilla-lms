@@ -223,7 +223,7 @@
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
-    
+ 
     $('#department_id').prepend('<option value="">-- select department--</option>')
    
     $('.no-file').hide();
