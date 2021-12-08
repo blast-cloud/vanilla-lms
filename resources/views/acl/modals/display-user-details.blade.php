@@ -182,7 +182,7 @@
                                         <option value="">--Choose type--</option>
                                         <option value="student">Student</option>
                                         <option value="lecturer">Lecturer</option>
-                                        <option value="manager">Manager</option>
+                                        <option value="manager">Department Admin</option>
                                     </select>
                                 </div>
                             </div>
