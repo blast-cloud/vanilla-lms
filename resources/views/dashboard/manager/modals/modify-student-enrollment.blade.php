@@ -92,7 +92,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 id="lbl-enrollment-modal-title" class="modal-title">Student Unenrollment</h4>
+                <h4 id="lbl-enrollment-modal-title" class="modal-title">Student Widthrawal</h4>
             </div>
 
             <div class="modal-body">
@@ -116,14 +116,14 @@
                                             <div class="col-sm-9">
                                                 {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
                                                 <select class="form-control select2" id="unenroll_course_id" name="course_id">
-                                                    <option value="">--Select class to unenroll student--</option>
+                                                    <option value="">--Select class to widthraw student--</option>
                                                     @foreach ( $student->enrollments as $item)
                                                         <option value="{{ $item->id }}">
                                                             {{ $item->courseclass->name }} - {{ $item->courseclass->code }}
                                                         </option>
                                                     @endforeach
 
-                                                </select>
+                                                </select><span style="color: red; display: none;">Please select a course class</span>
                                             </div>
                                         </div>
                                     </div>
@@ -137,7 +137,7 @@
 
             <div class="modal-footer">
                 <hr class="light-grey-hr mb-10" />
-                <button type="button" class="btn btn-primary" id="btn-save-mdl-unenrollment-modal" value="add">Unenroll</button>
+                <button type="button" class="btn btn-primary" id="btn-save-mdl-unenrollment-modal" value="add">Widthraw</button>
             </div>
 
         </div>
@@ -148,6 +148,8 @@
 <script type="text/javascript">
 $(document).ready(function() {
 $('.spinner1').fadeOut(1);
+$('.no-student').fadeOut(1);
+   
 
 $('#department_id').prepend('<option value=""> -- select department --</option>');
     $.get(   "{{URL::to('/')}}/api/semesters").done(function( response ) {   
@@ -363,7 +365,13 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
 
 $(document).on('click', '#btn-save-mdl-unenrollment-modal', function (e) {
     e.preventDefault();
-
+    $('#unenroll_course_id').next('span').fadeOut(100);
+    
+    let itemId = $('#unenroll_course_id').val();
+    if (!itemId || itemId == '') {
+        $('#unenroll_course_id').next('span').fadeIn(100);
+        return;
+    }
     swal({
           title: "Are you sure you want to enroll this student from this class?",
           text: "You can still enroll this student",
@@ -374,7 +382,6 @@ $(document).on('click', '#btn-save-mdl-unenrollment-modal', function (e) {
         .then((willDelete) => {
           if (willDelete) {
             $('.spinner1').fadeIn(100);
-            let itemId = $('#unenroll_course_id').val();
             let endPointUrl = "{{ route('enrollments.destroy',0) }}"+itemId;
 
             let formData = new FormData();
@@ -394,7 +401,7 @@ $(document).on('click', '#btn-save-mdl-unenrollment-modal', function (e) {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        swal("Done!", "The student has successfully been unenrolled", "success");
+                        swal("Done!", "The student has successfully been widthrawn", "success");
                         location.reload(true);
                     }
                 },
