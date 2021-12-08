@@ -1,5 +1,4 @@
 <!-- <div class='btn-group'> -->
-<<<<<<< HEAD
     <a id="btn-view-{{$id}}" href="#" alt="View Account" data-val="{{$id}}" data-toggle="modal" data-target="#view" class='pa-5 btn btn-default btn-xs btn-edit-modify-user-details-modal' data-toggle="tooltip" data-placement="top" title="Edit user account">
         <i class="glyphicon glyphicon-eye-open"></i>
     </a>
@@ -14,7 +13,6 @@
     @endif
     <a id="btn-reset-{{$id}}" href="#" alt="Reset Password" data-val="{{$id}}" data-toggle="modal" data-target="#reset" class='pa-5 btn btn-default btn-xs btn-edit-modify-user-password-reset-modal' data-toggle="tooltip" data-placement="bottom" title="Reset user account">
         <i class="fa fa-key"></i>
-=======
     <a id="btn-view-{{$id}}" href="#" alt="View Account" data-val="{{$id}}" data-toggle="modal" data-target="#view" class='pa-5 btn btn-default btn-xs btn-edit-modify-user-details-modal'>
         <i class="glyphicon glyphicon-eye-open" data-toggle="tootip" title="View user details"></i>
     </a>
@@ -29,7 +27,6 @@
     @endif
     <a id="btn-reset-{{$id}}" href="#" alt="Reset Password" data-val="{{$id}}" data-toggle="modal" data-target="#reset" class='pa-5 btn btn-default btn-xs btn-edit-modify-user-password-reset-modal'>
         <i class="fa fa-key" data-toggle="Reset user password"></i>
->>>>>>> 6a52d74c904c8b2148bb0a943fe682e02c922dfb
     </a>
     <!-- <a id="btn-delete-{{$id}}" href="#" alt="Delete Account" data-val="{{$id}}" data-toggle="modal" data-target="#delete" class='pa-5 btn btn-default btn-xs btn-delete-user-details'>
         <i class="fa fa-trash"></i>
