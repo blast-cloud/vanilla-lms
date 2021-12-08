@@ -45,7 +45,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btn-modify-user-password-reset" value="add">Save</button>
+                <button type="button" class="btn btn-primary" id="btn-modify-user-password-reset" value="add">Reset</button>
             </div>
 
         </div>
