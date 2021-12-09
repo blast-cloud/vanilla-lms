@@ -3,7 +3,7 @@
         {!! Form::button('<i class="fa fa-eye"></i>', ['type'=>'button']) !!}
     </a>
     
-    <a href="#" data-val='{{$id}}' class='btn-edit-mdl-lecturer-modal' data-toggle="tootip" title="View lecturer details">
+    <a href="#" data-val='{{$id}}' class='btn-edit-mdl-lecturer-modal' data-toggle="tootip" title="Edit lecturer details">
         {!! Form::button('<i class="fa fa-edit"></i>', ['type'=>'button']) !!}
     </a>
 
