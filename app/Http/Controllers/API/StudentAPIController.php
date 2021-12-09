@@ -9,6 +9,7 @@ use App\Events\StudentDeleted;
 use App\Http\Requests\API\CreateStudentAPIRequest;
 use App\Http\Requests\API\UpdateStudentAPIRequest;
 use App\Http\Requests\API\BulkStudentApiRequest;
+use App\Http\Requests\UpdateUserPasswordResetRequest;
 use App\Models\Student;
 use App\Models\User;
 use App\Repositories\StudentRepository;
@@ -386,5 +387,18 @@ class StudentAPIController extends AppBaseController
            else {$return[$key] = $value;}
        }
        return $return;
+    }
+
+    public function resetStudentPassword(UpdateUserPasswordResetRequest $request)
+    {
+        $student = Student::find($request->id);
+        if (!$student) {
+            return response()->json(['errors'=>['not found'=>'Student not found']]);
+        }
+        $user = $student->user;
+        $user->password = \Hash::make($request->password);
+        $user->save();
+
+        return true;
     }
 }

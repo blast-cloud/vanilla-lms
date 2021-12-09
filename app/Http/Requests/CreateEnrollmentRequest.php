@@ -52,7 +52,7 @@ class CreateEnrollmentRequest extends AppBaseFormRequest
     public function attributes(){
         return [
             'semester_id' => 'semester',
-            'course_class_id' => 'course',
+            'course_class_id' => 'course class',
             'department_id' => 'department'
 
         ];

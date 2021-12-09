@@ -41,8 +41,21 @@
                                 <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="{{$app_settings['txt_official_website']}}" class="text-primary" >Main Website</a></li>
                                 @endif
                                 <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="{{ route('help') }}" class="text-primary" >Help</a></li>
-                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="{{ route('faq') }}" class="text-primary" >FAQ</a></li>
+                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="{{ route('faq') }}" class="text-primary" >FAQ</a></li>   
                             </ul>
+                            @if ($current_user->is_platform_admin == true || $current_user->manager_id != null )   
+                            <div class="pull-left" style="padding-top: 10px; padding-bottom: 7px">
+                                <h6 class="panel-title txt-dark">Download Links</h6>
+                            </div>
+                            <div class="clearfix"></div>
+               
+                            <ul class="list-icons" style="font-size:95%">
+                                             
+                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i><span><a href="{{asset('csv/dep_upload_cvs_format.csv')}}" class="text-primary">Department bulk upload CSV format</a></span></li>
+                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i><span><a href="{{asset('csv/lecturer_user_upload_cvs_format.csv')}}" class="text-primary">Lecturer bulk upload CSV format</a></span></li>
+                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i><span><a href="{{asset('csv/student_user_upload_cvs_format.csv')}}" class="text-primary">Student bulk upload CSV format</a></span></li>
+                            </ul>
+                            @endif
                         </div>
                     </div>
                 </div>

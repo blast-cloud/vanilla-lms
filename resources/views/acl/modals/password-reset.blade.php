@@ -104,7 +104,7 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(result){
                 if(result.errors){
-
+                    return;
                     $('#modify-user-password-reset-error-div').html('');
                     $('#modify-user-password-reset-error-div').show();
                     $('#btn-modify-user-password-reset').prop("disabled", false);
