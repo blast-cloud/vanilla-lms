@@ -134,8 +134,8 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="{{ route('dashboard.manager.announcements') }}" class="{{ Request::is('dashboard/manager/announcements') ? 'active' : '' }}">
-                        <div class="pull-left"><i class="zmdi zmdi-surround-sound mr-20"></i><span class="right-nav-text">Announcements</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    <a href="{{ route('dashboard.manager.lecturers') }}" class="{{ Request::is('dashboard/manager/lecturers') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="zmdi zmdi-pin-account mr-20"></i><span class="right-nav-text">Lecturers</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
                 <li class="">
@@ -149,13 +149,13 @@
                     </a>
                 </li>
                 <li class="">
-                    <a href="{{ route('dashboard.manager.calendars') }}" class="{{ Request::is('dashboard/manager/calendars') ? 'active' : '' }}">
-                        <div class="pull-left"><i class="zmdi zmdi-notifications-active mr-20"></i><span class="right-nav-text">Calendar</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    <a href="{{ route('dashboard.manager.announcements') }}" class="{{ Request::is('dashboard/manager/announcements') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="zmdi zmdi-surround-sound mr-20"></i><span class="right-nav-text">Announcements</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
                 <li class="">
-                    <a href="{{ route('dashboard.manager.lecturers') }}" class="{{ Request::is('dashboard/manager/lecturers') ? 'active' : '' }}">
-                        <div class="pull-left"><i class="zmdi zmdi-pin-account mr-20"></i><span class="right-nav-text">Lecturers</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    <a href="{{ route('dashboard.manager.calendars') }}" class="{{ Request::is('dashboard/manager/calendars') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="zmdi zmdi-notifications-active mr-20"></i><span class="right-nav-text">Calendar</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
                 
