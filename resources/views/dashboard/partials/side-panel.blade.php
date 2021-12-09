@@ -45,7 +45,7 @@
                             </ul>
                             @if ($current_user->is_platform_admin == true || $current_user->manager_id != null )   
                             <div class="pull-left" style="padding-top: 10px; padding-bottom: 7px">
-                                <h6 class="panel-title txt-dark">Download Links</h6>
+                                <h6 class="panel-title txt-dark">Bulk upload formats</h6>
                             </div>
                             <div class="clearfix"></div>
                
@@ -54,6 +54,7 @@
                                 <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i><span><a href="{{asset('csv/dep_upload_cvs_format.csv')}}" class="text-primary">Department bulk upload CSV format</a></span></li>
                                 <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i><span><a href="{{asset('csv/lecturer_user_upload_cvs_format.csv')}}" class="text-primary">Lecturer bulk upload CSV format</a></span></li>
                                 <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i><span><a href="{{asset('csv/student_user_upload_cvs_format.csv')}}" class="text-primary">Student bulk upload CSV format</a></span></li>
+                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i><span><a href="{{asset('csv/course_upload_csv_format.csv')}}" class="text-primary">Course bulk upload CSV format</a></span></li>
                             </ul>
                             @endif
                         </div>
