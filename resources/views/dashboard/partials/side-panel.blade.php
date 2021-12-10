@@ -1,4 +1,7 @@
-                <div class="panel panel-default card-view">
+    @php
+    $current_user = Auth()->user();
+    @endphp
+               <div class="panel panel-default card-view">
                     <div class="panel-wrapper collapse in">
                         <div class="panel-body text-center">
                             @if (isset($app_settings['file_high_res_picture']))
