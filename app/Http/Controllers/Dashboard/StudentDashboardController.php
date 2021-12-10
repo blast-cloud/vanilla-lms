@@ -16,6 +16,7 @@ use App\Repositories\CourseRepository;
 use App\Repositories\DepartmentRepository;
 use App\Repositories\EnrollmentRepository;
 use App\Repositories\GradeRepository;
+use App\Repositories\SemesterRepository;
 use App\Models\Course;
 use App\Models\Semester;
 use App\Models\Lecturer;
@@ -51,6 +52,9 @@ class StudentDashboardController extends AppBaseController
     /** @var  GradeRepository */
     private $gradeRepository;
 
+    /** @var  SemesterRepository */
+    private $semesterRepository;
+
     /** @var  SettingRepository */
     private $settingRepository;
     private $setting_keys = [
@@ -85,7 +89,8 @@ class StudentDashboardController extends AppBaseController
                                     ClassMaterialRepository $classMaterialRepo,
                                     EnrollmentRepository $enrollmentRepo,
                                     SettingRepository $settingRepo,
-                                    GradeRepository $gradeRepo)
+                                    GradeRepository $gradeRepo,
+                                    SemesterRepository $semesterRepo)
     {
         $this->courseRepository = $courseRepo;
         $this->announcementRepository = $announcementRepo;
@@ -96,16 +101,15 @@ class StudentDashboardController extends AppBaseController
         $this->enrollmentRepository = $enrollmentRepo;
         $this->gradeRepository = $gradeRepo;
         $this->settingRepository = $settingRepo;
+        $this->semesterRepository = $semesterRepo;
     }
     
     public function index(Request $request)
     {
         $current_user = Auth()->user();
 
-        $courseItems = Course::select(DB::raw("CONCAT(name,' - ',code) AS full_name"),'id')
-        ->where('department_id', $current_user->department_id )
-        ->pluck('full_name','id');
-        $semesterItems = Semester::pluck('code','id');
+       
+        $semesterItems = $this->semesterRepository->all();
         $departmentItems = $this->departmentRepository->all();
         $enrollment_ids = [];
         $enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
@@ -129,7 +133,6 @@ class StudentDashboardController extends AppBaseController
                 ->with('current_user', $current_user)
                 ->with('class_schedules', $class_schedules)
                 ->with('classActivities',$classActivities)
-                ->with('courseItems', $courseItems)
                 ->with('semesterItems', $semesterItems)
                 ->with('departmentItems',$departmentItems);
     }

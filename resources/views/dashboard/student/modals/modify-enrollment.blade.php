@@ -33,16 +33,21 @@
                                     <div class="col-lg-10 ma-10">
                                     
                                         <div class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="course_id">Semester</label>
+                                            <label class="control-label mb-10 col-sm-3" for="semester_id">Semester</label>
                                             <div class="col-sm-9">
-                                                {!! Form::select('semester_id', $semesterItems, null, ['id'=>'semester_id','class'=>'form-control']) !!}
+                                               <select class="form-control" id="semester_id" name="semester_id">
+                                                    <option value=""> -- select semester --</option>
+                                                    @foreach ($semesterItems as $item)
+                                                        <option value="{{$item->id}}">{{$item->code}} </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Department</label>
                                             <div class="col-sm-9">
-                                                <select class="form-control select2" id="department_id" name="department_id">
+                                                <select class="form-control" id="department_id" name="department_id">
                                                     <option value=""> -- select department --</option>
                                                     @foreach ($departmentItems as $item)
                                                         <option value="{{$item->id}}">{{$item->name}} </option>
@@ -88,9 +93,38 @@
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#semester_id').prepend('<option value="">-- select semester -- </option>');
+ 
+    $(document).on('change', "#semester_id", function(e) {
+       let endPointUrl = "{{route('api.department.semester.course')}}" ;  
+       let formData = new FormData();
+       formData.append('semester_id',$('#semester_id').val());
+       formData.append('department_id',$('#department_id').val());
+        $.ajax({
+            url:endPointUrl,
+            type: "POST",
+            data: formData,
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(response){
+                console.log(response);
+                $('#course_id').empty();
+                $('#course_id').append('<option value=""> -- select course -- </option>')
+                if(response.data.length > 0){
+                    $.each(response.data,function(k,v){
+                        $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + "taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
+                    });
+                   
+                }
+            }, 
+            error: function(data){
+                    conole.log(data);
+            }
+        });
+    });
     $(document).on('change', "#department_id", function(e) {
-       let endPointUrl = "{{route('department.semester.course')}}" ;  
+       let endPointUrl = "{{route('api.department.semester.course')}}" ;  
        let formData = new FormData();
        formData.append('semester_id',$('#semester_id').val());
        formData.append('department_id',$('#department_id').val());
@@ -228,7 +262,7 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').show();
         let actionType = "POST";
-        let endPointUrl = "{{ route('enrollments.store') }}";
+        let endPointUrl = "{{ route('api.enrollments.store') }}";
         let primaryId = $('#txt-enrollment-primary-id').val();
         
         let formData = new FormData();
@@ -236,7 +270,7 @@ $(document).ready(function() {
 
         if (primaryId>0){
             actionType = "PUT";
-            endPointUrl = "{{ route('enrollments.update',0) }}"+primaryId;
+            endPointUrl = "{{ route('api.enrollments.update',0) }}"+primaryId;
             formData.append('id', primaryId);
         }
         
