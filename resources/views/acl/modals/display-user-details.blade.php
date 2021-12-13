@@ -519,7 +519,7 @@ $(document).on('click', '#btn-save-mdl-bulk-user-modal', function(e) {
 
     let formData = new FormData();
     formData.append('_method', "POST");
-    endPointUrl = "{{ route('user.bulk') }}";
+    endPointUrl = "{{ route('api.user.bulk') }}";
     @if (isset($organization) && $organization!=null)
         formData.append('organization_id', '{{$organization->id}}');
     @endif
