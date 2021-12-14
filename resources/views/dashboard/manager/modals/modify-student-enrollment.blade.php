@@ -162,7 +162,7 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
         });
     });
     $(document).on('change', "#department_id", function(e) {
-       let endPointUrl = "{{route('department.semester.course')}}" ;  
+       let endPointUrl = "{{route('api.department.semester.course')}}" ;  
        let formData = new FormData();
        formData.append('semester_id',$('#semester_id').val());
        formData.append('department_id',$('#department_id').val());
@@ -191,7 +191,7 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
         });
     });
     $(document).on('change', "#semester_id", function(e) {
-       let endPointUrl = "{{route('department.semester.course')}}" ;  
+       let endPointUrl = "{{route('api.department.semester.course')}}" ;  
        let formData = new FormData();
        formData.append('semester_id',$('#semester_id').val());
        formData.append('department_id',$('#department_id').val());
