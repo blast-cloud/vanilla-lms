@@ -164,7 +164,7 @@ $(document).ready(function() {
         })
         .then((willDelete) => {
           if (willDelete) {
-            let endPointUrl = "{{ route('course_classes.destroy',0) }}"+itemId;
+            let endPointUrl = "{{ route('api.course_classes.destroy',0) }}"+itemId;
 
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
@@ -210,7 +210,7 @@ $(document).ready(function() {
         $.get( "{{URL::to('/')}}/api/courses/"+courseId).done(function( response ) {
 
             let actionType = "POST";
-            let endPointUrl = "{{ route('course_classes.store') }}";
+            let endPointUrl = "{{ route('api.course_classes.store') }}";
             let primaryId = $('#txt-courseClass-primary-id').val();
             
             let formData = new FormData();
@@ -218,7 +218,7 @@ $(document).ready(function() {
 
             if (primaryId>0){
                 actionType = "PUT";
-                endPointUrl = "{{ route('course_classes.update',0) }}"+primaryId;
+                endPointUrl = "{{ route('api.course_classes.update',0) }}"+primaryId;
                 formData.append('id', primaryId);
             }
             

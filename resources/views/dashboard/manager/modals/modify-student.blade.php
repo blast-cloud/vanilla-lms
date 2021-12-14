@@ -296,7 +296,7 @@ $('#div-bulk-student-modal-error').hide();
 
         if (primaryId>0){
             actionType = "PUT";
-            endPointUrl = "{{ route('students.update',0) }}"+primaryId;
+            endPointUrl = "{{ route('api.students.update',0) }}"+primaryId;
             formData.append('id', primaryId);
         }
         
@@ -355,7 +355,7 @@ $(document).on('click', '#btn-save-mdl-bulk-student-modal', function(e) {
 
     let formData = new FormData();
     formData.append('_method', "POST");
-    endPointUrl = "{{ route('students.bulk') }}";
+    endPointUrl = "{{ route('api.students.bulk') }}";
     @if (isset($organization) && $organization!=null)
         formData.append('organization_id', '{{$organization->id}}');
     @endif
@@ -442,7 +442,7 @@ $(document).on('click', '#btn-save-mdl-bulk-student-modal', function(e) {
         $('#btn-modify-user-password-reset').prop("disabled", true);
         $('.spinner1').show();
         let actionType = "POST";        
-        let endPointUrl = "{{ route('student.reset-psw') }}";
+        let endPointUrl = "{{ route('api.student.reset-psw') }}";
 
         let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());

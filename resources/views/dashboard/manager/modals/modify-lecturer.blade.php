@@ -364,7 +364,7 @@ $(document).on('click', '#btn-save-mdl-bulk-staff-modal', function(e) {
 
     let formData = new FormData();
     formData.append('_method', "POST");
-    endPointUrl = "{{ route('staff.bulk') }}";
+    endPointUrl = "{{ route('api.staff.bulk') }}";
     @if (isset($organization) && $organization!=null)
         formData.append('organization_id', '{{$organization->id}}');
     @endif
@@ -453,7 +453,7 @@ $(document).on('click', '#btn-save-mdl-bulk-staff-modal', function(e) {
         $('#btn-modify-user-password-reset').prop("disabled", true);
         $('.spinner1').show();
         let actionType = "POST";        
-        let endPointUrl = "{{ route('staff.reset-psw') }}";
+        let endPointUrl = "{{ route('api.staff.reset-psw') }}";
 
         let formData = new FormData();
         formData.append('_token', $('input[name="_token"]').val());
