@@ -1,6 +1,6 @@
 
 
-<div class="modal fade" id="mdl-enrollment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="mdl-enrollment-modal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
@@ -86,7 +86,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="mdl-unenrollment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="mdl-unenrollment-modal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
 
@@ -149,6 +149,10 @@
 $(document).ready(function() {
 $('.spinner1').fadeOut(1);
 $('.no-student').fadeOut(1);
+$('#department_id').select2();
+$('#semester_id').select2();
+$('#course_id').select2();
+ 
    
 
 $('#department_id').prepend('<option value=""> -- select department --</option>');
@@ -209,7 +213,7 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
                 $('#course_id').append('<option value=""> -- select course -- </option>')
                 if(response.data.length > 0){
                     $.each(response.data,function(k,v){
-                        $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + "taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
+                        $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + " taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
                     });
                    
                 }

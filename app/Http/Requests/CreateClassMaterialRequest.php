@@ -41,7 +41,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'grade_max_points' => 'required_if:type,class-examinations|numeric|min:0|max:100',
             'grade_contribution_pct' => 'required_if:type,class-examinations|numeric|min:0|max:'.$remaining_pct_grade,
             'grade_contribution_notes' => 'nullable|string|max:300',
-            'lecture_date' => 'required_if:type,lecture_classes|date|after_or_equal:today',
+            'lecture_date' => 'required_if:type,lecture_classes|date|after:today',
             'lecture_time' => 'required_if:type,lecture_classes|date_format:h:i A',
         ];
     }

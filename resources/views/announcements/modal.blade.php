@@ -15,7 +15,9 @@
                     <div class="row">
                         <div class="col-lg-12 ma-10">
                             @csrf
-
+                            <div id="spinner1" class="">
+                                <div class="loader" id="loader-1"></div>
+                            </div>
                             <input type="hidden" id="txt-announcement-primary-id" value="0" />
                             <div id="div-show-txt-announcement-primary-id">
                                 <div class="row">
@@ -50,10 +52,13 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
+    $("#spinner1").hide();
+
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-announcement-modal", function(e) {
         $('#div-announcement-modal-error').hide();
         $('#div-announcement-modal-footer').show();
+        $("#spinner1").hide();
         $('#mdl-announcement-modal').modal('show');
         $('#frm-announcement-modal').trigger("reset");
         $('#txt-announcement-primary-id').val(0);
@@ -69,6 +74,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-announcement-primary-id').show();
         $('#div-edit-txt-announcement-primary-id').hide();
+        $("#spinner1").show();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/announcements/"+itemId).done(function( data ) {
@@ -77,11 +83,13 @@ $(document).ready(function() {
             $('#div-announcement-modal-footer').hide();
 			$('#mdl-announcement-modal').modal('show');
 			$('#frm-announcement-modal').trigger("reset");
+           
 			$('#txt-announcement-primary-id').val(response.data.id);
 
             $('#spn_announcement_title').html(response.data.title);
             $('#spn_announcement_description').html(response.data.description);   
         });
+        $("#spinner1").hide();
     });
 
     //Show Modal for Edit
@@ -91,6 +99,7 @@ $(document).ready(function() {
 
         $('#div-show-txt-announcement-primary-id').hide();
         $('#div-edit-txt-announcement-primary-id').show();
+        $("#spinner1").show();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/announcements/"+itemId).done(function( data ) {
@@ -104,13 +113,14 @@ $(document).ready(function() {
             $('#title').val(response.data.title);
             $('#description').val(response.data.description);
         });
+        $("#spinner1").hide();
     });
 
     //Delete action
     $(document).on('click', ".btn-delete-mdl-announcement-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $("#spinner1").show();
         let itemId = $(this).attr('data-val');
         swal({
           title: "Are you sure you want to delete this Announcement?",
@@ -138,7 +148,9 @@ $(document).ready(function() {
                 success: function(result){
                     if(result.errors){
                         console.log(result.errors)
+                        $("#spinner1").hide();
                     }else{
+                        $("#spinner1").hide();
                         swal("Done!", "The Announcement record has been deleted!", "success");
                         location.reload(true);
                     }
@@ -152,6 +164,7 @@ $(document).ready(function() {
     $('#btn-save-mdl-announcement-modal').click(function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+        $("#spinner1").show();
 
         let actionType = "POST";
         // let endPointUrl = "{{URL::to('/')}}/api/announcements/create";
@@ -188,8 +201,10 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#div-announcement-modal-error').append('<li class="">'+value+'</li>');
                     });
+                    $("#spinner1").hide();
                 }else{
                     $('#div-announcement-modal-error').hide();
+                    $("#spinner1").hide();
                     window.setTimeout( function(){
                         swal("Done!", "The Announcement record saved successfully!", "success");
 						$('#div-announcement-modal-error').hide();
@@ -198,6 +213,7 @@ $(document).ready(function() {
                 }
             }, error: function(data){
                 console.log(data);
+                $("#spinner1").hide();
             }
         });
     });

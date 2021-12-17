@@ -76,11 +76,12 @@
                     @endphp
                     @if(!empty($db_settings) && $db_settings['cbx_class_enrollment'] != null)
                     <li><hr class="light-grey-hr mb-10"/></li>
-                    <li class="">
+                   {{-- <li class="">
                         <a href="#" id="btn-show-modify-student-modal" href="#" class="btn-new-mdl-enrollment-modal">
                             <div class="pull-left"><i class="zmdi zmdi-collection-text mr-20"></i><span class="right-nav-text">Enroll in class</span></div><div class="pull-right"></div><div class="clearfix"></div>
                         </a>
                     </li>
+                    --}}
                     @endif
                     <!-- Get current class list -->
                     @if (isset($class_schedules))

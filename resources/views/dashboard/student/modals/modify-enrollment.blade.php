@@ -1,6 +1,6 @@
 
 
-<div class="modal fade" id="mdl-enrollment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="mdl-enrollment-modal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
@@ -57,7 +57,7 @@
                                         </div>
                                         <!-- Course Id Field -->
                                         --<div id="div-course_id" class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
+                                            <label class="control-label mb-10 col-sm-3" for="course_id">Course Class</label>
                                             <div class="col-sm-9">
                                                 {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
                                                 <select class="form-control select2" id="course_id" name="course_id">
@@ -93,6 +93,9 @@
 @section('js-113')
 <script type="text/javascript">
 $(document).ready(function() {
+    $('#department_id').select2();
+    $('#semester_id').select2();
+    $('#course_id').select2();
  
     $(document).on('change', "#semester_id", function(e) {
        let endPointUrl = "{{route('api.department.semester.course')}}" ;  
