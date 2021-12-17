@@ -30,7 +30,7 @@
                 <div class="pull-right">
                     <div class="pull-left inline-block dropdown">
                         <a id="btn-show-modify-student-modal" href="#" class="btn-new-mdl-enrollment-modal btn btn-primary btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Enroll in Class</a>
-                        <a href="#" data-toggle="modal" data-target="#mdl-unenrollment-modal" class="btn btn-danger btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Widthraw from class</a>
+                        <a href="#" data-toggle="modal" data-target="#mdl-unenrollment-modal" class="btn btn-danger btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Withdraw from class</a>
                     </div>
                 </div>
                 <div class="clearfix"></div>

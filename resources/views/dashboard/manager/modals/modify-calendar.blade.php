@@ -128,7 +128,7 @@ $(document).ready(function() {
         })
         .then((willDelete) => {
           if (willDelete) {
-            let endPointUrl = "{{ route('calendar_entries.destroy',0) }}"+itemId;
+            let endPointUrl = "{{ route('api.calendar_entries.destroy',0) }}"+itemId;
 
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
@@ -162,7 +162,7 @@ $(document).ready(function() {
         $('#btn-save-mdl-calendarEntry-modal').prop("disabled", true);
         let actionType = "POST";
         // let endPointUrl = "{{URL::to('/')}}/api/calendar_entries/create";
-        let endPointUrl = "{{ route('calendar_entries.store') }}";
+        let endPointUrl = "{{ route('api.calendar_entries.store') }}";
         let primaryId = $('#txt-calendarEntry-primary-id').val();
         $('.spinner1').show();
         let formData = new FormData();
@@ -171,7 +171,7 @@ $(document).ready(function() {
         if (primaryId>0){
             actionType = "PUT";
             // endPointUrl = "{{URL::to('/')}}/api/calendar_entries/"+itemId;
-            endPointUrl = "{{ route('calendar_entries.update',0) }}"+primaryId;
+            endPointUrl = "{{ route('api.calendar_entries.update',0) }}"+primaryId;
             formData.append('id', primaryId);
         }
         
