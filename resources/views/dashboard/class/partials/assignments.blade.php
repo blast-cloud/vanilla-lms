@@ -88,13 +88,11 @@
                             $submission = $item->submissions()->where('student_id', $current_user->student_id)
                                     ->where('class_material_id', $item->id)
                                     ->where('course_class_id', $item->course_class_id)->first();
-                            $assignment_graded = $item->submissions()->where('student_id', $current_user->student_id)
-                                    ->where('class_material_id', $item->id)
-                                    ->where('course_class_id', $item->course_class_id)->pluck('grade_id')->first();
+                                    $is_assignment_graded = ($submission && $submission->grade_id != null) ? true : false;
                             $assignment_due_date =  strtotime($item->due_date) - time();
                     @endphp
 
-                    @if (($current_user->student_id) && $assignment_graded !=null )
+                    @if (($current_user->student_id) && $is_assignment_graded == true )
 
                         {{ $submission->grade->score  }} / {{ $item->grade_max_points }} 
                         
@@ -119,7 +117,7 @@
                 </div>
                 <div class="col-md-2">
 
-                    @if (($current_user->student_id!=null) && ($assignment_graded ==null)  && (($item->allow_late_submission == false &&  $assignment_due_date > 0) || $item->allow_late_submission == true  ))
+                    @if (($current_user->student_id!=null) && (!$is_assignment_graded)  && (($item->allow_late_submission == false &&  $assignment_due_date > 0) || $item->allow_late_submission == true  ))
                     <button href="#" id="btn-show-submit-assignment-modal" class="btn btn-xs btn-primary btn-show-submit-assignment-modal"
                     data-val="{{$item->id}}" data-val-course-class-id="{{$item->course_class_id}}" data-val-student-id="{{$current_user->student_id}}" data-val-assignment-title="{{$item->title}}"
                     data-val-submission-id="{{ ($submission) ? $submission->id : '0' }}" >

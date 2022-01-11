@@ -29,7 +29,7 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_assignment_assignment_number">Assignment Number</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_assignment_assignment_number', null, ['id'=>'txt_assignment_assignment_number','min' => '0', 'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_assignment_assignment_number', null, ['id'=>'txt_assignment_assignment_number','min' => '0', 'class' => 'form-control border-danger']) !!}
                                         </div>
                                     </div>
 
@@ -266,6 +266,7 @@ $(document).ready(function() {
             contentType: false,
             dataType: 'json',
             success: function(result){
+                console.log(result);
                 if(result.errors){
                     $('#spinner').hide();
                     $('#btn-modify-assignment').prop("disabled", false);
@@ -274,6 +275,8 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#modify-assignment-error-div').append('<li class="">'+value+'</li>');
+                        $('#'+key).css('border-color','red');
+                        console.log( $('#'+key));
                     });
 
                 }else{
