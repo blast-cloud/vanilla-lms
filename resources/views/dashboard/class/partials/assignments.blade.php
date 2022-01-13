@@ -51,7 +51,7 @@
             
                             <br/><br/>
                             @if ($current_user->lecturer_id!=null)
-                            <a class="text-info btn-edit-modify-assignment-modal" href="#" alt="Edit Assignment" style="opacity:0.5;font-size:85%" data-val="{{$item->id}}">
+                            <a class="text-info btn-edit-modify-assignment-modal" href="#" alt="Edit Assignment" style="opacity:0.5;font-size:85%" data-val="{{$item->id}}" allow-late-submission={{$item->allow_late_submission}}>
                                 <i class="fa fa-pencil" style=""></i>&nbsp;Edit
                             </a> &nbsp;&nbsp;
                             <a class="text-info btn-delete-assignment" href="#"  alt="Delete Assignment" style="opacity:0.5;font-size:85%" data-val="{{$item->id}}">

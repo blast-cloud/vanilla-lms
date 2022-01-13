@@ -79,9 +79,9 @@
 
                                     <!-- Assignment Grade Contribution Pct Field -->
                                     <div class="form-group">
-                                        <label class="control-label mb-10 col-sm-3" for="txt_allow_late_submission">Allow Late Submission</label>
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_allow_late_submission">Allow Late Submission</label>
                                         <div class="col-sm-2">
-                                            {!! Form::checkbox('txt_allow_late_submission', 1, ['id'=>'txt_allow_late_submission',  'class' => 'form-control']) !!}
+                                            {!! Form::checkbox('txt_assignment_allow_late_submission',1, false, ['id'=>'txt_assignment_allow_late_submission', 'class' => 'formcontrol' ]) !!}
                                         </div>
                                     </div>
 
@@ -133,11 +133,11 @@ $(document).ready(function() {
         sideBySide: true,
         minDate: new Date()
     });
-
     //Show Modal
     $('#btn-show-modify-assignment-modal').click(function(){
         $('#spinner').hide();
         $('#modify-assignment-error-div').hide();
+        $('#txt_assignment_allow_late_submission').prop('checked',false);
         $('#modify-assignment-modal').modal('show');
         $('#form-modify-assignment').trigger("reset");
         $('#txt_assignment_id').val(0);
@@ -172,7 +172,16 @@ $(document).ready(function() {
         if(remainingGradePct <= 0){
             $('#txt_assignment_pct_grade_message').text("You have reached 100% grade limit for this course");      
         }
-        $('#txt_allow_late_submission').val($('#spn_ass_'+itemId+'_submission').html());
+        //console.log($('#spn_ass_'+itemId+'_submission').html());
+        
+        console.log($(this).attr('allow-late-submission'));
+        if($(this).attr('allow-late-submission') == 1){
+            //$('#txt_assignment_allow_late_submission').val($('#spn_ass_'+itemId+'_submission').html());
+            $('#txt_assignment_allow_late_submission').prop('checked',true);
+        }else{
+            $('#txt_assignment_allow_late_submission').prop('checked',false);
+        }
+        
         $('#txt_assignment_due_date').val($('#spn_ass_'+itemId+'_date').html());
         $('#txt_assignment_reference_material_url').val($('#spn_ass_'+itemId+'_url').html());
     });
@@ -222,14 +231,14 @@ $(document).ready(function() {
 
 
     function save_assignments_details(fileDetails){
-        // alert($("input[name=txt_allow_late_submission]:checked").val())
+        // alert($("input[name=txt_assignment_allow_late_submission]:checked").val())
         $('#spinner').show();
         $('#btn-modify-assignment').prop("disabled", true);
         $('.input-border-error').removeClass("input-border-error");
         let actionType = "POST";
         let endPointUrl = "{{ route('classMaterials.store') }}";
         let primaryId = $('#txt_assignment_id').val();
-        let allow_late_submission = $("input[name=txt_allow_late_submission]:checked").val();
+        let allow_late_submission = $("input[name=txt_assignment_allow_late_submission]:checked").val();
         if(allow_late_submission == undefined ){
             allow_late_submission = '0';
         }
