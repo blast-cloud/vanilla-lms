@@ -96,6 +96,7 @@ $(document).ready(function() {
 
     //Show Modal
     $('.btn-assignment-grade').click(function(){
+        $('input').removeClass("input-border-error");
         $('#spinner1').hide();
         $('#submit-assignment-info-div').hide();
         $('#submit-assignment-error-div').hide();
@@ -137,6 +138,7 @@ $(document).ready(function() {
     //Save Grade
     $('#btn-submit-grade').click(function(e) {
         e.preventDefault();
+        $('input').removeClass("input-border-error");
 
         //check for internet status 
         if (!window.navigator.onLine) {
@@ -187,6 +189,7 @@ $(document).ready(function() {
                     $('#submit-assignment-error-div').show();
                     $.each(result.errors, function(key, value){
                         $('#submit-assignment-error-div').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
 
                 }else{

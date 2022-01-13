@@ -67,6 +67,7 @@ $(document).ready(function() {
     //Show Modal
     $('#btn-show-modify-announcement-modal').click(function(){
         $('#modify-announcement-error-div').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#modify-announcement-modal').modal('show');
         $('.spinner1').hide();
         $('#form-modify-announcement').trigger("reset");
@@ -76,6 +77,7 @@ $(document).ready(function() {
     //Show Modal for Edit Entry
     $('.btn-edit-modify-announcement-modal').click(function(){
         $('#modify-announcement-error-div').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#modify-announcement-modal').modal('show');
         $('#form-modify-announcement').trigger("reset");
         $('.spinner1').hide();
@@ -182,6 +184,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#modify-announcement-error-div').append('<li class="">'+value+'</li>');
+                        $('#txt_announcement_'+key).addClass("input-border-error");
                     });
 
                 }else{

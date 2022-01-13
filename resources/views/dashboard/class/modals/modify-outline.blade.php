@@ -27,7 +27,7 @@
                                     <!-- Description Field -->
                                     <div class="form-group">
                                         <div class="col-sm-12">
-                                            {!! Form::textarea('txt_outline_description', null, ['id'=>'txt_outline_description','rows'=>'15','class' => 'form-control']) !!}
+                                            {!! Form::textarea('txt_outline_outline', null, ['id'=>'txt_outline_outline','rows'=>'15','class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
@@ -56,9 +56,10 @@ $(document).ready(function() {
     //Show Modal
     $('#btn-show-modify-outline-modal').click(function(){
         $('#modify-outline-error-div').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#modify-outline-modal').modal('show');
         $('.spinner1').hide();
-        $('#txt_outline_description').val($('#spn_class_outline').html());
+        $('#txt_outline_outline').val($('#spn_class_outline').html());
     });
 
     //Save lecturer
@@ -71,7 +72,7 @@ $(document).ready(function() {
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', 'PUT');
         formData.append('id', {{ ($courseClass) ?  $courseClass->id : ''}});
-        formData.append('outline', $('#txt_outline_description').val());
+        formData.append('outline', $('#txt_outline_outline').val());
 
         let artifact_url = "{{ route('dashboard.course-class-outline', ($courseClass) ? $courseClass->id : '') }}";
         $.ajax({
@@ -91,6 +92,8 @@ $(document).ready(function() {
                     $('#btn-modify-outline').prop("disabled", false);
                     $.each(result.errors, function(key, value){
                         $('#modify-outline-error-div').append('<li class="">'+value+'</li>');
+                        $('#txt_outline_'+key).addClass("input-border-error");
+                        console.log(key);
                     });
 
                 }else{

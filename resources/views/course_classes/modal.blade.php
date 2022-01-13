@@ -53,6 +53,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-courseClass-modal", function(e) {
         $('#div-courseClass-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-courseClass-modal').modal('show');
         $('#frm-courseClass-modal').trigger("reset");
         $('#txt-courseClass-primary-id').val(0);
@@ -86,7 +87,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-courseClass-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-courseClass-primary-id').hide();
         $('#div-edit-txt-courseClass-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -184,6 +185,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-courseClass-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-courseClass-modal-error').hide();

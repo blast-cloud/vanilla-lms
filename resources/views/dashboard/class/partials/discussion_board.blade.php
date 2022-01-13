@@ -73,9 +73,9 @@
 
                                         <!-- Posting Field -->
                                         <div id="div-description" class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="txt_forum_description">Description</label>
+                                            <label class="control-label mb-10 col-sm-3" for="txt_forum_posting">Description</label>
                                             <div class="col-sm-9">
-                                                {!! Form::textarea('txt_forum_description', null, ['id'=>'txt_forum_description', 'class' => 'form-control']) !!}
+                                                {!! Form::textarea('txt_forum_posting', null, ['id'=>'txt_forum_posting', 'class' => 'form-control']) !!}
                                             </div>
                                         </div>
 
@@ -105,6 +105,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-forum-modal", function(e) {
         $('#div-forum-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-forum-modal').modal('show');
         $('#frm-forum-modal').trigger("reset");
         $('#txt-forum-primary-id').val(0);
@@ -118,6 +119,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-forum-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+        $('.input-border-error').removeClass("input-border-error");
         $('.spinner1').hide();
         $('#div-show-txt-forum-primary-id').hide();
         $('#div-edit-txt-forum-primary-id').show();
@@ -130,7 +132,7 @@ $(document).ready(function() {
             $('#txt-forum-primary-id').val(response.data.id);
 
             $('#txt_forum_group_name').val(response.data.group_name);
-            $('#txt_forum_description').val(response.data.posting);
+            $('#txt_forum_posting').val(response.data.posting);
         });
     });
 
@@ -199,7 +201,7 @@ $(document).ready(function() {
         
         formData.append('_method', actionType);
         formData.append('group_name', $('#txt_forum_group_name').val());
-        formData.append('posting', $('#txt_forum_description').val());
+        formData.append('posting', $('#txt_forum_posting').val());
         formData.append('course_class_id', {{$courseClass->id}});
 
         $.ajax({
@@ -218,6 +220,8 @@ $(document).ready(function() {
                     $('#btn-save-mdl-forum-modal').prop("disabled", false);
                     $.each(result.errors, function(key, value){
                         $('#div-forum-modal-error').append('<li class="">'+value+'</li>');
+                        $('#txt_forum_'+key).addClass("input-border-error");
+                        console.log(key);
                     });
                 }else{
                     $('#div-forum-modal-error').hide();

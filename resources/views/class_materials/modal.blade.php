@@ -53,6 +53,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-classMaterial-modal", function(e) {
         $('#div-classMaterial-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-classMaterial-modal').modal('show');
         $('#frm-classMaterial-modal').trigger("reset");
         $('#txt-classMaterial-primary-id').val(0);
@@ -65,7 +66,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-show-mdl-classMaterial-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-classMaterial-primary-id').show();
         $('#div-edit-txt-classMaterial-primary-id').hide();
         let itemId = $(this).attr('data-val');
@@ -86,7 +87,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-classMaterial-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-classMaterial-primary-id').hide();
         $('#div-edit-txt-classMaterial-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -184,6 +185,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-classMaterial-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-classMaterial-modal-error').hide();

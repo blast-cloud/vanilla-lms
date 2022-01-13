@@ -54,6 +54,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-student-modal", function(e) {
         $('#div-student-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-student-modal').modal('show');
         $('#frm-student-modal').trigger("reset");
         $('#txt-student-primary-id').val(0);
@@ -87,7 +88,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-student-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-student-primary-id').hide();
         $('#div-edit-txt-student-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -194,6 +195,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-student-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).adddClass("input-border-error");
                     });
                 }else{
                     $('#div-student-modal-error').hide();

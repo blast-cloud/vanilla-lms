@@ -243,6 +243,7 @@ $('#div-bulk-user-modal-error').hide();
     //Show Modal for New Entry
     $('#btn-show-modify-user-details-modal').click(function(){
         $('#modify-user-details-error-div').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#div_registration_num').hide();
         $('.modal-footer').show();
         $('.spinner1').hide();
@@ -262,6 +263,7 @@ $('#div-bulk-user-modal-error').hide();
 
         let itemId = $(this).attr('data-val');
         $('#txt_user_account_id').val(itemId);
+        $('.input-border-error').removeClass("input-border-error");
         $('#div_account_type').hide();
         $('.spinner1').hide();
 
@@ -474,6 +476,7 @@ $('#div-bulk-user-modal-error').hide();
                     
                     $.each(result.errors, function(key, value){
                         $('#modify-user-details-error-div').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
 
                 }else{

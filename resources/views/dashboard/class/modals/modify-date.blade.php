@@ -72,6 +72,7 @@ $(document).ready(function() {
     //Show Modal
     $('#btn-show-modify-date-modal').click(function(){
         $('#modify-date-error-div').hide();
+        $('.input-border-error').addClass("input-border-error");
         $('#modify-date-modal').modal('show');
         $('.spinner1').hide();
         $('#txt_date_id').val(0);
@@ -83,6 +84,7 @@ $(document).ready(function() {
     //Show Modal for edit
     $('.btn-edit-modify-date-modal').click(function(){
         $('#modify-date-error-div').hide();
+        $('.input-border-error').addClass("input-border-error");
         $('#modify-date-modal').modal('show');
         $('#form-modify-date-modal').trigger("reset");
         $('.spinner1').hide();
@@ -179,6 +181,7 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#modify-date-error-div').append('<li class="">'+value+'</li>');
+                        $('#txt_due_date_'+key).addClass("input-border-error");
                     });
 
                 }else{

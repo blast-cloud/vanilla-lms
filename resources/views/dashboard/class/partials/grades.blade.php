@@ -179,15 +179,19 @@ $(document).ready(function() {
                 $('.score-input').css('border-color','#ccc');
 
                 if(result.data){
+                    console.log(result);
                     $.each(result.data, function(key, value){ 
                         $('.'+key).val(value); 
+                        
                     });
                 }
 
                 if(result.message && Object.keys(result.message).length>0){
                     // swal("Done!", "Grades saved successfully with some issues.", "success");
                     $.each(result.message, function(key, value){
+                        console.log(result)
                         $('#lst_grade_messages').append('<li class="text-danger">'+value+'</li>');
+                        
                         $('.'+key).css('border-color','red');
                     });
                 }else{

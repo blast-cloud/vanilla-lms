@@ -57,7 +57,7 @@ $(document).ready(function() {
         $('#mdl-enrollment-modal').modal('show');
         $('#frm-enrollment-modal').trigger("reset");
         $('#txt-enrollment-primary-id').val(0);
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-enrollment-primary-id').hide();
         $('#div-edit-txt-enrollment-primary-id').show();
     });
@@ -87,7 +87,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-enrollment-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-enrollment-primary-id').hide();
         $('#div-edit-txt-enrollment-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -194,6 +194,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-enrollment-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-enrollment-modal-error').hide();

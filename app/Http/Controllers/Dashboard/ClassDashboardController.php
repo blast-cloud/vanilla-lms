@@ -437,7 +437,7 @@ class ClassDashboardController extends AppBaseController
                     $this->gradeRepository->create($grade_query);
                 }
 
-                $final_scores["fs-{$grade->student_matric}"] = $final_score;
+                $final_scores["fs-{$grade->student_matric}"] = $final_score;   
 
             } else {
                 //No student

@@ -53,6 +53,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-grade-modal", function(e) {
         $('#div-grade-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-grade-modal').modal('show');
         $('#frm-grade-modal').trigger("reset");
         $('#txt-grade-primary-id').val(0);
@@ -65,7 +66,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-show-mdl-grade-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-grade-primary-id').show();
         $('#div-edit-txt-grade-primary-id').hide();
         let itemId = $(this).attr('data-val');
@@ -184,6 +185,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-grade-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-grade-modal-error').hide();

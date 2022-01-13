@@ -58,6 +58,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-announcement-modal", function(e) {
         $('.spinner1').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('.modal-footer').show();
         $('#div-announcement-modal-error').hide();
         $('#mdl-announcement-modal').modal('show');
@@ -95,6 +96,7 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('.modal-footer').show();
         $('#div-show-txt-announcement-primary-id').hide();
         $('#div-edit-txt-announcement-primary-id').show();
@@ -205,6 +207,7 @@ $(document).ready(function() {
                     $('#btn-save-mdl-announcement-modal').prop("disabled", false);
                     $.each(data.errors, function(key, value){
                         $('#div-announcement-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-announcement-modal-error').hide();

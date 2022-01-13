@@ -27,9 +27,9 @@
 
                                     <!-- examination Number Field -->
                                     <div class="form-group">
-                                        <label class="control-label mb-10 col-sm-3" for="txt_examination_number">examination Number</label>
+                                        <label class="control-label mb-10 col-sm-3" for="txt_examination_examination_number">examination Number</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_examination_number', null, ['id'=>'txt_examination_number','min' => '0', 'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_examination_examination_number', null, ['id'=>'txt_examination_examination_number','min' => '0', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
@@ -62,17 +62,17 @@
 
                                     <!-- examination Max Score Field -->
                                     <div class="form-group">
-                                        <label class="control-label mb-10 col-sm-3" for="txt_examination_max_score">Max Score</label>
+                                        <label class="control-label mb-10 col-sm-3" for="txt_examination_grade_max_points">Max Score</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_examination_max_score', null, ['id'=>'txt_examination_max_score','min' => '0', 'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_examination_grade_max_points', null, ['id'=>'txt_examination_grade_max_points','min' => '0', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
                                     <!-- examination Grade Contribution Pct Field -->
                                     <div class="form-group">
-                                        <label class="control-label mb-10 col-sm-3" for="txt_examination_score_contriution_pct">Grade Contribution(%)</label>
+                                        <label class="control-label mb-10 col-sm-3" for="txt_examination_grade_contribution_pct">Grade Contribution(%)</label>
                                         <div class="col-md-8">
-                                            {!! Form::number('txt_examination_score_contriution_pct', null, ['id'=>'txt_examination_score_contriution_pct','min'=>'0' ,'placeholder'=>"%",'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_examination_grade_contribution_pct', null, ['id'=>'txt_examination_grade_contribution_pct','min'=>'0' ,'placeholder'=>"%",'class' => 'form-control']) !!}
                                             <small id="txt_pct_grade_message" class="text-danger"></small>
                                         </div>
                                         
@@ -116,18 +116,20 @@ $(document).ready(function() {
         $('.spinner1').hide();
         $('#modify-examination-error-div').hide();
         $('#modify-examination-modal').modal('show');
+        $('.input-border-error').removeClass("input-border-error");
         $('#form-modify-examination').trigger("reset");
         $('#txt_examination_id').val(0);
         let remainingGradePct = {!! json_encode($remainingGradePct) !!}
         if(remainingGradePct <= 0){
             $('#txt_pct_grade_message').text("You have reached 100% grade limit for this course");
         }
-        $('#txt_examination_score_contriution_pct').attr('max',remainingGradePct);
+        $('#txt_examination_grade_contribution_pct').attr('max',remainingGradePct);
     });
 
     //Show Modal for Edit Entry
     $('.btn-edit-modify-examination-modal').click(function(){
         $('#modify-examination-error-div').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#modify-examination-modal').modal('show');
         $('#form-modify-examination').trigger("reset");
         $('.spinner1').hide();
@@ -137,14 +139,14 @@ $(document).ready(function() {
         //Set title and url
         $('#txt_examination_title').val($('#spn_exam_'+itemId+'_title').html());
         $('#txt_examination_description').val($('#spn_exam_'+itemId+'_desc').html());
-        $('#txt_examination_number').val($('#spn_exam_'+itemId+'_num').html());
+        $('#txt_examination_examination_number').val($('#spn_exam_'+itemId+'_num').html());
 
-        $('#txt_examination_max_score').val($('#spn_exam_'+itemId+'_max_points').html());
-        $('#txt_examination_score_contriution_pct').val($('#spn_exam_'+itemId+'_contrib').html());
+        $('#txt_examination_grade_max_points').val($('#spn_exam_'+itemId+'_max_points').html());
+        $('#txt_examination_grade_contribution_pct').val($('#spn_exam_'+itemId+'_contrib').html());
         let remainingGradePct = {!! json_encode($remainingGradePct) !!}
-        let pctGrade = $('#txt_examination_score_contriution_pct').val();
+        let pctGrade = $('#txt_examination_grade_contribution_pct').val();
         let total = parseInt(pctGrade) + parseInt(remainingGradePct);
-        $('#txt_examination_score_contriution_pct').attr('max',total);
+        $('#txt_examination_grade_contribution_pct').attr('max',total);
         if(remainingGradePct <= 0){
             $('#txt_pct_grade_message').text("You have reached 100% grade limit for this course");
         }
@@ -214,13 +216,13 @@ $(document).ready(function() {
         formData.append('_method', actionType);
         formData.append('type', 'class-examinations');
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
-        formData.append('examination_number', $('#txt_examination_number').val());
+        formData.append('examination_number', $('#txt_examination_examination_number').val());
         formData.append('title', $('#txt_examination_title').val());
         formData.append('description', $('#txt_examination_description').val());
         formData.append('due_date', $('#txt_examination_due_date').val());
-        formData.append('grade_max_points', $('#txt_examination_max_score').val());
-        formData.append('remaining_pct_grade',$('#txt_examination_score_contriution_pct').attr('max'));
-        formData.append('grade_contribution_pct', $('#txt_examination_score_contriution_pct').val());
+        formData.append('grade_max_points', $('#txt_examination_grade_max_points').val());
+        formData.append('remaining_pct_grade',$('#txt_examination_grade_contribution_pct').attr('max'));
+        formData.append('grade_contribution_pct', $('#txt_examination_grade_contribution_pct').val());
         formData.append('id', primaryId );
 
     
@@ -245,6 +247,7 @@ $(document).ready(function() {
                     $('#btn-modify-examination').prop("disabled", false);
                     $.each(result.errors, function(key, value){
                         $('#modify-examination-error-div').append('<li class="">'+value+'</li>');
+                        $('#txt_examination_'+key).addClass("input-border-error");
                     });
 
                 }else{

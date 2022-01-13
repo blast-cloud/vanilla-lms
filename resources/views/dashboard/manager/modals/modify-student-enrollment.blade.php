@@ -225,7 +225,7 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
     });
          //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-enrollment-modal", function(e) {
-        
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-enrollment-modal-error').hide();
         $('#mdl-enrollment-modal').modal('show');
         $('#frm-enrollment-modal').trigger("reset");
@@ -266,6 +266,7 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-enrollment-primary-id').hide();
         $('#div-edit-txt-enrollment-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -374,6 +375,7 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
                     $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#div-enrollment-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-enrollment-modal-error').hide();

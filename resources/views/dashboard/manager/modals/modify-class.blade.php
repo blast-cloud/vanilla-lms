@@ -88,6 +88,7 @@ $(document).ready(function() {
         $('#course_id').prepend('<option value="" selected> Select Course  </option>');
         $('#lecturer_id').prepend('<option value="" selected> Select Lecturer</option>');
         $('#div-courseClass-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('.spinner1').hide();
         $('.modal-footer').show();
         $('#mdl-courseClass-modal').modal('show');
@@ -132,6 +133,7 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.spinner1').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('.modal-footer').show();
         $('#div-show-txt-courseClass-primary-id').hide();
         $('#div-edit-txt-courseClass-primary-id').show();
@@ -247,6 +249,8 @@ $(document).ready(function() {
                         $('#btn-save-mdl-courseClass-modal').prop("disabled", false);
                         $.each(result.errors, function(key, value){
                             $('#div-courseClass-modal-error').append('<li class="">'+value+'</li>');
+                            $('#'+key).addClass("input-border-error");
+                           
                         });
                     }else{
                         $('#div-courseClass-modal-error').hide();

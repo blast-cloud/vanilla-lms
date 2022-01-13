@@ -173,6 +173,7 @@ $('#div-bulk-staff-modal-error').hide();
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-lecturer-modal", function(e) {
         $('#div-lecturer-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-lecturer-modal').modal('show');
         $('#frm-lecturer-modal').trigger("reset");
         $('#txt-lecturer-primary-id').val(0);
@@ -211,6 +212,7 @@ $('#div-bulk-staff-modal-error').hide();
     $(document).on('click', ".btn-edit-mdl-lecturer-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+        $('.input-border-error').removeClass("input-border-error");
         $('.spinner1').hide();
         $('.modal-footer').show();
         $('#div-show-txt-lecturer-primary-id').hide();
@@ -331,6 +333,7 @@ $('#div-bulk-staff-modal-error').hide();
 					$('#div-lecturer-modal-error').show();
                     $.each(result.errors, function(key, value){
                         $('#div-lecturer-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
 
                 }else{
