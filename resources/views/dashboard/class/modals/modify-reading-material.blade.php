@@ -193,7 +193,6 @@ $(document).ready(function() {
             formData.append('upload_file_path', fileDetails[0]);
             formData.append('upload_file_type', fileDetails[1]);
         }
-        formData.append('reference_material_url', $('#txt_reading_material_reference_material_url').val());
 
         $.ajax({
             url:endPointUrl,

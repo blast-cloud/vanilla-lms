@@ -92,6 +92,11 @@
                             <i class="fa fa-download mr-5" class="text-primary" ></i>Download
                         </a>
                         @endif
+                        @if ($current_user->lecturer_id !=null)
+                        <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary" target="_blank">
+                            <i class="fa fa-download mr-5" class="text-primary" ></i>View
+                        </a>
+                        @endif
                         @if ($current_user->manager_id !=null)
                         <a href="{{ asset($item->upload_file_path) }}" style="font-size:85%" class="text-primary" target="_blank" id="">
                             <i class="fa fa-download mr-5" class="text-primary"></i>Download
