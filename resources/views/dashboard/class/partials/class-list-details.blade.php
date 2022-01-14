@@ -49,7 +49,7 @@
                                                 @endphp
                                                 @if($message == null)
                                                     <i class="text-danger fa fa-warning mr-5"></i>
-                                                    <span class="text-danger">You seem not to be participating in this class. Kindly followup on reading materials, assignments, and use the discussion forum if you have questions.</span>
+                                                    <span class="text-danger">You seem not to be participating in this class. Kindly follow up on reading materials, assignments, and use the discussion forum if you have questions.</span>
                                                 @endif
                                                 @if($message == 'low')
                                                     <i class="text-danger fa fa-warning mr-5"></i>

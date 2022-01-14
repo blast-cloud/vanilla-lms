@@ -41,7 +41,7 @@
                             $score_color = "text-primary";
                         }
                     @endphp
-                    <td class="participation_score" data-participation-score="{{ucwords($score)}}" data-participation-matric="{{$item['matriculation_number']}}">
+                    <td class="participation_score" data-participation-score="{{ucwords($score)}}" data-participation-matric="{{$item['matriculation_number']}}" data-student-id ="{{$item['student_id']}}">
                         {{$item['first_name']}}  {{$item['last_name']}} - {{$item['matriculation_number']}}
                     </td>
                     <td class="text-center">
