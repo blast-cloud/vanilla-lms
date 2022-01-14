@@ -11,7 +11,9 @@
 
             <div class='modal-body'>
                 <input type="hidden" id="txt-parent-forum-id" value="0" />
-
+                <div id="spinner1" class="spinner1">
+                    <div class="loader" id="loader-1"></div>
+                </div>
                 <div class='chat-cmplt-wrap chat-for-widgets-1' style='height:auto;'>
 
                     <div class='recent-chat-box-wrap' style='width:100%;'>
@@ -66,6 +68,7 @@ $(document).ready(function() {
     });
 
     function load_comment_list(itemId){
+        console.log("i am here")
         $.get( "{{URL::to('/')}}/api/forums?parent_forum_id="+itemId).done(function( response ) {
             if (response && response.data){
                 $('#forum-comment-list').empty();
@@ -83,6 +86,7 @@ $(document).ready(function() {
                     }
                     $('#forum-comment-list').append(commentItem);
                 });
+                $('.spinner1').hide();
             }
         });
     }
@@ -104,7 +108,7 @@ $(document).ready(function() {
           if (willDelete) {
             let actionType = 'DELETE';
             let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
-
+            $('.spinner1').hide();
             let formData = new FormData();
             formData.append('_token', $("input[name='_token']").val());
             formData.append('_method', actionType);
@@ -120,7 +124,9 @@ $(document).ready(function() {
                 success: function(result){
                     if(result.errors){
                         console.log(result.errors)
+                        $('.spinner1').hide();
                     }else{
+                        $('.spinner1').hide();
                         swal("Done!","The Posting has been deleted!","success");
                         location.reload(true);
                     }
@@ -134,6 +140,8 @@ $(document).ready(function() {
         itemId = $('#txt-parent-forum-id').val();
 
         if (e.which==13 && $('#comment-text').val().length > 2){
+            console.log('i am submitting');
+            $('.spinner1').show();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
             e.preventDefault();
 
@@ -156,10 +164,12 @@ $(document).ready(function() {
                 data: formData,
                 success: function(data){
                     load_comment_list($('#txt-parent-forum-id').val());
+                    $('.spinner1').hide();
                     $('#comment-text').val("");
                 },
                 error: function(data){
                     console.log(data);
+                    $('.spinner1').hide();
                 }
             });
         }
