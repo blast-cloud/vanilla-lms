@@ -15,7 +15,7 @@
                     <div class="loader" id="loader-1"></div>
                 </div>
                 <div class='chat-cmplt-wrap chat-for-widgets-1' style='height:auto;'>
-
+                    <a href='#' class='btn-edit-modify-forum-comment-modal' id="temp"><i class='text-info fa fa-pencil ml-5' style='font-size:80%;opacity:0.5;'></i></a>
                     <div class='recent-chat-box-wrap' style='width:100%;'>
                         <div class='recent-chat-wrap'>
                             <div class='panel-wrapper collapse in'>
@@ -51,13 +51,63 @@
     </div>
 </div>
 
+<div class="modal fade" id="modify-forum-comment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 id="modify-forum-comment-title" class="modal-title">Edit Post</h4>
+            </div>
+
+            <div class="modal-body">
+                <div id="modify-forum-comment-error-div" class="alert alert-danger" role="alert"></div>
+                <form class="form-horizontal" id="form-modify-forum-comment" role="form" method="POST" enctype="multipart/form-data" action="">
+                    <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
+                        <div class="col-lg-11 ma-10">
+                            @csrf
+                            
+                            <div class="form-wrap">
+                                
+                                <div class="col-sm-12">
+                                    <div id="spinner" class="spinner">
+                                        <div class="loader" id="loader-1"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="hidden" name="comment_id" value="0">
+                                        <input type="hidden" name="parent_id" value="0">
+                                        <label class="control-label mb-10 col-sm-2" for="txt_update_comment">Comment</label>
+                                        <div class="col-sm-9">
+                                            {!! Form::text('txt_update_comment', null, ['id'=>'txt_update_comment','class' => 'form-control']) !!}
+                                        </div> 
+                                    </div>
+
+                                </div>
+                                
+                            </div>                            
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btn-modify-forum-comment" value="add">update</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 @section('js-133')
 <script type='text/javascript'>
 $(document).ready(function() {
 
     //Show Modal
     $('.btn-show-view-forum-modal').click(function(e){
-
         let itemId = $(this).attr('data-val');
         $('#view-forum-title').html($('#spn_forum_'+itemId+'_title').html());
         $('#txt-parent-forum-id').val(itemId);
@@ -67,29 +117,76 @@ $(document).ready(function() {
         load_comment_list(itemId);
     });
 
+    
+
     function load_comment_list(itemId){
-        console.log("i am here")
-        $.get( "{{URL::to('/')}}/api/forums?parent_forum_id="+itemId).done(function( response ) {
+        $.get( "{{URL::to('/')}}/api/forums/comments/"+itemId).done(function( response ) {
+            
             if (response && response.data){
                 $('#forum-comment-list').empty();
-                response.data.forEach(function (item){
+                $.each(response.data, function(key, item){
                     if ( item.posting_user_id != "{{$current_user->id}}" ){
                         commentItem = "<li class='friend mb-5'><div class='friend-msg-wrap'>";
                         commentItem += "<img class='user-img img-circle block pull-left' src='{{ asset('dist/img/user-badge.fw.png') }}' alt='user'><div class='msg pull-left'>";
-                        commentItem += "<p>" + item.posting + "</p>";
+                        if(item.posting_user.lecturer){
+                            commentItem += "<p><strong>"+ item.posting_user.lecturer.job_title+" "+ item.posting_user.lecturer.first_name+" "+ item.posting_user.lecturer.last_name +"</strong></p>";
+                        }
+                        if(item.posting_user.student){
+                            //console.log(item.posting_user.first_name);
+                            commentItem += "<p><strong>"+ item.posting_user.student.first_name+" "+ item.posting_user.student.last_name +"</strong></p>";
+                        }     
+                        commentItem += "<p id='comment_"+item.id+"'>"+ item.posting +"</p>";
                         commentItem += "<div class='msg-per-detail text-right'><span class='msg-time txt-grey'>" +  new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeStyle: 'short' }).format(Date.parse(item.created_at));
-                        commentItem += "</span></div></div><div class='clearfix'></div></div></li>";
+                        commentItem += "</span>";
+                        if(item.posting_user_id == "{{$current_user->id}}"){
+                            commentItem += "<a href='#' class='btn-edit-modify-forum-comment-modal' data-val='"+item.id+"'><i class='text-info fa fa-pencil ml-5' style='font-size:80%;opacity:0.5;'></i></a>";
+                        }
+                        commentItem += "</div></div><div class='clearfix'></div></div></li>";
                     }else{
-                        commentItem = "<li class='self mb-5'><div class='self-msg-wrap'><div class='msg block pull-right'>" + item.posting;
+
+                        commentItem = "<li class='self mb-5'><div class='self-msg-wrap'><div class='msg block pull-right'>";
+                        if(item.posting_user.lecturer){
+                            commentItem += "<p><strong>"+ item.posting_user.lecturer.job_title+" "+ item.posting_user.lecturer.first_name+" "+ item.posting_user.lecturer.last_name +"</strong></p>";
+                        }
+                        if(item.posting_user.student){
+                            //console.log(item.posting_user.first_name);
+                            commentItem += "<p><strong>"+ item.posting_user.student.first_name+" "+ item.posting_user.student.last_name +"</strong></p>";
+                        }           
+                        commentItem += "<p id='comment_"+item.id+"'>"+ item.posting +"</p>";
                         commentItem += "<div class='msg-per-detail text-right'><span class='msg-time txt-grey'>" +  new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeStyle: 'short' }).format(Date.parse(item.created_at));
-                        commentItem += "</span></div></div><div class='clearfix'></div></div></li>";
+                        commentItem += "</span>";
+                        if(item.posting_user_id == "{{$current_user->id}}"){
+                            commentItem += "<a href='#' class='btn-edit-modify-forum-comment-modal' data-val='"+item.id+"' parent-id='"+item.parent_forum_id+"'><i class='text-info fa fa-pencil ml-5' style='font-size:80%;opacity:0.5;'></i></a>";
+                        }
+                        commentItem += "</div></div><div class='clearfix'></div></div></li>";
                     }
                     $('#forum-comment-list').append(commentItem);
                 });
                 $('.spinner1').hide();
+                setTimeOutEventListener();
             }
         });
     }
+
+    function setTimeOutEventListener(){
+        setTimeout(function(){
+
+            $(".btn-edit-modify-forum-comment-modal").click(function(e){
+                let id = $(this).attr('data-val');
+                $('input[name=comment_id]').val(id);
+                $('input[name=parent_id]').val($(this).attr('parent-id'));
+                $('#txt_update_comment').val($('#comment_'+id).html());
+                $('#modify-forum-comment-error-div').hide();
+                $('.input-border-error').addClass("input-border-error");
+                $('.spinner1').hide();
+                $('.spinner').hide();
+                $('#modify-forum-comment-modal').modal('show');
+                $('#form-modify-forum-comment-modal').trigger("reset");
+            });
+
+        }, 1000);
+    }
+
 
     //Delete action
     $('.btn-delete-forum-entry').click(function(e){
@@ -140,7 +237,7 @@ $(document).ready(function() {
         itemId = $('#txt-parent-forum-id').val();
 
         if (e.which==13 && $('#comment-text').val().length > 2){
-            console.log('i am submitting');
+           
             $('.spinner1').show();
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
             e.preventDefault();
@@ -175,7 +272,71 @@ $(document).ready(function() {
         }
     });
 
+   
+
+     //Save lecturer
+    $('#btn-modify-forum-comment').click(function(e) {
+
+        e.preventDefault();
+        $('.spinner').show();
+        let itemId = $("input[name='comment_id']").val();
+        let parentId = $("input[name='parent_id']").val();
+         
+         //check for internet status 
+        if (!window.navigator.onLine) {
+             $('.offline').fadeIn(300);
+                return;
+        }else{
+            $('.offline').fadeOut(300);
+        }
+      
+
+            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+
+            let formData = new FormData();
+            formData.append('_token', $('input[name="_token"]').val());
+            formData.append('_method', 'PUT');
+           
+            formData.append('posting',$('#txt_update_comment').val());
+            formData.append('id',itemId);
+            
+            let artifact_url = "{{ route('api.forums.update','')}}/"+itemId
+            $.ajax({
+                url:artifact_url,
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData:false,
+                contentType: false,
+                dataType: 'json',
+                success: function(result){
+                    console.log(result)
+                    if(result.errors){
+                        $('.spinner').hide();
+                        $('#modify-class-detail-error-div').html('');
+                        $('#modify-class-detail-error-div').show();
+                        
+                        $.each(result.errors, function(key, value){
+                            $('#modify-class-detail-error-div').append('<li class="">'+value+'</li>');
+                            $('#txt_class_'+key).addClass("input-border-error");
+                        });
+                    }else{
+                        $('.spinner').hide();
+                        $('#modify-class-detail-error-div').hide();
+                        window.setTimeout( function(){
+                            swal("Done!","Comment Updated successfully!","success");
+                            $('#modify-forum-comment-modal').modal('hide');
+                            load_comment_list(parentId);
+                          
+                        }, 500);
+                }
+            },
+        }); 
+    });
 
 });
+
+
+
 </script>
 @endsection

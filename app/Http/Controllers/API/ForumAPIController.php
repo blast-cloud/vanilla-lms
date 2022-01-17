@@ -285,4 +285,16 @@ class ForumAPIController extends AppBaseController
         ForumDeleted::dispatch($forum);
         return $this->sendSuccess('Forum deleted successfully');
     }
+    
+    public function getForumComments($id){
+
+        $comments = Forum::with('posting_user')->where('parent_forum_id',$id)->get();
+
+        if (empty($comments)) {
+            return $this->sendError('Forum not found');
+        }
+
+        return $this->sendResponse($comments,'Forum deleted successfully');
+
+    }
 }

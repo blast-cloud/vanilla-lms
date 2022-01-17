@@ -32,7 +32,8 @@ class UpdateForumAPIRequest extends AppBaseFormRequest
         */
         return [
             'id' => 'required|numeric|exists:forums,id',
-            'group_name' => 'required'
+            'posting' => 'required',
+            'group_name' => 'sometimes|required'
         ];
     }
 }
