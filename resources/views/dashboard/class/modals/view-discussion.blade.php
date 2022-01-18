@@ -14,12 +14,12 @@
                 <div id="spinner1" class="spinner1">
                     <div class="loader" id="loader-1"></div>
                 </div>
-                <div class='chat-cmplt-wrap chat-for-widgets-1' style='height:auto;'>
-                    <a href='#' class='btn-edit-modify-forum-comment-modal' id="temp"><i class='text-info fa fa-pencil ml-5' style='font-size:80%;opacity:0.5;'></i></a>
-                    <div class='recent-chat-box-wrap' style='width:100%;'>
+                <div class="col-sm-12">
+                    <div class='chat-cmplt-wrap chat-for-widgets-1' style='height:auto;'>
+                    
                         <div class='recent-chat-wrap'>
                             <div class='panel-wrapper collapse in'>
-                                <div class='panel-body pa-0'>
+                                 <div class='panel-body pa-0'>
                                     <div class='chat-content'>
                                         <div class='slimScrollDiv' style='position: relative; overflow: hidden; width: auto;'>                                            
                                             <ul id='forum-comment-list' class='chatapp-chat-nicescroll-bar pt-10' style='overflow: hidden; width: auto;'></ul>
@@ -30,10 +30,12 @@
                                 </div>
                             </div>
                         </div>
+                    
+    
                     </div>
-
+       
                 </div>
-
+              
 
             </div>
 
