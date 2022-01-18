@@ -215,8 +215,6 @@ class ClassDashboardController extends AppBaseController
         $input = [
             'student_id' => $current_user->student_id,
             'course_class_id' => $course_class_id,
-            'organization_id' => $request->input('organization_id'),
-            'semester_id' => $request->input('semester_id'),
             'class_material_id' => $lectureId,
             'photo_file_path' => $storagePath,
         ];
