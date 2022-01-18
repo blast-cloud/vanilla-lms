@@ -21,7 +21,7 @@
                                 
                                 <div class="col-sm-12">
 
-                                <div id="spinner" class="">
+                                <div id="spinner" class="spinner">
                                         <div class="loader" id="loader-1"></div>
                                       </div>
 
@@ -133,9 +133,10 @@ $(document).ready(function() {
         sideBySide: true,
         minDate: new Date()
     });
+
     //Show Modal
     $('#btn-show-modify-assignment-modal').click(function(){
-        $('#spinner').hide();
+        $('.spinner').hide();
         $('#modify-assignment-error-div').hide();
         $('#txt_assignment_allow_late_submission').prop('checked',false);
         $('#modify-assignment-modal').modal('show');
@@ -152,7 +153,7 @@ $(document).ready(function() {
     //Show Modal for Edit Entry
     $('.btn-edit-modify-assignment-modal').click(function(){
         $('#modify-assignment-error-div').hide();
-        $('#spinner').hide();
+        $('.spinner').hide();
         $('#modify-assignment-modal').modal('show');
         $('#form-modify-assignment').trigger("reset");
 
@@ -232,7 +233,7 @@ $(document).ready(function() {
 
     function save_assignments_details(fileDetails){
         // alert($("input[name=txt_assignment_allow_late_submission]:checked").val())
-        $('#spinner').show();
+        $('.spinner').show();
         $('#btn-modify-assignment').prop("disabled", true);
         $('.input-border-error').removeClass("input-border-error");
         let actionType = "POST";
@@ -279,7 +280,7 @@ $(document).ready(function() {
             success: function(result){
                 console.log(result);
                 if(result.errors){
-                    $('#spinner').hide();
+                    $('.spinner').hide();
                     $('#btn-modify-assignment').prop("disabled", false);
                     $('#modify-assignment-error-div').html('');
                     $('#modify-assignment-error-div').show();
@@ -292,7 +293,7 @@ $(document).ready(function() {
 
                 }else{
                     $('#modify-assignment-error-div').hide();
-                    $('#spinner').hide();
+                    $('.spinner').hide();
                     $('#btn-modify-assignment').prop("disabled", false);
                     window.setTimeout( function(){
                         swal("Done!","Assignment saved successfully!","success");
@@ -338,7 +339,7 @@ $(document).ready(function() {
                     save_assignments_details(data.message);
                 },
                 error: function(data){ 
-                    $('#spinner').hide();
+                    $('.spinner').hide();
                     $('#btn-modify-assignment').prop("disabled", false);
                     console.log(data);
                 }
