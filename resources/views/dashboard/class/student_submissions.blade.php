@@ -30,7 +30,9 @@
             </a>
             @endif
         @endif
-
+        <div class="spinner">
+            <div class="loader" id="loader-1"></div>
+        </div>
         <dl class="ma-10">
             <dt class="mb-0">
                 @if (($class_material != null) && $class_material->type=="class-assignments")
@@ -55,7 +57,6 @@
        @if (isset($enrollments) && count($enrollments)> 0)
        
         <ol id="lst_grade_messages" class="ma-20" style="font-size:90%"></ol>
-
         <table class="table table-bordered table-striped table-responsive mb-10 mass-grading-tbl">
 
             <thead>
@@ -87,7 +88,7 @@
                     @foreach ($enrollments as $idx=>$item)
                     <tr>
                         <td>{{ ++$x }}</td>
-                        <td style="width:40%">{{ $item->student->last_name }}  {{ $item->student->first_name }}</td>
+                        <td style="width:30%">{{ $item->student->last_name }}  {{ $item->student->first_name }}</td>
                         <td style="width:20%">{{ $item->student->matriculation_number }}</td>
                         @php
                             $check_submission = $assignment_submissions->firstWhere('student_id',$item->student->id);
@@ -121,18 +122,27 @@
                                 
                             @endphp
                             @if (($class_material != null) && $class_material->type=="class-assignments")
-                                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control score-input scores text-right {$selector}-{$item->student->matriculation_number}",'data-val-id'=>"{$class_material->id}",'data-val-lbl'=>"",'data-val-mp'=>"{$class_material->grade_max_points}",'data-val-matric'=>"{$item->student->matriculation_number}",$student_assignment_file == null ? 'disabled': '']) !!}
+                                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control score-input scores text-right {$selector}-{$item->student->matriculation_number}",'data-val-id'=>"{$class_material->id}",'data-val-lbl'=>"",'data-val-mp'=>"{$class_material->grade_max_points}",'data-val-matric'=>"{$item->student->matriculation_number}",'data-val-student-id' => "{$item->student->id}",$student_assignment_file == null ? 'disabled': '']) !!}
                             @else
-                                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control score-input scores text-right {$selector}-{$item->student->matriculation_number}",'data-val-id'=>"{$class_material->id}",'data-val-lbl'=>"",'data-val-mp'=>"{$class_material->grade_max_points}",'data-val-matric'=>"{$item->student->matriculation_number}"]) !!}
+                                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control score-input scores text-right {$selector}-{$item->student->matriculation_number}",'data-val-id'=>"{$class_material->id}",'data-val-lbl'=>"",'data-val-mp'=>"{$class_material->grade_max_points}",'data-val-matric'=>"{$item->student->matriculation_number}", 'data-val-student-id' => "{$item->student->id}"]) !!}
                             @endif
                            
                         </td>
                         @if (($class_material != null) && $class_material->type=="class-assignments") 
-                            <td>           
+                            <td style="width:20%">           
                                 @if ($student_assignment_file != null)
                                     <a href="" class="btn btn-xs btn-primary comment-btn" data-student-id="{{ $item->student->id }}" data-score="{{ $score }}">
                                         <i class=" fa fa-comment"></i>
-                                    </a>
+                                    </a><br>
+                                    @if (!empty($check_submission) && $check_submission->comment != null)
+                                            @if (strlen($check_submission->comment) > 25)
+                                                {{substr( $check_submission->comment, 0,20)}}....
+                                            @else
+                                                {{$check_submission->comment}}
+                                            @endif
+                                               
+                                        
+                                    @endif
                                 @else
                                     <span class="text-danger text-center" style="font-size:85%">No Submission</span>
                                 @endif
@@ -173,9 +183,9 @@
                         <div class="row">
                             <div class="ma-10">
                                 <input type="hidden" name="submission_id" id="submission_id">
-                                {{-- <div class="spinner2">
+                                <div class="spinner2">
                                     <div class="loader" id="loader-1"></div>
-                                </div> --}}
+                                </div>
                                 <div id="div-name" class="form-group">
                                     <span class="ml-10 col-sm-12" id="student_name" style="font-weight: bold;"></span>
                                 </div>
@@ -212,8 +222,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
     // Get comment modl for view and edit
+    $('.spinner').hide();
     $(document).on('click', '.comment-btn', function(e) {
         e.preventDefault();
+        $('.spinner2').show();
         $('#div-comment-modal-error').hide();
         let student_id = $(this).data('student-id');
         let score = $(this).data('score');
@@ -226,7 +238,9 @@ $(document).ready(function() {
                 $('#student_name').html(response.submission.student_name);
                 $('#comment_fld').val(response.submission.comment);
                 $('#score_fld').val(score);
+                $('.spinner2').hide();
             }else{
+                $('.spinner2').hide();
                 swal("Not found!", "No submission found for this Student", "warning");
             }   
 
@@ -248,7 +262,7 @@ $(document).ready(function() {
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
 
-        $('.spinner1').show();
+        $('.spinner').show();
 
         var grade_list = [];
 
@@ -258,6 +272,7 @@ $(document).ready(function() {
                 grade_list.push({
                     'score':$(this).val(),
                     'student_matric':$(this).attr("data-val-matric"),
+                    'student_id': $(this).attr('data-val-student-id'),
                     'max_mp':$(this).attr("data-val-mp"),
                     'label':$(this).attr("data-val-lbl"),
                     @if ($class_material != null)
@@ -293,6 +308,7 @@ $(document).ready(function() {
                     $.each(result.data, function(key, value){ 
                         $('.'+key).val(value); 
                     });
+                    $('.spinner').hide();
                 }
 
                 if(result.message && Object.keys(result.message).length>0){
@@ -301,13 +317,15 @@ $(document).ready(function() {
                         $('#lst_grade_messages').append('<li class="text-danger">'+value+'</li>');
                         $('.'+key).css('border-color','red');
                     });
+                    $('.spinner').hide();
                     swal("Done!", "Grades saved successfully with some issues.", "success");
                 }else{
+                    $('.spinner').hide();
                     swal("Done!", "Grades saved successfully", "success");
                 }
 
                 window.setTimeout( function(){
-                    $('.spinner1').hide();
+                    $('.spinner').hide();
                 },100);
             },
         });
@@ -345,6 +363,7 @@ $(document).on('click', '#btn-save-mdl-comment-modal', function(e) {
                 $.each(result.errors, function(key, value){
                     $('#div-comment-modal-error').append('<li class="">'+value+'</li>');
                 });
+                $('.spinner2').hide();
             }else{
                 $('.spinner2').hide();
                 swal("Done!", "Grades saved successfully with some issues.", "success");
