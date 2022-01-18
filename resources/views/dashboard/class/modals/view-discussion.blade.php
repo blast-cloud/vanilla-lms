@@ -21,7 +21,7 @@
                             <div class='panel-wrapper collapse in'>
                                  <div class='panel-body pa-0'>
                                     <div class='chat-content'>
-                                        <div class='slimScrollDiv' style='position: relative; overflow: hidden; width: auto;'>                                            
+                                        <div class='slimScrollDiv' style='position: relative; overflow: hidden; width: auto; height: auto;'>                                            
                                             <ul id='forum-comment-list' class='chatapp-chat-nicescroll-bar pt-10' style='overflow: hidden; width: auto;'></ul>
                                             <div class='slimScrollBar' style='background: rgb(135, 135, 135); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 0px; z-index: 99; right: 1px;'></div>
                                             <div class='slimScrollRail' style='width: 4px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;'></div>
