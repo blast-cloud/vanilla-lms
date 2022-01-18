@@ -126,7 +126,15 @@ $(document).ready(function() {
             
             if (response && response.data){
                 $('#forum-comment-list').empty();
+                let today = new Date();
+                let date = today.getFullYear()+'-'+today.getMonth()+1+'-'+today.getDate();
+                let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
+                current_date = date+' '+time;
                 $.each(response.data, function(key, item){
+                    let posting_date = new Date(item.created_at)
+                    let diff = (today.getTime() - posting_date.getTime())/1000;
+                    diff /=(60 * 60);
+                    diffHrs = Math.abs(Math.round(diff));       
                     if ( item.posting_user_id != "{{$current_user->id}}" ){
                         commentItem = "<li class='friend mb-5'><div class='friend-msg-wrap'>";
                         commentItem += "<img class='user-img img-circle block pull-left' src='{{ asset('dist/img/user-badge.fw.png') }}' alt='user'><div class='msg pull-left'>";
@@ -140,9 +148,6 @@ $(document).ready(function() {
                         commentItem += "<p id='comment_"+item.id+"'>"+ item.posting +"</p>";
                         commentItem += "<div class='msg-per-detail text-right'><span class='msg-time txt-grey'>" +  new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeStyle: 'short' }).format(Date.parse(item.created_at));
                         commentItem += "</span>";
-                        if(item.posting_user_id == "{{$current_user->id}}"){
-                            commentItem += "<a href='#' class='btn-edit-modify-forum-comment-modal' data-val='"+item.id+"'><i class='text-info fa fa-pencil ml-5' style='font-size:80%;opacity:0.5;'></i></a>";
-                        }
                         commentItem += "</div></div><div class='clearfix'></div></div></li>";
                     }else{
 
@@ -157,7 +162,7 @@ $(document).ready(function() {
                         commentItem += "<p id='comment_"+item.id+"'>"+ item.posting +"</p>";
                         commentItem += "<div class='msg-per-detail text-right'><span class='msg-time txt-grey'>" +  new Intl.DateTimeFormat('en-GB', { dateStyle: 'long', timeStyle: 'short' }).format(Date.parse(item.created_at));
                         commentItem += "</span>";
-                        if(item.posting_user_id == "{{$current_user->id}}"){
+                        if(item.posting_user_id == "{{$current_user->id}}" && diffHrs <= 1){
                             commentItem += "<a href='#' class='btn-edit-modify-forum-comment-modal' data-val='"+item.id+"' parent-id='"+item.parent_forum_id+"'><i class='text-info fa fa-pencil ml-5' style='font-size:80%;opacity:0.5;'></i></a>";
                         }
                         commentItem += "</div></div><div class='clearfix'></div></div></li>";
