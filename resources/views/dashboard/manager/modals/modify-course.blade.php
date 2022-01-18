@@ -114,6 +114,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-new-mdl-course-modal", function(e) {
         $('#spinner1').hide();
         $('#div-course-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-course-modal').modal('show');
         $('#frm-course-modal').trigger("reset");
         $('#txt-course-primary-id').val(0);
@@ -153,7 +154,7 @@ $(document).ready(function() {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('#spinner1').hide();
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-course-primary-id').hide();
         $('#div-edit-txt-course-primary-id').show();
         $('.modal-footer').show();
@@ -269,6 +270,8 @@ $(document).ready(function() {
                     $('#btn-save-mdl-course-modal').prop("disabled", false);
                     $.each(result.errors, function(key, value){
                         $('#div-course-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
+                        console.log(key)
                     });
                 }else{
                     $('#div-course-modal-error').hide();
@@ -307,9 +310,6 @@ $(document).on('click', '#btn-save-mdl-bulk-course-modal', function(e) {
     let formData = new FormData();
     formData.append('_method', "POST");
     endPointUrl = "{{ route('api.courses.bulk') }}";
-    @if (isset($organization) && $organization!=null)
-        formData.append('organization_id', '{{$organization->id}}');
-    @endif
     formData.append('_token', $('input[name="_token"]').val());
     formData.append('department_id', '{{auth()->user()->department_id ?? null}}');
     if ($('#bulk_course')[0].files.length > 0) {
@@ -331,6 +331,7 @@ $(document).on('click', '#btn-save-mdl-bulk-course-modal', function(e) {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-bulk-course-modal-error').append('<li class="">'+value+'</li>');
+                        
                     });
                 }else{
                     $('#div-bulk-course-modal-error').hide();

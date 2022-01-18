@@ -57,6 +57,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-semester-modal", function(e) {
         $('#div-semester-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-semester-modal').modal('show');
         $('#frm-semester-modal').trigger("reset");
         $('#txt-semester-primary-id').val(0);
@@ -92,7 +93,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-semester-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-semester-primary-id').hide();
         $('#div-edit-txt-semester-primary-id').show();
         $('.modal-footer').show();
@@ -199,6 +200,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-semester-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('.spinner1').hide();

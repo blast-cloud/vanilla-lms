@@ -27,9 +27,9 @@
                             <input type="hidden" id="txt_lecture_id" value="0" />
                             <!-- Assignment Number Field -->
                             <div class="form-group">
-                                <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_number">Lecture Number</label>
+                                <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_lecture_number">Lecture Number</label>
                                 <div class="col-sm-2">
-                                    {!! Form::number('txt_start_lecture_number', null, ['id'=>'txt_start_lecture_number','min' => '0',  'class' => 'form-control']) !!}
+                                    {!! Form::number('txt_start_lecture_lecture_number', null, ['id'=>'txt_start_lecture_lecture_number','min' => '0',  'class' => 'form-control']) !!}
                                 </div>
                             </div>
 
@@ -52,16 +52,16 @@
 
                             <!-- Lecture Date and time Field -->
                             <div class="form-group">
-                                <label class="control-label mb-10 col-sm-3" for="txt_lecture_date">Lecture Date</label>
+                                <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_lecture_date">Lecture Date</label>
                                 <div class="col-sm-6">
-                                    {!! Form::text('txt_lecture_date', null, ['id'=>'txt_lecture_date', 'class' => 'form-control']) !!}
+                                    {!! Form::text('txt_start_lecture_lecture_date', null, ['id'=>'txt_start_lecture_lecture_date', 'class' => 'form-control']) !!}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label mb-10 col-sm-3" for="txt_lecture_time">Lecture Time</label>
+                                <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_lecture_time">Lecture Time</label>
                                 <div class="col-sm-6">
-                                    {!! Form::text('txt_lecture_time', null, ['id'=>'txt_lecture_time', 'class' => 'form-control']) !!}
+                                    {!! Form::text('txt_start_lecture_lecture_time', null, ['id'=>'txt_start_lecture_lecture_time', 'class' => 'form-control']) !!}
                                 </div>
                             </div>
 
@@ -97,12 +97,12 @@
 @section('js-129')
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#txt_lecture_date').datetimepicker({
+    $('#txt_start_lecture_lecture_date').datetimepicker({
         //format: 'YYYY-MM-DD HH:mm:ss',
         format: 'YYYY-MM-DD',
         minDate: new Date(),
     });
-    $('#txt_lecture_time').datetimepicker({
+    $('#txt_start_lecture_lecture_time').datetimepicker({
         //format: 'YYYY-MM-DD HH:mm:ss',
         format: 'hh:mm A',
     })
@@ -111,14 +111,17 @@ $(document).ready(function() {
     $('#btn-show-start-lecture-modal').click(function(e){
         $('#start-lecture-error-div').hide();
         $('.spinner').hide();
+        $(".input-border-error").removeClass("input-border-error");
         $('#start-lecture-modal').modal('show');
         $('#form-start-lecture').trigger("reset");
         $('#txt_lecture_id').val(0);
+        
     });
 
     //Show Modal for Edit Entry
     $('.btn-edit-start-lecture-modal').click(function(e){
         $('#start-lecture-error-div').hide();
+         $(".input-border-error").removeClass("input-border-error");
         $('.spinner').hide();
         $('#start-lecture-modal').modal('show');
         $('#form-start-lecture').trigger("reset");
@@ -129,10 +132,10 @@ $(document).ready(function() {
         //Set title and url
         $('#txt_start_lecture_description').val($('#spn_ol_'+itemId+'_desc').html());
         $('#txt_start_lecture_title').val($('#spn_ol_'+itemId+'_title').html());
-        $('#txt_start_lecture_number').val($('#spn_ol_'+itemId+'_num').html());
+        $('#txt_start_lecture_lecture_number').val($('#spn_ol_'+itemId+'_num').html());
         $('#txt_start_lecture_reference_material_url').val($('#spn_ass_'+itemId+'_url').html());
-        $('#txt_lecture_date').val($('#spn_ol_'+itemId+'_lecture_date').html());
-        $('#txt_lecture_time').val($('#spn_ol_'+itemId+'_lecture_time').html());
+        $('#txt_start_lecture_lecture_date').val($('#spn_ol_'+itemId+'_lecture_date').html());
+        $('#txt_start_lecture_lecture_time').val($('#spn_ol_'+itemId+'_lecture_time').html());
 
     });
 
@@ -200,12 +203,12 @@ $(document).ready(function() {
         formData.append('_method', actionType);
         formData.append('type', 'lecture-classes');
         formData.append('course_class_id', {{($courseClass) ? $courseClass->id : ''}});
-        formData.append('lecture_number', $('#txt_start_lecture_number').val());
+        formData.append('lecture_number', $('#txt_start_lecture_lecture_number').val());
         formData.append('title', $('#txt_start_lecture_title').val());
         formData.append('id', primaryId);
         formData.append('description', $('#txt_start_lecture_description').val());
-        formData.append('lecture_date',$('#txt_lecture_date').val());
-        formData.append('lecture_time',$('#txt_lecture_time').val());
+        formData.append('lecture_date',$('#txt_start_lecture_lecture_date').val());
+        formData.append('lecture_time',$('#txt_start_lecture_lecture_time').val());
         if (fileDetails!=null){
             formData.append('upload_file_path', fileDetails[0]);
             formData.append('upload_file_type', fileDetails[1]);
@@ -233,6 +236,8 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#start-lecture-error-div').append('<li class="">'+value+'</li>');
+                        $('#txt_start_lecture_'+key).addClass("input-border-error");
+
                     });
 
                 }else{

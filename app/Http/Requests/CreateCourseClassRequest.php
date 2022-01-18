@@ -53,4 +53,12 @@ class CreateCourseClassRequest extends AppBaseFormRequest
             }
         });
     }
+    public function attributes()
+    {
+        return [
+            'lecturer_id' => 'Lecturer',
+            'semester_id' => 'Semester',
+            'course_id' => 'Course'
+        ];
+    }
 }

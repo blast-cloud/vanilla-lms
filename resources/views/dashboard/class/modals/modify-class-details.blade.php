@@ -136,6 +136,7 @@ $(document).ready(function() {
     $('#btn-show-modify-class-detail-modal').click(function(){
         $('#modify-class-detail-error-div').hide();
         $('.spinner').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#modify-class-detail-modal').modal('show');
 
         $('#txt_class_email').val($('#spn_class_email').html());
@@ -185,6 +186,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#modify-class-detail-error-div').append('<li class="">'+value+'</li>');
+                        $('#txt_class_'+key).addClass("input-border-error");
                     });
                 }else{
                     $('.spinner').hide();

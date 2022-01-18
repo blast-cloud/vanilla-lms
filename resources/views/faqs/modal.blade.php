@@ -108,6 +108,23 @@ $(document).ready(function() {
         $('#div-show-txt-faq-primary-id').hide();
         $('#div-edit-txt-faq-primary-id').show();
         let itemId = $(this).attr('data-val');
+        let endPointUrl = "{{ route('api.faqs.show','') }}/"+itemId;
+        console.log(endPointUrl);
+        $.ajax({
+            url:endPointUrl,
+            type: "get",
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(result){
+                console.log(result)
+               
+            }, error: function(data){
+                // console.log(result.errors);
+                console.log(data)
+            }
+        });
 
         // $.get( "{{URL::to('/')}}/api/faqs/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/faqs/"+itemId).done(function( response ) {  

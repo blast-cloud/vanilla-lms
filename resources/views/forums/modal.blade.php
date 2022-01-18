@@ -53,6 +53,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-forum-modal", function(e) {
         $('#div-forum-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-forum-modal').modal('show');
         $('#frm-forum-modal').trigger("reset");
         $('#txt-forum-primary-id').val(0);
@@ -86,7 +87,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-forum-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-forum-primary-id').hide();
         $('#div-edit-txt-forum-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -184,6 +185,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-forum-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).removeClass("input-border-error");
                     });
                 }else{
                     $('#div-forum-modal-error').hide();

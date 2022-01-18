@@ -60,7 +60,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-modify-user-password-reset-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         let itemId = $(this).attr('data-val');
         $('#txt_reset_account_id').val(itemId);
         $('.spinner1').hide();
@@ -104,13 +104,13 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(result){
                 if(result.errors){
-                    return;
                     $('#modify-user-password-reset-error-div').html('');
                     $('#modify-user-password-reset-error-div').show();
                     $('#btn-modify-user-password-reset').prop("disabled", false);
                     $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#modify-user-password-reset-error-div').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
 
                 }else{

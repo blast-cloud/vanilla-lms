@@ -111,6 +111,9 @@
                 bottom: 8px;
                 right: 16px;
             }
+            .input-border-error{
+                border-color: red;
+            } 
 
             /* ALL LOADERS */
 

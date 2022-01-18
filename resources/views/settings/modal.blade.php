@@ -53,6 +53,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-setting-modal", function(e) {
         $('#div-setting-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-setting-modal').modal('show');
         $('#frm-setting-modal').trigger("reset");
         $('#txt-setting-primary-id').val(0);
@@ -86,7 +87,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-setting-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-setting-primary-id').hide();
         $('#div-edit-txt-setting-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -184,6 +185,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-setting-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-setting-modal-error').hide();

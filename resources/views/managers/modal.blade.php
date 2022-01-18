@@ -54,6 +54,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $(document).on('click', ".btn-new-mdl-manager-modal", function(e) {
         $('#div-manager-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-manager-modal').modal('show');
         $('#frm-manager-modal').trigger("reset");
         $('#txt-manager-primary-id').val(0);
@@ -74,6 +75,7 @@ $(document).ready(function() {
         // $.get( "{{URL::to('/')}}/api/managers/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/managers/"+itemId).done(function( response ) {
 			$('#div-manager-modal-error').hide();
+            $('.input-border-error').removeClass("input-border-error");
 			$('#mdl-manager-modal').modal('show');
 			$('#frm-manager-modal').trigger("reset");
 			$('#txt-manager-primary-id').val(response.data.id);
@@ -194,6 +196,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-manager-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-manager-modal-error').hide();

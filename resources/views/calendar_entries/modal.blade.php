@@ -65,7 +65,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-show-mdl-calendarEntry-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-calendarEntry-primary-id').show();
         $('#div-edit-txt-calendarEntry-primary-id').hide();
         let itemId = $(this).attr('data-val');
@@ -86,7 +86,7 @@ $(document).ready(function() {
     $(document).on('click', ".btn-edit-mdl-calendarEntry-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-calendarEntry-primary-id').hide();
         $('#div-edit-txt-calendarEntry-primary-id').show();
         let itemId = $(this).attr('data-val');
@@ -184,6 +184,7 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-calendarEntry-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).removeClass("input-border-error");
                     });
                 }else{
                     $('#div-calendarEntry-modal-error').hide();

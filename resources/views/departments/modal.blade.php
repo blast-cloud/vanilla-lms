@@ -112,6 +112,7 @@ $('#spinner-departments').fadeOut(1);
     $(document).on('click', ".btn-new-mdl-department-modal", function(e) {
         $('#spinner1').hide();
         $('#div-department-modal-error').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#mdl-department-modal').modal('show');
         $('.modal-footer').show();
         $('#frm-department-modal').trigger("reset");
@@ -151,6 +152,7 @@ $('#spinner-departments').fadeOut(1);
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('#spinner1').hide();
+        $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-department-primary-id').hide();
         $('#div-edit-txt-department-primary-id').show();
         $('.modal-footer').show();
@@ -256,6 +258,7 @@ $('#spinner-departments').fadeOut(1);
                     
                     $.each(result.errors, function(key, value){
                         $('#div-department-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-department-modal-error').hide();
@@ -311,6 +314,7 @@ $(document).on('click', '#btn-save-mdl-bulk-department-modal', function(e) {
                     
                     $.each(result.errors, function(key, value){
                         $('#div-bulk-department-modal-error').append('<li class="">'+value+'</li>');
+                        $('#'+key).addClass("input-border-error");
                     });
                 }else{
                     $('#div-bulk-department-modal-error').hide();

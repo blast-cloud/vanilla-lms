@@ -54,7 +54,7 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_reading_material_upload_file_path">Description</label>
                                         <div class="col-sm-9">
-                                            <textarea class="form-control" rows="5" id="description"></textarea>
+                                            <textarea class="form-control" rows="5" id="txt_reading_material_description"></textarea>
                                         </div>
                                     </div>
 
@@ -92,6 +92,7 @@ $(document).ready(function() {
     //Show Modal for New Entry
     $('#btn-show-modify-reading-material-modal').click(function(){
         $('#class-action').text("Add");
+        $('.input-border-error').removeClass("input-border-error");
         $('#modify-reading-material-error-div').hide();
         $('#modify-reading-material-modal').modal('show');
         $('#form-modify-reading-material').trigger("reset");
@@ -102,6 +103,7 @@ $(document).ready(function() {
     //Show Modal for Edit Entry
     $('.btn-edit-modify-reading-material-modal').click(function(){
         $('#class-action').text("Modify");
+        $('.input-border-error').removeClass("input-border-error");
         $('#modify-reading-material-error-div').hide();
         $('.spinner1').hide();
         $('#modify-reading-material-modal').modal('show');
@@ -112,6 +114,7 @@ $(document).ready(function() {
 
         //Set title and url
         $('#txt_reading_material_title').val($('#spn_rm_'+itemId+'_title').html());
+        $('#txt_reading_material_description').val($('#spn_rm_'+itemId+'_desc').html());
        // console.log($('#spn_rm_'+itemId+'_url').child('span'));
        $('#txt_reading_material_reference_material_url').val($('#spn_rm_'+itemId+'_url').html());
 
@@ -184,13 +187,12 @@ $(document).ready(function() {
         formData.append('type', 'reading-materials');
         formData.append('file', reading_file);
         formData.append('title', $('#txt_reading_material_title').val());
-        formData.append('description', $('#description').val());
+        formData.append('description', $('#txt_reading_material_description').val());
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : '' }});
         if (fileDetails!=null){
             formData.append('upload_file_path', fileDetails[0]);
             formData.append('upload_file_type', fileDetails[1]);
         }
-        formData.append('reference_material_url', $('#txt_reading_material_reference_material_url').val());
 
         $.ajax({
             url:endPointUrl,
@@ -208,6 +210,7 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#modify-reading-material-error-div').append('<li class="">'+value+'</li>');
+                        $('#txt_reading_material_'+key).addClass("input-border-error");
                     });
 
                 }else{

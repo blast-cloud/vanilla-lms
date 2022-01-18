@@ -50,7 +50,7 @@
         <tr>
             <td>
                 {{$grade_item['name']}} - {{$grade_item['matric_num']}}
-                <span id="grade_class_participation_{{$grade_item['matric_num']}}" class="small grade_class_participation"></span>
+                <span id="grade_class_participation_{{$grade_item['student_id']}}" class="small grade_class_participation"></span>
             </td>
             <td>
                 @php
@@ -58,7 +58,7 @@
                     $grade = isset($grade_item['final-grade']) ? $grade_item['final-grade'] : null;
                     if ($grade != null){ $score = $grade->score; }
                 @endphp
-                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control final-scores text-right fs-{$grade_item['matric_num']}",'data-val-id'=>'final','data-val-matric'=>"{$grade_item['matric_num']}","disabled"=>'',"readonly"=>'']) !!}
+                {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control final-scores text-right fs-{$grade_item['student_id']}",'data-val-id'=>'final','data-val-matric'=>"{$grade_item['matric_num']}","disabled"=>'',"readonly"=>'']) !!}
             </td>
 
             @foreach($gradeManager->get_assignment_list() as $idx=>$item)
@@ -68,8 +68,9 @@
                         $score = $grade_item['assignments'][$idx]['score'];
                         $max = $grade_item['assignments'][$idx]['max_points'];
                         $label = $grade_item['assignments'][$idx]['label'];
+                        $student_id = $grade_item['student_id'];
                         @endphp
-                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control assignment-scores text-right as-{$item->id}-{$grade_item['matric_num']}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-val-matric'=>"{$grade_item['matric_num']}"]) !!}
+                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control assignment-scores text-right as-{$item->id}-{$grade_item['matric_num']}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-student-id' =>"{$student_id}",'data-val-matric'=>"{$grade_item['matric_num']}"]) !!}
                     </td>
                 @endif
             @endforeach
@@ -81,8 +82,9 @@
                         $score = $grade_item['examinations'][$idx]['score'];
                         $max = $grade_item['examinations'][$idx]['max_points'];
                         $label = $grade_item['examinations'][$idx]['label'];
+                        $student_id = $grade_item['student_id'];
                         @endphp
-                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control exam-scores text-right es-{$item->id}-{$grade_item['matric_num']}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-val-matric'=>"{$grade_item['matric_num']}"]) !!}
+                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control exam-scores text-right es-{$item->id}-{$grade_item['matric_num']}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-student-id' =>"{$student_id}",'data-val-matric'=>"{$grade_item['matric_num']}"]) !!}
                     </td>
                 @endif
             @endforeach
@@ -104,14 +106,14 @@ $(document).ready(function() {
 
     //Load the class participation in grading window
     $(".participation_score").each(function() {
-        let matric = $(this).attr("data-participation-matric");
+        let student_id = $(this).attr("data-student-id");
         let score = $(this).attr("data-participation-score");
 
         if (score===null || score==="" ){
-            score = "No Acticity";
+            score = "No Activity";
         }
 
-        $("#grade_class_participation_"+matric).html("<br/> Participation : <span class='text-primary'>"+score+"</span>");
+        $("#grade_class_participation_"+student_id).html("<br/> Participation : <span class='text-primary'>"+score+"</span>");
     });
 
     //Show Modal for Edit
@@ -147,6 +149,7 @@ $(document).ready(function() {
                 'score':$(this).val(),
                 'student_matric':$(this).attr("data-val-matric"),
                 'assignment_id':$(this).attr("data-val-id"),
+                'student_id':$(this).attr("data-student-id"),
                 'max_mp':$(this).attr("data-val-mp"),
                 'label':$(this).attr("data-val-lbl"),
             });
@@ -159,6 +162,7 @@ $(document).ready(function() {
                 'score':$(this).val(),
                 'student_matric':$(this).attr("data-val-matric"),
                 'exam_id':$(this).attr("data-val-id"),
+                'student_id':$(this).attr("data-student-id"),
                 'max_mp':$(this).attr("data-val-mp"),
                 'label':$(this).attr("data-val-lbl"),
             });
@@ -179,8 +183,10 @@ $(document).ready(function() {
                 $('.score-input').css('border-color','#ccc');
 
                 if(result.data){
+                   
                     $.each(result.data, function(key, value){ 
-                        $('.'+key).val(value); 
+                        $('.'+key).val(Math.round(value)); 
+                        
                     });
                 }
 
@@ -188,6 +194,7 @@ $(document).ready(function() {
                     // swal("Done!", "Grades saved successfully with some issues.", "success");
                     $.each(result.message, function(key, value){
                         $('#lst_grade_messages').append('<li class="text-danger">'+value+'</li>');
+                        
                         $('.'+key).css('border-color','red');
                     });
                 }else{

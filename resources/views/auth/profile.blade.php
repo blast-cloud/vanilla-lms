@@ -32,9 +32,14 @@ Account Profile
                                             <input type="email"
                                                 id="email"
                                                 name="email"
+                                               
                                                 value="{{ old('email', $current_user->email) }}"
-                                                class="form-control @error('email') is-invalid @enderror"
-                                                placeholder="Email">
+                                                class="form-control @error('email') is-invalid @enderror" 
+                                                placeholder="Email" 
+                                                 @if ($current_user->student_id != null)
+                                                    disabled
+                                                 @endif>
+>
                                             @error('email')
                                             <span class="error invalid-feedback">{{ $message }}</span>
                                             @enderror

@@ -29,7 +29,7 @@
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-3" for="txt_assignment_assignment_number">Assignment Number</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_assignment_assignment_number', null, ['id'=>'txt_assignment_assignment_number','min' => '0', 'class' => 'form-control border-danger']) !!}
+                                            {!! Form::number('txt_assignment_assignment_number', null, ['id'=>'txt_assignment_assignment_number','min' => '0', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
@@ -62,26 +62,26 @@
 
                                     <!-- Assignment Max Score Field -->
                                     <div class="form-group">
-                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_max_score">Max Score</label>
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_grade_max_points">Max Score</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_assignment_max_score', null, ['id'=>'txt_assignment_max_score', 'class' => 'form-control', 'min' => '0']) !!}
+                                            {!! Form::number('txt_assignment_grade_max_points', null, ['id'=>'txt_assignment_grade_max_points', 'class' => 'form-control', 'min' => '0']) !!}
                                         </div>
                                     </div>
 
                                     <!-- Assignment Grade Contribution Pct Field -->
                                     <div class="form-group">
-                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_score_contriution_pct">Grade Contribution (%)</label>
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_grade_contribution_pct">Grade Contribution (%)</label>
                                         <div class="col-sm-2">
-                                            {!! Form::number('txt_assignment_score_contriution_pct', null, ['id'=>'txt_assignment_score_contriution_pct', 'min' => '0','placeholder'=>"%",'class' => 'form-control']) !!}
+                                            {!! Form::number('txt_assignment_grade_contribution_pct', null, ['id'=>'txt_assignment_grade_contribution_pct', 'min' => '0','placeholder'=>"%",'class' => 'form-control']) !!}
                                             <small id="txt_assignment_pct_grade_message" class="text-danger"></small>
                                         </div>
                                     </div>
 
                                     <!-- Assignment Grade Contribution Pct Field -->
                                     <div class="form-group">
-                                        <label class="control-label mb-10 col-sm-3" for="txt_allow_late_submission">Allow Late Submission</label>
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_allow_late_submission">Allow Late Submission</label>
                                         <div class="col-sm-2">
-                                            {!! Form::checkbox('txt_allow_late_submission', 1, ['id'=>'txt_allow_late_submission',  'class' => 'form-control']) !!}
+                                            {!! Form::checkbox('txt_assignment_allow_late_submission',1, false, ['id'=>'txt_assignment_allow_late_submission', 'class' => 'formcontrol' ]) !!}
                                         </div>
                                     </div>
 
@@ -121,6 +121,7 @@
     </div>
 </div>
 
+
 @section('js-130')
 <script type="text/javascript">
 $(document).ready(function() {
@@ -132,16 +133,16 @@ $(document).ready(function() {
         sideBySide: true,
         minDate: new Date()
     });
-
     //Show Modal
     $('#btn-show-modify-assignment-modal').click(function(){
         $('#spinner').hide();
         $('#modify-assignment-error-div').hide();
+        $('#txt_assignment_allow_late_submission').prop('checked',false);
         $('#modify-assignment-modal').modal('show');
         $('#form-modify-assignment').trigger("reset");
         $('#txt_assignment_id').val(0);
         let remainingGradePct = {!! json_encode($remainingGradePct) !!}
-        $('#txt_assignment_score_contriution_pct').attr('max',remainingGradePct);
+        $('#txt_assignment_grade_contribution_pct').attr('max',remainingGradePct);
         if(remainingGradePct <= 0){
             $('#txt_assignment_pct_grade_message').text("You have reached 100% grade limit for this course");
         }
@@ -162,16 +163,25 @@ $(document).ready(function() {
         $('#txt_assignment_description').val($('#spn_ass_'+itemId+'_desc').html());
         $('#txt_assignment_assignment_number').val($('#spn_ass_'+itemId+'_num').html());
 
-        $('#txt_assignment_max_score').val($('#spn_ass_'+itemId+'_max_points').html());
-        $('#txt_assignment_score_contriution_pct').val($('#spn_ass_'+itemId+'_contrib').html());
+        $('#txt_assignment_grade_max_points').val($('#spn_ass_'+itemId+'_max_points').html());
+        $('#txt_assignment_grade_contribution_pct').val($('#spn_ass_'+itemId+'_contrib').html());
         let remainingGradePct = {!! json_encode($remainingGradePct) !!}
-        let pctGrade = $('#txt_assignment_score_contriution_pct').val();
+        let pctGrade = $('#txt_assignment_grade_contribution_pct').val();
         let total = parseInt(pctGrade) + parseInt(remainingGradePct);
-        $('#txt_assignment_score_contriution_pct').attr('max',total);
+        $('#txt_assignment_grade_contribution_pct').attr('max',total);
         if(remainingGradePct <= 0){
             $('#txt_assignment_pct_grade_message').text("You have reached 100% grade limit for this course");      
         }
-        $('#txt_allow_late_submission').val($('#spn_ass_'+itemId+'_submission').html());
+        //console.log($('#spn_ass_'+itemId+'_submission').html());
+        
+        console.log($(this).attr('allow-late-submission'));
+        if($(this).attr('allow-late-submission') == 1){
+            //$('#txt_assignment_allow_late_submission').val($('#spn_ass_'+itemId+'_submission').html());
+            $('#txt_assignment_allow_late_submission').prop('checked',true);
+        }else{
+            $('#txt_assignment_allow_late_submission').prop('checked',false);
+        }
+        
         $('#txt_assignment_due_date').val($('#spn_ass_'+itemId+'_date').html());
         $('#txt_assignment_reference_material_url').val($('#spn_ass_'+itemId+'_url').html());
     });
@@ -221,13 +231,14 @@ $(document).ready(function() {
 
 
     function save_assignments_details(fileDetails){
-        // alert($("input[name=txt_allow_late_submission]:checked").val())
+        // alert($("input[name=txt_assignment_allow_late_submission]:checked").val())
         $('#spinner').show();
         $('#btn-modify-assignment').prop("disabled", true);
+        $('.input-border-error').removeClass("input-border-error");
         let actionType = "POST";
         let endPointUrl = "{{ route('classMaterials.store') }}";
         let primaryId = $('#txt_assignment_id').val();
-        let allow_late_submission = $("input[name=txt_allow_late_submission]:checked").val();
+        let allow_late_submission = $("input[name=txt_assignment_allow_late_submission]:checked").val();
         if(allow_late_submission == undefined ){
             allow_late_submission = '0';
         }
@@ -247,15 +258,15 @@ $(document).ready(function() {
         formData.append('description', $('#txt_assignment_description').val());
         formData.append('due_date', $('#txt_assignment_due_date').val());
         formData.append('allow_late_submission', allow_late_submission);
-        formData.append('remaining_pct_grade',$('#txt_assignment_score_contriution_pct').attr('max'));
+        formData.append('remaining_pct_grade',$('#txt_assignment_grade_contribution_pct').attr('max'));
         formData.append('id', primaryId );
         formData.append('reference_material_url', $('#txt_assignment_reference_material_url').val());
         if (fileDetails!=null){
             formData.append('upload_file_path', fileDetails[0]);
             formData.append('upload_file_type', fileDetails[1]);
         }
-        formData.append('grade_max_points', $('#txt_assignment_max_score').val());
-        formData.append('grade_contribution_pct', $('#txt_assignment_score_contriution_pct').val());
+        formData.append('grade_max_points', $('#txt_assignment_grade_max_points').val());
+        formData.append('grade_contribution_pct', $('#txt_assignment_grade_contribution_pct').val());
 
         $.ajax({
             url:endPointUrl,
@@ -275,8 +286,8 @@ $(document).ready(function() {
                     
                     $.each(result.errors, function(key, value){
                         $('#modify-assignment-error-div').append('<li class="">'+value+'</li>');
-                        $('#'+key).css('border-color','red');
-                        console.log( $('#'+key));
+                        $('#txt_assignment_'+key).addClass("input-border-error");
+
                     });
 
                 }else{
