@@ -41,6 +41,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Repositories\StudentClassActivityRepository;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 class ClassDashboardController extends AppBaseController
 {
 
@@ -201,22 +202,38 @@ class ClassDashboardController extends AppBaseController
     public function processStudentAttendanceDetails(Request $request, $course_class_id, $lectureId)
     {
         $current_user = Auth()->user();
-        $lecture_photo = new StudentAttendance;
+        
+        $lecture_photo = null;
 
-        //Upload Captured Image
         $captured_image = $request->student_img;  // base64 encoded
         $captured_image = str_replace('data:image/jpeg;base64,', '', $captured_image);
         $captured_image = str_replace(' ', '+', $captured_image);
-        $captured_image_name = time(). '.jpeg';
-    
-        $storagePath = public_path('/uploads/'.$captured_image_name);
+        $captured_image_name = time(). '.jpeg';       
+        $storagePath = public_path('uploads/'.$captured_image_name);
         file_put_contents($storagePath, base64_decode($captured_image));
 
-        $lecture_photo->student_id        = $current_user->student_id;
-        $lecture_photo->course_class_id   = $course_class_id;
-        $lecture_photo->class_material_id = $lectureId;
-        $lecture_photo->photo_file_path   = $captured_image_name;
-        $lecture_photo->save();
+        $input = [
+            'student_id' => $current_user->student_id,
+            'course_class_id' => $course_class_id,
+            'organization_id' => $request->input('organization_id'),
+            'semester_id' => $request->input('semester_id'),
+            'class_material_id' => $lectureId,
+            'photo_file_path' => $storagePath,
+        ];
+
+        $check_attendance_existence = StudentAttendance::where('course_class_id',$course_class_id)->where('class_material_id',$lectureId)->where('semester_id',$request->input('semester_id'))->first();
+        if(!empty($check_attendance_existence)){
+            File::delete($check_attendance_existence->photo_file_path);
+            $lecture_photo = StudentAttendance::find($check_attendance_existence->id);
+            $lecture_photo->fill($input);
+            $lecture_photo->save();
+        }else{
+             //Upload Captured Image  
+            $lecture_photo = new StudentAttendance();        
+            $lecture_photo->create($input);
+            $lecture_photo->save();
+            
+        }
         return true;
     }
 
