@@ -318,10 +318,13 @@ $(document).ready(function() {
                         $('.'+key).css('border-color','red');
                     });
                     $('.spinner').hide();
-                    swal("Done!", "Grades saved successfully with some issues.", "success");
+                    swal("Done!", "Grades saved successfully with some issues. Check the error fields to make neccessary adjustment.", "info");
                 }else{
                     $('.spinner').hide();
                     swal("Done!", "Grades saved successfully", "success");
+                    window.setTimeout( function(){
+                    location.reload(true);
+                },3000);
                 }
 
                 window.setTimeout( function(){
@@ -366,7 +369,7 @@ $(document).on('click', '#btn-save-mdl-comment-modal', function(e) {
                 $('.spinner2').hide();
             }else{
                 $('.spinner2').hide();
-                swal("Done!", "Grades saved successfully with some issues.", "success");
+                swal("Done!", "Grades saved successfully.", "success");
                 window.location.reload();
             }
         },

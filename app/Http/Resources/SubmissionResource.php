@@ -22,7 +22,8 @@ class SubmissionResource extends JsonResource
             'updated_at' => $this->updated_at,
             'student_id' => $this->student_id,
             'course_class_id' => $this->course_class_id,
-            'class_material_id' => $this->class_material_id
+            'class_material_id' => $this->class_material_id,
+            'comment' => $this->comment
         ];
     }
 }

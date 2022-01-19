@@ -62,7 +62,32 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="assignment-remark-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
 
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 id="modify-assignment-remark" class="modal-title">Assignment Remark</h4>
+            </div>
+
+            <div class="modal-body">
+               <div class="col-sm-12">
+                    <div class="spinner1">
+                         <div class="loader" id="loader-1"></div>
+                    </div>
+                    <p id ="txt_grade_remark"> </p>
+                </div>
+                
+            </div>
+
+            <div class="modal-footer">
+                
+            </div>
+
+        </div>
+    </div>
+</div>
 @section('js-114')
 <script type="text/javascript">
 $(document).ready(function() {
@@ -207,6 +232,28 @@ $(document).ready(function() {
                 }
             });
         }
+    });
+
+    //Show Modal
+    $('.btn-assignment-remark-modal').click(function(){
+      let itemId = $(this).attr('data-val');
+      $('#txt_grade_remark').html('');
+        $('.spinner1').show();
+      $('#assignment-remark-modal').modal('show');
+      $('#start-lecture-error-div').hide();
+        //$('.spinner').hide();
+
+      $.get( "{{URL::to('/')}}/api/submissions/"+itemId).done(function( response ) {
+        console.log(response)
+        if(response.data){
+            $('#txt_grade_remark').html(response.data.comment);
+             $('.spinner1').hide();
+        }else{
+            $('#txt_grade_remark').html("Remark not Found") ;
+             $('.spinner1').hide();
+        }
+       
+      });
     });
 
 
