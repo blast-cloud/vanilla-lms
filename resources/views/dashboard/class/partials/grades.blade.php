@@ -1,7 +1,9 @@
 <a id="btn-export-student-scores" target="_blank" style="opacity:0.8;font-size:85%" href="{{ route('dashboard.lecturer.grade-export',$courseClass->id) }}" class="text-info pull-right mb-5">
     <i class="fa fa-download" style=""></i>&nbsp;Export
 </a>
-<ol id="lst_grade_messages" class="ma-20" style="font-size:90%"></ol>
+<div class="lst_grade_message-div" style="background: red; padding-top: 5px; padding-bottom:5px">
+    <ol id="lst_grade_messages" class="ma-20" style="font-size:90%"></ol>
+</div>
 @if (count($enrollments)>0)
     <div class="grade-container" style="width: 100%; overflow-x: auto;">
     <table class="table table-bordered table-striped" style="border-collapse: collapse; overflow-x: scroll;">
@@ -103,7 +105,7 @@ No Enrolled Students
 <script type="text/javascript">
 $(document).ready(function() {
     $('.spinner1').hide();
-
+    $('.lst_grade_message-div').hide()
     //Load the class participation in grading window
     $(".participation_score").each(function() {
         let student_id = $(this).attr("data-student-id");
@@ -183,7 +185,7 @@ $(document).ready(function() {
                 $('.score-input').css('border-color','#ccc');
 
                 if(result.data){
-                   
+                    $('.lst_grade_message-div').hide()
                     $.each(result.data, function(key, value){ 
                         $('.'+key).val(Math.round(value)); 
                         
@@ -192,12 +194,16 @@ $(document).ready(function() {
 
                 if(result.message && Object.keys(result.message).length>0){
                     // swal("Done!", "Grades saved successfully with some issues.", "success");
+                    console
+                    $('.lst_grade_message-div').show()
                     $.each(result.message, function(key, value){
-                        $('#lst_grade_messages').append('<li class="text-danger">'+value+'</li>');
+                        $('#lst_grade_messages').append('<li style="color: #ffffff;">'+value+'</li>');
                         
                         $('.'+key).css('border-color','red');
                     });
+                    swal("Warning!", "Some issues occured while processing. Check the error fields to make neccessary adjustment.", "info");
                 }else{
+                    $('.lst_grade_message-div').hide()
                     swal("Done!", "Grades saved successfully.", "success");
                 }
 

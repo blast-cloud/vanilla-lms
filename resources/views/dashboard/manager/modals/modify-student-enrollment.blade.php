@@ -247,8 +247,6 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
 
         // $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( response ) {
-            console.log(itemId);
-            console.log(response);
 			$('#div-enrollment-modal-error').hide();
 			$('#mdl-enrollment-modal').modal('show');
 			$('#frm-enrollment-modal').trigger("reset");

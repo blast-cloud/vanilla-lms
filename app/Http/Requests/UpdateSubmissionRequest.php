@@ -33,7 +33,8 @@ class UpdateSubmissionRequest extends AppBaseFormRequest
 
         return [
             'id' => 'required|numeric|exists:submissions,id',
-            'title' => 'required'
+            'title' => 'required',
+            'file' => 'required|mimes:pdf,doc,docx,ppt,xlsx,xls'
         ];
     }
 }

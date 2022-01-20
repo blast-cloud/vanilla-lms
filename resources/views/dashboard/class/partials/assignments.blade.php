@@ -91,13 +91,19 @@
                                     $is_assignment_graded = ($submission && $submission->grade_id != null) ? true : false;
                             $assignment_due_date =  strtotime($item->due_date) - time();
                     @endphp
+                    <div class="col-md-12">
+                        @if (($current_user->student_id) && $is_assignment_graded == true )
 
-                    @if (($current_user->student_id) && $is_assignment_graded == true )
-
-                        {{ $submission->grade->score  }} / {{ $item->grade_max_points }} 
-                        
-                        
-                    @endif
+                          <strong> Score: </strong> {{ $submission->grade->score  }} / {{ $item->grade_max_points }}    
+                        @endif
+                    </div>
+                    <div class="col-md-12">
+                        @if (($current_user->student_id) && $submission->comment != null )
+                            <a href="#"  class="btn  btn-xs btn-success btn-assignment-remark-modal" style="width: 120px;" data-val="{{$item->id}}">
+                                <i class="fa fa-eye"></i> comment
+                            </a>
+                        @endif
+                    </div>
                 
                 </div>
 

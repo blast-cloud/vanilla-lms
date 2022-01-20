@@ -53,7 +53,7 @@
                                                 @endif
                                                 @if($message == 'low')
                                                     <i class="text-danger fa fa-warning mr-5"></i>
-                                                    <span class="text-danger">Your participation in this class is low, and it might affect your final score. Kindly followup on reading materials, assignments, and use the discussion forum if you have questions.</span>
+                                                    <span class="text-danger">Your participation in this class is low, and it might affect your final score. Kindly follow up on reading materials, assignments, and use the discussion forum if you have questions.</span>
                                                 @endif
                                                 @if($message == 'moderate')
                                                     {{-- <span class="text-danger">Your participation in this class is moderate</span> --}}
