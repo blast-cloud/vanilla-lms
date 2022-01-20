@@ -274,7 +274,7 @@ class ManagerDashboardController extends AppBaseController
     public function displayDepartmentStudentPage(Request $request, $student_id)
     {
         $current_user = Auth()->user();
-        $departmentItems = $this->departmentRepository->all();
+        $departmentItems = Department::orderBy('name')->get();
         //dd( $departmentItems);
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 20);
