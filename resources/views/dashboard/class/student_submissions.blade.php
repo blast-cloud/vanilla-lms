@@ -55,8 +55,10 @@
 
 
        @if (isset($enrollments) && count($enrollments)> 0)
-       
+       <div class="lst_grade_message-div" style="background: red; padding-top: 5px; padding-bottom:5px">
         <ol id="lst_grade_messages" class="ma-20" style="font-size:90%"></ol>
+       </div>
+       
         <table class="table table-bordered table-striped table-responsive mb-10 mass-grading-tbl">
 
             <thead>
@@ -223,6 +225,7 @@
 $(document).ready(function() {
     // Get comment modl for view and edit
     $('.spinner').hide();
+    $('.lst_grade_message-div').hide()
     $(document).on('click', '.comment-btn', function(e) {
         e.preventDefault();
         $('.spinner2').show();
@@ -309,18 +312,20 @@ $(document).ready(function() {
                         $('.'+key).val(value); 
                     });
                     $('.spinner').hide();
+                    $('.lst_grade_message-div').hide();
                 }
 
                 if(result.message && Object.keys(result.message).length>0){
-
+                    $('.lst_grade_message-div').show();
                     $.each(result.message, function(key, value){
-                        $('#lst_grade_messages').append('<li class="text-danger">'+value+'</li>');
+                        $('#lst_grade_messages').append('<li style="color: #ffffff;">'+value+'</li>');
                         $('.'+key).css('border-color','red');
                     });
                     $('.spinner').hide();
-                    swal("Done!", "Grades saved successfully with some issues. Check the error fields to make neccessary adjustment.", "info");
+                    swal("Warning!", "Some issues occured while processing. Check the error fields to make neccessary adjustment.", "info");
                 }else{
                     $('.spinner').hide();
+                    $('.lst_grade_message-div').hide();
                     swal("Done!", "Grades saved successfully", "success");
                     window.setTimeout( function(){
                     location.reload(true);
