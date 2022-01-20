@@ -31,7 +31,7 @@
                                 <div class="col-sm-12">
 
                                     
-                                    <div id="spinner1" class="">
+                                    <div id="spinner3" class="spinner3">
                                         <div class="loader" id="loader-1"></div>
                                     </div>
   
@@ -96,7 +96,7 @@ $(document).ready(function() {
 
     //Show Modal
     $('.btn-show-submit-assignment-modal').click(function(){
-        $('#spinner1').hide();
+        $('#spinner3').hide();
         $('#submit-assignment-info-div').hide();
         $('#submit-assignment-error-div').hide();
         $('#submit-assignment-modal').modal('show');
@@ -130,7 +130,6 @@ $(document).ready(function() {
         if( assignment_file == undefined) {
             assignment_file = '';
         }
-        $('#spinner1').show();
         $('#btn-submit-assignment').prop("disabled", true);
         let actionType = "POST";
         let endPointUrl = "{{ route('submissions.store') }}";
@@ -170,7 +169,7 @@ $(document).ready(function() {
 
                     $('#submit-assignment-error-div').html('');
                     $('#submit-assignment-error-div').show();
-                    $('#spinner1').hide();
+                    $('#spinner3').hide();
                     $('#btn-submit-assignment').prop("disabled", false);
                     $.each(result.errors, function(key, value){
                         $('#submit-assignment-error-div').append('<li class="">'+value+'</li>');
@@ -178,7 +177,7 @@ $(document).ready(function() {
 
                 }else{
                     $('#submit-assignment-error-div').hide();
-                    $('#spinner1').hide();
+                    $('#spinner3').hide();
                     $('#btn-submit-assignment').prop("disabled", false);
                     window.setTimeout( function(){
                         swal("Done!","Assignment saved successfully!","success");
@@ -204,13 +203,13 @@ $(document).ready(function() {
             $('.offline').fadeOut(300);
         }
         
-        $('#spinner1').show();
+        $('#spinner3').show();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
        
         if ($('#submit_assignment_upload_file_path')[0].files[0] == null){
             
             save_assignments_details(null);
-            $('#spinner1').hide();
+            $('#spinner3').hide();
 
         }else{
 
@@ -223,11 +222,12 @@ $(document).ready(function() {
                 contentType: false, data: formData,
                 success: function(data){
                     console.log(data); 
-                    save_assignments_details(data.message);  
+                    save_assignments_details(data.message);
+                    $('#spinner3').hide();  
                 },
                 error: function(data){ 
                     console.log(data);
-                    $('#spinner1').hide();
+                    $('#spinner3').hide();
                     $('#btn-submit-assignment').prop("disabled", false);
                 }
             });

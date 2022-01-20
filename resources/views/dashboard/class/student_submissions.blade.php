@@ -87,7 +87,7 @@
 
                     @foreach ($enrollments as $idx=>$item)
                     <tr>
-                        <td>{{ ++$x }}</td>
+                        <td style="width:10%">{{ ++$x }}</td>
                         <td style="width:30%">{{ $item->student->last_name }}  {{ $item->student->first_name }}</td>
                         <td style="width:20%">{{ $item->student->matriculation_number }}</td>
                         @php
