@@ -38,7 +38,9 @@ Account Profile
                                                 placeholder="Email" 
                                                  @if ($current_user->student_id != null)
                                                     disabled
-                                                 @endif>
+                                                 @endif
+                                               
+                                                 
 >
                                             @error('email')
                                             <span class="error invalid-feedback">{{ $message }}</span>
