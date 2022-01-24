@@ -45,6 +45,7 @@
                     <div class='input-group mb-15'>
                         <span class='input-group-addon'><i class='img-circle img-sm fa fa-comments-o' style='font-size:25px;padding-top:2px;'></i></span>
                         <input id='comment-text' type='text' class='form-control input-sm' placeholder='Type in your comments and press enter to save comments'>
+                        <span class='input-group-addon' class="btn-send-comment"><a href="#" id="btn btn-send-comment" class="btn-send-comment"><i class='img-circle img-sm fa fa-paper-plane' style='font-size:25px;padding-top:2px;'></i></a></span>
                     </div>
                 </div>
             </div>
@@ -241,14 +242,26 @@ $(document).ready(function() {
     });
     
     $("#comment-text").on('keypress', function(e){
-        itemId = $('#txt-parent-forum-id').val();
-
+        
         if (e.which==13 && $('#comment-text').val().length > 2){
            
-            $('.spinner1').show();
-            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-            e.preventDefault();
+            sendComment();
+        }
+    });
 
+    $(".btn-send-comment").click(function(e){
+        e.preventDefault();
+        console.log("jddjdj")
+        if($('#comment-text').val().length > 2){
+            sendComment();
+        }
+       
+    });
+
+    function sendComment(){
+        itemId = $('#txt-parent-forum-id').val();
+             $('.spinner1').show();
+            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
             let formData = new FormData();
             formData.append('_token', $('input[name="_token"]').val());
             formData.append('posting',$('#comment-text').val());
@@ -276,10 +289,7 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                 }
             });
-        }
-    });
-
-   
+    }
 
      //Save lecturer
     $('#btn-modify-forum-comment').click(function(e) {
