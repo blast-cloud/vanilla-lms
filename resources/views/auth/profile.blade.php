@@ -95,7 +95,7 @@ Account Profile
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label mb-10 col-sm-3" for="code">Profile Picture</label>
+                                    <label class="control-label mb-10 col-sm-3" for="profile_picture">Profile Picture</label>
                                     <div class="col-sm-9">
                                         <div class="input-group mb-3">
                                             <input type="file"
