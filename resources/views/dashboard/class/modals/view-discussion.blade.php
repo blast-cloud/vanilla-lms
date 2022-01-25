@@ -124,7 +124,6 @@ $(document).ready(function() {
 
     function load_comment_list(itemId){
         $.get( "{{URL::to('/')}}/api/forums/comments/"+itemId).done(function( response ) {
-            
             if (response && response.data){
                 $('#forum-comment-list').empty();
                 let today = new Date();
@@ -132,13 +131,20 @@ $(document).ready(function() {
                 let time = today.getHours() + ':' + today.getMinutes() + ':' + today.getSeconds();
                 current_date = date+' '+time;
                 $.each(response.data, function(key, item){
+                    let profile_picture  = "{{ asset('dist/img/user-badge.fw.png') }}";
+                    if(item.posting_user.lecturer && item.posting_user.lecturer.picture_file_path != null){
+                        profile_picture = "{{ asset('')}}"+item.posting_user.lecturer.picture_file_path;
+                    }
+                    if(item.posting_user.student && item.posting_user.student.picture_file_path != null ){
+                        profile_picture = "{{ asset('')}}"+item.posting_user.student.picture_file_path;
+                    }
                     let posting_date = new Date(item.created_at)
                     let diff = (today.getTime() - posting_date.getTime())/1000;
                     diff /=(60 * 60);
                     diffHrs = Math.abs(Math.round(diff));       
                     if ( item.posting_user_id != "{{$current_user->id}}" ){
                         commentItem = "<li class='friend mb-5'><div class='friend-msg-wrap'>";
-                        commentItem += "<img class='user-img img-circle block pull-left' src='{{ asset('dist/img/user-badge.fw.png') }}' alt='user'><div class='msg pull-left'>";
+                        commentItem += "<img class='user-img img-circle block pull-left' src='"+profile_picture+"'  alt='user'><div class='msg pull-left'>";
                         if(item.posting_user.lecturer){
                             commentItem += "<p><strong>"+ item.posting_user.lecturer.job_title+" "+ item.posting_user.lecturer.first_name+" "+ item.posting_user.lecturer.last_name +"</strong></p>";
                         }
@@ -152,7 +158,8 @@ $(document).ready(function() {
                         commentItem += "</div></div><div class='clearfix'></div></div></li>";
                     }else{
 
-                        commentItem = "<li class='self mb-5'><div class='self-msg-wrap'><div class='msg block pull-right'>";
+                        commentItem = "<li class='self mb-5'><div class='self-msg-wrap  pull-right' style='padding-left:200px;'>";
+                            commentItem += "<img class='user-img img-circle' src='"+profile_picture+"'  alt='user'><div class='msg pull-right' style='margin-left:35px'>";
                         if(item.posting_user.lecturer){
                             commentItem += "<p><strong>"+ item.posting_user.lecturer.job_title+" "+ item.posting_user.lecturer.first_name+" "+ item.posting_user.lecturer.last_name +"</strong></p>";
                         }
@@ -166,7 +173,7 @@ $(document).ready(function() {
                         if(item.posting_user_id == "{{$current_user->id}}" && diffHrs <= 1){
                             commentItem += "<a href='#' class='btn-edit-modify-forum-comment-modal' data-val='"+item.id+"' parent-id='"+item.parent_forum_id+"'><i class='text-info fa fa-pencil ml-5' style='font-size:80%;opacity:0.5;'></i></a>";
                         }
-                        commentItem += "</div></div><div class='clearfix'></div></div></li>";
+                        commentItem += "</div></div></div><div class='clearfix'></div></li>";
                     }
                     $('#forum-comment-list').append(commentItem);
                 });

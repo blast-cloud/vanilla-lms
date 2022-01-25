@@ -22,7 +22,7 @@ Account Profile
 
                     <div class="col-sm-10">
                         <div class="form-wrap">
-                            <form method="post" action="{{ route('profile-update') }}" class='form-horizontal'>
+                            <form method="post" action="{{ route('profile-update') }}" class='form-horizontal' enctype="multipart/form-data">
                                 @csrf
 
                                 <div class="form-group">
@@ -91,6 +91,17 @@ Account Profile
                                                 name="password_confirmation"
                                                 class="form-control"
                                                 placeholder="Retype password">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label mb-10 col-sm-3" for="code">Profile Picture</label>
+                                    <div class="col-sm-9">
+                                        <div class="input-group mb-3">
+                                            <input type="file"
+                                                id="profile_picture"
+                                                name="profile_picture"
+                                                class="form-control">
                                         </div>
                                     </div>
                                 </div>
