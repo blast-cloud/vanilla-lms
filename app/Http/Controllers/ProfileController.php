@@ -17,6 +17,7 @@ use App\Repositories\StudentRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\File;
 
 class ProfileController extends AppBaseController
 {
@@ -95,9 +96,10 @@ class ProfileController extends AppBaseController
         $current_user = Auth()->user();
 
         $validation_rules = array(
-            'email' => "required|email|string|max:255|unique:users,email,{$current_user->id}",
+            'email' => "sometimes|required|email|string|max:255|unique:users,email,{$current_user->id}",
             'telephone' => "required|numeric|digits:11|unique:users,telephone,{$current_user->id}",
-            'password' => 'nullable|string|min:8|confirmed|regex:/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',            
+            'password' => 'nullable|string|min:8|confirmed|regex:/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/', 
+            'profile_picture' => 'nullable|mimes:jpg,png,jpeg|max:1000'           
         );
 
         $validation_messages = array(
@@ -108,7 +110,8 @@ class ProfileController extends AppBaseController
         $attributes = array(
             'password' => 'Password',
             'telephone' => 'Phone Number',
-            'email' => 'Email Address'
+            'email' => 'Email Address',
+            'profile_picture' => 'Profile Picture'
         );
 
         //Create a validator for the data in the request
@@ -128,13 +131,53 @@ class ProfileController extends AppBaseController
         }
 
         if ($current_user != null){
-            $current_user->email = $request->email;
+            If(!empty($request->password)){
+                $current_user->email = $request->email;
+            }
             $current_user->telephone = $request->telephone;
             if (!empty($request->password)){
                 $current_user->password = Hash::make($request->password);
             }
             
             $current_user->save();
+            if($current_user != null && $current_user->student_id  != null && $request->hasFile('profile_picture')){
+               $student = $this->studentRepository->find($current_user->student_id);
+               if($student){
+                if($student->picture_file_path != null){
+                    File::delete($student->picture_file_path);
+                }
+                $imageName = time().'.'.$request->file('profile_picture')->getClientOriginalExtension();
+                $request->file('profile_picture')->move(public_path('uploads'),$imageName);
+                $student->picture_file_path = 'uploads/'.$imageName;
+                $student->save();
+               }
+            }
+            if($current_user != null && $current_user->lecturer_id  != null && $request->hasFile('profile_picture')){
+                $lecturer = $this->lecturerRepository->find($current_user->lecturer_id);
+                if($lecturer){
+                    if($lecturer->picture_file_path != null){
+                        File::delete($lecturer->picture_file_path);
+                    }
+                    $imageName = time().'.'.$request->file('profile_picture')->getClientOriginalExtension();
+                    $request->file('profile_picture')->move(public_path('uploads'),$imageName);
+                    $lecturer->picture_file_path = 'uploads/'.$imageName;
+                    $lecturer->save();
+                   
+                }
+            }
+            if($current_user != null && $current_user->manager_id  != null && $request->hasFile('profile_picture')){
+                $lecturer = $this->lecturerRepository->find($current_user->manager_id); 
+                if($lecturer){
+                    if($lecturer->picture_file_path != null){
+                        File::delete($lecturer->picture_file_path);
+                    }
+                    $imageName = time().'.'.$request->file('profile_picture')->getClientOriginalExtension();
+                    $request->file('profile_picture')->move(public_path('uploads'),$imageName);
+                    $lecturer->picture_file_path = 'uploads/'.$imageName;
+                    $lecturer->save();
+                }
+            }
+
             $request->session()->flash('success','Your profile has been updated.');
         }
 

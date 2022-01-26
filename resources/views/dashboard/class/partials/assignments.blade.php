@@ -99,7 +99,7 @@
                     </div>
                     <div class="col-md-12">
                         @if (($current_user->student_id) && !empty($submission) && $submission->comment != null )
-                            <a href="#"  class="btn  btn-xs btn-success btn-assignment-remark-modal" style="width: 120px;" data-val="{{$item->id}}">
+                            <a href="#"  class="text-center btn-assignment-remark-modal" style="width: 120px;" data-val="{{$item->id}}">
                                 <i class="fa fa-eye"></i> comment
                             </a>
                         @endif

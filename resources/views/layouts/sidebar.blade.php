@@ -1,6 +1,13 @@
 
 @php
     $current_user = Auth()->user();
+    $profile_picture = null;
+    if($current_user && $current_user->student){
+        $profile_picture = $current_user->student->picture_file_path;   
+    }
+    if($current_user && $current_user->lecturer){
+        $profile_picture = $current_user->lecturer->picture_file_path;   
+    }
 @endphp
 		<!-- Top Menu Items -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -35,7 +42,7 @@
 			<div id="mobile_only_nav" class="mobile-only-nav pull-right">
 				<ul class="nav navbar-right top-nav pull-right">
 					<li class="dropdown auth-drp">
-						<a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown"><img src="{{ asset('dist/img/user-badge.fw.png') }}" alt="user_auth" class="user-auth-img img-circle"/><span class="user-online-status"></span></a>
+						<a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown"><img src="{{ $profile_picture ?  asset($profile_picture) : asset('dist/img/user-badge.fw.png') }}" alt="user_auth" class="user-auth-img img-circle"/><span class="user-online-status"></span></a>
 						<ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
 							<li>
 								<a href="{{ route('profile') }}"><i class="zmdi zmdi-account"></i><span>Profile</span></a>
