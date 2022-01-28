@@ -219,7 +219,7 @@ class ClassDashboardController extends AppBaseController
             'photo_file_path' => $storagePath,
         ];
 
-        $check_attendance_existence = StudentAttendance::where('course_class_id',$course_class_id)->where('class_material_id',$lectureId)->where('semester_id',$request->input('semester_id'))->first();
+        $check_attendance_existence = StudentAttendance::where('course_class_id',$course_class_id)->where('class_material_id',$lectureId)->where('student_id',$current_user->student_id)->first();
         if(!empty($check_attendance_existence)){
             File::delete($check_attendance_existence->photo_file_path);
             $lecture_photo = StudentAttendance::find($check_attendance_existence->id);
