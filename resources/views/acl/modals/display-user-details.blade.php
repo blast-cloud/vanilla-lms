@@ -369,7 +369,7 @@ $('#div-bulk-user-modal-error').hide();
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        swal("Done!","The user account has been enabled!","success");
+                        swal("Done!","The user account has been enabled! Kindly check your email to retrieve the details of your new account","success");
                         location.reload(true);
                     }
                 },

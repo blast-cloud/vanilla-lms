@@ -19,9 +19,11 @@ class LecturerCreatedNotification extends Notification
      */
 
     public $lecturer;
-    public function __construct(Lecturer $lecturer)
+    public $password;
+    public function __construct(Lecturer $lecturer,$password)
     {
         $this->lecturer = $lecturer;
+        $this->password = $password;
     }
 
     /**
@@ -44,7 +46,7 @@ class LecturerCreatedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)->subject('LMS Account Details')
-                                ->markdown('mail.account_creation', ['user' => $this->lecturer]);
+                                ->markdown('mail.account_creation', ['user' => $this->lecturer,'password' => $this->password]);
     }
 
     /**
