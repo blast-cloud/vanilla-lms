@@ -38,26 +38,21 @@
                                     <ul class="list-icons" style="font-size:95%">
                                         @if ($current_user->student_id != null)
                                             @if ($classDetailItem->enrollments->is_approved == "1" )
-                                            @if (!empty($classDetailItem->email_address))
-                                            <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Class Email: <span class="text-primary">{{ $classDetailItem->email_address }}</span></li>
-                                            @endif
-                                            @if (!empty($classDetailItem->telephone))
-                                            <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Class Phone#: <span class="text-primary">{{ $classDetailItem->telephone }}</span></li>
-                                            @endif
-                                            <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Lecture Period: <span class="text-info">Mon, Wed, Fri (3PM to 4PM)</span></li> -->
-                                            @if (!empty($classDetailItem->next_lecture_date))
-                                            <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Next Lecture: <span id="spn_next_lecture_date" class="text-warning">{{ $classDetailItem->next_lecture_date}}</span></li>
-                                            @endif
-                                            @if (!empty($classDetailItem->next_exam_date))
-                                            <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Next Exam Date: <span id="spn_next_exam_date" class="text-warning">{{ $classDetailItem->next_exam_date}}</span></li>
-                                            @endif
+                                                @if (!empty($classDetailItem->email_address))
+                                                <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Class Email: <span class="text-primary">{{ $classDetailItem->email_address }}</span></li>
+                                                @endif
+                                                @if (!empty($classDetailItem->telephone))
+                                                <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Class Phone#: <span class="text-primary">{{ $classDetailItem->telephone }}</span></li>
+                                                @endif
+                                                <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Lecture Period: <span class="text-info">Mon, Wed, Fri (3PM to 4PM)</span></li> -->
+                                                @if (!empty($classDetailItem->next_lecture_date))
+                                                <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Next Lecture: <span id="spn_next_lecture_date" class="text-warning">{{ $classDetailItem->next_lecture_date}}</span></li>
+                                                @endif
+                                                @if (!empty($classDetailItem->next_exam_date))
+                                                <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Next Exam Date: <span id="spn_next_exam_date" class="text-warning">{{ $classDetailItem->next_exam_date}}</span></li>
+                                                @endif
                                             <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Assignment #1 is due Monday, 12-Jun-21 </span></li> -->
                                             <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Enrolled Students: <span class="text-danger">50</span> </li> -->
-                                            @if ($classDetailItem->enrollments->is_approved == "0")
-                                            <li>
-                                                <i class="text-danger fa fa-warning mr-5"></i>
-                                                        <span class="text-danger">Your request  to enroll in this class has not been approved.</span>
-                                            </li>
                                             <li>                                             
                                                     @php
                                                         $message = $classActivities->get_activity_score($classDetailItem->id, $current_user->student_id);
@@ -85,9 +80,7 @@
                                                 <p class="muted">Please contact your department to accept your enrollment on this Platform</p>
                                             </div>
                                             @endif
-                                            
-                                           
-                                        
+                                        @endif 
                                         @if ($current_user->lecturer_id != null || $current_user->manager_id)
                                             @if (!empty($classDetailItem->email_address))
                                             <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Class Email: <span class="text-primary">{{ $classDetailItem->email_address }}</span></li>
