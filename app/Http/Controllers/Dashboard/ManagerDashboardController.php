@@ -38,6 +38,7 @@ use App\Models\Semester;
 use App\Models\CourseClass;
 use App\Models\Announcement;
 use App\Models\CalendarEntry;
+use App\Models\Enrollment;
 
 
 class ManagerDashboardController extends AppBaseController
@@ -90,6 +91,9 @@ class ManagerDashboardController extends AppBaseController
                                         })->latest()->get();
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
 
+        $pending_enrollment_approval = Enrollment::with('student','courseClass')->where('is_approved',false)->get();
+       
+                                        
         $department_calendar_items = CalendarEntry::where('department_id',$current_user->department_id)->get();
         $course_catalog_items = Course::where('department_id', $current_user->department_id)->get();
         $student_count = $this->studentRepository->all(['department_id'=>$current_user->department_id])->count();
@@ -129,6 +133,7 @@ class ManagerDashboardController extends AppBaseController
                     ->with('department', $department)
                     ->with('current_user', $current_user)
                     ->with('announcements', $announcements)
+                    ->with('pending_enrollment_approval',$pending_enrollment_approval)
                     ->with('class_schedules', $class_schedules)
                     ->with('courseItems', $courseItems)
                     ->with('student_count', $student_count)

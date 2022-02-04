@@ -33,18 +33,6 @@
                                     <div class="col-lg-10 ma-10">
                                     
                                         <div class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="semester_id">Semester</label>
-                                            <div class="col-sm-9">
-                                               <select class="form-control" id="semester_id" name="semester_id">
-                                                    <option value=""> -- select semester --</option>
-                                                    @foreach ($semesterItems as $item)
-                                                        <option value="{{$item->id}}">{{$item->code}} </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Department</label>
                                             <div class="col-sm-9">
                                                 <select class="form-control" id="department_id" name="department_id">
@@ -100,7 +88,7 @@ $(document).ready(function() {
     $(document).on('change', "#semester_id", function(e) {
        let endPointUrl = "{{route('api.department.semester.course')}}" ;  
        let formData = new FormData();
-       formData.append('semester_id',$('#semester_id').val());
+       formData.append('semester_id',{{$current_semester->id}});
        formData.append('department_id',$('#department_id').val());
         $.ajax({
             url:endPointUrl,
@@ -129,7 +117,7 @@ $(document).ready(function() {
     $(document).on('change', "#department_id", function(e) {
        let endPointUrl = "{{route('api.department.semester.course')}}" ;  
        let formData = new FormData();
-       formData.append('semester_id',$('#semester_id').val());
+       formData.append('semester_id',{{$current_semester->id}});
        formData.append('department_id',$('#department_id').val());
         $.ajax({
             url:endPointUrl,
@@ -145,7 +133,7 @@ $(document).ready(function() {
                 $('#course_id').append('<option value=""> -- select course -- </option>')
                 if(response.data.length > 0){
                     $.each(response.data,function(k,v){
-                        $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + "taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
+                        $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + " taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
                     });
                    
                 }
@@ -281,7 +269,8 @@ $(document).ready(function() {
         formData.append('course_class_id', $('#course_id').val());
         formData.append('student_id', {{$current_user->student_id}} );
         formData.append('department_id', {{$department->id}} );
-        formData.append('semester_id',$('#semester_id').val());
+        formData.append('semester_id',{{$current_semester->id}});
+        formData.append('is_approved','0');
 
         $.ajax({
             url:endPointUrl,

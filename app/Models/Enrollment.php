@@ -78,7 +78,8 @@ class Enrollment extends Model
         'student_id',
         'course_class_id',
         'semester_id',
-        'department_id'
+        'department_id',
+        'is_approved'
     ];
 
     /**
@@ -92,7 +93,8 @@ class Enrollment extends Model
         'student_id' => 'integer',
         'course_class_id' => 'integer',
         'semester_id' => 'integer',
-        'department_id' => 'integer'
+        'department_id' => 'integer',
+        'is_approved' => 'boolean'
     ];
 
 
@@ -101,7 +103,7 @@ class Enrollment extends Model
      **/
     public function student()
     {
-        return $this->hasOne(\App\Models\Student::class, 'id', 'student_id');
+        return $this->belongsTo(\App\Models\Student::class);
     }
 
     /**

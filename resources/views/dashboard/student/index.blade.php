@@ -14,23 +14,6 @@ Student Dashboard
 @section('content')
     
         @include('flash::message')
-        @php 
-        if (isset($classActivities) && $classActivities->getAppSettings()){
-            $db_settings = $classActivities->getAppSettings();
-        }
-    @endphp
-    @if(!empty($db_settings) && $db_settings['cbx_class_enrollment'] != null)
-        <div class="row" >
-            <div class="col-xs-9" >
-                <span class="pull-right"  style="padding-bottom: 10px; padding-right: 5px ">
-                    <a href="#" id="btn-show-modify-student-modal" href="#" class="btn-new-mdl-enrollment-modal btn btn-xs btn-primary pull-right">
-                        <i class="zmdi zmdi-file-plus"></i> Enroll&nbsp;in&nbsp;class
-                    </a>
-                </span>
-            </div>
-        </div>
-    @endif
-    
         <div class="col-sm-9">
 
             @if (isset($class_schedules) && $class_schedules!=null && count($class_schedules)>0)

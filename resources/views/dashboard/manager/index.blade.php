@@ -25,20 +25,33 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                @include('dashboard.manager.partials.announcements')
+                <div class="row">
+                    <div class="col-sm-12">
+                        @include('dashboard.manager.partials.pending_enrollment')
+                    </div>
+                    <div class="col-sm-12">
+                        @include('dashboard.manager.partials.announcements')
+                    </div>
+                    
+                     <div class="col-sm-12">
+                         @include('dashboard.manager.partials.course-catalog')
+                    </div>
+                   
+                </div>
+               
             </div>
             <div class="col-sm-6">
-                @include('dashboard.manager.partials.class-schedule')
+                <div class="row">
+                    <div class="col-sm-12">
+                        @include('dashboard.manager.partials.class-schedule')
+                    </div>
+                    <div class="col-sm-12">
+                        @include('dashboard.manager.partials.department-calendar')
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6">
-                @include('dashboard.manager.partials.department-calendar')
-            </div>
-            <div class="col-sm-6">
-                @include('dashboard.manager.partials.course-catalog')
-            </div>
-        </div>
+              
     </div>
     <div class="col-sm-3">
         @include("dashboard.partials.side-panel")

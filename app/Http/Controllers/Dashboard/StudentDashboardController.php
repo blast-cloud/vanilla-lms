@@ -18,6 +18,7 @@ use App\Repositories\EnrollmentRepository;
 use App\Repositories\GradeRepository;
 use App\Repositories\SemesterRepository;
 use App\Models\Course;
+use App\Models\CourseClass;
 use App\Models\Semester;
 use App\Models\Lecturer;
 use DB;
@@ -123,13 +124,15 @@ class StudentDashboardController extends AppBaseController
                                             $query->where('department_id', null)
                                                 ->where('course_class_id', null);
                                         })->latest()->get();
-        $class_schedules = $this->courseClassRepository->findMany($enrollment_ids);
+        $class_schedules = CourseClass::with('enrollments')->findMany($enrollment_ids);
         $department = $this->departmentRepository->find($current_user->department_id);
         $classActivities = new StudentActivityManager(1);
+        $current_semester = Semester::where('is_current',true)->first();
     
         return view("dashboard.student.index")
                 ->with('department', $department)
                 ->with('announcements', $announcements)
+                ->with('current_semester',$current_semester)
                 ->with('current_user', $current_user)
                 ->with('class_schedules', $class_schedules)
                 ->with('classActivities',$classActivities)
