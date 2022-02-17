@@ -393,6 +393,14 @@ $('#div-bulk-user-modal-error').hide();
         })
         .then((willDelete) => {
           if (willDelete) {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = '<div class="loader2" id="loader-1"></div>';
+            swal({
+                title: 'Please Wait !',
+                content: wrapper, 
+                buttons: false,
+                closeOnClickOutside: false
+            });
             let endPointUrl = "{{ route('dashboard.user-delete-account',0) }}"+itemId;
 
             let formData = new FormData();

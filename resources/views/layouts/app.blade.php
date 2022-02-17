@@ -127,6 +127,17 @@
         margin:0px 0px 0px 0px;
         z-index: 5000000;
         }
+        
+        .loader2{
+        width: 50px;
+        height: 50px;
+        border-radius: 100%;
+        position:relative;
+        top:50%;
+        left:50%;
+        margin:0px 0px 0px 0px;
+        z-index: 5000000;
+        }
 
         /*  .loader{
         width: 100px;

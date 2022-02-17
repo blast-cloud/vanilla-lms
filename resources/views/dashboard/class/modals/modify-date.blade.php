@@ -111,7 +111,14 @@ $(document).ready(function() {
         })
         .then((willDelete) => {
           if (willDelete) {
-            $('.spinner1').show();
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = '<div class="loader2" id="loader-1"></div>';
+            swal({
+                title: 'Please Wait !',
+                content: wrapper, 
+                buttons: false,
+                closeOnClickOutside: false
+            });
             let actionType = "DELETE";
             let endPointUrl = "{{ route('calendarEntries.destroy',0) }}"+itemId;
 

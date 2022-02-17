@@ -129,6 +129,12 @@ $(document).ready(function() {
         })
         .then((willDelete) => {
           if (willDelete) {
+            swal({
+                title: 'Please Wait !',
+                content: wrapper, 
+                buttons: false,
+                closeOnClickOutside: false
+            });
             let endPointUrl = "{{ route('semesters.destroy',0) }}"+itemId;
 
             let formData = new FormData();

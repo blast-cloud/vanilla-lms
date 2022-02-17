@@ -145,6 +145,7 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
         let itemId = $(this).attr('data-val');
+        
         swal({
           title: "Are you sure you want to delete this lecture?",
           text: "This is an irriversible action!",
@@ -154,6 +155,14 @@ $(document).ready(function() {
         })
         .then((willDelete) => {
           if (willDelete) {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = '<div class="loader2" id="loader-1"></div>';
+            swal({
+                title: 'Please Wait !',
+                content: wrapper, 
+                buttons: false,
+                closeOnClickOutside: false
+            });
             let actionType = "DELETE";
             let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
 
