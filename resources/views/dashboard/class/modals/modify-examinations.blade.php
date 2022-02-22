@@ -171,6 +171,14 @@ $(document).ready(function() {
         })
         .then((willDelete) => {
           if (willDelete) {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = '<div class="loader2" id="loader-1"></div>';
+            swal({
+                title: 'Please Wait !',
+                content: wrapper, 
+                buttons: false,
+                closeOnClickOutside: false
+            });
             let actionType = "DELETE";
             let endPointUrl = "{{ route('classMaterials.destroy',0) }}"+itemId;
 

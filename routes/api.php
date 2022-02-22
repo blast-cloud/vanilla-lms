@@ -58,6 +58,7 @@ Route::post('/student-password', [\App\Http\Controllers\API\StudentAPIController
 
     Route::resource('forums', App\Http\Controllers\API\ForumAPIController::class);
     Route::get('forums/comments/{id}', [\App\Http\Controllers\API\ForumAPIController::class, 'getForumComments'])->name('forums.comment');
+    Route::put('enrollments/approval/{id}', [\App\Http\Controllers\API\EnrollmentAPIController::class, 'approveEnrollment'])->name('enrollments.approval');
 
     Route::middleware('can:isAdmin')->group(function () {
         Route::resource('settings', App\Http\Controllers\API\SettingAPIController::class);

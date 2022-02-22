@@ -122,7 +122,7 @@
                             <i class="fa fa-trash" style=""></i>&nbsp;Delete
                         </a> &nbsp;&nbsp;
                         <a class="text-info btn-lecture-attendance" href="#"  alt="Lecture Attendance" style="font-size:85%;opacity:0.5;" data-toggle="modal" data-target="#attendance_{{ $item->id }}">
-                            <i class="fa fa-users" style=""></i>&nbsp;Attendance
+                            <i class="fa fa-users" style=""></i>&nbsp;Attendance {{$item->attendance->count()}}
                         </a>
                     @endif
                 </dd>

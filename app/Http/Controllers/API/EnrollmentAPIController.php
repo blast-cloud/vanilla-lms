@@ -162,13 +162,14 @@ class EnrollmentAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Enrollment $enrollment */
-        $enrollment = $this->enrollmentRepository->find($id);
+       // $enrollment = $this->enrollmentRepository->find($id);
+        $enrollment = Enrollment::with('student','courseClass')->find($id);
 
         if (empty($enrollment)) {
             return $this->sendError('Enrollment not found');
         }
 
-        return $this->sendResponse(new EnrollmentResource($enrollment), 'Enrollment retrieved successfully');
+        return $this->sendResponse($enrollment, 'Enrollment retrieved successfully');
     }
 
     /**
@@ -285,4 +286,13 @@ class EnrollmentAPIController extends AppBaseController
         EnrollmentDeleted::dispatch($enrollment);
         return $this->sendSuccess('Enrollment deleted successfully');
     }
+    public function approveEnrollment($id,Request $request){
+        $enrollment = Enrollment::find($id);
+        if(empty($enrollment)){
+            return $this->sendError('Enrollment not found');
+        }
+        $enrollment = $enrollment->update(['is_approved' => $request->get('is_approved')]);
+
+        return $this->sendResponse($enrollment, 'Enrollment updated successfully');
+     }
 }

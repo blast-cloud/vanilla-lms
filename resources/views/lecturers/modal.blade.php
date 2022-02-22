@@ -120,6 +120,12 @@ $(document).ready(function() {
         })
         .then((willDelete) => {
           if (willDelete) {
+            swal({
+                title: 'Please Wait !',
+                content: wrapper, 
+                buttons: false,
+                closeOnClickOutside: false
+            });
             let endPointUrl = "{{ route('lecturers.destroy',0) }}"+itemId;
 
             let formData = new FormData();

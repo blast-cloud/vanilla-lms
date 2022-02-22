@@ -19,9 +19,11 @@ class ManagerCreatedNotification extends Notification
      */
 
     public $manager;
-    public function __construct(Manager $manager)
+    public $password;
+    public function __construct(Manager $manager,$password)
     {
         $this->manager = $manager;
+        $this->password = $password;
     }
 
     /**
@@ -44,7 +46,7 @@ class ManagerCreatedNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)->subject('LMS Account Details')
-                                ->markdown('mail.account_creation', ['user' => $this->manager]);;
+                                ->markdown('mail.account_creation', ['user' => $this->manager,'password' => $this->password]);;
     }
 
     /**

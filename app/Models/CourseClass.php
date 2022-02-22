@@ -265,7 +265,7 @@ class CourseClass extends Model
      **/
     public function enrollments()
     {
-        return $this->hasMany(\App\Models\Enrollment::class, 'course_class_id');
+        return $this->hasOne(\App\Models\Enrollment::class, 'course_class_id');
     }
 
     /**
