@@ -182,13 +182,13 @@ class AdminDashboardController extends AppBaseController
 
                 //Handle logo file upload
                 $file_upload = null;
-                if ($key=="file_icon_picture" && isset($request->file_icon_picture)){
+                if ($key=="file_icon_picture" && isset($request->file_icon_picture) && $request->hasFile('file_icon_picture') ){
                     $file_upload = $request->file_icon_picture;
                 }
-                if ($key=="file_high_res_picture" && isset($request->file_high_res_picture)){
+                if ($key=="file_high_res_picture" && isset($request->file_high_res_picture) && $request->hasFile('file_high_res_picture')){
                     $file_upload = $request->file_high_res_picture;
                 }
-                if ($key=="file_landing_page_picture" && isset($request->file_landing_page_picture)){
+                if ($key=="file_landing_page_picture" && isset($request->file_landing_page_picture) && $request->hasFile('file_landing_page_picture')){
                     $file_upload = $request->file_landing_page_picture;
                 }
 
