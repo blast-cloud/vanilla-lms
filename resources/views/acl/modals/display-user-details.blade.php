@@ -303,7 +303,6 @@ $('#div-bulk-user-modal-error').hide();
 
         swal({
           title: "Are you sure you want to disable this user account?",
-          text: "This is an irriversible action!",
           icon: "warning",
           buttons: true,
           dangerMode: true,
@@ -344,10 +343,9 @@ $('#div-bulk-user-modal-error').hide();
 
         swal({
           title: "Are you sure you want to enable this user account?",
-          text: "This is an irriversible action!",
           icon: "warning",
           buttons: true,
-          dangerMode: true,
+          dangerMode: false,
         })
         .then((willDelete) => {
           if (willDelete) {

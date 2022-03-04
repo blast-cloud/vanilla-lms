@@ -111,7 +111,7 @@ class StudentDashboardController extends AppBaseController
 
        
         $semesterItems = $this->semesterRepository->all();
-        $departmentItems = $this->departmentRepository->all();
+        $departmentItems = $this->departmentRepository->all()->sortBy('name');
         $enrollment_ids = [];
         $enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
         foreach ($enrollments as $item){
