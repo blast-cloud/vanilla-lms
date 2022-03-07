@@ -36,8 +36,7 @@ FAQs and Help
                           <h3 class="faq-title">{{ $help->question }}?</h3>
                           <p class="faq-text">{{ $help->answer }}</p>
                           <button class="faq-toggle">
-                            <i class="fas fa-chevron-down"></i>
-                            <i class="fas fa-times"></i>
+                            <i class="fa fa-chevron-down"></i>
                           </button>
                         </div>
                       @endforeach

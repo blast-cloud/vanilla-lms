@@ -131,7 +131,7 @@ class ProfileController extends AppBaseController
         }
 
         if ($current_user != null){
-            If(!empty($request->password)){
+            if (!empty($request->password)){
                 $current_user->email = $request->email;
             }
             $current_user->telephone = $request->telephone;
