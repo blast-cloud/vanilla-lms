@@ -268,7 +268,7 @@ $(document).ready(function() {
         formData.append('_method', actionType);
         formData.append('course_class_id', $('#course_id').val());
         formData.append('student_id', {{$current_user->student_id}} );
-        formData.append('department_id', {{$department->id}} );
+        formData.append('department_id',$('#department_id').val() );
         formData.append('semester_id',{{$current_semester->id}});
         formData.append('is_approved','0');
 
