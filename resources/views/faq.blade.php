@@ -20,7 +20,6 @@ FAQs and Help
             <div class="panel-heading" style="padding: 10px 15px;">
                 <div class="pull-left"></div>
                 <div class="pull-right">
-                    <a id="btn-new-mdl-faq-modal" href="#" class="btn btn-xs btn-default btn-new-mdl-faq-modal"><i class="zmdi zmdi-help"></i>&nbsp;Add FAQ or Help</a>
                 </div>
                 <div class="clearfix"></div>
             </div>
