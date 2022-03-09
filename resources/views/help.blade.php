@@ -9,7 +9,9 @@ FAQs and Help
 FAQs and Help
 @stop
 
-
+@php
+$current_user = Auth()->user();
+@endphp
 @section('content')
     
     @include('flash::message')
@@ -19,8 +21,11 @@ FAQs and Help
 
             <div class="panel-heading" style="padding: 10px 15px;">
                 <div class="pull-left"></div>
+                @if($current_user->is_platform_admin == true)
                 <div class="pull-right">
+                  <a id="btn-new-mdl-faq-modal" href="#" class="btn btn-xs btn-default btn-new-mdl-faq-modal"><i class="zmdi zmdi-help"></i>&nbsp;Add FAQ or Help</a>
                 </div>
+                @endif
                 <div class="clearfix"></div>
             </div>
 
@@ -58,6 +63,7 @@ FAQs and Help
     <div class="col-sm-3">
         @include("dashboard.partials.side-panel")
     </div>
+    @include('faqs.modal')
 @endsection
 
 
