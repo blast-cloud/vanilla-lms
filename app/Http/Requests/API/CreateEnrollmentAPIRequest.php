@@ -26,13 +26,30 @@ class CreateEnrollmentAPIRequest extends AppBaseFormRequest
      */
     public function rules()
     {
-        // return Enrollment::$rules;
+        //return Enrollment::$rules;
+
         return [
+            'status' => 'nullable',
             'student_id' => 'required',
             'course_class_id' => 'required',
+            'semester_id' => 'required',
             'department_id' => 'required'
         ];
     }
+
+    public function enrollment_exist(){
+        return Enrollment::where('student_id', $this->student_id)->where('course_class_id', $this->course_class_id)->get();
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($this->enrollment_exist()) != 0) {
+                $validator->errors()->add('enrollment_exist', 'This Student is already enrolled for this Class');
+            }
+        });
+    }
+
     public function attributes(){
         return [
             'semester_id' => 'semester',

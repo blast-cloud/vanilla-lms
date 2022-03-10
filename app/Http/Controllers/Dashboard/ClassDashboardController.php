@@ -9,6 +9,7 @@ use App\Http\Requests\CreateAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
 use App\Http\Requests\GradeCommentRequest;
 use Carbon\Carbon;
+use App\Models\Semester;
 
 use Log;
 use Flash;
@@ -118,7 +119,9 @@ class ClassDashboardController extends AppBaseController
     {
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
+        $departmentItems = $this->departmentRepository->all()->sortBy('name');
         $courseClass = $this->courseClassRepository->find($id);
+        $current_semester = Semester::where('is_current',true)->first();
         $course_class = $courseClass->id;
         $remainingGradePct = 100;
         $forums = $this->forumRepository->all(['course_class_id'=>$id,'parent_forum_id'=>null]);
@@ -164,6 +167,8 @@ class ClassDashboardController extends AppBaseController
                     ->with('enrollments', $enrollments)
                     ->with('remainingGradePct', $remainingGradePct)
                     ->with('classActivities',$classActivities)
+                    ->with('departmentItems',$departmentItems)
+                    ->with('current_semester',$current_semester)
                     ->with('timeObj',$timeObj);
     }
 

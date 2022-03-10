@@ -30,12 +30,28 @@ class UpdateEnrollmentAPIRequest extends AppBaseFormRequest
         
         return $rules;
         */
+
         return [
             'id' => 'required|numeric|exists:enrollments,id',
-            'student_id' => 'required',
-            'course_class_id' => 'required',
+            'status' => 'nullable',
+            'student_id' => 'sometimes|required',
+            'course_class_id' => 'sometimes|required',
+            'semester_id' => 'sometimes|required',
             'department_id' => 'required'
         ];
+    }
+
+    public function enrollment_exist(){
+        return Enrollment::where('student_id', $this->student_id)->where('course_class_id', $this->course_class_id)->where('id','<>', $this->id)->get();
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (count($this->enrollment_exist()) != 0) {
+                $validator->errors()->add('enrollment_exist', 'This Student is already enrolled for this Class');
+            }
+        });
     }
 
     public function attributes(){

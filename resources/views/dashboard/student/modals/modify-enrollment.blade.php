@@ -78,7 +78,7 @@
     </div>
 </div>
 
-@section('js-113')
+@section('js-138')
 <script type="text/javascript">
 $(document).ready(function() {
     $('#department_id').select2();

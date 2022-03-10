@@ -313,8 +313,7 @@
               background-color: transparent;
               border: 1px solid #9fa4a8;
               border-radius: 10px;
-              margin: 20px 0;
-              padding: 30px;
+              padding: 20px;
               position: relative;
               overflow: hidden;
               transition: 0.3 ease;
@@ -351,8 +350,10 @@
 
             .faq-text {
               display: none;
-              margin: 30px 0 0;
+              margin: 20px 0 0;
+              padding-top: 5px;
               color: black;
+              border-top: 1px solid rgba(82, 81, 81,.5);
             }
 
             .faq.active .faq-text {
@@ -368,7 +369,7 @@
               align-items: center;
               justify-content: center;
               font-size: 16px;
-              padding: 0;
+              padding-bottom: 10px;
               position: absolute;
               top: 30px;
               right: 30px;
@@ -615,6 +616,8 @@
         @yield('js-136')
         @stack('js-137')
         @yield('js-137')
+        @stack('js-138')
+        @yield('js-138')
 
     </body>
 </html>

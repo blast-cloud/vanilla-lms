@@ -28,16 +28,17 @@ FAQs and Help
             <div class="panel-wrapper collapse in">
                 <div class="panel-body">
 
-                    <div class="container">
-                      <h1>Frequently asked questions</h1>
+                    <div class="row">
+                      <h1>Frequently Asked Questions</h1>
                       <div class="faq-container">
                       @foreach($faqs as $faq)
                         <div class="faq">
-                          <h3 class="faq-title">{{ $faq->question }}?</h3>
+                          <h4 class="faq-title">{{ $faq->question }}?</h3>
+                            <button class="faq-toggle">
+                              <i class="fa fa-chevron-down"></i>
+                            </button>
                           <p class="faq-text">{{ $faq->answer }}</p>
-                          <button class="faq-toggle">
-                            <i class="fa fa-chevron-down"></i>
-                          </button>
+                         
                         </div>
                       @endforeach
                   
