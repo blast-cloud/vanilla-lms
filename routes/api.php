@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+//use App\Http\Middleware\IsAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,11 +29,13 @@ Route::post('/department/semester/course', [App\Http\Controllers\API\CourseClass
 Route::post('/staff-password', [\App\Http\Controllers\API\LecturerAPIController::class, 'resetLecturerPassword'])->name('staff.reset-psw');
 Route::post('/student-password', [\App\Http\Controllers\API\StudentAPIController::class, 'resetStudentPassword'])->name('student.reset-psw');
 
-// Route::middleware(['auth:api'])->group(function () {
+ //Route::middleware(['auth:api'])->group(function () {
         
     Route::resource('semesters', App\Http\Controllers\API\SemesterAPIController::class);
 
     Route::resource('departments', App\Http\Controllers\API\DepartmentAPIController::class);
+
+    Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
 
     Route::resource('courses', App\Http\Controllers\API\CourseAPIController::class);
 
@@ -60,12 +63,10 @@ Route::post('/student-password', [\App\Http\Controllers\API\StudentAPIController
     Route::get('forums/comments/{id}', [\App\Http\Controllers\API\ForumAPIController::class, 'getForumComments'])->name('forums.comment');
     Route::put('enrollments/approval/{id}', [\App\Http\Controllers\API\EnrollmentAPIController::class, 'approveEnrollment'])->name('enrollments.approval');
 
-    Route::middleware('can:isAdmin')->group(function () {
-        Route::resource('settings', App\Http\Controllers\API\SettingAPIController::class);
-        Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
-    });
+    Route::middleware('can:isAdmin')->group(function() {
+    Route::resource('settings', App\Http\Controllers\API\SettingAPIController::class);
+  //Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
 
-});
+   });
 
-
-// });
+ });
