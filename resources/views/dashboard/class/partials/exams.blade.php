@@ -45,9 +45,9 @@
                             if( $no == 0){
                                 $submissions = "No scores entered";
                             }elseif($no == 1){
-                                $submissions = $no." score have been entered";
+                                $submissions = $no." score has been entered";
                             }else{
-                                $submissions = $no." score have been entered";
+                                $submissions = $no." scores has been entered";
                             }
                     @endphp
                         <i class="fa fa-check-square-o" style=""></i>&nbsp;  {{ $submissions }} </strong>
