@@ -414,7 +414,7 @@ $(document).on('click', '#btn-save-mdl-unenrollment-modal', function (e) {
         return;
     }
     swal({
-          title: "Are you sure you want to enroll this student from this class?",
+          title: "Are you sure you want to unenroll this student from this class?",
           text: "You can still enroll this student",
           icon: "warning",
           buttons: true,
@@ -442,7 +442,7 @@ $(document).on('click', '#btn-save-mdl-unenrollment-modal', function (e) {
                     if(result.errors){
                         console.log(result.errors)
                     }else{
-                        swal("Done!", "The student has successfully been widthrawn", "success");
+                        swal("Done!", "The student has successfully been withdrawn", "success");
                         location.reload(true);
                     }
                 },
