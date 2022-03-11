@@ -14,7 +14,22 @@
 			<div class="mobile-only-brand pull-left">
 				<div class="nav-header pull-left">
 					<div class="logo-wrap side-bar-area">
-						<a href="#">
+                        @php
+                         $home = "#";
+                         if(auth()->user()->is_platform_admin == 1){
+                            $home = route('dashboard.admin');
+                         }
+                         if (auth()->user()->lecturer_id != null) {
+                            $home = route('dashboard.lecturer');
+                         }
+                         if (auth()->user()->manager_id != null) {
+                            $home = route('dashboard.manager');
+                         }
+                         if(auth()->user()->student_id != null){
+                            $home = route('dashboard.student');
+                         }
+                        @endphp
+						<a href="{{$home}}">
                             @if (isset($app_settings['file_icon_picture']))
                             <img class="brand-img" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
                             @else
