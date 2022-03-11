@@ -63,7 +63,7 @@
                                     $no = $item->submissions()->where('class_material_id', $item->id)
                                                 ->where('course_class_id', $item->course_class_id)->count();
                                     if( $no == 0){
-                                        $submissions = "No submissions from students";
+                                        $submissions = "No submission from students";
                                     }elseif($no == 1){
                                         $submissions = $no." student has submitted";
                                     }else{
