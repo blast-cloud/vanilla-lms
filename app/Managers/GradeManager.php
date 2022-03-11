@@ -81,6 +81,7 @@ class GradeManager{
                 $this->gradeMap[$enrollment->student->id]['assignments']["assignment-{$assignment->id}"] = array(
                     'has_score'=>$assignment_grade!=null,
                     'grade'=>$assignment_grade,
+                    'class_material_id' => $assignment->id,
                     'score'=>$assignment_grade!=null?$assignment_grade->score:null,
                     'max_points'=>$assignment->grade_max_points,
                     'label'=>"Assignment {$assignment->assignment_number}",

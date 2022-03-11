@@ -71,8 +71,13 @@
                         $max = $grade_item['assignments'][$idx]['max_points'];
                         $label = $grade_item['assignments'][$idx]['label'];
                         $student_id = $grade_item['student_id'];
+                        $check_submission = $assignment_submissions->where('student_id', $student_id)->where('class_material_id',$item->id)->first();
+                        $assignment_file = null; 
+                        if($check_submission != null)  {
+                               $assignment_file = $check_submission->upload_file_path;            
+                        } 
                         @endphp
-                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control assignment-scores text-right as-{$item->id}-{$grade_item['matric_num']}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-student-id' =>"{$student_id}",'data-val-matric'=>"{$grade_item['matric_num']}"]) !!}
+                        {!! Form::number("txt_{$idx}", $score, ['id'=>"txt_{$idx}", 'placeholder'=>"",'class' => "score-input form-control assignment-scores text-right as-{$item->id}-{$grade_item['matric_num']}",'data-val-lbl'=>"{$label}",'data-val-mp'=>"{$max}",'data-val-id'=>"{$item->id}",'data-student-id' =>"{$student_id}",'data-val-matric'=>"{$grade_item['matric_num']}", $assignment_file == null ? 'disabled': '']) !!}
                     </td>
                 @endif
             @endforeach

@@ -122,6 +122,7 @@ class ClassDashboardController extends AppBaseController
         $departmentItems = $this->departmentRepository->all()->sortBy('name');
         $courseClass = $this->courseClassRepository->find($id);
         $current_semester = Semester::where('is_current',true)->first();
+        $assignment_submissions = Submission::where('course_class_id',$courseClass->id)->get();
         $course_class = $courseClass->id;
         $remainingGradePct = 100;
         $forums = $this->forumRepository->all(['course_class_id'=>$id,'parent_forum_id'=>null]);
@@ -153,13 +154,14 @@ class ClassDashboardController extends AppBaseController
         }
 
         $gradeManager = new GradeManager($id);
+    
         $classActivities = new StudentActivityManager($id);
 
        
         return view("dashboard.class.index")
                     ->with('department', $department)
                     ->with('courseClass', $courseClass)
-                   ->with('current_user', $current_user)
+                    ->with('current_user', $current_user)
                     ->with('class_schedules', $class_schedules)
                     ->with('grades', $grades)
                     ->with('forums', $forums)
@@ -168,6 +170,7 @@ class ClassDashboardController extends AppBaseController
                     ->with('remainingGradePct', $remainingGradePct)
                     ->with('classActivities',$classActivities)
                     ->with('departmentItems',$departmentItems)
+                    ->with('assignment_submissions',  $assignment_submissions)
                     ->with('current_semester',$current_semester)
                     ->with('timeObj',$timeObj);
     }
