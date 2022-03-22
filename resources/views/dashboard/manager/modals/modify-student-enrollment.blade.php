@@ -231,6 +231,7 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
         $('#frm-enrollment-modal').trigger("reset");
         $('#txt-enrollment-primary-id').val(0);
         $('.spinner1').hide();
+        $('#btn-save-mdl-enrollment-modal').show();
         $('#div-show-txt-enrollment-primary-id').hide();
         $('#div-edit-txt-enrollment-primary-id').show();
 
@@ -240,7 +241,7 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
     $(document).on('click', ".btn-show-mdl-enrollment-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
-        $('.spinner1').hide();
+        $('.spinner1').show();
         $('#div-show-txt-enrollment-primary-id').show();
         $('#div-edit-txt-enrollment-primary-id').hide();
         let itemId = $(this).attr('data-val');
@@ -248,14 +249,18 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
         // $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( response ) {
 			$('#div-enrollment-modal-error').hide();
+            $('#btn-save-mdl-enrollment-modal').hide();
+            console.log(response);
 			$('#mdl-enrollment-modal').modal('show');
 			$('#frm-enrollment-modal').trigger("reset");
 			$('#txt-enrollment-primary-id').val(response.data.id);
-            $('#semester_id option:eq("'+response.data.semester_id+'")').prop('selected',true);
+            $('#spn_enrollment_course_class').html(response.data.course_class.code+" "+response.data.course_class.name);
+            $('#spn_enrollment_student_name').html(response.data.student.first_name+" "+response.data.student.last_name);
+            $('#spn_enrollment_matriculation_number').html(response.data.student.matriculation_number);
             // $('#spn_enrollment_').html(response.data.);
             // $('#spn_enrollment_').html(response.data.);   
         });
-
+        $('.spinner1').hide();
        
     });
 
