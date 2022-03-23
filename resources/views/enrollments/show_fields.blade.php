@@ -10,7 +10,18 @@
     </p>
 </div>
  --}}
-<!-- Student Id Field -->
+<!-- Student Name Field -->
+<div id="div_enrollment_student_name" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('student_name', 'Student Name:', ['class'=>'control-label']) !!} 
+        <span id="spn_enrollment_student_name">
+        @if (isset($enrollment->student))
+            {!! $enrollment->student->first_name !!}  {!! $enrollment->student->last_name !!}
+        @endif
+        </span>
+    </p>
+</div>
+<!-- Student Matriculation Number Field -->
 <div id="div_enrollment_matriculation_number" class="col-sm-12 mb-10">
     <p>
         {!! Form::label('matriculation_number', 'Matriculation Number:', ['class'=>'control-label']) !!} 
@@ -21,19 +32,6 @@
         </span>
     </p>
 </div>
-<!-- Student Id Field -->
-<div id="div_enrollment_student_name" class="col-sm-12 mb-10">
-    <p>
-        {!! Form::label('student_name', 'Matriculation Number:', ['class'=>'control-label']) !!} 
-        <span id="spn_enrollment_student_name">
-        @if (isset($enrollment->student))
-            {!! $enrollment->student->first_name !!}    {!! $enrollment->student->last_name !!}
-        @endif
-        </span>
-    </p>
-</div>
-
-
 
 <!-- course class Field -->
 <div id="div_enrollment_course_class" class="col-sm-12 mb-10">
