@@ -41,7 +41,7 @@
                         <div class="panel-body" style="padding: 10px 5px 5px 15px;">
                             <ul class="list-icons" style="font-size:95%">
                                 @if (isset($app_settings['txt_official_website']))
-                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="{{$app_settings['txt_official_website']}}" class="text-primary" >Main Website</a></li>
+                                <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="{{$app_settings['txt_official_website']}}" class="text-primary" target="_blank" >Main Website</a></li>
                                 @endif
                                 <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="{{ route('help') }}" class="text-primary" >Help</a></li>
                                 <li class="mb-5"><i class="fa fa-genderless text-primary mr-5"></i> <a href="{{ route('faq') }}" class="text-primary" >FAQ</a></li>   
