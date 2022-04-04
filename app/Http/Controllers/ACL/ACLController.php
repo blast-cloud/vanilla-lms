@@ -183,19 +183,20 @@ class ACLController extends AppBaseController
 
         $current_user = Auth()->user();
 
-        //Get User Accounts table
-        $userAccountsDataTable = new UserAccountsDataTable();
+        $departmentItems = Department::pluck('name','id')->toArray();
 
+        //Get User Accounts DataTable
+        $userAccountsDataTable = new UserAccountsDataTable();
+             
         if ($request->expectsJson()) {
+            
             return $userAccountsDataTable->ajax();
         }
 
-        $departmentItems = Department::pluck('name','id')->toArray();
-
-        return view('acl.user-accounts')
-                    ->with("current_user", $current_user)
-                    ->with("departmentItems", $departmentItems)
-                    ->with('dataTable', $userAccountsDataTable->html());
+        return $userAccountsDataTable->render('acl.user-accounts', 
+        
+        ['current_user' => $current_user] , ['departmentItems' => $departmentItems], ['dataTable' => $userAccountsDataTable->html()]);
+                                     
     }
 
     public function uploadBulkUsers(BulkUsersApiRequest $request)

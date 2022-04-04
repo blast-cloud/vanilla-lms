@@ -50,14 +50,8 @@ User Accounts
 
 
 @section('js-111')
-<script type="text/javascript">
-    $(document).ready(function() { 
-
-
-
-    });
-</script>
 
 @include('layouts.datatables_js')
 {!! $dataTable->scripts() !!}
 @stop
+
