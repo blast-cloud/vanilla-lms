@@ -153,14 +153,13 @@ class ManagerDashboardController extends AppBaseController
         $announcementDataTable = new DepartmentAnnouncementsDataTable($current_user->department_id);
 
         if ($request->expectsJson()) {
+
             return $announcementDataTable->ajax();
         }
+        return $announcementDataTable->render('dashboard.manager.tables.announcements', 
 
-        return view("dashboard.manager.tables.announcements")
-                    ->with('department', $department)
-                    ->with('class_schedules', $class_schedules)
-                    ->with('current_user', $current_user)
-                    ->with('dataTable', $announcementDataTable->html());
+        compact('current_user', 'department', 'class_schedules'));
+
     }
 
     public function displayClassSchedules(Request $request)
@@ -170,10 +169,6 @@ class ManagerDashboardController extends AppBaseController
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $class_schedulesDataTable = new DepartmentClassScheduleDataTable($current_user->department_id);
-
-        if ($request->expectsJson()) {
-            return $class_schedulesDataTable->ajax();
-        }
 
         $courseItems = Course::select(DB::raw("CONCAT(name,' - ',code) AS full_name"),'id')
                             ->where('department_id', $current_user->department_id )
@@ -187,93 +182,82 @@ class ManagerDashboardController extends AppBaseController
                             ->pluck('name','id')
                             ->toArray();
 
-        return view("dashboard.manager.tables.class_schedules")
-                    ->with('department', $department)
-                    ->with('class_schedules', $class_schedules)
-                    ->with('current_user', $current_user)
-                    ->with('courseItems', $courseItems)
-                    ->with('lecturerItems', $lecturerItems)
-                    ->with('semesterItems', $semesterItems)
-                    ->with('dataTable', $class_schedulesDataTable->html());
+        if ($request->expectsJson()) {
+
+            return $class_schedulesDataTable->ajax();
+        }
+        return $class_schedulesDataTable->render('dashboard.manager.tables.class_schedules',
+
+        compact('current_user', 'department', 'class_schedules','courseItems', 'semesterItems', 'lecturerItems'));
+
     }
 
     public function displayCourseCatalog(Request $request)
     {
-
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $courseCatalogDataTable = new DepartmentCourseCatalogDataTable($current_user->department_id);
 
         if ($request->expectsJson()) {
+
             return $courseCatalogDataTable->ajax();
         }
+        return $courseCatalogDataTable->render('dashboard.manager.tables.course_catalog',
 
-        return view("dashboard.manager.tables.course_catalog")
-                    ->with('department', $department)
-                    ->with('class_schedules', $class_schedules)
-                    ->with('current_user', $current_user)
-                    ->with('dataTable', $courseCatalogDataTable->html());
+        compact('current_user', 'department', 'class_schedules'));
+
     }
 
     public function displayDepartmentCalendar(Request $request)
     {
-
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $calendarItemDataTable = new DepartmentCalendarEntryDataTable($current_user->department_id);
         
         if ($request->expectsJson()) {
+
             return $calendarItemDataTable->ajax();
         }
+        return $calendarItemDataTable->render('dashboard.manager.tables.department_calendar',
 
-        return view("dashboard.manager.tables.department_calendar")
-                    ->with('department', $department)
-                    ->with('class_schedules', $class_schedules)
-                    ->with('current_user', $current_user)
-                    ->with('dataTable', $calendarItemDataTable->html());
+        compact('current_user', 'department', 'class_schedules'));
+
     }
 
     public function displayDepartmentLecturers(Request $request)
     {
-
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $lecturersDataTable = new DepartmentLecturersDataTable($current_user->department_id);
 
         if ($request->expectsJson()) {
+
             return $lecturersDataTable->ajax();
         }
+        return $lecturersDataTable->render('dashboard.manager.tables.lecturers',
 
+        compact('current_user', 'department', 'class_schedules'));
 
-        return view("dashboard.manager.tables.lecturers")
-                    ->with('department', $department)
-                    ->with('class_schedules', $class_schedules)
-                    ->with('current_user', $current_user)
-                    ->with('dataTable', $lecturersDataTable->html());
     }
 
     public function displayDepartmentStudents(Request $request)
     {
-
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
-        $studentsDataTable = new DepartmentStudentsDataTable($current_user->department_id);
-
-       
+        $studentsDataTable = new DepartmentStudentsDataTable($current_user->department_id);     
 
         if ($request->expectsJson()) {
+
             return $studentsDataTable->ajax();
         }
+        return $studentsDataTable->render('dashboard.manager.tables.students',
 
-        return view("dashboard.manager.tables.students")
-                    ->with('department', $department)
-                    ->with('class_schedules', $class_schedules)
-                    ->with('current_user', $current_user)
-                    ->with('dataTable', $studentsDataTable->html());
+        compact('current_user', 'department', 'class_schedules'));
+
     }
 
     public function displayDepartmentStudentPage(Request $request, $student_id)
@@ -288,6 +272,7 @@ class ManagerDashboardController extends AppBaseController
         $student = $this->studentRepository->find($student_id);
 
         if ($request->expectsJson()) {
+            
             return $studentEnrollmentDataTable->ajax();
         }
 

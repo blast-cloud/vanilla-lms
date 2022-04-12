@@ -192,11 +192,10 @@ class ACLController extends AppBaseController
             
             return $userAccountsDataTable->ajax();
         }
+        return $userAccountsDataTable->render('acl.user-accounts',
 
-        return $userAccountsDataTable->render('acl.user-accounts', 
-        
-        ['current_user' => $current_user] , ['departmentItems' => $departmentItems], ['dataTable' => $userAccountsDataTable->html()]);
-                                     
+        compact('current_user', 'departmentItems'));                                 
+    
     }
 
     public function uploadBulkUsers(BulkUsersApiRequest $request)
