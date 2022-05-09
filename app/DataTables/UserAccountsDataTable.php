@@ -72,6 +72,10 @@ class UserAccountsDataTable extends DataTable
         $dataTable->addColumn('department', function($query)
         {
             return $query->department ? $query->department->name:'N/A';
+        })->filterColumn('department', function ($query, $keyword){
+            $query->whereHas('department',function($q) use ($keyword){
+                $q->where('name','like','%'.$keyword.'%');
+            });
         });
 
         $dataTable->addColumn('action', 'acl.partials.user-account-action-buttons');
