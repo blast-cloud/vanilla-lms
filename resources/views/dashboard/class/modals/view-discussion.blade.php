@@ -258,7 +258,6 @@ $(document).ready(function() {
 
     $(".btn-send-comment").click(function(e){
         e.preventDefault();
-        console.log("jddjdj")
         if($('#comment-text').val().length > 2){
             sendComment();
         }

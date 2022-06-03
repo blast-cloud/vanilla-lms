@@ -23,6 +23,8 @@ use App\Repositories\AnnouncementRepository;
 use App\Repositories\CourseRepository;
 use App\Repositories\CalendarEntryRepository;
 use App\Repositories\ClassMaterialRepository;
+use App\Repositories\CourseClassFeedbackRepository;
+use App\Repositories\CourseClassFeedbackResponseRepository;
 use App\Repositories\EnrollmentRepository;
 use App\Repositories\GradeRepository;
 use App\Repositories\ForumRepository;
@@ -34,7 +36,11 @@ use App\Models\Grade;
 
 use App\Models\StudentAttendance;
 use App\Models\ClassMaterial;
+use App\Models\CourseClassFeedback;
+use App\Models\CourseClassFeedbackResponse;
 use App\Models\StudentClassActivity;
+use App\Models\Student;
+use App\Models\User;
 use App\Models\Forum;
 use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
 use Response;
@@ -64,6 +70,12 @@ class ClassDashboardController extends AppBaseController
     /** @var  ClassMaterialRepository */
     private $classMaterialRepository;
 
+    /** @var   CourseClassFeedbackRepositroy*/
+    private $courseClassFeedbackRepository;
+
+    /** @var   CourseClassFeedbackResponseRepositroy*/
+    private $courseClassFeedbackResponseRepository;
+ 
     /** @var  EnrollmentRepository */
     private $enrollmentRepository;
 
@@ -92,6 +104,8 @@ class ClassDashboardController extends AppBaseController
                                     CourseRepository $courseRepo,
                                     CalendarEntryRepository $calendarEntryRepo,
                                     ClassMaterialRepository $classMaterialRepo,
+                                    CourseClassFeedbackRepository $courseClassFeedbackRepo,
+                                    CourseClassFeedbackResponseRepository $courseClassFeedbackResponseRepo,
                                     EnrollmentRepository $enrollmentRepo,
                                     GradeRepository $gradeRepo,
                                     ForumRepository $forumRepo,
@@ -104,6 +118,8 @@ class ClassDashboardController extends AppBaseController
         $this->announcementRepository = $announcementRepo;
         $this->departmentRepository = $departmentRepo;
         $this->courseClassRepository = $courseClassRepo;
+        $this->courseClassFeedbackRepository = $courseClassFeedbackRepo;
+        $this->courseClassFeedbackResponseRepository = $courseClassFeedbackResponseRepo;
         $this->calendarEntryRepository = $calendarEntryRepo;
         $this->classMaterialRepository = $classMaterialRepo;
         $this->enrollmentRepository = $enrollmentRepo;
@@ -121,6 +137,10 @@ class ClassDashboardController extends AppBaseController
         $department = $this->departmentRepository->find($current_user->department_id);
         $departmentItems = $this->departmentRepository->all()->sortBy('name');
         $courseClass = $this->courseClassRepository->find($id);
+        $feedback_requests = CourseClassFeedback::all();
+        $course_class_feedback_requests = CourseClassFeedback::where('course_class_id', $courseClass->id)->count();
+        $feedback_responses = CourseClassFeedbackResponse::all();
+        $students = Student::all();
         $current_semester = Semester::where('is_current',true)->first();
         $assignment_submissions = Submission::where('course_class_id',$courseClass->id)->get();
         $course_class = $courseClass->id;
@@ -170,7 +190,11 @@ class ClassDashboardController extends AppBaseController
                     ->with('remainingGradePct', $remainingGradePct)
                     ->with('classActivities',$classActivities)
                     ->with('departmentItems',$departmentItems)
+                    ->with('students', $students)
                     ->with('assignment_submissions',  $assignment_submissions)
+                    ->with('feedback_requests', $feedback_requests)
+                    ->with('feedback_responses', $feedback_responses)
+                    ->with('course_class_feedback_requests', $course_class_feedback_requests)
                     ->with('current_semester',$current_semester)
                     ->with('timeObj',$timeObj);
     }
@@ -355,6 +379,41 @@ class ClassDashboardController extends AppBaseController
                     ->with('class_schedules', $class_schedules)
                     ->with('grades', $grades)
                     ->with('submissions', $submissions);
+    }
+
+    public function listOfRespondedFeebacks(Request $request, $course_class_id, $course_class_feedback_id){
+
+        $current_user = Auth()->user();
+        $department = $this->departmentRepository->find($current_user->department_id);
+        $courseClass = $this->courseClassRepository->find($course_class_id);
+        $courseFeedback = $this->courseClassFeedbackRepository->find($course_class_feedback_id);
+        $course_class_feedback_responses = CourseClassFeedbackResponse::where('course_class_id', $courseClass->id)
+                                                                      ->where('course_class_feedback_id', $courseFeedback->id)
+                                                                      ->count();
+        $feedback_responses = CourseClassFeedbackResponse::all();
+        $students = Student::all();
+        $responses = $this->courseClassFeedbackResponseRepository->all(['course_class_id' => $course_class_id, 'course_class_feedback_id' => $course_class_feedback_id]);
+        $enrollments = $this->enrollmentRepository->all(['course_class_id'=>$course_class_id]);
+        $feedback_requests = $this->courseClassFeedbackRepository->find($course_class_feedback_id);
+
+        if ($current_user->lecturer_id != null){
+            $class_schedules = $this->courseClassRepository->all(['lecturer_id'=>$current_user->lecturer_id]);
+        }else{
+            $class_schedules = null;
+        }
+
+        return view("dashboard.class.student_feedbacks")
+        ->with('department', $department)
+        ->with('courseClass', $courseClass)
+        ->with('current_user', $current_user)
+        ->with('feedback_requests', $feedback_requests)
+        ->with('feedback_responses', $feedback_responses)
+        ->with('students', $students)
+        ->with('enrollments', $enrollments)
+        ->with('class_schedules', $class_schedules)
+        ->with('responses', $responses)
+        ->with('courseFeedback', $courseFeedback)
+        ->with('course_class_feedback_responses', $course_class_feedback_responses);
     }
 
     public function processGradeUpdate(Request $request, $course_class_id)

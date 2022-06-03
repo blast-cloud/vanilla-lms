@@ -44,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('dashboard/class/submitted-assignment/{courseClassId}/view/{classMaterialId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'listOfSubmittedAssignment'])->name('submitted-assignment-list');
 
+    Route::get('dashboard/class/responded-feedbacks/{courseClassId}/view/{courseClassFeedbackId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'listOfRespondedFeebacks'])->name('responded-feedback-list');
+
     Route::get('dashboard/class/submission/{classMaterialId}/student/{studentId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'getStudentSubmission'])->name('student.submission');
 
     Route::post('/attachment', [App\Http\Controllers\AttachmentController::class,"uploadFile"])->name('attachment-upload');
@@ -96,6 +98,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('courses', App\Http\Controllers\CourseController::class);
 
     Route::resource('courseClasses', App\Http\Controllers\CourseClassController::class);
+
+    Route::resource('courseClassFeedbacks', App\Http\Controllers\CourseClassFeedbackController::class);
+
+    Route::resource('courseClassFeedbackResponses', App\Http\Controllers\CourseClassFeedbackResponseController::class);
 
     Route::put('dashboard/classMaterials/{id}/outline', [App\Http\Controllers\CourseClassController::class, 'updateCourseClassOutline'])->name('dashboard.course-class-outline');
 
