@@ -49,12 +49,12 @@ class CourseClassFeedback extends Model
 
     public function courseClass()
     {
-        return $this->hasOne(\App\Models\CourseClass::class, 'id', 'course_id');
+        return $this->hasOne(\App\Models\CourseClass::class,  'course_id', 'id');
     }
 
     public function department()
     {
-        return $this->hasOne(\App\Models\Department::class, 'id', 'department_id');
+        return $this->hasOne(\App\Models\Department::class, 'department_id', 'id');
     }
 
     public function courseFeedbackResponse()

@@ -60,33 +60,33 @@ class CourseClassFeedbackResponse extends Model
 
     public function lecturer()
     {
-        return $this->hasOne(\App\Models\Lecturer::class, 'id', 'lecturer_id');
+        return $this->hasOne(\App\Models\Lecturer::class, 'lecturer_id', 'id');
     }
 
     public function courseClass()
     {
-        return $this->hasOne(\App\Models\Course::class, 'id', 'course_id');
+        return $this->hasOne(\App\Models\Course::class, 'course_id', 'id');
     }
 
     public function courseFeedback()
     {
-        return $this->belongsTo(\App\Models\CourseClassFeedback::class, 'id', 'course_class_feedback_id');
+        return $this->belongsTo(\App\Models\CourseClassFeedback::class, 'course_class_feedback_id', 'id');
 
     }
 
     public function student()
     {
-        return $this->hasOne(\App\Models\Student::class, 'id', 'student_id');     
+        return $this->hasOne(\App\Models\Student::class,  'student_id', 'id');     
     }
 
     public function semester()
     {
-        return $this->hasOne(\App\Models\Semester::class, 'id', 'semester_id');
+        return $this->hasOne(\App\Models\Semester::class,  'semester_id', 'id');
     }
 
     public function department()
     {
-        return $this->hasOne(\App\Models\Department::class, 'id', 'department_id');
+        return $this->hasOne(\App\Models\Department::class,  'department_id', 'id');
     }
    
 }

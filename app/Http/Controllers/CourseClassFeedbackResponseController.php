@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Repositories\CourseClassFeedbackResponseRepository;
 
 use Flash;
 use Response;
@@ -16,24 +15,6 @@ use App\Models\Semester;
 
 class CourseClassFeedbackResponseController extends AppBaseController
 {
-    /** @var  CourseClassFeedbackResponseRepository */
-    private $courseClassFeedbackResponseRepository;
-
-    public function _construct(CourseClassFeedbackResponseRepository $courseClassFeedbackResponseRepo){
-
-        $this->courseClassFeedbackResponseRepository = $courseClassFeedbackResponseRepo;
-
-    }
-  
-    public function index()
-    {
-        //
-    }
-   
-    public function create()
-    {
-      //
-    }
   
     public function store(CreateCourseClassFeedbackResponseRequest $request)
     {
@@ -41,7 +22,6 @@ class CourseClassFeedbackResponseController extends AppBaseController
         $student_id = $current_user->student_id;
         $input = array_merge($request->all(), ['student_id'=>$student_id]);
 
-        //$courseClassFeedbackResponse = $this->courseClassFeedbackResponseRepository->create($input);
         $courseClassFeedbackResponse = CourseClassFeedbackResponse::create($input);
         Flash::success('Course Class Feedback Response Saved Successfully.');
         return redirect(route('courseClassFeedbackResponses.index'));
@@ -50,7 +30,7 @@ class CourseClassFeedbackResponseController extends AppBaseController
   
     public function show($id)
     {
-        $courseClassFeedbackResponse = $this->courseClassFeedbackResponseRepository->find($id);
+        $courseClassFeedbackResponse = CourseClassFeedbackResponse::find($id);
 
         if(empty($courseClassFeedbackResponse)){
             Flash::error('Course Class Feedback Response not Found');      
@@ -61,7 +41,7 @@ class CourseClassFeedbackResponseController extends AppBaseController
   
     public function edit($id)
     {
-        $courseClassFeedbackResponse = $this->courseClassFeedbackResponseRepository->find($id);
+        $courseClassFeedbackResponse = CourseClassFeedbackResponse::find($id);
 
         if(empty($courseClassFeedbackResponse)){
             Flash::error('Course Class Feedback Response not Found');
@@ -72,14 +52,14 @@ class CourseClassFeedbackResponseController extends AppBaseController
   
     public function update(UpdateCourseClassFeedbackResponseRequest $request, $id)
     {
-        $courseClassFeedbackResponse = $this->courseClassFeedbackResponseRepository->find($id);
+        $courseClassFeedbackResponse = CourseClassFeedbackResponse::find($id);
 
         if(empty($courseClassFeedbackResponse)){
             Flash::error('Course Class Feedback Response not Found');
             return redirect(route('courseClassFeedbackResponses.index'));
         }
 
-        $courseClassFeedbackResponse = $this->courseClassFeedbackResponseRepository->update($request->all());
+        $courseClassFeedbackResponse->update($request->all());
 
         Flash::success('Course Class Feedback Response Updated Successfully');
         return redirect(route('courseClassFeedbackResponses.index'));
@@ -87,14 +67,14 @@ class CourseClassFeedbackResponseController extends AppBaseController
  
     public function destroy($id)
     {
-        $courseClassFeedbackResponse = $this->courseClassFeedbackResponseRepository->find($id);
+        $courseClassFeedbackResponse = CourseClassFeedbackResponse::find($id);
 
         if(empty($courseClassFeedbackResponse)){
             Flash::error('Course Class Feedback Response not Found');
             return redirect(route('courseClassFeedbackResponses.index'));
         }
 
-        $this->courseClassFeedbackResponseRepository->delete($id);
+        $courseClassFeedbackResponse->delete();
 
         Flash::success('Course Class Feedback Response Deleted Successfully');
         return redirect(route('courseClassFeedbackResponses.index'));  

@@ -107,7 +107,7 @@ $(document).on('click', ".btn-delete-feedback-request-modal", function(e) {
                 if(result.errors){
                     console.log(result.errors)
                 }else{
-                    swal("Done!", "Your Feedback Request have been deleted successfully!", "success");
+                    swal("Done!", "Your Request have been deleted successfully!", "success");
                     location.reload(true);
                 }
             },
@@ -285,67 +285,75 @@ $('#btn-save-feedback-response-modal').click(function(e) {
     e.preventDefault();
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
-    $('.spinner').show();
-    let actionType = "POST";
-    let endPointUrl = "{{ route('api.course_class_feedback_responses.store') }}";
-    let primaryId = $('#txt-feedback-response-primary-id').val();
-    
-    if (primaryId>0){
-        actionType = "PUT";
-        endPointUrl = "{{ route('api.course_class_feedback_responses.update',0) }}"+primaryId;
-    }
+    swal({
+        title: "Is your response confirmed before submission?",
+        icon: "warning",
+        buttons: ['No', 'Yes'],
+            }).then(function(isConfirm) {
+                if(isConfirm){   
+                    $('.spinner').show();
+                    let actionType = "POST";
+                    let endPointUrl = "{{ route('api.course_class_feedback_responses.store') }}";
+                    let primaryId = $('#txt-feedback-response-primary-id').val();
+                    
+                    if (primaryId>0){
+                        actionType = "PUT";
+                        endPointUrl = "{{ route('api.course_class_feedback_responses.update',0) }}"+primaryId;
+                    }
 
-        let formData = new FormData();
-        formData.append('_token', $('input[name="_token"]').val());
-        formData.append('_method', actionType);
-        formData.append('course_class_feedback_id', $('#txt_feedback_request_id').val());
-        formData.append('student_id', $('#txt_student_id').val());
-        formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
-        formData.append('department_id', {{ ($courseClass) ? $courseClass->department_id : ''}});
-        formData.append('lecturer_id', {{ ($courseClass) ? $courseClass->lecturer_id : ''}});
-        formData.append('semester_id', {{($courseClass) ? $courseClass->semester_id : ''}});
-        formData.append('note', $('#txt_feedback_response_remarks').val());
-        formData.append('assignments_rating_point', parseInt($('#txt_feedback_response_assignment_rating').val()));
-        formData.append('clarification_rating_point', parseInt($('#txt_feedback_response_clarification_rating').val()));
-        formData.append('examination_rating_point', parseInt($('#txt_feedback_response_examination_rating').val()));
-        formData.append('teaching_rating_point', parseInt($('#txt_feedback_response_teaching_rating').val()));
-        formData.append('id', $('#txt-feedback-response-primary-id').val());
-    $.ajax({
-        url:endPointUrl,
-        type: "POST",
-        data: formData,
-        cache: false,
-        processData:false,
-        contentType: false,
-        dataType: 'json',
-        success: function(result){
-            if(result.errors){
-                $('#div-feedback-response-modal-error').html('');
-                $('#div-feedback-response-modal-error').show();
-                $('.spinner').hide();
-                $('#btn-save-feedback-response-modal').prop("disabled", false);
-                
-                $.each(result.errors, function(key, value){
-                    $('#div-feedback-response-modal-error').append('<li class="">'+value+'</li>');
-                });
-            }else{
-                $('#div-feedback-response-modal-error').hide();
-                $('.spinner').hide();
-                $('#btn-save-feedback-response-modal').prop("disabled", false);
-                window.setTimeout( function(){
-                    swal("Done!","Your Response Have Been Received. Thank You!", "success");
-                    $('#div-feedback-response-modal-error').hide();
-                    location.reload(true);
-                },28);
-            }
-        }, error: function(data){
-            $('.spinner').hide();
-            $('#btn-save-feedback-response-modal').prop("disabled", false);
-            console.log(data);
-        }
-        
-     }); 
+                        let formData = new FormData();
+                        formData.append('_token', $('input[name="_token"]').val());
+                        formData.append('_method', actionType);
+                        formData.append('course_class_feedback_id', $('#txt_feedback_request_id').val());
+                        formData.append('student_id', $('#txt_student_id').val());
+                        formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
+                        formData.append('department_id', {{ ($courseClass) ? $courseClass->department_id : ''}});
+                        formData.append('lecturer_id', {{ ($courseClass) ? $courseClass->lecturer_id : ''}});
+                        formData.append('semester_id', {{($courseClass) ? $courseClass->semester_id : ''}});
+                        formData.append('note', $('#txt_feedback_response_remarks').val());
+                        formData.append('assignments_rating_point', parseInt($('#txt_feedback_response_assignment_rating').val()));
+                        formData.append('clarification_rating_point', parseInt($('#txt_feedback_response_clarification_rating').val()));
+                        formData.append('examination_rating_point', parseInt($('#txt_feedback_response_examination_rating').val()));
+                        formData.append('teaching_rating_point', parseInt($('#txt_feedback_response_teaching_rating').val()));
+                        formData.append('id', $('#txt-feedback-response-primary-id').val());
+                    
+                    $.ajax({
+                        url:endPointUrl,
+                        type: "POST",
+                        data: formData,
+                        cache: false,
+                        processData:false,
+                        contentType: false,
+                        dataType: 'json',
+                        success: function(result){
+                            if(result.errors){
+                                $('#div-feedback-response-modal-error').html('');
+                                $('#div-feedback-response-modal-error').show();
+                                $('.spinner').hide();
+                                $('#btn-save-feedback-response-modal').prop("disabled", false);
+                                
+                                $.each(result.errors, function(key, value){
+                                    $('#div-feedback-response-modal-error').append('<li class="">'+value+'</li>');
+                                });
+                            }else{
+                                $('#div-feedback-response-modal-error').hide();
+                                $('.spinner').hide();
+                                $('#btn-save-feedback-response-modal').prop("disabled", false);
+                                window.setTimeout( function(){
+                                    swal("Done!","Your Response Have Been Received. Thank You!", "success");
+                                    $('#div-feedback-response-modal-error').hide();
+                                    location.reload(true);
+                                },28);
+                            }
+                        }, error: function(data){
+                            $('.spinner').hide();
+                            $('#btn-save-feedback-response-modal').prop("disabled", false);
+                            console.log(data);
+                        }        
+                    }); 
+                }
+            });
+       });
   });
-});
 </script>
 @endsection

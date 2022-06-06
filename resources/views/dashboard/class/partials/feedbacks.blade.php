@@ -40,12 +40,12 @@
                       ->where('student_id', $current_user->student_id)
                       ->count();
     @endphp
-    @if((time() >= strtotime($x->start_date)) && (time() <= strtotime($x->end_date) + strtotime('+1 day')) && ($response == 0))
+       @if((time() >= strtotime($x->start_date)) && (time() <= strtotime($x->end_date) + strtotime('+1 day'))  && $response == 0)
         <button href="#" id="btn-show-feedback-response-modal" class="btn btn-xs btn-primary btn-show-feedback-response-modal"
         data-val-feedback-request-id="{{$x->id}}" data-val-student-id="{{$current_user->student_id}}">
             <i class="fa fa-upload" style=""></i>Respond
         </button> 
-    @endif
+      @endif
 </div> 
  @endif   
 </div>
@@ -126,7 +126,7 @@ data-val-creator-id="{{$current_user->id}}" data-val-department-id="{{$current_u
          </dl>           
 </div> 
 <div class="col-md-6" style="text-align:right">   
-    @if(time() >= strtotime($x->end_date) + strtotime('+1 day')) 
+    @if(time() >= (strtotime($x->end_date) + strtotime('+1 day')))
     <a href="{{ route('responded-feedback-list', [$x->course_class_id, $x->id]) }}" class="btn btn-xs btn-info btn-feedback-responses" data-val="{{$x->id}}">
         <i class="fa fa-eye" style=""></i> View Responses
     </a> 
