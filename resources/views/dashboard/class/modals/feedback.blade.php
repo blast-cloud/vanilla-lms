@@ -286,7 +286,7 @@ $('#btn-save-feedback-response-modal').click(function(e) {
     $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
 
     swal({
-        title: "Is your response confirmed before submission?",
+        title: "Are you okay with your rating before submission?",
         icon: "warning",
         buttons: ['No', 'Yes'],
             }).then(function(isConfirm) {

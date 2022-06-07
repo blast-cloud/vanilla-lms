@@ -3,14 +3,11 @@
 @section('title_postfix')
 {{ ($courseClass) ?  $courseClass->code : '' }} :: {{ ($courseClass) ? $courseClass->name : '' }}
 @stop
-
 @section('page_title')
-{{ ($courseClass) ? $courseClass->code : '' }} :: {{ ($courseClass) ? $courseClass->name : '' }}<br/>
-<small class="muted text-primary"><i>Taught by {{ ($courseClass && $courseClass->lecturer) ? $courseClass->lecturer->job_title : '' }} {{ ($courseClass && $courseClass->lecturer) ? $courseClass->lecturer->first_name : '' }} {{ ($courseClass && $courseClass->lecturer) ? $courseClass->lecturer->last_name : '' }}</i></small>
-<br/>
-<br/>
+<div class="col-sm-6">
+    <a class="btn btn-primary" style="margin-left:-25px" href="{{ url('/dashboard/class/'.$courseClass->id)}}">Go Back</a>
+</div>
 @stop
-
 @section('content')
 
 @include('flash::message')
@@ -67,7 +64,6 @@
        <p style="font-size:95%; text-align:center" class="muted text-danger">No Feedback Response Available.</p>
     @endif
 </div>
-
 @endif
 
 @if($current_user->manager_id!= null)
@@ -136,8 +132,5 @@
 @endsection
 @section('js-135')
 <script type="text/javascript">
-$(document).ready(function() {
-   
-});
 </script>
 @endsection
