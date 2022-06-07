@@ -21,22 +21,22 @@
                             <li role="presentation"><a id="btn-show-modify-announcement-modal" class="btn-new-mdl-announcement-modal" href="#" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Add Announcement</a></li>
                             <li role="presentation"><a href="{{ route('dashboard.manager.announcements') }}" role="menuitem"><i class="icon wb-share" aria-hidden="true"></i>Manage</a></li>
                         </ul>
-                    </div>    
-                    --}}             
+                    </div>
+                    --}}
                 </div>
-                
+
             @endif
-            
+
             <div class="clearfix"></div>
         </div>
-        
+
         <div class="panel-body" style="padding:0px;">
 
             <div class="table-wrap sm-data-box-2">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <tbody>
-                            @if (isset($pending_enrollment_approval) && $pending_enrollment_approval->count() > 0))
+                            @if (isset($pending_enrollment_approval) && $pending_enrollment_approval->count() > 0)
                             <tr style="font-size: 15px; font-weight: bold">
                                 <th>Name</th>
                                 <th>Matric Num</th>

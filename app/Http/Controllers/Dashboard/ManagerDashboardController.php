@@ -63,8 +63,8 @@ class ManagerDashboardController extends AppBaseController
     private $studentRepository;
 
 
-    public function __construct(DepartmentRepository $departmentRepo, 
-                                    CourseClassRepository $courseClassRepo, 
+    public function __construct(DepartmentRepository $departmentRepo,
+                                    CourseClassRepository $courseClassRepo,
                                     AnnouncementRepository $announcementRepo,
                                     CourseRepository $courseRepo,
                                     StudentRepository $studentRepo,
@@ -75,7 +75,7 @@ class ManagerDashboardController extends AppBaseController
         $this->announcementRepository = $announcementRepo;
         $this->departmentRepository = $departmentRepo;
         $this->courseClassRepository = $courseClassRepo;
-        $this->calendarEntryRepository = $calendarEntryRepo;        
+        $this->calendarEntryRepository = $calendarEntryRepo;
     }
 
     public function index(Request $request)
@@ -91,9 +91,9 @@ class ManagerDashboardController extends AppBaseController
                                         })->latest()->get();
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
 
-        $pending_enrollment_approval = Enrollment::with('student','courseClass')->where('is_approved',false)->get();
-       
-                                        
+        $pending_enrollment_approval = Enrollment::with('student','courseClass')->where('is_approved',false)->Where('department_id', $current_user->department_id)->get();
+
+
         $department_calendar_items = CalendarEntry::where('department_id',$current_user->department_id)->get();
         $course_catalog_items = Course::where('department_id', $current_user->department_id)->get();
         $student_count = $this->studentRepository->all(['department_id'=>$current_user->department_id])->count();
@@ -156,7 +156,7 @@ class ManagerDashboardController extends AppBaseController
 
             return $announcementDataTable->ajax();
         }
-        return $announcementDataTable->render('dashboard.manager.tables.announcements', 
+        return $announcementDataTable->render('dashboard.manager.tables.announcements',
 
         compact('current_user', 'department', 'class_schedules'));
 
@@ -215,7 +215,7 @@ class ManagerDashboardController extends AppBaseController
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $calendarItemDataTable = new DepartmentCalendarEntryDataTable($current_user->department_id);
-        
+
         if ($request->expectsJson()) {
 
             return $calendarItemDataTable->ajax();
@@ -248,7 +248,7 @@ class ManagerDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
-        $studentsDataTable = new DepartmentStudentsDataTable($current_user->department_id);     
+        $studentsDataTable = new DepartmentStudentsDataTable($current_user->department_id);
 
         if ($request->expectsJson()) {
 
@@ -267,12 +267,12 @@ class ManagerDashboardController extends AppBaseController
         //dd( $departmentItems);
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 20);
-        
+
         $studentEnrollmentDataTable = new DepartmentStudentEnrollmentDataTable($student_id);
         $student = $this->studentRepository->find($student_id);
 
         if ($request->expectsJson()) {
-            
+
             return $studentEnrollmentDataTable->ajax();
         }
 
