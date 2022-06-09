@@ -375,9 +375,7 @@ class ClassDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $courseClass = CourseClass::find($course_class_id);
         $courseFeedback = CourseClassFeedback::find($course_class_feedback_id);
-        $course_class_feedback_responses = CourseClassFeedbackResponse::where('course_class_id', $courseClass->id)
-                                                                      ->where('course_class_feedback_id', $courseFeedback->id)
-                                                                      ->count();
+        $course_class_feedback_responses = CourseClassFeedbackResponse::where('course_class_id', $courseClass->id)->where('course_class_feedback_id', $courseFeedback->id)->count();
         $feedback_responses = CourseClassFeedbackResponse::all();
         $students = Student::all();
         $feedback_requests = CourseClassFeedback::find($course_class_feedback_id);

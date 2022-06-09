@@ -122,15 +122,15 @@ data-val-creator-id="{{$current_user->id}}" data-val-department-id="{{$current_u
               <dt class="mb-0">
                 <span class="text-primary" style="font-size:85%"><i class="fa fa-bell" aria-hidden="true"></i> A Feedback was Requested for {{ $courseClass->code }} Class on {{ date('d-m-Y', strtotime($x->created_at))}}.</span><br><br>
                 <span class="text-primary" style="font-size:85%"><i class="fa fa-bell" aria-hidden="true"></i> Response from Students will be available after {{ date('d-m-Y', strtotime($x->end_date))}}.</span><br><br>
-              </dt>        
+              </dt>
          </dl>           
 </div> 
 <div class="col-md-6" style="text-align:right">   
-    @if(time() >= (strtotime($x->end_date) + strtotime('+1 day')))
+    <!-- if(time() >= (strtotime($x->end_date) + strtotime('+1 day'))) -->
         <a href="{{ route('responded-feedback-list', [$x->course_class_id, $x->id]) }}" class="btn btn-xs btn-info btn-feedback-responses" data-val="{{$x->id}}">
             <i class="fa fa-eye" style=""></i> View Responses
         </a> 
-    @endif
+   <!--  endif -->
 </div> 
 @endif   
 </div>

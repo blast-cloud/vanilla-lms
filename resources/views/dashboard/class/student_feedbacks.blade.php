@@ -30,6 +30,9 @@
                         Examination Rating
                     </th>
                     <th scope="col"  class="text-center" style="font-size:90%">
+                        Rating Average
+                    </th>
+                    <th scope="col"  class="text-center" style="font-size:90%">
                         Remarks
                     </th>
                 </tr>
@@ -39,19 +42,32 @@
                     @if(($x->course_class_id == $courseClass->id) && ($x->course_class_feedback_id == $courseFeedback->id))
                         <tr class="text-center">   
                             <td class="text-center">
-                                {{$x->teaching_rating_point}}
+                                {{$x->teaching_rating_point}}/5
                             </td>
                             <td class="text-center">
-                                {{$x->clarification_rating_point}}
+                                {{$x->clarification_rating_point}}/5
                             </td>
                             <td class="text-center">
-                                {{$x->assignments_rating_point}}
+                                {{$x->assignments_rating_point}}/5
                             </td>
                             <td class="text-center">
-                                {{$x->examination_rating_point}}
+                                {{$x->examination_rating_point}}/5
                             </td>
                             <td class="text-center">
-                                {{$x->note}}
+                                {{ $average = number_format((float)(($x->teaching_rating_point + $x->clarification_rating_point + $x->assignments_rating_point + $x->examination_rating_point)/4), 1, '.', '') }}/5.0
+                            </td>
+                            <td class="text-center">
+                                @if($average >= 4.0 && $average <= 5.0)
+                                    Excellent
+                                @elseif($average >= 3.0 && $average <= 3.9)
+                                    Very Good
+                                @elseif($average >= 2.0 && $average <= 2.9)
+                                    Good
+                                @elseif($average >= 1.0 && $average <= 1.9)
+                                    Poor
+                                @elseif($average >= 0 && $average <= 0.9)
+                                    Very Poor
+                                @endif
                             </td>
                         </tr>
                     @endif
@@ -86,6 +102,9 @@
             <th scope="col"  class="text-center" style="font-size:90%">
                 Examination Rating
             </th>
+            <th scope="col" class="text-center" style="font-size:90%">
+                Rating Average
+             </th>
             <th scope="col"  class="text-center" style="font-size:90%">
                 Remarks
             </th>
@@ -103,19 +122,32 @@
                     @endif                         
                 @endforeach    
             <td class="text-center">
-                {{$x->teaching_rating_point}}
+                {{$x->teaching_rating_point}}/5
             </td>
             <td class="text-center">
-                {{$x->clarification_rating_point}}
+                {{$x->clarification_rating_point}}/5
             </td>
             <td class="text-center">
-                {{$x->assignments_rating_point}}
+                {{$x->assignments_rating_point}}/5
             </td>
             <td class="text-center">
-                {{$x->examination_rating_point}}
+                {{$x->examination_rating_point}}/5
             </td>
             <td class="text-center">
-                {{$x->note}}
+                {{ $average = number_format((float)(($x->teaching_rating_point + $x->clarification_rating_point + $x->assignments_rating_point + $x->examination_rating_point)/4), 1, '.', '') }}/5.0
+            </td>
+            <td class="text-center">
+                @if($average >= 4.0 && $average <= 5.0)
+                    Excellent
+                @elseif($average >= 3.0 && $average <= 3.9)
+                    Very Good
+                @elseif($average >= 2.0 && $average <= 2.9)
+                    Good
+                @elseif($average >= 1.0 && $average <= 1.9)
+                    Poor
+                @elseif($average >= 0 && $average <= 0.9)
+                    Very Poor
+                @endif
             </td>
         </tr>
     @endif 
