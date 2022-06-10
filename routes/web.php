@@ -86,15 +86,17 @@ Route::middleware(['auth'])->group(function () {
         Route::post('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'processApplicationSettings'])->name('dashboard.admin-settings-process');
         Route::get('dashboard/admin/delete-settings/{key}', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'deleteApplicationSettings'])->name('dashboard.admin-delete-setting');
 
+        Route::resource('semesters', App\Http\Controllers\SemesterController::class);
+        Route::resource('departments', App\Http\Controllers\DepartmentController::class);
+        Route::resource('faqs', App\Http\Controllers\FAQController::class);
+        Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
+
         // Route::prefix('api')->group(function () {
         //     Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
         // });
     });
 
-    Route::resource('semesters', App\Http\Controllers\SemesterController::class);
-
-    Route::resource('departments', App\Http\Controllers\DepartmentController::class);
-
+    
     Route::resource('courses', App\Http\Controllers\CourseController::class);
 
     Route::resource('courseClasses', App\Http\Controllers\CourseClassController::class);
@@ -108,8 +110,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('classMaterials', App\Http\Controllers\ClassMaterialController::class);
 
     Route::resource('grades', App\Http\Controllers\GradeController::class);
-
-    Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
 
     Route::resource('studentClassActivity', App\Http\Controllers\StudentClassActivityController::class);
 
@@ -129,7 +129,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('settings', App\Http\Controllers\SettingController::class);
     
-    Route::resource('faqs', App\Http\Controllers\FAQController::class);
 });
 
 Auth::routes();
