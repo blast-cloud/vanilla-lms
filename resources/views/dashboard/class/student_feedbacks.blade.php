@@ -11,7 +11,7 @@
 @section('content')
 
 @include('flash::message')
-
+<!-- Lecturers Dashboard -->
 @if($current_user->lecturer_id != null)
 <div class="col-sm-12 panel panel-default card-view pa-20">
         <table class="table table-bordered table-hover table-responsive table-condensed">     
@@ -33,7 +33,10 @@
                         Rating Average
                     </th>
                     <th scope="col"  class="text-center" style="font-size:90%">
-                        Remarks
+                        Rating Remarks
+                    </th>
+                    <th scope="col"  class="text-center" style="font-size:90%">
+                        Student Remarks
                     </th>
                 </tr>
             </thead>
@@ -57,23 +60,29 @@
                                 {{ $average = number_format((float)(($x->teaching_rating_point + $x->clarification_rating_point + $x->assignments_rating_point + $x->examination_rating_point)/4), 1, '.', '') }}/5.0
                             </td>
                             <td class="text-center">
-                                @if($average >= 4.0 && $average <= 5.0)
+                                @if($average >= 4.5 && $average <= 5.0)
                                     Excellent
-                                @elseif($average >= 3.0 && $average <= 3.9)
+                                @elseif($average >= 4.0 && $average <= 4.49)
                                     Very Good
-                                @elseif($average >= 2.0 && $average <= 2.9)
+                                @elseif($average >= 3.0 && $average <= 3.99)
                                     Good
-                                @elseif($average >= 1.0 && $average <= 1.9)
+                                @elseif($average >= 2.5 && $average <= 2.99)
+                                    Fair
+                                @elseif($average < 2.5)
                                     Poor
-                                @elseif($average >= 0 && $average <= 0.9)
-                                    Very Poor
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                @if($x->note == null)
+                                    Nil
+                                @else
+                                    {{ $x->note }}
                                 @endif
                             </td>
                         </tr>
                     @endif
                 @endforeach
-            </tbody>
-         
+            </tbody>      
      </table>
      <br>
      @if ($course_class_feedback_responses == 0)
@@ -81,7 +90,7 @@
     @endif
 </div>
 @endif
-
+<!--   Managers Dashboard  -->
 @if($current_user->manager_id!= null)
 <div class="col-sm-12 panel panel-default card-view pa-20">
 <table class="table table-bordered table-hover table-responsive table-condensed">     
@@ -106,7 +115,10 @@
                 Rating Average
              </th>
             <th scope="col"  class="text-center" style="font-size:90%">
-                Remarks
+                Rating Remarks
+            </th>
+            <th scope="col"  class="text-center" style="font-size:90%">
+                Student Remarks
             </th>
         </tr>
     </thead>
@@ -137,30 +149,36 @@
                 {{ $average = number_format((float)(($x->teaching_rating_point + $x->clarification_rating_point + $x->assignments_rating_point + $x->examination_rating_point)/4), 1, '.', '') }}/5.0
             </td>
             <td class="text-center">
-                @if($average >= 4.0 && $average <= 5.0)
+                @if($average >= 4.5 && $average <= 5.0)
                     Excellent
-                @elseif($average >= 3.0 && $average <= 3.9)
+                @elseif($average >= 4.0 && $average <= 4.49)
                     Very Good
-                @elseif($average >= 2.0 && $average <= 2.9)
+                @elseif($average >= 3.0 && $average <= 3.99)
                     Good
-                @elseif($average >= 1.0 && $average <= 1.9)
+                @elseif($average >= 2.5 && $average <= 2.99)
+                    Fair
+                @elseif($average < 2.5)
                     Poor
-                @elseif($average >= 0 && $average <= 0.9)
-                    Very Poor
+                @endif
+            </td>
+            <td class="text-center">
+                @if ($x->note == null)
+                   Nil
+                @else
+                  {{ $x->note }}
                 @endif
             </td>
         </tr>
     @endif 
 @endforeach
-        </tbody>
-   </table>
+    </tbody>
+</table>
    <br>
     @if ($course_class_feedback_responses == 0)
       <p style="font-size:95%; text-align:center" class="muted text-danger">No Feedback Response Available.</p>
     @endif
 </div> 
-@endif
-      
+@endif      
 @endsection
 @section('js-135')
 <script type="text/javascript">

@@ -126,11 +126,11 @@ data-val-creator-id="{{$current_user->id}}" data-val-department-id="{{$current_u
          </dl>           
 </div> 
 <div class="col-md-6" style="text-align:right">   
-    <!-- if(time() >= (strtotime($x->end_date) + strtotime('+1 day'))) -->
+    @if(time() >= (strtotime($x->end_date) + strtotime('+1 day')))
         <a href="{{ route('responded-feedback-list', [$x->course_class_id, $x->id]) }}" class="btn btn-xs btn-info btn-feedback-responses" data-val="{{$x->id}}">
             <i class="fa fa-eye" style=""></i> View Responses
         </a> 
-   <!--  endif -->
+    @endif
 </div> 
 @endif   
 </div>
