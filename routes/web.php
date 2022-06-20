@@ -86,7 +86,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'processApplicationSettings'])->name('dashboard.admin-settings-process');
         Route::get('dashboard/admin/delete-settings/{key}', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'deleteApplicationSettings'])->name('dashboard.admin-delete-setting');
 
+        Route::get('semesters/getallsemesters', [App\Http\Controllers\SemesterController::class, 'getAllSemesters'])->name('semesters.getallsemesters');
+        Route::put('semesters/setcurrentsemester', [App\Http\Controllers\SemesterController::class, 'setCurrentSemester'])->name('semesters.setcurrentsemester');
         Route::resource('semesters', App\Http\Controllers\SemesterController::class);
+
         Route::resource('departments', App\Http\Controllers\DepartmentController::class);
         Route::resource('faqs', App\Http\Controllers\FAQController::class);
         Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);

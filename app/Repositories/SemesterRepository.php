@@ -17,9 +17,14 @@ class SemesterRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
+        'id',
         'code',
         'start_date',
-        'end_date'
+        'end_date',
+        'is_current',
+        'academic_session',
+        'status',
+        'unique_code'
     ];
 
     /**

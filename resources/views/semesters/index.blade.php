@@ -2,13 +2,12 @@
 
 
 @section('title_postfix')
-Semesters
+    Semesters
 @stop
 
 @section('page_title')
-Semesters
+    Semesters
 @stop
-
 
 
 @section('content')
@@ -27,8 +26,12 @@ Semesters
                     </div>
                     <div class="pull-right">
                         <div class="pull-left inline-block dropdown">
+                            
                             <a href="#"  class="btn btn-xs btn-primary btn-new-mdl-semester-modal">
-                                 Create New Semester
+                                Create New Semester
+                            </a>
+                            <a href="#"  class="btn btn-xs btn-success btn-commence-a-semester-modal">
+                                Commence Semester
                             </a>
                         </div>
                     </div>
@@ -36,20 +39,12 @@ Semesters
     
                 </div>
 
-
-
-
                 <div class="panel-body">
-
-
                     <div class="table-wrap">
                         <div class="table-responsive">
-                            @include('semesters.table')
-
-                            
+                            @include('semesters.table')     
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -60,5 +55,6 @@ Semesters
     </div>
 
     @include('semesters.modal')
+    @include('semesters.commence_semesters_modal')
 @endsection
 

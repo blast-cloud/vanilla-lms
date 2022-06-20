@@ -7,13 +7,18 @@ use App\Events\SemesterUpdated;
 use App\Events\SemesterDeleted;
 
 use App\DataTables\SemesterDataTable;
-use App\Http\Requests;
+use App\DataTables\SemesterOfferedCoursesDatatable;
+
 use App\Http\Requests\CreateSemesterRequest;
 use App\Http\Requests\UpdateSemesterRequest;
+use App\Http\Requests\CommenceSemesterRequest;
 use App\Repositories\SemesterRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use App\Models\Semester;
+use App\Http\Resources\SemesterResource;
+use Illuminate\Http\Request;
 
 class SemesterController extends AppBaseController
 {
@@ -72,17 +77,17 @@ class SemesterController extends AppBaseController
      *
      * @return Response
      */
-    public function show($id)
+    public function show(SemesterOfferedCoursesDatatable $SemesterOfferedCoursesDatatable, $id)
     {
+         /** @var Semester $semester */
         $semester = $this->semesterRepository->find($id);
+        
+        $current_semester = Semester::where('is_current', 1)->first();
 
         if (empty($semester)) {
-            Flash::error('Semester not found');
-
-            return redirect(route('semesters.index'));
+            return redirect(route('semesters.index'))->with('error', 'Semester not found');
         }
-
-        return view('semesters.show')->with('semester', $semester);
+        return $SemesterOfferedCoursesDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester, 'current_semester' => $current_semester, ]);
     }
 
     /**
@@ -154,5 +159,30 @@ class SemesterController extends AppBaseController
 
         SemesterDeleted::dispatch($semester);
         return redirect(route('semesters.index'));
+    }
+
+    public function getAllSemesters()
+    {
+        $allSemesters = Semester::where('is_current', '!=', 1)->orWhereNull('is_current')->orderBy('id', 'desc')->get();
+        return $this->sendResponse($allSemesters, 'Semesters retrieved successfully');
+    }
+
+    public function setCurrentSemester(CommenceSemesterRequest $request)
+    {
+        $allData = $request->all();
+        $findSemester = $this->semesterRepository->find($allData['is_current']);
+
+        if (empty($findSemester)) {
+            return $this->sendError('Semester not found');
+        }
+
+        //updating current semester
+        $updateResult = $findSemester->update(['is_current' => 1, 'status' => 'Current Semester']);
+
+        //unsetting initial current semesters
+        $ObjSemester = new Semester();
+        $unSettingResult = $ObjSemester->where('is_current', '1')->where('status', 'Current Semester')->where('id', '!=', $findSemester->id )->update(['is_current' => 0, 'status' => 'Semester Not Current']);
+
+        return $this->sendResponse($findSemester, 'Semester retrieved successfully');      
     }
 }

@@ -7,6 +7,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 id="lbl-semester-modal-title" class="modal-title">Semester</h4>
+                <i><small class="" style="color:red;">NOTE: Creating or Updating a semester will not affect the current semester until the newly created semester is started.</small></i>
             </div>
 
             <div class="modal-body">
@@ -21,13 +22,13 @@
                             </div>
 
                             <input type="hidden" id="txt-semester-primary-id" value="0" />
-                            <div id="div-show-txt-semester-primary-id">
+                            <!-- <div id="div-show-txt-semester-primary-id">
                                 <div class="row">
-                                    <div class="col-lg-10 ma-10">                            
-                                    @include('semesters.show_fields')
+                                    <div class="col-lg-10 ma-10">
+                                    include('semesters.show_fields')
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                             <div id="div-edit-txt-semester-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
@@ -35,7 +36,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </form>
@@ -68,7 +68,7 @@ $(document).ready(function() {
     });
 
     //Show Modal for View
-    $(document).on('click', ".btn-show-mdl-semester-modal", function(e) {
+    /*$(document).on('click', ".btn-show-mdl-semester-modal", function(e) {
         e.preventDefault();
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.modal-footer').hide();
@@ -78,16 +78,17 @@ $(document).ready(function() {
         $('.spinner1').hide();
 
         // $.get( "{{URL::to('/')}}/api/semesters/"+itemId).done(function( data ) {
-        $.get( "{{URL::to('/')}}/api/semesters/"+itemId).done(function( response ) {
+        $.get( "{{URL::to('/')}}/semesters/"+itemId).done(function( response ) {
 			$('#div-semester-modal-error').hide();
 			$('#mdl-semester-modal').modal('show');
 			$('#frm-semester-modal').trigger("reset");
 			$('#txt-semester-primary-id').val(response.data.id);
             $('#spn_semester_code').html(response.data.code);
+            $('#spn_semester_academic_session').html(response.data.academic_session);
             $('#spn_semester_start_date').html(new Intl.DateTimeFormat('en-GB', { dateStyle: 'long',  }).format(Date.parse(response.data.start_date)));
             $('#spn_semester_end_date').html(new Intl.DateTimeFormat('en-GB', { dateStyle: 'long',  }).format(Date.parse(response.data.end_date))); 
         });
-    });
+    });*/
 
     //Show Modal for Edit
     $(document).on('click', ".btn-edit-mdl-semester-modal", function(e) {
@@ -102,7 +103,7 @@ $(document).ready(function() {
         
 
         // $.get( "{{URL::to('/')}}/api/semesters/"+itemId).done(function( data ) {
-        $.get( "{{URL::to('/')}}/api/semesters/"+itemId).done(function( response ) {            
+        $.get( "{{URL::to('/')}}/semesters/"+itemId).done(function( response ) {            
 			$('#div-semester-modal-error').hide();
 			$('#mdl-semester-modal').modal('show');
 			$('#frm-semester-modal').trigger("reset");
@@ -110,6 +111,7 @@ $(document).ready(function() {
             $('#code').val(response.data.code);
             $('#start_date').val(response.data.start_date);
             $('#end_date').val(response.data.end_date);
+            $('#academic_session').val(response.data.academic_session);
 
         });
     });
@@ -172,6 +174,7 @@ $(document).ready(function() {
         let actionType = "POST";
         // let endPointUrl = "{{URL::to('/')}}/api/semesters/create";
         let endPointUrl = "{{ route('semesters.store') }}";
+        let reports = 'Added';
         let primaryId = $('#txt-semester-primary-id').val();
         
         let formData = new FormData();
@@ -182,12 +185,20 @@ $(document).ready(function() {
             // endPointUrl = "{{URL::to('/')}}/api/semesters/"+itemId;
             endPointUrl = "{{ route('semesters.update',0) }}"+primaryId;
             formData.append('id', primaryId);
+            reports = 'Updated';
         }
         
         formData.append('_method', actionType);
         formData.append('code', $('#code').val());
         formData.append('start_date', $('#start_date').val());
         formData.append('end_date', $('#end_date').val());
+        formData.append('academic_session', $('#academic_session').val());
+        //generating uniqueCode
+        if ($('#code').val() == "First Semester") {
+            formData.append('unique_code', $('#academic_session').val()+'/1');
+        } else if ($('#code').val() == "Second Semester") {
+            formData.append('unique_code', $('#academic_session').val()+'/2');
+        }
 
         $.ajax({
             url:endPointUrl,
@@ -213,7 +224,7 @@ $(document).ready(function() {
                     $('#btn-save-mdl-semester-modal').prop("disabled", false);
                     $('#div-semester-modal-error').hide();
                     window.setTimeout( function(){
-                        swal("Done!", "The Semester record saved successfully!", "success");
+                        swal("Done!", "The Semester record " + reports + " successfully!", "success");
                         // window.alert("The Semester record saved successfully.");
 						$('#div-semester-modal-error').hide();
                         location.reload(true);

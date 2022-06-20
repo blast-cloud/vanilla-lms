@@ -18,13 +18,37 @@ class SemesterDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        $dataTable->addColumn('start_date', function ($query) {   
-            return date('d-m-Y', strtotime($query->start_date)); 
+       /* $dataTable->addColumn('start_date', function ($query) {   
+            return date('D-M-Y', strtotime($query->start_date)); 
         });
+*/
+        $dataTable->editColumn('academic_session', function ($query) {
+            if($query->is_current == 1){
+                return "<font color='red'> ". $query->academic_session ."</font>";
+            } else {
+                return $query->academic_session;
+            }   
+        })->escapeColumns('active')->make(true);
 
-        $dataTable->addColumn('end_date', function ($query) { 
-            return date('d-m-Y', strtotime($query->end_date));   
-        });
+        $dataTable->editColumn('code', function ($query) {
+            if($query->is_current == 1){ return "<font color='red'> ". $query->code ."</font>";
+            } else { return $query->code; }
+        })->escapeColumns('active')->make(true);
+
+        $dataTable->editColumn('start_date', function ($query) {
+            if($query->is_current == 1){ return "<font color='red'> ". date('D-M-Y', strtotime($query->start_date)) ."</font>";
+            } else { return date('D-M-Y', strtotime($query->start_date)); }
+        })->escapeColumns('active')->make(true);
+
+        $dataTable->editColumn('end_date', function ($query) {
+            if($query->is_current == 1){ return "<font color='red'> ". date('D-M-Y', strtotime($query->end_date)) ."</font>";
+            } else { return date('(D)d-M-Y', strtotime($query->end_date)); }
+        })->escapeColumns('active')->make(true);
+
+        $dataTable->editColumn('status', function ($query) {
+            if($query->is_current == 1){ return "<font color='red'> ". $query->status ."</font>";
+            } else { return $query->status; }
+        })->escapeColumns('active')->make(true);
 
         return $dataTable->addColumn('action', 'semesters.datatables_actions');
     }
@@ -73,9 +97,12 @@ class SemesterDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'code',
+            'academic_session',
+            ['title'=>'Session Code','data'=>"code"],
             'start_date',
-            'end_date'
+            'end_date',
+            'status',
+           
         ];
     }
 

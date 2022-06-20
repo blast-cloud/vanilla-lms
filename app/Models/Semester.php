@@ -61,9 +61,13 @@ class Semester extends Model
 
 
     public $fillable = [
+        'academic_session',
         'code',
+        'unique_code',
         'start_date',
-        'end_date'
+        'end_date',
+        'is_current',
+        'status'
     ];
 
     /**
@@ -74,8 +78,13 @@ class Semester extends Model
     protected $casts = [
         'id' => 'integer',
         'code' => 'string',
+        'unique_code' => 'string',
         'start_date' => 'date',
-        'end_date' => 'date'
+        'end_date' => 'date',
+        'status' => 'string',
+        'is_current' => 'integer',
+        'academic_session' => 'string'
+
     ];
 
     /**
