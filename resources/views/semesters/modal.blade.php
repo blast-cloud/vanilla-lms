@@ -103,7 +103,7 @@ $(document).ready(function() {
         
 
         // $.get( "{{URL::to('/')}}/api/semesters/"+itemId).done(function( data ) {
-        $.get( "{{URL::to('/')}}/semesters/"+itemId).done(function( response ) {            
+        $.get( "{{URL::to('/')}}/semesters/"+itemId+'/edit').done(function( response ) {            
 			$('#div-semester-modal-error').hide();
 			$('#mdl-semester-modal').modal('show');
 			$('#frm-semester-modal').trigger("reset");
@@ -112,7 +112,6 @@ $(document).ready(function() {
             $('#start_date').val(response.data.start_date);
             $('#end_date').val(response.data.end_date);
             $('#academic_session').val(response.data.academic_session);
-
         });
     });
 

@@ -36,13 +36,13 @@ class SemesterDataTable extends DataTable
         })->escapeColumns('active')->make(true);
 
         $dataTable->editColumn('start_date', function ($query) {
-            if($query->is_current == 1){ return "<font color='red'> ". date('D-M-Y', strtotime($query->start_date)) ."</font>";
-            } else { return date('D-M-Y', strtotime($query->start_date)); }
+            if($query->is_current == 1){ return "<font color='red'> ". date('(D) d-M-Y', strtotime($query->start_date)) ."</font>";
+            } else { return date('(D) d-M-Y', strtotime($query->start_date)); }
         })->escapeColumns('active')->make(true);
 
         $dataTable->editColumn('end_date', function ($query) {
-            if($query->is_current == 1){ return "<font color='red'> ". date('D-M-Y', strtotime($query->end_date)) ."</font>";
-            } else { return date('(D)d-M-Y', strtotime($query->end_date)); }
+            if($query->is_current == 1){ return "<font color='red'> ". date('(D) d-M-Y', strtotime($query->end_date)) ."</font>";
+            } else { return date('(D) d-M-Y', strtotime($query->end_date)); }
         })->escapeColumns('active')->make(true);
 
         $dataTable->editColumn('status', function ($query) {
@@ -102,7 +102,6 @@ class SemesterDataTable extends DataTable
             'start_date',
             'end_date',
             'status',
-           
         ];
     }
 

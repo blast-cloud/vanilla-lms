@@ -27,13 +27,17 @@ class CommenceSemesterRequest extends AppBaseFormRequest
     {
         return [
             'is_current' => "required|exists:semesters,id",
+            'get_end_date' => "required|date|after:today",
         ];
     }
 
     public function messages()
     {
         return [
-            'required' => 'The :attribute field is required.' 
+            'get_end_date.required' => 'PICK-UP A VALID SEMESTER TO PROCEED.',
+            'get_end_date.date' => 'PICK-UP A VALID SEMESTER TO PROCEED.',
+            'get_end_date.after' => 'Semester selected has an expired END-DATE of ' . date('(D) d-M-Y', strtotime($this->get_end_date)) . '. (i.e: END-DATE is considered invalid!)',
+            'required' => 'The :attribute field is required.',
         ];
     }
 

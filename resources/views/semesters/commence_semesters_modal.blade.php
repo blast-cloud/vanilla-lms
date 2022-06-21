@@ -22,6 +22,8 @@
                             <div id="div-commence-txt-semester-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
+                                    <!-- hidden date value  -->
+                                        <input type="hidden" id="get_end_date" name="get_end_date" value="">
                                     <!-- Semester to commece -->
                                         <div id="div-code" class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="is_current">Semester to Commence</label>
@@ -51,6 +53,23 @@
 @section('js-139')
 <script type="text/javascript">
 $(document).ready(function() {
+    $(document).on('change', "#is_current", function(e) {
+        e.preventDefault();
+        $('.spinner1').show();
+
+        let selectedVal = $('#is_current').val();
+        if (selectedVal != null && selectedVal != "") {
+            $.get( "{{URL::to('/')}}/semesters/" + selectedVal + "/edit").done(function( response ) {
+                $('.spinner1').hide();
+                $('.modal-footer').show();
+                $('#get_end_date').val(response.data.end_date);
+            });
+        } else {
+            $('#get_end_date').val('');
+            $('.spinner1').hide();
+            $('.modal-footer').hide();
+        }
+    });
 
     //Show Modal for Commence Semester
     $(document).on('click', ".btn-commence-a-semester-modal", function(e) {
@@ -58,7 +77,7 @@ $(document).ready(function() {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('.input-border-error').removeClass("input-border-error");
         $('#div-commence-txt-semester-primary-id').show();
-        $('.modal-footer').show();
+        $('.modal-footer').hide();
         $('.spinner1').hide();
         
         $.get( "{{URL::to('/')}}/semesters/getallsemesters").done(function( response ) {            
@@ -99,6 +118,7 @@ $(document).ready(function() {
         formData.append('_token', $('input[name="_token"]').val());
         formData.append('_method', actionType);
         formData.append('is_current', $('#is_current').val());
+        formData.append('get_end_date', $('#get_end_date').val());
 
         $.ajax({
             url:endPointUrl,

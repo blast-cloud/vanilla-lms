@@ -99,15 +99,14 @@ class SemesterController extends AppBaseController
      */
     public function edit($id)
     {
+         /** @var Semester $semester */
         $semester = $this->semesterRepository->find($id);
 
         if (empty($semester)) {
-            Flash::error('Semester not found');
-
-            return redirect(route('semesters.index'));
+            return $this->sendError('Semester not found');
         }
 
-        return view('semesters.edit')->with('semester', $semester);
+        return $this->sendResponse(new SemesterResource($semester), 'Semester retrieved successfully');
     }
 
     /**
@@ -163,7 +162,7 @@ class SemesterController extends AppBaseController
 
     public function getAllSemesters()
     {
-        $allSemesters = Semester::where('is_current', '!=', 1)->orWhereNull('is_current')->orderBy('id', 'desc')->get();
+        $allSemesters = Semester::where('is_current', '!=', 1)->orWhereNull('is_current')->orderBy('academic_session', 'desc')->get();
         return $this->sendResponse($allSemesters, 'Semesters retrieved successfully');
     }
 

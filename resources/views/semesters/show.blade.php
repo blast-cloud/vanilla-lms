@@ -23,7 +23,7 @@
                     
                     <div class="form-wrap">
                         <div class="row pull-right">
-                            <a href="#" class="btn btn-primary btn-sm">Deadline</a>
+                           <!--  <a href="#"  class="btn btn-primary btn-sm">Deadline</a> -->
                             <a href="#"  class="btn btn-sm btn-success btn-new-mdl-semester-notification-modal">
                                 Notification
                             </a>
@@ -54,10 +54,9 @@
             <div class="row col-sm-12">
                 <div class="tab-struct custom-tab-1 mt-20">
                     <ul role="tablist" class="nav nav-pills">
-                        <li class="mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" data-toggle="tab" role="tab" href="#semesterDeadlines" aria-expanded="false">Semester Notifications</a></li>
-
                         <li class="active mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" aria-expanded="true" data-toggle="tab" role="tab" href="#offeredClasses">Offered Classes</a></li>
 
+                        <li class="mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" data-toggle="tab" role="tab" href="#semesterDeadlines" aria-expanded="false">Semester Notifications</a></li>
                     </ul>
                     <div class="tab-content" id="myTabContent_6">
                         <div id="offeredClasses" class="tab-pane fade active in" role="tabpanel">
