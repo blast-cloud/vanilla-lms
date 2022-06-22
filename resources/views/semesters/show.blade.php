@@ -25,7 +25,7 @@
                         <div class="row pull-right">
                            <!--  <a href="#"  class="btn btn-primary btn-sm">Deadline</a> -->
                             <a href="#"  class="btn btn-sm btn-success btn-new-mdl-semester-notification-modal">
-                                Notification
+                               Add Notification
                             </a>
                         </div>
                         <div class="row">
@@ -54,24 +54,41 @@
             <div class="row col-sm-12">
                 <div class="tab-struct custom-tab-1 mt-20">
                     <ul role="tablist" class="nav nav-pills">
-                        <li class="active mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" aria-expanded="true" data-toggle="tab" role="tab" href="#offeredClasses">Offered Classes</a></li>
-
-                        <li class="mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" data-toggle="tab" role="tab" href="#semesterDeadlines" aria-expanded="false">Semester Notifications</a></li>
+                        @php
+                            if(isset($_GET['offeredclasses'])){
+                                $clicked1 = "primary";
+                                $clicked2 = "default";
+                            } elseif (isset($_GET['notifications'])){
+                                $clicked1 = "default";
+                                $clicked2 = "primary";
+                            } else {
+                                $clicked1 = "primary";
+                                $clicked2 = "default";
+                            }
+                        @endphp
+                        <form action="{{ URL::to('/semesters')}}/tabs/{{$semester->id}}" method="GET">
+                            <li class="mr-2" role="presentation">
+                                <button type="submit" name="offeredclasses" class="btn btn-{{$clicked1}} pt-10 pb-10 pl-5 pr-5" value="allOfferedClasses">
+                                    Semester Offered Classes 
+                                </button>
+                                <button type="submit" name="notifications" class="btn btn-{{$clicked2}} active pt-10 pb-10 pl-5 pr-5" value="allNotifications">
+                                    Semester Notifications 
+                                </button>
+                            </li>
+                        </form>
                     </ul>
                     <div class="tab-content" id="myTabContent_6">
+                        <!-- datatale for all offered courses & notifications -->
                         <div id="offeredClasses" class="tab-pane fade active in" role="tabpanel">
                             <div class="col-sm-12 panel panel-default card-view pa-20">
                                 @include("semesters.semester-offered-classes-tab")
                             </div>
                         </div>
-
-                        <div id="semesterDeadlines" class="tab-pane fade" role="tabpanel">
+                        <!-- <div id="semesterDeadlines" class="tab-pane fade" role="tabpanel">
                             <div class="col-sm-12 panel panel-default card-view pa-20">
-                                Here i will have a list of all deadlines for the semesters
-                                <!-- include("dashboard.class.partials.online_lectures") -->
+                                include("semesters.semester-notifications-tab")
                             </div>
-                        </div>
-
+                        </div> -->
                     </div>
                 </div>
             </div>  
@@ -81,5 +98,5 @@
         @include("dashboard.partials.side-panel")
         @include('semesters.semester-notification-modal')
     </div>
-
+    
 @endsection

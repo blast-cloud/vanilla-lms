@@ -88,11 +88,12 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('semesters/getallsemesters', [App\Http\Controllers\SemesterController::class, 'getAllSemesters'])->name('semesters.getallsemesters');
         Route::put('semesters/setcurrentsemester', [App\Http\Controllers\SemesterController::class, 'setCurrentSemester'])->name('semesters.setcurrentsemester');
+        Route::get('semesters/tabs/{id}', [App\Http\Controllers\SemesterController::class, 'show'])->name('semesters.tabs.show');
         Route::resource('semesters', App\Http\Controllers\SemesterController::class);
-
         Route::resource('departments', App\Http\Controllers\DepartmentController::class);
         Route::resource('faqs', App\Http\Controllers\FAQController::class);
         Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
+        Route::resource('notifications', App\Http\Controllers\BroadcastNotificationController::class);
 
         // Route::prefix('api')->group(function () {
         //     Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);

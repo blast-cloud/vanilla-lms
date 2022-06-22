@@ -7,6 +7,7 @@ use App\Events\SemesterUpdated;
 use App\Events\SemesterDeleted;
 
 use App\DataTables\SemesterDataTable;
+use App\DataTables\SemesterNotificationsDatatable;
 use App\DataTables\SemesterOfferedCoursesDatatable;
 
 use App\Http\Requests\CreateSemesterRequest;
@@ -77,7 +78,7 @@ class SemesterController extends AppBaseController
      *
      * @return Response
      */
-    public function show(SemesterOfferedCoursesDatatable $SemesterOfferedCoursesDatatable, $id)
+    public function show(SemesterOfferedCoursesDatatable $SemesterOfferedCoursesDatatable, SemesterNotificationsDatatable $SemesterNotificationsDatatable, $id)
     {
          /** @var Semester $semester */
         $semester = $this->semesterRepository->find($id);
@@ -86,6 +87,11 @@ class SemesterController extends AppBaseController
 
         if (empty($semester)) {
             return redirect(route('semesters.index'))->with('error', 'Semester not found');
+        }
+        if (request()->has('offeredclasses')) {
+            return $SemesterOfferedCoursesDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester, 'current_semester' => $current_semester, ]);
+        } elseif (request()->has('notifications')) {
+            return $SemesterNotificationsDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester, 'current_semester' => $current_semester, ]);
         }
         return $SemesterOfferedCoursesDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester, 'current_semester' => $current_semester, ]);
     }
@@ -105,7 +111,7 @@ class SemesterController extends AppBaseController
         if (empty($semester)) {
             return $this->sendError('Semester not found');
         }
-
+        
         return $this->sendResponse(new SemesterResource($semester), 'Semester retrieved successfully');
     }
 

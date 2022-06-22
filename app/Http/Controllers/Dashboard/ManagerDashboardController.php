@@ -175,7 +175,12 @@ class ManagerDashboardController extends AppBaseController
                             ->pluck('full_name','id')
                             ->toArray();
 
-        $semesterItems = Semester::all()->pluck('code','id');
+        //$semesterItems = Semester::all()->pluck('code','id');
+        $semesterItems = Semester::select(
+            DB::raw("CONCAT(COALESCE(`code`,''),' ',COALESCE(`academic_session`,'')) AS semester_name"),'id')
+            ->pluck('semester_name', 'id')
+            ->toArray();
+
 
         $lecturerItems = Lecturer::select(DB::raw("CONCAT(COALESCE(job_title, ''),' ',last_name,', ',first_name) AS name"),'id')
                             ->where('department_id', $current_user->department_id )

@@ -35,6 +35,13 @@ class DepartmentClassScheduleDataTable extends CourseClassDataTable
             return "None Assigned";
         });
 
+        $dataTable->addColumn('academic_session', function ($query) {
+            if ($query->semester != null){
+                return "{$query->semester->academic_session}";
+            }
+            return "None Assigned";
+        });
+
         $dataTable->addColumn('semester', function ($query) {
             if ($query->semester != null){
                 return "{$query->semester->code}";
@@ -93,6 +100,7 @@ class DepartmentClassScheduleDataTable extends CourseClassDataTable
             'code',
             'name',
             'lecturer',
+            'academic_session',
             'semester',
             'credit_hours'
         ];
