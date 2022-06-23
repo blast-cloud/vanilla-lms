@@ -182,11 +182,11 @@ class SemesterController extends AppBaseController
         }
 
         //updating current semester
-        $updateResult = $findSemester->update(['is_current' => 1, 'status' => 'Current Semester']);
+        $updateResult = $findSemester->update(['is_current' => 1, 'status' => '1']);
 
         //unsetting initial current semesters
         $ObjSemester = new Semester();
-        $unSettingResult = $ObjSemester->where('is_current', '1')->where('status', 'Current Semester')->where('id', '!=', $findSemester->id )->update(['is_current' => 0, 'status' => 'Semester Not Current']);
+        $unSettingResult = $ObjSemester->where('is_current', '1')->where('status', '1')->where('id', '!=', $findSemester->id )->update(['is_current' => 0, 'status' => '0']);
 
         return $this->sendResponse($findSemester, 'Semester retrieved successfully');      
     }

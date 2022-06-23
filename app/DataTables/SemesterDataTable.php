@@ -46,8 +46,13 @@ class SemesterDataTable extends DataTable
         })->escapeColumns('active')->make(true);
 
         $dataTable->editColumn('status', function ($query) {
-            if($query->is_current == 1){ return "<font color='red'> ". $query->status ."</font>";
-            } else { return $query->status; }
+            if ($query->status == 1) {
+                $statusVal = 'Current Semester';
+            } else {
+                $statusVal = 'Semester Not Current';
+            }
+            if($query->is_current == 1){ return "<font color='red'> ". $statusVal ."</font>";
+            } else { return $statusVal; }
         })->escapeColumns('active')->make(true);
 
         return $dataTable->addColumn('action', 'semesters.datatables_actions');

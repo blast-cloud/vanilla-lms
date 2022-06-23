@@ -31,7 +31,7 @@
                                 Create New Semester
                             </a>
                             <a href="#"  class="btn btn-xs btn-success btn-commence-a-semester-modal">
-                                Commence Semester
+                                Start New Semester
                             </a>
                         </div>
                     </div>

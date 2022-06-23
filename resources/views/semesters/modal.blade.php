@@ -181,7 +181,6 @@ $(document).ready(function() {
 
         if (primaryId>0){
             actionType = "PUT";
-            // endPointUrl = "{{URL::to('/')}}/api/semesters/"+itemId;
             endPointUrl = "{{ route('semesters.update',0) }}"+primaryId;
             formData.append('id', primaryId);
             reports = 'Updated';

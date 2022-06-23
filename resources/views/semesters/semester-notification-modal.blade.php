@@ -5,7 +5,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 id="lbl-semester-modal-title" class="modal-title">Semester Notification</h4> 
+                <h4 id="lbl-semester-modal-title" class="modal-title">Semester Notification Broadcast</h4> 
                     @if (isset($semester->is_current))
                         @if($semester->is_current == 1)
                             <i><small style="color:green;"><strong>NOTE:</strong> This semester is currently active! </small></i>
@@ -33,56 +33,11 @@
 
                             <input type="hidden" id="txt-semester-notification-primary-id" value="0" />
                             <div id="div-show-notification-txt-semester-primary-id">
-                                <div class="row">
-                                    <div class="col-lg-10 ma-10">
-                                       
-                                        <!-- Semester notification title -->
-                                        <div id="div-title" class="form-group">
-                                        </div>
-                                        <!-- Semester notification message -->
-                                        <div id="div-message" class="form-group">
-                                        </div>
-                                        <!-- Semester to notification message -->
-                                        <div id="div-receivers" class="form-group">
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('semesters.show-notification-txt-semester')
                             </div>
 
                             <div id="div-edit-notification-txt-semester-primary-id">
-                                <div class="row">
-                                    <div class="col-lg-10 ma-10">
-                                        <!-- Semester notification title -->
-                                        <div id="div-tit" class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="is_current">Notification title</label>
-                                            <div class="col-sm-9">
-                                                <input type="text" name="title" class = "form-control" id="title" placeholder="Notification title">
-                                            </div>
-                                        </div>
-                                        <!-- Semester notification message -->
-                                        <div id="div-mes" class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="is_current">Notification message</label>
-                                            <div class="col-sm-9">
-                                                <textarea name="message" class = "form-control" id="message" placeholder="Notification message" rows="6"></textarea>
-                                            </div>
-                                        </div>
-                                        <!-- Semester to notification message -->
-                                        <div id="div-rec" class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="is_current">Select recepient groups</label>
-                                            <div class="col-sm-9">
-                                                <div class="col-sm-4">
-                                                    <input type="checkbox" name="managers" id="managers"> All Managers
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <input type="checkbox" name="lecturers" id="lecturers"> All Lecturers
-                                                </div>
-                                                <div class="col-sm-4">
-                                                    <input type="checkbox" name="students" id="students"> All Students
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @include('semesters.edit-notification-txt-semester')
                             </div>
                         </div>
                     </div>
@@ -91,7 +46,7 @@
 
             <div class="modal-footer">
                 <hr class="light-grey-hr mb-10" />
-                <button type="button" class="btn btn-primary" id="btn-save-notification-mdl-semester-modal" value="make_current">Process</button>
+                <button type="button" class="btn btn-primary" id="btn-save-notification-mdl-semester-modal" value="make_current">Process & Broadcast</button>
             </div>
 
         </div>
@@ -108,7 +63,27 @@ $(document).ready(function() {
           return false;
         }
       });
+
+    $('body').append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
+    $(window).on('load', function(){
+      setTimeout(removeLoader, 1000); //wait for page load PLUS two seconds.
     });
+    function removeLoader(){
+        $( "#loadingDiv" ).fadeOut(500, function() {
+          // fadeOut complete. Remove the loading div
+          $( "#loadingDiv" ).remove(); //makes page more lightweight 
+      });  
+    }
+
+    @if (isset($_GET['offeredclasses']) or isset($_GET['notifications']))
+        $(document).ready(function () {
+            // Handler for .ready() called.
+            $('html, body').animate({
+                scrollTop: $('#scrollhere').offset().top
+            }, 'slow');
+        });
+    @endif
+});
 
     //Show Modal for View
     $(document).on('click', ".btn-show-mdl-semester-notification-modal", function(e) {
@@ -247,9 +222,9 @@ $(document).ready(function() {
         $('.spinner1').show();
         $('#btn-save-notification-mdl-semester-modal').prop("disabled", true);  
         let reports = 'added';
-        let report = 'add';
+        /*let report = 'add';*/
         if ($('#txt-semester-notification-primary-id').val()>0){ reports = 'updated'; report = 'update'; }
-  swal({
+  /*swal({
       title: "Process Completing...",
       text: "Please confirm that notification should be " + reports + " to list prepared for broadcast!",
       icon: "warning",
@@ -259,7 +234,7 @@ $(document).ready(function() {
       ],
       dangerMode: true,
     }).then(function(isConfirm) {
-      if (isConfirm) {
+      if (isConfirm) {*/
         let actionType = "POST";
         let endPointUrl = "{{ route('notifications.store') }}";
         let primaryId = $('#txt-semester-notification-primary-id').val();
@@ -326,9 +301,9 @@ $(document).ready(function() {
                     $('#btn-save-notification-mdl-semester-modal').prop("disabled", false);
                     $('#div-notification-semester-modal-error').hide();
                     window.setTimeout( function(){
-                        swal("Completed!", "Notification " + reports + " to broadcast list successfully!", "success");
+                        swal("Completed!", "Notification " + reports + " for broadcast successfully!", "success");
                         $('#div-notification-semester-modal-error').hide();
-                        location.reload(true);
+                        //location.reload(true);
                     },28);
                 }
             }, error: function(data){
@@ -338,13 +313,13 @@ $(document).ready(function() {
             }
         });
 
-      } else {
+      /*} else {
         swal("Cancelled", "Notification process undone!", "error");
         $('.spinner1').hide();
         $('#btn-save-notification-mdl-semester-modal').prop("disabled", false);
         //location.reload(true);
       }
-    })
+    })*/
 
     });
 

@@ -45,7 +45,7 @@
                             @endif
                             <hr class="light-grey-hr mb-10">
                         </div>
-                        <div class="row">
+                        <div class="row" id="scrollhere">
                             @include('semesters.show_fields')
                         </div>
                     </div>
@@ -69,10 +69,10 @@
                         <form action="{{ URL::to('/semesters')}}/tabs/{{$semester->id}}" method="GET">
                             <li class="mr-2" role="presentation">
                                 <button type="submit" name="offeredclasses" class="btn btn-{{$clicked1}} pt-10 pb-10 pl-5 pr-5" value="allOfferedClasses">
-                                    Semester Offered Classes 
+                                    Classes 
                                 </button>
                                 <button type="submit" name="notifications" class="btn btn-{{$clicked2}} active pt-10 pb-10 pl-5 pr-5" value="allNotifications">
-                                    Semester Notifications 
+                                    Notifications 
                                 </button>
                             </li>
                         </form>

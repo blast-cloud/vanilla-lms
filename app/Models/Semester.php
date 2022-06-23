@@ -81,7 +81,7 @@ class Semester extends Model
         'unique_code' => 'string',
         'start_date' => 'date',
         'end_date' => 'date',
-        'status' => 'string',
+        'status' => 'integer',
         'is_current' => 'integer',
         'academic_session' => 'string'
 

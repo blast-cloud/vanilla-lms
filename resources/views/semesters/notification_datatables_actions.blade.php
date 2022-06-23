@@ -11,8 +11,8 @@
         {!! Form::button('<i class="fa fa-trash"></i>', ['type'=>'button']) !!}
         </a>
 
-        <a href="#" data-val='{{$id}}' title="Broadcast Notification" class='btn-edit-mdl-semester-notification-modal'>
+        <!-- <a href="#" data-val='{{$id}}' title="Broadcast Notification" class='btn-broadcast-mdl-semester-notification-modal'>
             {!! Form::button('<i class="fa fa-volume-up"></i>', ['type'=>'button']) !!}
-        </a>
+        </a> -->
     @endif
 </center>

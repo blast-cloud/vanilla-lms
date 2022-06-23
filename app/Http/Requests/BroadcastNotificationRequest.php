@@ -30,8 +30,8 @@ class BroadcastNotificationRequest extends AppBaseFormRequest
             $isChecked_error = "";
         }
         return [
-            'title' => 'required|string|min:10|max:191',
-            'message' => 'required|string|min:10',
+            'title' => 'required|string|max:191',
+            'message' => 'required|string',
             'at_least_one_checked' => "$isChecked_error",
         ];
     }
@@ -39,7 +39,7 @@ class BroadcastNotificationRequest extends AppBaseFormRequest
     public function messages()
     {
         return [
-            'at_least_one_checked.in' => 'You must proceed by selecting at least one or more receipient(s)',
+            'at_least_one_checked.in' => 'The receipient(s) field is required.',
         ];
     }
 }

@@ -16,7 +16,7 @@ class AlterSemestersTable extends Migration
         Schema::table("semesters", function(Blueprint $table) {
             $table->boolean('is_current')->default(0);
             $table->string('academic_session');
-            $table->string('status')->default('Future Semester');
+            $table->boolean('status')->default(0);
             $table->string('unique_code')->unique();
         });
     }
