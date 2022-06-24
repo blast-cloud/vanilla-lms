@@ -303,7 +303,7 @@ $(document).ready(function() {
                     window.setTimeout( function(){
                         swal("Completed!", "Notification " + reports + " for broadcast successfully!", "success");
                         $('#div-notification-semester-modal-error').hide();
-                        //location.reload(true);
+                        location.reload(true);
                     },28);
                 }
             }, error: function(data){

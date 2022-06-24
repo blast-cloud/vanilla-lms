@@ -55,7 +55,7 @@ class BroadcastNotificationController extends AppBaseController
     public function store(BroadcastNotificationRequest $request)
     {
         $input = $request->all();
-        $semester = $this->broadcastNotificationRepository->create($input);
+        $broadcastNotificationID = $this->broadcastNotificationRepository->create($input)->id;
         Flash::success('Notification saved and broadcated successfully.');
 
         //broadcast logic
@@ -74,11 +74,11 @@ class BroadcastNotificationController extends AppBaseController
             array_push($eligible_receivers, 'students_receives');
         }
         
-        return $this->broadcastNotificationTo($eligible_receivers, $input);
+        return $this->broadcastNotificationTo($eligible_receivers, $input, $broadcastNotificationID);
         //return redirect(route('semesters.index'));  
     }
 
-    public function broadcastNotificationTo($eligible_receivers, $input){ 
+    public function broadcastNotificationTo($eligible_receivers, $input, $broadcastNotificationID){ 
         $strArgs = '';
         $arrArgs = [];
         foreach ($eligible_receivers as $key) {
@@ -108,6 +108,11 @@ class BroadcastNotificationController extends AppBaseController
         
         $users = User::whereRaw("$strArgs", $arrArgs)->get();
         BroadcastNotificationJob::dispatch($users, $input);
+        if (count($users) > 0) {
+            $getNotification = BroadcastNotification::find($broadcastNotificationID);
+            $getNotification->broadcast_status = 1;
+            $getNotification->save();
+        }
         return $this->sendResponse('', 'Notification broadcated successfully');
     }
 
