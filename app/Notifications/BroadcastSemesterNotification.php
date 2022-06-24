@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class BroadcastSemesterNotification extends Notification implements ShouldQueue
+class BroadcastSemesterNotification extends Notification
 {
     use Queueable;
 
@@ -43,7 +43,7 @@ class BroadcastSemesterNotification extends Notification implements ShouldQueue
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)->subject('Notification broadcast from School Adminstration')->markdown('mail.broadcast_semester_notification', ['input' => $this->input]);
+        return (new MailMessage)->subject('School Admin Notification Broadcast')->markdown('mail.broadcast_semester_notification', ['input' => $this->input]);
     }
 
     /**

@@ -11,8 +11,8 @@ use Flash;
 use App\Http\Resources\BroadcastNotificationResource;
 use App\Repositories\BroadcastNotificationRepository;
 use App\DataTables\SemesterNotificationsDatatable;
-use App\Notifications\BroadcastSemesterNotification;
-use Notification;
+use App\Jobs\BroadcastNotificationJob;
+/*use Notification;*/
 
 use App\Models\User;
 
@@ -55,7 +55,7 @@ class BroadcastNotificationController extends AppBaseController
     public function store(BroadcastNotificationRequest $request)
     {
         $input = $request->all();
-        //$semester = $this->broadcastNotificationRepository->create($input);
+        $semester = $this->broadcastNotificationRepository->create($input);
         Flash::success('Notification saved and broadcated successfully.');
 
         //broadcast logic
@@ -78,177 +78,39 @@ class BroadcastNotificationController extends AppBaseController
         //return redirect(route('semesters.index'));  
     }
 
-    public function broadcastNotificationTo($receivers, $input){ 
-        if (count($receivers) === 1) {
-            foreach ($receivers as $key) {
-                if ($key == 'managers_receives') {
-                    $users = User::where('manager_id', '!=', null)->get();
-                } elseif ($key == 'lecturers_receives') {
-                    $users = User::where('lecturer_id', '!=', null)->get();
-                } elseif ($key == 'students_receives') {
-                    $users = User::where('student_id', '!=', null)->get();
+    public function broadcastNotificationTo($eligible_receivers, $input){ 
+        $strArgs = '';
+        $arrArgs = [];
+        foreach ($eligible_receivers as $key) {
+            if ($key == 'managers_receives') {
+                if ($strArgs == '') {
+                    $strArgs .= 'manager_id != ?';
+                } else {
+                    $strArgs .= ' or manager_id != ?';
                 }
+                array_push($arrArgs, 'null');
+            } elseif ($key == 'lecturers_receives') {
+                if ($strArgs == '') {
+                    $strArgs .= 'lecturer_id != ?';
+                } else {
+                    $strArgs .= ' or lecturer_id != ?';
+                }
+                array_push($arrArgs, 'null');
+            } elseif ($key == 'students_receives') {
+                if ($strArgs == '') {
+                    $strArgs .= 'student_id != ?';
+                } else {
+                    $strArgs .= ' or student_id != ?';
+                }
+                array_push($arrArgs, 'null');
             }
-        } elseif (count($receivers) === 2) {
-            $guide1 = [];
-            $guide2 = [];
-            //first item
-            switch ($receivers[0]) {
-              case 'managers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['manager_id', '!=', null];
-                } else {
-                    $guide2 = ['manager_id', '!=', null];
-                }
-                break;
-              case 'lecturers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['lecturer_id', '!=', null];
-                } else {
-                    $guide2 = ['lecturer_id', '!=', null];
-                }
-                break;
-              case 'students_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['student_id', '!=', null];
-                } else {
-                    $guide2 = ['student_id', '!=', null];
-                }
-                break;
-            }
-            //second item
-            switch ($receivers[1]) {
-              case 'managers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['manager_id', '!=', null];
-                } else {
-                    $guide2 = ['manager_id', '!=', null];
-                }
-                break;
-              case 'lecturers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['lecturer_id', '!=', null];
-                } else {
-                    $guide2 = ['lecturer_id', '!=', null];
-                }
-                break;
-              case 'students_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['student_id', '!=', null];
-                } else {
-                    $guide2 = ['student_id', '!=', null];
-                }
-                break;
-            }
-            $users = $this->twoGuides($guide1, $guide2);
-        } elseif (count($receivers) === 3) {
-            $guide1 = [];
-            $guide2 = [];
-            $guide3 = [];
-            //first item
-            switch ($receivers[0]) {
-              case 'managers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['manager_id', '!=', null];
-                } elseif (count($guide2) == 0){
-                    $guide2 = ['manager_id', '!=', null];
-                } else {
-                    $guide3 = ['manager_id', '!=', null];
-                }
-                break;
-              case 'lecturers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['lecturer_id', '!=', null];
-                } elseif (count($guide2) == 0){
-                    $guide2 = ['lecturer_id', '!=', null];
-                } else {
-                    $guide3 = ['lecturer_id', '!=', null];
-                }
-                break;
-              case 'students_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['student_id', '!=', null];
-                } elseif (count($guide2) == 0){
-                    $guide2 = ['student_id', '!=', null];
-                } else {
-                    $guide3 = ['student_id', '!=', null];
-                }
-                break;
-            }
-            //second item
-            switch ($receivers[1]) {
-              case 'managers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['manager_id', '!=', null];
-                } elseif (count($guide2) == 0){
-                    $guide2 = ['manager_id', '!=', null];
-                } else {
-                    $guide3 = ['manager_id', '!=', null];
-                }
-                break;
-              case 'lecturers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['lecturer_id', '!=', null];
-                } elseif (count($guide2) == 0){
-                    $guide2 = ['lecturer_id', '!=', null];
-                } else {
-                    $guide3 = ['lecturer_id', '!=', null];
-                }
-                break;
-              case 'students_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['student_id', '!=', null];
-                } elseif (count($guide2) == 0){
-                    $guide2 = ['student_id', '!=', null];
-                } else {
-                    $guide3 = ['student_id', '!=', null];
-                }
-                break;
-            }
-            //third item
-            switch ($receivers[2]) {
-              case 'managers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['manager_id', '!=', null];
-                } elseif (count($guide2) == 0){
-                    $guide2 = ['manager_id', '!=', null];
-                } else {
-                    $guide3 = ['manager_id', '!=', null];
-                }
-                break;
-              case 'lecturers_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['lecturer_id', '!=', null];
-                } elseif (count($guide2) == 0){
-                    $guide2 = ['lecturer_id', '!=', null];
-                } else {
-                    $guide3 = ['lecturer_id', '!=', null];
-                }
-                break;
-              case 'students_receives':
-                if (count($guide1) == 0) {
-                    $guide1 = ['student_id', '!=', null];
-                } elseif (count($guide2) == 0){
-                    $guide2 = ['student_id', '!=', null];
-                } else {
-                    $guide3 = ['student_id', '!=', null];
-                }
-                break;
-            }
-            $users = $this->threeGuides($guide1, $guide2, $guide3);
         }
-
-        Notification::send($users, new BroadcastSemesterNotification($users, $input));
-        return $users;
+        
+        $users = User::whereRaw("$strArgs", $arrArgs)->get();
+        BroadcastNotificationJob::dispatch($users, $input);
+        return $this->sendResponse('', 'Notification broadcated successfully');
     }
 
-    public function twoGuides($guide1, $guide2){
-        return User::where([$guide1])->orWhere([$guide2])->get();
-    }
-
-    public function threeGuides($guide1, $guide2, $guide3){
-        return User::where([$guide1])->orWhere([$guide2])->orWhere([$guide3])->get();
-    }
     /**
      * Display the specified resource.
      *
