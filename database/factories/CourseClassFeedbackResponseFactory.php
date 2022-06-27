@@ -26,7 +26,7 @@ class CourseClassFeedbackResponseFactory extends Factory
             'assignments_rating_point' => $this->faker->numberBetween(0,5),
             'clarification_rating_point' => $this->faker->numberBetween(0,5),
             'examination_rating_point' => $this->faker->numberBetween(0,5),
-            'leading_rating_point' => $this->faker->numberBetween(0,5),
+            'teaching_rating_point' => $this->faker->numberBetween(0,5),
             'created_at' => $this->faker->date('Y-m-d H:i:s'),
             'updated_at' => $this->faker->date('Y-m-d H:i:s'),
             'course_class_feedback_id' => $this->faker->randomDigitNotNull,
