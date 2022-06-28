@@ -91,6 +91,11 @@
                             <div class="pull-left"><i class="zmdi zmdi-view-dashboard mr-20"></i><span class="right-nav-text">Student Dashboard</span></div><div class="pull-right"></div><div class="clearfix"></div>
                         </a>
                     </li>
+                    <li class="">
+                    <a href="{{ route('notifications.index') }}" class="{{ Request::is('notifications') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="fa fa-bell mr-20"></i><span class="right-nav-text">Notifications</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    </a>
+                </li>
                     @php 
                         if (isset($classActivities) && $classActivities->getAppSettings()){
                             $db_settings = $classActivities->getAppSettings();
@@ -128,6 +133,11 @@
                         <div class="pull-left"><i class="zmdi zmdi-view-dashboard mr-20"></i><span class="right-nav-text">Lecturer Dashboard</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
+                <li class="">
+                    <a href="{{ route('notifications.index') }}" class="{{ Request::is('notifications') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="fa fa-bell mr-20"></i><span class="right-nav-text">Notifications</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    </a>
+                </li>
                     @if (isset($class_schedules))
                     <li><hr class="light-grey-hr mb-10"/></li>
                     <li class="navigation-header">
@@ -154,6 +164,11 @@
                 <li class="">
                     <a href="{{ route('dashboard.manager.students') }}" class="{{ Request::is('dashboard/manager/students') ? 'active' : '' }}">
                         <div class="pull-left"><i class="zmdi zmdi-accounts-outline mr-20"></i><span class="right-nav-text">Students</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="{{ route('notifications.index') }}" class="{{ Request::is('notifications') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="fa fa-bell mr-20"></i><span class="right-nav-text">Notifications</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
                 <li class="">

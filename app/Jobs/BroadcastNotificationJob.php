@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use App\Notifications\BroadcastSemesterNotification;
 use Notification;
 
-class BroadcastNotificationJob implements ShouldQueue
+class BroadcastNotificationJob
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 

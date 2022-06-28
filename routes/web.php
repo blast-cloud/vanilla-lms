@@ -93,7 +93,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('departments', App\Http\Controllers\DepartmentController::class);
         Route::resource('faqs', App\Http\Controllers\FAQController::class);
         Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
-        Route::resource('notifications', App\Http\Controllers\BroadcastNotificationController::class);
+        Route::resource('notifications', App\Http\Controllers\BroadcastNotificationController::class, ['except' => ['index', 'show']]);
 
         // Route::prefix('api')->group(function () {
         //     Route::resource('faqs', App\Http\Controllers\API\FAQAPIController::class);
@@ -110,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('courseClassFeedbackResponses', App\Http\Controllers\CourseClassFeedbackResponseController::class);
 
     Route::put('dashboard/classMaterials/{id}/outline', [App\Http\Controllers\CourseClassController::class, 'updateCourseClassOutline'])->name('dashboard.course-class-outline');
+    Route::get('notifications/', [App\Http\Controllers\BroadcastNotificationController::class, 'index'])->name('notifications.index');
+    Route::get('notifications/{id}', [App\Http\Controllers\BroadcastNotificationController::class, 'show'])->name('notifications.show');
 
     Route::resource('classMaterials', App\Http\Controllers\ClassMaterialController::class);
 

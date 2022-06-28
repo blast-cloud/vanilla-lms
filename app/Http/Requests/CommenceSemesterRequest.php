@@ -25,9 +25,9 @@ class CommenceSemesterRequest extends AppBaseFormRequest
      */
     public function rules()
     {
+        //'get_end_date' => "required|date|after:today",
         return [
             'is_current' => "required|exists:semesters,id",
-            'get_end_date' => "required|date|after:today",
         ];
     }
 

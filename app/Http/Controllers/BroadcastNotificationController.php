@@ -10,7 +10,7 @@ use App\Models\BroadcastNotification;
 use Flash;
 use App\Http\Resources\BroadcastNotificationResource;
 use App\Repositories\BroadcastNotificationRepository;
-use App\DataTables\SemesterNotificationsDatatable;
+use App\DataTables\NotificationsDatatable;
 use App\Jobs\BroadcastNotificationJob;
 /*use Notification;*/
 
@@ -31,9 +31,11 @@ class BroadcastNotificationController extends AppBaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(NotificationsDatatable $NotificationsDatatable)
     {
-        //
+        $current_semester = \App\Models\Semester::where('is_current', 1)->first();
+
+        return $NotificationsDatatable->with('current_semester', $current_semester)->render('semesters.category_notifications', ['current_semester' => $current_semester]);
     }
 
     /**
@@ -56,9 +58,9 @@ class BroadcastNotificationController extends AppBaseController
     {
         $input = $request->all();
         $broadcastNotificationID = $this->broadcastNotificationRepository->create($input)->id;
-        Flash::success('Notification saved and broadcated successfully.');
+        //Flash::success('Notification saved and broadcated successfully.');
 
-        //broadcast logic
+        //Broadcast  logic
         $eligible_receivers = [];
         $get_managers_receives_status = $input['managers_receives'];
         $get_lecturers_receives_status = $input['lecturers_receives'];
@@ -75,7 +77,6 @@ class BroadcastNotificationController extends AppBaseController
         }
         
         return $this->broadcastNotificationTo($eligible_receivers, $input, $broadcastNotificationID);
-        //return redirect(route('semesters.index'));  
     }
 
     public function broadcastNotificationTo($eligible_receivers, $input, $broadcastNotificationID){ 
@@ -107,7 +108,9 @@ class BroadcastNotificationController extends AppBaseController
         }
         
         $users = User::whereRaw("$strArgs", $arrArgs)->get();
+        
         BroadcastNotificationJob::dispatch($users, $input);
+        
         if (count($users) > 0) {
             $getNotification = BroadcastNotification::find($broadcastNotificationID);
             $getNotification->broadcast_status = 1;
