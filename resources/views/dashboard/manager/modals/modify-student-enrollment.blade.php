@@ -7,6 +7,12 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 id="lbl-enrollment-modal-title" class="modal-title">Enrollment</h4>
+                @if(isset($current_semester))
+                    @if(!empty($current_semester))
+                    <small style="color: green;"><strong>CURRENT SEMESTER:</strong> {{$current_semester->code}}, {{$current_semester->academic_session}} Academic Session</small><br>
+                        <small style="color: #FF0000;"><strong>NOTE:</strong> Student will be enrolled in for the current semester</i></small>
+                    @endif
+                @endif
             </div>
 
             <div class="modal-body">
@@ -28,21 +34,16 @@
                                     </div>
                                 </div>
                             </div>
+                            
+                            <small></small>
                             <div id="div-edit-txt-enrollment-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
                                         <div class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="course_id">Semester</label>
-                                            <div class="col-sm-9">
-                                                <select class="form-control select2" id="semester_id" name="semester_id">
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Department</label>
                                             <div class="col-sm-9">
-                                                <select class="form-control select2" id="department_id" name="department_id">
+                                                <select class="form-control" id="department_id" name="department_id">
+                                                    <option value="">-- select department --</option>
                                                     @foreach ($departmentItems as $item)
                                                         <option value="{{$item->id}}">{{$item->name}} </option>
                                                     @endforeach
@@ -54,20 +55,13 @@
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Course Class</label>
                                             <div class="col-sm-9">
                                                 {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
-                                                <select class="form-control select2" id="course_id" name="course_id">
-         
-                                                  
+                                                <select class="form-control select2" id="course_id" name="course_id">     
                                                         <option value=""> --select course class--</option>
-                                                
                                                 </select>
                                              
                                                
                                             </div>
                                         </div>
-
-                                      
-
-
                                     </div>
                                 </div>
                             </div>
@@ -149,26 +143,13 @@
 $(document).ready(function() {
 $('.spinner1').fadeOut(1);
 $('.no-student').fadeOut(1);
-$('#department_id').select2();
-$('#semester_id').select2();
-$('#course_id').select2();
- 
-   
+$('#course_id').select2();  
+});
 
-$('#department_id').prepend('<option value=""> -- select department --</option>');
-    $.get(   "{{URL::to('/')}}/api/semesters").done(function( response ) {   
-            console.log(response);
-            $('#semester_id').prepend('<option value=""> select semester </option>');
-            $.each(response.data,function(k,v){
-                $('#semester_id').append('<option value ="'+v.id+'">'+ v.code+ '</option>');
-            });
-            
-        });
-    });
     $(document).on('change', "#department_id", function(e) {
        let endPointUrl = "{{route('api.department.semester.course')}}" ;  
        let formData = new FormData();
-       formData.append('semester_id',$('#semester_id').val());
+       formData.append('semester_id',{{$current_semester->id}});
        formData.append('department_id',$('#department_id').val());
         $.ajax({
             url:endPointUrl,
@@ -181,36 +162,7 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
             success: function(response){
                 console.log(response);
                 $('#course_id').empty();
-                $('#course_id').append('<option value=""> -- select course -- </option>')
-                if(response.data.length > 0){
-                    $.each(response.data,function(k,v){
-                        $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + "taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
-                    });
-                   
-                }
-            }, 
-            error: function(data){
-                    conole.log(data);
-            }
-        });
-    });
-    $(document).on('change', "#semester_id", function(e) {
-       let endPointUrl = "{{route('api.department.semester.course')}}" ;  
-       let formData = new FormData();
-       formData.append('semester_id',$('#semester_id').val());
-       formData.append('department_id',$('#department_id').val());
-        $.ajax({
-            url:endPointUrl,
-            type: "POST",
-            data: formData,
-            cache: false,
-            processData:false,
-            contentType: false,
-            dataType: 'json',
-            success: function(response){
-                console.log(response);
-                $('#course_id').empty();
-                $('#course_id').append('<option value=""> -- select course -- </option>')
+                $('#course_id').append('<option value=""> -- select course class -- </option>')
                 if(response.data.length > 0){
                     $.each(response.data,function(k,v){
                         $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + " taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
@@ -364,12 +316,12 @@ $('#department_id').prepend('<option value=""> -- select department --</option>'
             endPointUrl = "{{ route('enrollments.update',0) }}"+primaryId;
             formData.append('id', primaryId);
         }
-        console.log( $('#semester_id').val());
+        console.log( {{$current_semester->id}});
         formData.append('_method', actionType);
         formData.append('course_class_id', $('#course_id').val());
         formData.append('student_id', {{$student->id}} );
         formData.append('department_id', $('#department_id').val() );
-        formData.append('semester_id', $('#semester_id').val() );
+        formData.append('semester_id', {{$current_semester->id}} );
 
         $.ajax({
             url:endPointUrl,

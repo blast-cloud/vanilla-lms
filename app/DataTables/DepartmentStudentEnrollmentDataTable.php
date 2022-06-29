@@ -66,9 +66,9 @@ class DepartmentStudentEnrollmentDataTable extends EnrollmentDataTable
             // Column::make('Department')
             //     ->addClass('text-right')
             // ,
-            Column::make('status')
+            /*Column::make('status')
                 ->addClass('text-right')
-                ->width(80),
+                ->width(80),*/
                 Column::make('action')
                 ->addClass('text-right')
                 ->width(80)

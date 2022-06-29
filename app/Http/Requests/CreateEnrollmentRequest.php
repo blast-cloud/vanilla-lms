@@ -30,9 +30,9 @@ class CreateEnrollmentRequest extends AppBaseFormRequest
         return [
             'status' => 'nullable',
             'student_id' => 'required',
+            'department_id' => 'required',
             'course_class_id' => 'required',
-            'semester_id' => 'required',
-            'department_id' => 'required'
+            'semester_id' => 'required'
         ];
     }
 

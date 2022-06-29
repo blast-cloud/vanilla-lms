@@ -280,6 +280,7 @@ class ManagerDashboardController extends AppBaseController
 
             return $studentEnrollmentDataTable->ajax();
         }
+        $current_semester = Semester::where('is_current', 1)->first();
 
         /* $courseItems = $class_schedules->pluck('name','id')->toArray(); */
         $courseItems = CourseClass::where('department_id', $current_user->department_id)->get();
@@ -287,6 +288,7 @@ class ManagerDashboardController extends AppBaseController
         return view("dashboard.manager.student")
                     ->with('student', $student)
                     ->with('departmentItems',$departmentItems)
+                    ->with('current_semester', $current_semester)
                     ->with('department', $department)
                     ->with('current_user', $current_user)
                     ->with('class_schedules', $class_schedules)
