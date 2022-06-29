@@ -88,7 +88,8 @@ $(document).ready(function() {
     $(document).on('change', "#semester_id", function(e) {
        let endPointUrl = "{{route('api.department.semester.course')}}" ;  
        let formData = new FormData();
-       formData.append('semester_id',{{$current_semester->id}});
+       
+       formData.append('semester_id',{{ optional($current_semester)->id}});
        formData.append('department_id',$('#department_id').val());
         $.ajax({
             url:endPointUrl,
@@ -117,7 +118,7 @@ $(document).ready(function() {
     $(document).on('change', "#department_id", function(e) {
        let endPointUrl = "{{route('api.department.semester.course')}}" ;  
        let formData = new FormData();
-       formData.append('semester_id',{{$current_semester->id}});
+       formData.append('semester_id',{{ optional($current_semester)->id}});
        formData.append('department_id',$('#department_id').val());
         $.ajax({
             url:endPointUrl,
@@ -269,7 +270,7 @@ $(document).ready(function() {
         formData.append('course_class_id', $('#course_id').val());
         formData.append('student_id', {{$current_user->student_id}} );
         formData.append('department_id',$('#department_id').val() );
-        formData.append('semester_id',{{$current_semester->id}});
+        formData.append('semester_id',,{{ optional($current_semester)->id}});
         formData.append('is_approved','0');
 
         $.ajax({
