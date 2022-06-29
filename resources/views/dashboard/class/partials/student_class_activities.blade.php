@@ -37,18 +37,18 @@
                     @php
                         $score = $classActivities->get_activity_score($courseClass->id, $item['student_id']);
                         $score_color = "text-danger";
-                        if ($score !=null && strtolower($score)=="high"){
+                        if ($score['message'] !=null && strtolower($score['message'])=="high"){
                             $score_color = "text-primary";
                         }
                     @endphp
-                    <td class="participation_score" data-participation-score="{{ucwords($score)}}" data-participation-matric="{{$item['matriculation_number']}}" data-student-id ="{{$item['student_id']}}">
+                    <td class="participation_score" data-participation-score="{{ucwords($score['message'])}}" data-participation-matric="{{$item['matriculation_number']}}" data-student-id ="{{$item['student_id']}}">
                         {{$item['first_name']}}  {{$item['last_name']}} - {{$item['matriculation_number']}}
                     </td>
                     <td class="text-center">
-                        @if ($score == null)
+                        @if ($score['message'] == null)
                             <span class="small text-danger">No Activity</span>
                         @else
-                            <h4 class="{{$score_color}} small" style="font-weight:900;">{{ strtoupper($score) }}</h4>
+                            <h4 class="{{$score_color}} small" style="font-weight:900;">{{ strtoupper($score['message']) }}</h4>
                         @endif
                     </td>
                     <td class="text-center">

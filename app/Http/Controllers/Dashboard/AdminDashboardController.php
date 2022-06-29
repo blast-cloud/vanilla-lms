@@ -170,10 +170,11 @@ class AdminDashboardController extends AppBaseController
 
             //If the record does not exist, then create it
             if (isset($db_settings[$key])==false){
-                $this->settingRepository->create([   
+               $settings = $this->settingRepository->create([   
                     'key' => $key,
                     'value' => $request->$key
                 ]);
+                $db_settings[$key] =  $settings->id;
                 $is_newly_created = true;
             }
             
@@ -198,7 +199,7 @@ class AdminDashboardController extends AppBaseController
                     $rndFileName = time().'.'.$file_type;
                     $file_upload->move(public_path('uploads'), $rndFileName);
                     $setting_value = "uploads/{$rndFileName}";
-
+                   
                     //Update the settings value.
                     $this->settingRepository->update(['value'=>$setting_value],$db_settings[$key]);
                 }
