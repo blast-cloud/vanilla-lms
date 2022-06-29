@@ -55,20 +55,20 @@
                                             <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Enrolled Students: <span class="text-danger">50</span> </li> -->
                                             <li>                                             
                                                     @php
-                                                        $message = $classActivities->get_activity_score($classDetailItem->id, $current_user->student_id);
+                                                        $message_response['message'] = $classActivities->get_activity_score($classDetailItem->id, $current_user->student_id);
                                                     @endphp
-                                                    @if($message == null)
+                                                    @if($message_response['message'] == null && $message_response['total_classs'] == 0)
                                                         <i class="text-danger fa fa-warning mr-5"></i>
                                                         <span class="text-danger">You seem not to be participating in this class. Kindly follow up on reading materials, assignments, and use the discussion forum if you have questions.</span>
                                                     @endif
-                                                    @if($message == 'low')
+                                                    @if($message_response['message'] == 'low')
                                                         <i class="text-danger fa fa-warning mr-5"></i>
                                                         <span class="text-danger">Your participation in this class is low, and it might affect your final score. Kindly follow up on reading materials, assignments, and use the discussion forum if you have questions.</span>
                                                     @endif
-                                                    @if($message == 'moderate')
+                                                    @if($message_response['message'] == 'moderate')
                                                         {{-- <span class="text-danger">Your participation in this class is moderate</span> --}}
                                                     @endif
-                                                    @if($message == 'high')
+                                                    @if($message_response['message'] == 'high')
                                                         <i class="text-primary fa fa-thimbs-o-up mr-5"></i>
                                                         <span class="text-primary">Your particpation in this class is high, please keep it up.</span>
                                                     @endif

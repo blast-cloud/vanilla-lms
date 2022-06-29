@@ -201,8 +201,9 @@ class StudentActivityManager{
             $message = null;
         }
         
+        $message_response = ['message' => $message, 'total_class' => $totalObtainable];
 
-        return $message;
+        return  $message_response;
         
     }
 
