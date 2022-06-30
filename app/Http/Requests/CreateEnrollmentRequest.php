@@ -58,4 +58,10 @@ class CreateEnrollmentRequest extends AppBaseFormRequest
         ];
         
     }
+
+    public function messages(){
+        return [
+            'semester_id.required' => 'No active semester found or selected'
+        ];
+    } 
 }
