@@ -50,11 +50,11 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/attachment', [App\Http\Controllers\AttachmentController::class,"uploadFile"])->name('attachment-upload');
     
-    Route::middleware('can:isStudent')->group(function () {
+    Route::middleware('isStudent')->group(function () {
         Route::get('dashboard/student', [App\Http\Controllers\Dashboard\StudentDashboardController::class, 'index'])->name('dashboard.student');
     });
 
-    Route::middleware('can:isManager')->group(function () {
+    Route::middleware('isManager')->group(function () {
         Route::get('dashboard/manager', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'index'])->name('dashboard.manager');
         Route::get('dashboard/manager/announcements', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayAnnouncements'])->name('dashboard.manager.announcements');
         Route::get('dashboard/manager/calendars', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayDepartmentCalendar'])->name('dashboard.manager.calendars');
@@ -65,7 +65,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('dashboard/manager/student/{id}', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayDepartmentStudentPage'])->name('dashboard.manager.student-page');
     });
 
-    Route::middleware('can:isLecturer')->group(function () {
+    Route::middleware('isLecturer')->group(function () {
         Route::get('dashboard/lecturer', [App\Http\Controllers\Dashboard\LecturerDashboardController::class, 'index'])->name('dashboard.lecturer');
         Route::post('dashboard/grade-update/{id}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processGradeUpdate'])->name('dashboard.lecturer.grade-update');
         Route::post('dashboard/save-comment', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processLecturerComment'])->name('dashboard.lecturer.save-comment');
@@ -73,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
         
     });
 
-    Route::middleware('can:isAdmin')->group(function () {
+    Route::middleware('isAdmin')->group(function () {
         Route::get('dashboard/admin', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'index'])->name('dashboard.admin');
         Route::get('dashboard/users', [App\Http\Controllers\ACL\ACLController::class, 'displayUserAccounts'])->name('dashboard.users');
         Route::get('dashboard/user/{id}', [App\Http\Controllers\ACL\ACLController::class, 'getUser'])->name('dashboard.user');

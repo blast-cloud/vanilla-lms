@@ -316,12 +316,12 @@ $('#course_id').select2();
             endPointUrl = "{{ route('enrollments.update',0) }}"+primaryId;
             formData.append('id', primaryId);
         }
-        console.log( {{$current_semester->id}});
+        console.log( {{ optional($current_semester)->id}});
         formData.append('_method', actionType);
         formData.append('course_class_id', $('#course_id').val());
         formData.append('student_id', {{$student->id}} );
         formData.append('department_id', $('#department_id').val() );
-        formData.append('semester_id', {{$current_semester->id}} );
+        formData.append('semester_id', {{ optional($current_semester)->id}} );
 
         $.ajax({
             url:endPointUrl,
