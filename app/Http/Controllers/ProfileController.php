@@ -124,7 +124,9 @@ class ProfileController extends AppBaseController
     public function processProfileUpdate(Request $request){
 
         $current_user = Auth()->user();
-
+        if (!$request->has('email')) {
+            $request->email = $current_user->email;
+        }
         $validator = $this->validateUserDetails($request);
         if ($validator->fails()){
             return redirect()->back()->withErrors($validator)->withInput();

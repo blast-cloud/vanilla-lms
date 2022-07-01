@@ -47,7 +47,7 @@ class CreateSemesterRequest extends AppBaseFormRequest
     {
         return [
             'required' => 'The :attribute field is required.',
-            'unique_code.unique' => 'The semester data provide already exist.',
+            'unique_code.unique' => 'The semester data provided already exist.',
             'unique_code.required' => 'ERROR: PLEASE PROVIDE VALID DATA TO COMPLETE THIS PROCESS.',  
             'unique_code.min' => 'ERROR: PLEASE PROVIDE VALID DATA TO COMPLETE THIS PROCESS.',  
             'unique_code.max' => 'ERROR: PLEASE PROVIDE VALID DATA TO COMPLETE THIS PROCESS.'  
