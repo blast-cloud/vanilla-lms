@@ -30,7 +30,7 @@ class DepartmentStudentsDataTable extends StudentDataTable
         $dataTable = new EloquentDataTable($query);
         $dataTable->addColumn('matriculation_number', function ($query) {
             $link = route('dashboard.manager.student-page',$query->id);
-            return "<a href='{$link}'>$query->matriculation_number</a>";
+            return "<a href='{$link}' class='call_telefonos' style='color:blue;' title='Manage $query->matriculation_number'><u>$query->matriculation_number</u></a>";
         })->filterColumn('matriculation_number', function ($query, $keyword) {
            
             $query->whereRaw("matriculation_number like ?", ["%{$keyword}%"]);

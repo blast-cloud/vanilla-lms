@@ -92,7 +92,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('semesters', App\Http\Controllers\SemesterController::class);
         Route::resource('departments', App\Http\Controllers\DepartmentController::class);
         Route::resource('faqs', App\Http\Controllers\FAQController::class);
-        Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
         Route::resource('notifications', App\Http\Controllers\BroadcastNotificationController::class, ['except' => ['index', 'show']]);
 
         // Route::prefix('api')->group(function () {
@@ -100,6 +99,8 @@ Route::middleware(['auth'])->group(function () {
         // });
     });
 
+    
+    Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
     
     Route::resource('courses', App\Http\Controllers\CourseController::class);
 

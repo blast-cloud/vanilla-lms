@@ -9,9 +9,11 @@
                 <h4 id="lbl-enrollment-modal-title" class="modal-title">Enrollment</h4>
                 @if(isset($current_semester))
                     @if(!empty($current_semester))
-                    <small style="color: green;"><strong>CURRENT SEMESTER:</strong> {{$current_semester->code}}, {{$current_semester->academic_session}} Academic Session</small><br>
+                        <small style="color: green;"><strong>CURRENT SEMESTER:</strong> {{$current_semester->code}}, {{$current_semester->academic_session}} Academic Session</small><br>
                         <small style="color: #FF0000;"><strong>NOTE:</strong> Student will be enrolled in for the current semester</i></small>
                     @endif
+                @else
+                    <small style="color: #FF0000;"><strong>NOTE:</strong> No Semester is actively approved by Administrator, therefore no student can be enrolled.</i></small>
                 @endif
             </div>
 
@@ -34,15 +36,18 @@
                                     </div>
                                 </div>
                             </div>
-                            
-                            <small></small>
+                           
                             <div id="div-edit-txt-enrollment-primary-id">
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
                                         <div class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Department</label>
                                             <div class="col-sm-9">
-                                                <select class="form-control" id="department_id" name="department_id">
+                                                <select class="form-control" id="department_id" name="department_id" 
+                                                @if(!isset($current_semester))
+                                                    disabled 
+                                                @endif
+                                                >
                                                     <option value="">-- select department --</option>
                                                     @foreach ($departmentItems as $item)
                                                         <option value="{{$item->id}}">{{$item->name}} </option>
@@ -51,12 +56,12 @@
                                             </div>
                                         </div>
                                         <!-- Course Id Field -->
-                                        --<div id="div-course_id" class="form-group">
+                                        <div id="div-course_id" class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Course Class</label>
                                             <div class="col-sm-9">
                                                 {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
                                                 <select class="form-control select2" id="course_id" name="course_id">     
-                                                        <option value=""> --select course class--</option>
+                                                    <option value=""> --select course class--</option>
                                                 </select>
                                              
                                                
@@ -149,7 +154,7 @@ $('#course_id').select2();
     $(document).on('change', "#department_id", function(e) {
        let endPointUrl = "{{route('api.department.semester.course')}}" ;  
        let formData = new FormData();
-       formData.append('semester_id',{{$current_semester->id}});
+       formData.append('semester_id',{{optional($current_semester)->id}});
        formData.append('department_id',$('#department_id').val());
         $.ajax({
             url:endPointUrl,
@@ -183,7 +188,12 @@ $('#course_id').select2();
         $('#frm-enrollment-modal').trigger("reset");
         $('#txt-enrollment-primary-id').val(0);
         $('.spinner1').hide();
-        $('#btn-save-mdl-enrollment-modal').show();
+        let current_semester = "{{optional($current_semester)->id}}";
+        if (current_semester) {
+            $('#btn-save-mdl-enrollment-modal').show();
+        } else {
+            $('#btn-save-mdl-enrollment-modal').hide();
+        }
         $('#div-show-txt-enrollment-primary-id').hide();
         $('#div-edit-txt-enrollment-primary-id').show();
 

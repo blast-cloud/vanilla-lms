@@ -21,7 +21,11 @@
 @section('content')
     
     <div class="col-sm-9">
-
+        @if(isset($current_semester))
+            @if(!empty($current_semester))
+                <small style="color: green;"><strong>CURRENT SEMESTER:</strong> {{$current_semester->code}}, {{$current_semester->academic_session}} Academic Session</small><br>
+            @endif
+        @endif
         <div class="panel panel-default card-view panel-refresh">
             <div class="panel-heading" style="padding: 10px 15px;">
                 <div class="pull-left">

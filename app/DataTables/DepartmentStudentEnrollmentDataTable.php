@@ -43,6 +43,20 @@ class DepartmentStudentEnrollmentDataTable extends EnrollmentDataTable
             return "N/A";
         });
 
+        $dataTable->addColumn('Semester', function ($query) {
+            if ($query->courseClass != null){
+                return "{$query->semester->code}";
+            }
+            return "N/A";
+        });
+
+        $dataTable->addColumn('Academic Session', function ($query) {
+            if ($query->courseClass != null){
+                return "{$query->semester->academic_session}";
+            }
+            return "N/A";
+        });
+
         $dataTable->addColumn('action', 'acl.partials.datatables_actions');
 
         // $dataTable->addColumn('action', 'calendar_entries.datatables_actions');
@@ -63,6 +77,10 @@ class DepartmentStudentEnrollmentDataTable extends EnrollmentDataTable
                 ->addClass('text-left')
                 ->width(400),
             Column::make('Lecturer'),
+
+            Column::make('Semester')->addClass('text-center'),
+            
+            Column::make('Academic Session')->addClass('text-center'),
             // Column::make('Department')
             //     ->addClass('text-right')
             // ,
@@ -70,7 +88,7 @@ class DepartmentStudentEnrollmentDataTable extends EnrollmentDataTable
                 ->addClass('text-right')
                 ->width(80),*/
                 Column::make('action')
-                ->addClass('text-right')
+                ->addClass('text-center')
                 ->width(80)
         ];
     }
