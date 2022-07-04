@@ -124,14 +124,14 @@ class FAQController extends Controller
     public function showFAQ( Request $request)
     {   
         
-        $faqs = FAQ::where('type', 'faq')->paginate(10);
+        $faqs = FAQ::where([['type', 'faq'], ['is_visible', '1']])->paginate(10);
     
         return view('faq',compact('faqs'));
     }
 
     public function showHelp()
     {
-        $helps = FAQ::where('type', 'help')->paginate(10);
+        $helps = FAQ::where([['type', 'help'], ['is_visible', '1']])->paginate(10);
         return view('help', compact('helps'));
     }
 

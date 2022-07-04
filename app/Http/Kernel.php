@@ -44,7 +44,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
-
+    
     /**
      * The application's route middleware.
      *
@@ -66,5 +66,6 @@ class Kernel extends HttpKernel
         'isManager' => \App\Http\Middleware\IsManager::class,
         'isLecturer' => \App\Http\Middleware\IsLecturer::class,
         'isStudent' => \App\Http\Middleware\IsStudent::class,
+        'isDisabled' => \App\Http\Middleware\IsDisabled::class,
     ];
 }

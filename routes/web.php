@@ -28,7 +28,7 @@ Route::get('dashboard/class/{id}/end-lecture/{lectureId}', [App\Http\Controllers
 Route::post('dashboard/class/{id}/record-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processRecordingOnlineLecture'])->name('dashboard.class.record-lecture');
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'isDisabled'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'displayProfile'])->name('profile');
