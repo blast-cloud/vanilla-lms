@@ -35,27 +35,30 @@ Admin Dashboard
 
             {{-- @include('dashboard.admin.partials.semesters') --}}
             <div class="row">
-                <div class="col-md-6">
-                    @include('dashboard.admin.partials.announcements')
+                <div class="inside" style=" display:flex !important;flex-basis:100% !important;flex-wrap:wrap !important;">
+
+                    <div class="col-md-6">
+                        @include('dashboard.admin.partials.announcements')
+                    </div>
+                    <div class="col-md-6">
+                        @include('dashboard.admin.partials.managers')
+                    </div>
+                    <div class="col-md-6">
+                        @include('dashboard.admin.partials.lecturers')
+                    </div>
+                    <div class="col-md-6">
+                        @include('dashboard.admin.partials.departments')
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    @include('dashboard.admin.partials.managers')
-                </div>
-                <div class="col-md-6">
-                    @include('dashboard.admin.partials.lecturers')
-                </div>
-                <div class="col-md-6">
-                    @include('dashboard.admin.partials.departments')
-                </div>
+                
+            </div>
+            
+        </div>
+            <div class="col-sm-3">
+                
+                @include("dashboard.partials.side-panel")
             </div>
 
-
-        </div>
-        <div class="col-sm-3">
-
-            @include("dashboard.partials.side-panel")
-
-        </div>
 
 
 
