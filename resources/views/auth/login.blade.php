@@ -250,16 +250,38 @@
                                                                                 @enderror
                                                                             </div>
                                 
-                                                                            <div class="form-group">
+                                                                            <div class="form-group" style="width:100%">
                                                                                 <label class="pull-left control-label mb-10" for="exampleInputpwd_2">Password</label>
                                                                                 <a class="capitalize-font txt-primary block mb-10 pull-right font-12" href="{{ route('password.request') }}">forgot password ?</a>
                                                                                 <div class="clearfix"></div>
-                                                                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-                                                                                @error('password')
-                                                                                    <span class="invalid-feedback" role="alert">
-                                                                                        <strong>{{ $message }}</strong>
-                                                                                    </span>
-                                                                                @enderror
+                                                                                <div class="input-group">
+
+                                                                                    <input 
+                                                                                    id="password" 
+                                                                                    type="password" 
+                                                                                    class="form-control 
+                                                                                    @error('password') is-invalid @enderror" 
+                                                                                    name="password" 
+                                                                                    required autocomplete="current-password"
+                                                                                    >
+                                                                                    <div class="input-group-addon bg-secondary">
+                                                                                        <span class="input-group-text">
+                    <a href="">
+                        <i 
+                        class="fa fa-eye-slash toggle_hide_password" 
+                        aria-hidden="true" 
+                        style="cursor: pointer;" 
+                    ></i>
+                    </a>
+            </span>
+                                                                                    </div>
+            
+                                                                   @error('password')
+                                                                                        <span class="invalid-feedback" role="alert">
+                                                                                            <strong>{{ $message }}</strong>
+                                                                                        </span>
+                                                                                    @enderror
+                                                                                </div>
                                                                             </div>
                                                                             
                                                                             <div class="form-group">
@@ -389,6 +411,31 @@
 		
 		<!-- Init JavaScript -->
 		<script src="{{ asset('dist/js/init.js') }}"></script>
+
+        <!--Javascript for toggle visibility  -->
+        <script>
+             $(document).ready(function() {
+        
+                $(".toggle_hide_password").on('click', function(e) {
+                    e.preventDefault()
+
+                    // get input group of clicked link
+                    const input_group = $(this).closest('.input-group')
+
+                    // find the input, within the input group
+                    const input = input_group.find('input.form-control')
+
+                    // find the icon, within the input group
+                    const icon = input_group.find('i')
+
+                    // toggle field type
+                    input.attr('type', input.attr("type") === "text" ? 'password' : 'text')
+
+                    // toggle icon class
+                    icon.toggleClass('fa-eye-slash fa-eye')
+                })
+        });
+        </script>
 	</body>
 </html>
 
