@@ -14,7 +14,7 @@
     @if ($item->course_class_id == $courseClass->id )
         <dl>
             <dt class="mb-0">
-                Examination #<span id="spn_exam_{{$item->id}}_num">{{$item->examination_number}}</span> - Exam scheduled for <span id="spn_exam_{{$item->id}}_date">{{ date('Y-m-d', strtotime($item->due_date)) }} </span> - <span id="spn_exam_{{$item->id}}_title">{{$item->title}}</span>
+                Examination #<span id="spn_exam_{{$item->id}}_num">{{$item->examination_number}}</span> - Exam scheduled for <span id="spn_exam_{{$item->id}}_date">{{ date('Y-m-d', strtotime($item->exam_date)) }} </span> <span id="spn_exam_{{$item->id}}_time">@php echo $timeObj->parse($item->exam_time)->format('h:i A');@endphp </span> - <span id="spn_exam_{{$item->id}}_title">{{$item->title}}</span>
                 <span class="text-danger" style="font-size:80%"><br/>
                     Posted on {{ $item->created_at->format('d-M-Y') }} &nbsp;&nbsp;|&nbsp;&nbsp;  Points <span id="spn_exam_{{$item->id}}_max_points">{{ $item->grade_max_points }}</span>, contributes <span id="spn_exam_{{$item->id}}_contrib">{{ $item->grade_contribution_pct }}</span>% to final score.
                 </span>

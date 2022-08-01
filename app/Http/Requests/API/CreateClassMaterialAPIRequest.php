@@ -40,6 +40,8 @@ class CreateClassMaterialAPIRequest extends AppBaseFormRequest
             'grade_max_points' => 'nullable|numeric|min:0|max:100',
             'grade_contribution_pct' => 'nullable|numeric|min:0|max:100',
             'grade_contribution_notes' => 'nullable|string|max:300',
+            'exam_time' => 'required_if:type,class-examinations|date_format:h:i A',
+            'exam_date' => 'required_if:type,class-examinations|date|after:today',
         ];
     }
 

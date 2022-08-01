@@ -43,6 +43,8 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'grade_contribution_notes' => 'nullable|string|max:300',
             'lecture_date' => 'required_if:type,lecture_classes|date|after:today',
             'lecture_time' => 'required_if:type,lecture_classes|date_format:h:i A',
+            'exam_time' => 'required_if:type,class-examinations|date_format:h:i A',
+            'exam_date' => 'required_if:type,class-examinations|date|after:today',
         ];
     }
 
@@ -59,7 +61,8 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'grade_contribution_pct.required_if' => 'The :attribute field is required.',
             'due_date.after_or_equal' => 'The :attribute field cannot be set to a past date',
             'grade_contribution_pct.max' => 'The :attribute field cannot be zero or greater than the remaining available percentage grade contribution',
-            'lecture_time.date_format' => 'The :attribute field should be a time in 12 hours format'
+            'lecture_time.date_format' => 'The :attribute field should be a time in 12 hours format',
+            'exam_time.date_format' => 'The :attribute field should be a time in 12 hours format'
         ];
     }
 

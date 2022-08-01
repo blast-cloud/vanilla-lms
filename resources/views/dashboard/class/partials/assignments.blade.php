@@ -89,7 +89,7 @@
                                     ->where('class_material_id', $item->id)
                                     ->where('course_class_id', $item->course_class_id)->first();
                                     $is_assignment_graded = ($submission && $submission->grade_id != null) ? true : false;
-                            $assignment_due_date =  strtotime($item->due_date) - time();
+                            $assignment_due_date =  strtotime($item->due_date. ' +1 day') - time();
                     @endphp
                     <div class="col-md-12">
                         @if (($current_user->student_id) && $is_assignment_graded == true )

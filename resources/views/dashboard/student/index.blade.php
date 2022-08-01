@@ -6,7 +6,7 @@ Student Dashboard
 @stop
 
 @section('page_title')
-Student Dashboard
+{{$current_user->department->name}} :: Student Dashboard
 @stop
 
 

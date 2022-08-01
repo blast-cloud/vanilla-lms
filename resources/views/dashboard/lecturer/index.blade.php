@@ -6,7 +6,7 @@ Lecturer Dashboard
 @stop
 
 @section('page_title')
-Lecturer Dashboard
+{{$current_user->department->name}} :: Student DashboardLecturer Dashboard
 @stop
 
 

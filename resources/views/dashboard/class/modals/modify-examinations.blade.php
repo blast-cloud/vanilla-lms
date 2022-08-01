@@ -53,12 +53,18 @@
 
                                     <!-- Due Date Field -->
                                     <div class="form-group">
-                                        <label class="control-label mb-10 col-sm-3" for="txt_examination_due_date">Exam Date</label>
+                                        <label class="control-label mb-10 col-sm-3" for="txt_examination_exam_date">Exam Date</label>
                                         <div class="col-sm-2">
-                                            {!! Form::text('txt_examination_due_date', null, ['id'=>'txt_examination_due_date', 'class' => 'form-control']) !!}
+                                            {!! Form::text('txt_examination_exam_date', null, ['id'=>'txt_examination_exam_date', 'class' => 'form-control']) !!}
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_examination_exam_time">Exam Time</label>
+                                        <div class="col-sm-2">
+                                            {!! Form::text('txt_examination_exam_time', null, ['id'=>'txt_examination_exam_time', 'class' => 'form-control']) !!}
+                                        </div>
+                                    </div>
 
                                     <!-- examination Max Score Field -->
                                     <div class="form-group">
@@ -102,13 +108,18 @@ $(document).ready(function() {
     var minDate = new Date();
     minDate.setDate(minDate.getDate() + 1);
 
-    $('#txt_examination_due_date').datetimepicker({
+    $('#txt_examination_exam_date').datetimepicker({
         //format: 'YYYY-MM-DD HH:mm:ss',
         format: 'YYYY-MM-DD',
         useCurrent: true,
         sideBySide: true,
         minDate: minDate
     });
+
+    $('#txt_examination_exam_time').datetimepicker({
+        //format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'hh:mm A',
+    })
 
     
     //Show Modal
@@ -140,7 +151,7 @@ $(document).ready(function() {
         $('#txt_examination_title').val($('#spn_exam_'+itemId+'_title').html());
         $('#txt_examination_description').val($('#spn_exam_'+itemId+'_desc').html());
         $('#txt_examination_examination_number').val($('#spn_exam_'+itemId+'_num').html());
-
+        $('#txt_examination_exam_time').val($('#spn_exam_'+itemId+'_time').html());
         $('#txt_examination_grade_max_points').val($('#spn_exam_'+itemId+'_max_points').html());
         $('#txt_examination_grade_contribution_pct').val($('#spn_exam_'+itemId+'_contrib').html());
         let remainingGradePct = {!! json_encode($remainingGradePct) !!}
@@ -153,7 +164,7 @@ $(document).ready(function() {
         
 
         
-        $('#txt_examination_due_date').val($('#spn_exam_'+itemId+'_date').html());
+        $('#txt_examination_exam_date').val($('#spn_exam_'+itemId+'_date').html());
     });
 
     //Delete action
@@ -226,8 +237,10 @@ $(document).ready(function() {
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
         formData.append('examination_number', $('#txt_examination_examination_number').val());
         formData.append('title', $('#txt_examination_title').val());
+        formData.append('exam_time', $('#txt_exam_time').val());
         formData.append('description', $('#txt_examination_description').val());
-        formData.append('due_date', $('#txt_examination_due_date').val());
+        formData.append('exam_date', $('#txt_examination_exam_date').val());
+        formData.append('exam_time', $('#txt_examination_exam_time').val());
         formData.append('grade_max_points', $('#txt_examination_grade_max_points').val());
         formData.append('remaining_pct_grade',$('#txt_examination_grade_contribution_pct').attr('max'));
         formData.append('grade_contribution_pct', $('#txt_examination_grade_contribution_pct').val());

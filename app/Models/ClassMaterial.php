@@ -127,6 +127,8 @@ class ClassMaterial extends Model
         'semester_id',
         'lecture_date',
         'lecture_time',
+        'exam_date',
+        'exam_time',
     ];
 
     /**
@@ -152,7 +154,9 @@ class ClassMaterial extends Model
         'grade_contribution_notes' => 'string',
         'examination_number' => 'integer',
         'lecture_date' => 'datetime',
-        'lecture_time' => 'datetime'
+        'lecture_time' => 'datetime',
+        'exam_date' => 'datetime',
+        'exam_time' => 'datetime',
     ];
 
 

@@ -40,7 +40,9 @@ class UpdateClassMaterialAPIRequest extends AppBaseFormRequest
             'assignment_number' => 'required_if:type,class-assignments',
             'due_date' => 'required_if:type,class-assignments',
             'lecture_number' => 'required_if:type,lecture-classes',
-            'reference_material_url' => 'nullable|url'
+            'reference_material_url' => 'nullable|url',
+            'exam_time' => 'required_if:type,class-examinations|date_format:h:i A',
+            'exam_date' => 'required_if:type,class-examinations|date|after:today',
         ];
     }
 
