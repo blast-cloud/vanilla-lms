@@ -185,6 +185,14 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#modify-announcement-error-div').append('<li class="">'+value+'</li>');
                         $('#txt_announcement_'+key).addClass("input-border-error");
+                        $('#txt_announcement_'+key).keyup(function(e) {
+                            if($('#txt_announcement_'+key).val() != ''){
+                                $('#txt_announcement_'+key).removeClass("input-border-error")
+                            }else{
+                                $('#txt_announcement_'+key).addClass("input-border-error")
+                            }
+                        });
+                        
                     });
 
                 }else{

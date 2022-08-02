@@ -93,7 +93,14 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#modify-outline-error-div').append('<li class="">'+value+'</li>');
                         $('#txt_outline_'+key).addClass("input-border-error");
-                        console.log(key);
+                        
+                        $('#txt_outline_'+key).keyup(function(e) {
+                            if($('#txt_outline_'+key).val() != ''){
+                                $('#txt_outline_'+key).removeClass("input-border-error")
+                            }else{
+                                $('#txt_outline_'+key).addClass("input-border-error")
+                            }
+                        });
                     });
 
                 }else{

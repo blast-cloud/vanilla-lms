@@ -269,6 +269,14 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#modify-examination-error-div').append('<li class="">'+value+'</li>');
                         $('#txt_examination_'+key).addClass("input-border-error");
+                        
+                        $('#txt_examination_'+key).keyup(function(e) {
+                            if($('#txt_examination_'+key).val() != ''){
+                                $('#txt_examination_'+key).removeClass("input-border-error")
+                            }else{
+                                $('#txt_examination_'+key).addClass("input-border-error")
+                            }
+                        });
                     });
 
                 }else{

@@ -189,6 +189,13 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#modify-date-error-div').append('<li class="">'+value+'</li>');
                         $('#txt_due_date_'+key).addClass("input-border-error");
+                        $('#txt_due_date_'+key).keyup(function(e) {
+                            if($('#txt_due_date_'+key).val() != ''){
+                                $('#txt_due_date_'+key).removeClass("input-border-error")
+                            }else{
+                                $('#txt_due_date_'+key).addClass("input-border-error")
+                            }
+                        });
                     });
 
                 }else{

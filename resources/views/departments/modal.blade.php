@@ -265,6 +265,8 @@ $('#spinner-departments').fadeOut(1);
                     $.each(result.errors, function(key, value){
                         $('#div-department-modal-error').append('<li class="">'+value+'</li>');
                         $('#'+key).addClass("input-border-error");
+
+                        
                     });
                 }else{
                     $('#div-department-modal-error').hide();
@@ -321,6 +323,15 @@ $(document).on('click', '#btn-save-mdl-bulk-department-modal', function(e) {
                     $.each(result.errors, function(key, value){
                         $('#div-bulk-department-modal-error').append('<li class="">'+value+'</li>');
                         $('#'+key).addClass("input-border-error");
+
+                        $('#'+key).keyup(function(e) {
+                            console.log("got here");
+                            if($('#'+key).val() != ''){
+                                $('#'+key).removeClass("input-border-error")
+                            }else{
+                                $('#'+key).addClass("input-border-error")
+                            }
+                        });
                     });
                 }else{
                     $('#div-bulk-department-modal-error').hide();

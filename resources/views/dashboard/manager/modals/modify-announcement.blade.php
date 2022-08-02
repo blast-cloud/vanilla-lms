@@ -216,6 +216,14 @@ $(document).ready(function() {
                     $.each(data.errors, function(key, value){
                         $('#div-announcement-modal-error').append('<li class="">'+value+'</li>');
                         $('#'+key).addClass("input-border-error");
+
+                        $('#'+key).keyup(function(e) {
+                            if($('#'+key).val() != ''){
+                                $('#'+key).removeClass("input-border-error")
+                            }else{
+                                $('#'+key).addClass("input-border-error")
+                            }
+                        });
                     });
                 }else{
                     $('#div-announcement-modal-error').hide();

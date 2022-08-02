@@ -296,6 +296,13 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#modify-assignment-error-div').append('<li class="">'+value+'</li>');
                         $('#txt_assignment_'+key).addClass("input-border-error");
+                        $('#txt_assignment_'+key).keyup(function(e) {
+                            if($('#txt_assignment_'+key).val() != ''){
+                                $('#txt_assignment_'+key).removeClass("input-border-error")
+                            }else{
+                                $('#txt_assignment_'+key).addClass("input-border-error")
+                            }
+                        });
 
                     });
 

@@ -218,6 +218,14 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#modify-reading-material-error-div').append('<li class="">'+value+'</li>');
                         $('#txt_reading_material_'+key).addClass("input-border-error");
+
+                        $('#txt_reading_material_'+key).keyup(function(e) {
+                            if($('#txt_reading_material_'+key).val() != ''){
+                                $('#txt_reading_material_'+key).removeClass("input-border-error")
+                            }else{
+                                $('#txt_reading_material_'+key).addClass("input-border-error")
+                            }
+                        });
                     });
 
                 }else{

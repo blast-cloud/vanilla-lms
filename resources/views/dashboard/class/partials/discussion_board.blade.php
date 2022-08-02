@@ -221,7 +221,15 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#div-forum-modal-error').append('<li class="">'+value+'</li>');
                         $('#txt_forum_'+key).addClass("input-border-error");
-                        console.log(key);
+
+                        $('#txt_forum_'+key).keyup(function(e) {
+                            if($('#txt_forum_'+key).val() != ''){
+                                $('#txt_forum_'+key).removeClass("input-border-error")
+                            }else{
+                                $('#txt_forum_'+key).addClass("input-border-error")
+                            }
+                        });
+                        
                     });
                 }else{
                     $('#div-forum-modal-error').hide();

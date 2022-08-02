@@ -279,7 +279,14 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#div-course-modal-error').append('<li class="">'+value+'</li>');
                         $('#'+key).addClass("input-border-error");
-                        console.log(key)
+                        
+                        $('#'+key).keyup(function(e) {
+                            if($('#'+key).val() != ''){
+                                $('#'+key).removeClass("input-border-error")
+                            }else{
+                                $('#'+key).addClass("input-border-error")
+                            }
+                        });
                     });
                 }else{
                     $('#div-course-modal-error').hide();

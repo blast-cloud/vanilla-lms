@@ -483,6 +483,14 @@ $('#div-bulk-user-modal-error').hide();
                     $.each(result.errors, function(key, value){
                         $('#modify-user-details-error-div').append('<li class="">'+value+'</li>');
                         $('#'+key).addClass("input-border-error");
+                        $('#'+key).keyup(function(e) {
+                            console.log("got here");
+                            if($('#'+key).val() != ''){
+                                $('#'+key).removeClass("input-border-error")
+                            }else{
+                                $('#'+key).addClass("input-border-error")
+                            }
+                        });
                     });
 
                 }else{

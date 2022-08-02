@@ -208,6 +208,14 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#div-calendarEntry-modal-error').append('<li class="">'+value+'</li>');
                         $('#'+key).addClass("input-border-error");
+
+                        $('#'+key).keyup(function(e) {
+                            if($('#'+key).val() != ''){
+                                $('#'+key).removeClass("input-border-error")
+                            }else{
+                                $('#'+key).addClass("input-border-error")
+                            }
+                        });
                     });
                 }else{
                     $('#div-calendarEntry-modal-error').hide();

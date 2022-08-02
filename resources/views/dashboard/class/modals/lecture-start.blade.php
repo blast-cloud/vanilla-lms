@@ -246,6 +246,13 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#start-lecture-error-div').append('<li class="">'+value+'</li>');
                         $('#txt_start_lecture_'+key).addClass("input-border-error");
+                        $('#txt_start_lecture_'+key).keyup(function(e) {
+                            if($('#txt_start_lecture_'+key).val() != ''){
+                                $('#txt_start_lecture_'+key).removeClass("input-border-error")
+                            }else{
+                                $('#txt_start_lecture_'+key).addClass("input-border-error")
+                            }
+                        });
 
                     });
 

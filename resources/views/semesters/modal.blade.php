@@ -216,6 +216,15 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#div-semester-modal-error').append('<li class="">'+value+'</li>');
                         $('#'+key).addClass("input-border-error");
+
+                        $('#'+key).keyup(function(e) {
+                            console.log("got here");
+                            if($('#'+key).val() != ''){
+                                $('#'+key).removeClass("input-border-error")
+                            }else{
+                                $('#'+key).addClass("input-border-error")
+                            }
+                        });
                     });
                 }else{
                     $('.spinner1').hide();

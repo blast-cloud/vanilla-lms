@@ -342,6 +342,14 @@ $(document).ready(function() {
                         $.each(result.errors, function(key, value){
                             $('#modify-class-detail-error-div').append('<li class="">'+value+'</li>');
                             $('#txt_class_'+key).addClass("input-border-error");
+
+                            $('#txt_class_'+key).keyup(function(e) {
+                                if($('#txt_class_'+key).val() != ''){
+                                    $('#txt_class_'+key).removeClass("input-border-error")
+                                }else{
+                                    $('#txt_class_'+key).addClass("input-border-error")
+                                }
+                            });
                         });
                     }else{
                         $('.spinner').hide();
