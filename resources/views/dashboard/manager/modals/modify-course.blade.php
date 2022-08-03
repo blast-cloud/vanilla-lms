@@ -84,7 +84,7 @@
                                             </div>
                                         </div>
                                         <span class="badge badge-pill badge-secondary mb-5 ml-30">Courses csv file format:</span>
-                                        <img src="{{asset('imgs/course_csv.png')}}" class="col-md-9 ml-20" data-toggle="tootip" title="Courses csv file format">
+                                        <a href="{{asset('csv/course_upload_csv_format.csv')}}" class="btn btn-sm btn-danger" data-toggle="tootip" title="Courses csv file format"><i class="fa fa-download"></i> Download</a>
                                     </div>
                                 </div>
                             </div>

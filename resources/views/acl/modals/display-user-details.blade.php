@@ -202,7 +202,7 @@
                                             </div>
                                         </div>
                                         <span class="badge badge-pill badge-secondary mb-5 ml-30">Users csv file format:</span>
-                                        <img id="format_img" src="" class="col-md-9 ml-20" data-toggle="tootip" title="Users csv file format">
+                                        <a id="format_csv_file" src="" class="btn btn-sm btn-danger" data-toggle="tootip" title="Users csv file format"> <i class="fa fa-download"></i> Download</a>
                                     </div>
                                 </div>
                             </div>
@@ -512,15 +512,15 @@ $('#div-bulk-user-modal-error').hide();
 
 $(document).on('change', '#type', function() {
     $('.upload-tem').fadeOut(300);
-    let img_area = $('#format_img');
+    let img_area = $('#format_csv_file');
     let type = $(this).val();
 
     if (type == 'student') {
-        $(img_area).attr("src", "{{asset('imgs/student_accts_csv_format.png')}}");
+        $(img_area).attr("href", "{{asset('csv/student_user_upload_cvs_format.csv')}}");
     }else if (type == 'lecturer') {
-        $(img_area).attr("src", "{{asset('imgs/staff_csv_format.png')}}");
+        $(img_area).attr("href", "{{asset('csv/lecturer_user_upload_cvs_format.csv')}}");
     }else if (type == 'manager') {
-        $(img_area).attr("src", "{{asset('imgs/staff_csv_format.png')}}");
+        $(img_area).attr("href", "{{asset('csv/lecturer_user_upload_cvs_format.csv')}}");
     }else{
         return;
     }
