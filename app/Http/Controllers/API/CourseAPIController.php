@@ -311,14 +311,16 @@ class CourseAPIController extends AppBaseController
                     $course_data = array_merge($request->input(), [
                     'code' => $data[0],
                     'name' => $data[1],
-                    'credit_hours' => $data[2],
+                    'description' => $data[2],
+                    'credit_hours' => $data[3],
                   ]);     
                     $course = Course::create($course_data); 
                     CourseCreated::dispatch($course);
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (count($headers) != 3 || strtolower($headers[2]) != 'credit_hours') {
+                    if (count($headers) != 4 || trim(strtolower($headers[1]), "\r\n") != 'name' || trim(strtolower($headers[2]), "\r\n") != 'description' || trim(strtolower($headers[3]), "\r\n") != 'credit_hours') {
+                        dd($headers[2]);
                         $invalids['inc'] = 'The file format is incorrect: Must be - "code,name,credit_hours" ';
                         array_push($errors, $invalids);
                         break;
