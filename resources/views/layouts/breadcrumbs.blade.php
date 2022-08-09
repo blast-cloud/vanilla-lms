@@ -1,4 +1,4 @@
-<div class="col-lg-4 col-sm-4 col-md-4 col-xs-12">
+<div class="col-lg-3 col-sm-3 col-md-3 col-xs-12">
     <!-- <ol class="breadcrumb">
         <li><a href="index.html">Dashboard</a></li>
         <li><a href="#"><span>apps</span></a></li>

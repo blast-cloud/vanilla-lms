@@ -20,7 +20,8 @@ class CourseRepository extends BaseRepository
         'code',
         'name',
         'description',
-        'credit_hours'
+        'credit_hours',
+        'level'
     ];
 
     /**

@@ -37,7 +37,7 @@ class CreateSemesterRequest extends AppBaseFormRequest
         return [
             'academic_session' => "required|in:". implode($container, ','),
             'code' => "required|string|in:". implode(['First Semester','Second Semester'], ','),
-            'start_date' => 'required|date|after_or_equal:today',
+            'start_date' => 'required|date',
             'end_date' => 'required|date|after:start_date',
             'unique_code' => 'required|unique:semesters,unique_code|min:11|max:11',
         ];

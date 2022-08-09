@@ -31,7 +31,12 @@ class CreateCourseRequest extends AppBaseFormRequest
             'code' => "required|max:191|unique:courses,code",
             'name' => "required|max:191",
             'description' => 'required',
-            'credit_hours' => 'required|gt:0'
+            'credit_hours' => 'required|gte:0',
+            'level' => 'required'
         ];
+    }
+
+    public function attributes(){
+       return ['credit_hours' => 'course load'];
     }
 }

@@ -94,7 +94,9 @@ class Student extends Model
         'telephone',
         'picture_file_path',
         'profile_external_url',
-        'department_id'
+        'department_id',
+        'sex',
+        'level'
     ];
 
     /**
@@ -111,7 +113,7 @@ class Student extends Model
         'telephone' => 'string',
         'picture_file_path' => 'string',
         'profile_external_url' => 'string',
-        'department_id' => 'integer'
+        'department_id' => 'integer',
     ];
 
     /**
@@ -129,5 +131,10 @@ class Student extends Model
     public function enrollments()
     {
         return $this->hasMany(Enrollment::class);
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class,'level_id','id');
     }
 }

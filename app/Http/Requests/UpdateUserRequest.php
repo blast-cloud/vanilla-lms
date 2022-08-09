@@ -42,6 +42,7 @@ class UpdateUserRequest extends AppBaseFormRequest
             'department_id' =>'sometimes|required|string|max:50',
             'last_name' =>'sometimes|required|string|max:50',
             'matriculation_number' =>"sometimes|required_if:account_type,student|max:20|unique:students,matriculation_number,{$this->student_id}",
+            'level' =>"sometimes|required_if:account_type,student",
         ];
     }
 

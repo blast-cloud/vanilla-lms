@@ -205,6 +205,7 @@ $('#div-bulk-staff-modal-error').hide();
             $('#spn_lecturer_job_title').html(response.data.job_title);
             $('#spn_lecturer_first_name').html(response.data.first_name);
             $('#spn_lecturer_last_name').html(response.data.last_name);
+            $('#spn_lecturer_sex').html(response.data.sex);
         });
     });
 
@@ -230,6 +231,7 @@ $('#div-bulk-staff-modal-error').hide();
             $('#job_title').val(response.data.job_title);
             $('#first_name').val(response.data.first_name);
             $('#last_name').val(response.data.last_name);
+            $('#sex').val(response.data.sex);
 
         });
     });
@@ -321,6 +323,7 @@ $('#div-bulk-staff-modal-error').hide();
         formData.append('job_title', $('#job_title').val());
         formData.append('first_name', $('#first_name').val());
         formData.append('last_name', $('#last_name').val());
+        formData.append('sex', $('#sex').val());
         formData.append('department_id', {{ $department->id }});
 
 

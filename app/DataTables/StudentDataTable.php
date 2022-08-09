@@ -68,6 +68,7 @@ class StudentDataTable extends DataTable
             'email',
             'matriculation_number',
             'first_name',
+            'sex',
             'last_name',
             'telephone'
         ];

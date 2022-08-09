@@ -12,6 +12,19 @@
                                 @if (isset($current_user) && $current_user->lecturer_id == $classDetailItem->lecturer_id)
                                 <span style="font-size:70%" class="muted txt-danger">You are assigned to teach this class</span>
                                 @endif
+                                @php
+                                $courseClassLecturers = $classDetailItem->getCourseClasslecturers();
+                            @endphp
+                            @if(isset($current_user) && $current_user->lecturer_id == $classDetailItem->lecturer_id && !empty($courseClassLecturers) && $courseClassLecturers->count() > 0)
+                                <div>
+                                    <strong style="font-size: 14px">Others assigned to take this course</strong>
+                                    <ul >
+                                        @foreach($courseClassLecturers as $idx =>$lect)
+                                            <li> <i class="text-primary fa fa-angle-double-right mr-5"></i>{{$lect->lecturer->first_name}} {{$lect->lecturer->last_name}} ({{$lect->lecturer->job_title}}) {{$lect->lecturer->email}} {{$lect->lecturer->telephone}}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>     
+                            @endif
                             </div>
                             @if ($current_user->lecturer_id != null)
                             <div class="pull-right">

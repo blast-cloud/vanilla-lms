@@ -37,3 +37,21 @@
         {!! Form::text('last_name', null, ['class' => 'form-control']) !!}
     </div>
 </div>
+
+<!-- Sex Field -->
+<div id="div-sex" class="form-group">
+    <label class="control-label mb-10 col-sm-3" for="sex"> Sex </label>
+    <div class="col-sm-9">
+       <select name="sex" id="sex" class="form-control">
+            <option value=''>
+                -- Choose sex --
+            </option>
+            <option value="male">
+                Male
+            </option>
+            <option value="Female">
+                Female
+            </option>
+       </select>
+    </div>
+</div>

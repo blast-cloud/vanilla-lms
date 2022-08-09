@@ -69,7 +69,7 @@ class LecturerDataTable extends DataTable
             'telephone',
             'job_title',
             'first_name',
-            'last_name'
+            'last_name',
         ];
     }
 

@@ -29,8 +29,19 @@ class CreateCalendarEntryAPIRequest extends AppBaseFormRequest
         // return CalendarEntry::$rules;
         return [
             'title' => 'required',
-            'due_date' => 'required',
-            'description' => 'required'
+            'due_date' => 'required_without:course_class_id|date|after_or_equal:today',
+            'description' => 'required',
+            'due_day' => 'required_with:course_class_id',
+            'due_time' => 'required_with:course_class_id|date_format:h:i A'
+        ];
+    }
+
+    public  function messages(){
+
+        return [
+            'due_day.required_with' => 'The day field is required',
+            'due_time.required_with' => 'The time field is required',
+            'due_date.required_without' => 'The :attribute field is required'
         ];
     }
 

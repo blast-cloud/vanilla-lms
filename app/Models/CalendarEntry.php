@@ -74,6 +74,8 @@ class CalendarEntry extends Model
     public $fillable = [
         'title',
         'due_date',
+        'due_day',
+        'due_time',
         'description',
         'course_class_id',
         'department_id'
@@ -88,6 +90,8 @@ class CalendarEntry extends Model
         'id' => 'integer',
         'title' => 'string',
         'due_date' => 'date',
+        'due_day' => 'string',
+        'due_time' => 'datetime',
         'description' => 'string',
         'course_class_id' => 'integer',
         'department_id' => 'integer'

@@ -42,6 +42,7 @@ class LecturerCreatedListener
         $user->department_id = $event->lecturer->department_id;
         $user->password = Hash::make($password);
         $user->name = "{$event->lecturer->first_name} {$event->lecturer->last_name}";
+        $user->sex = $event->lecturer->sex;
         $user->is_platform_admin = false;
         $user->save();
         

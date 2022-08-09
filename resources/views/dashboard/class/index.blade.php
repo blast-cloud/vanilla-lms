@@ -33,7 +33,9 @@
                 <li class="mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" data-toggle="tab" id="profile_tab_11" role="tab" href="#profile_11" aria-expanded="false">Exams</a></li>
                 <li class="mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" data-toggle="tab" id="profile_tab_6" role="tab" href="#profile_6" aria-expanded="false">Discussions <!-- <span style="font-size:60%;" class="label label-danger">10</span> --></a></li>
                 <li class="mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" data-toggle="tab" id="profile_tab_8" role="tab" href="#profile_8" aria-expanded="false">Outline</a></li>
+                @if ($current_user->manager_id !=null || $current_user->student_id != null)
                 <li class="mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" data-toggle="tab" id="profile_tab_13" role="tab" href="#profile_13" aria-expanded="false">Feedbacks</a></li>
+                @endif
                 @if ($current_user->lecturer_id!=null)
                 <li class="mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" data-toggle="tab" id="profile_tab_9" role="tab" href="#profile_9" aria-expanded="false">Grades</a></li>
                 <li class="mr-2" role="presentation"><a class="pt-10 pb-10 pl-5 pr-5" data-toggle="tab" id="profile_tab_12" role="tab" href="#profile_12" aria-expanded="false">Students</a></li>
@@ -77,12 +79,13 @@
                         @include("dashboard.class.partials.outline")
                     </div>
                 </div>
-
+                @if ($current_user->manager_id != null || $current_user->student_id != null)
                 <div id="profile_13" class="tab-pane fade" role="tabpanel">
                     <div class="col-sm-12 panel panel-default card-view pa-20">
                         @include("dashboard.class.partials.feedbacks")
                     </div>
                 </div>
+                @endif
                 
                 @if ($current_user->lecturer_id!=null)
                 <div id="profile_9" class="tab-pane fade" role="tabpanel">

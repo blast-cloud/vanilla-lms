@@ -33,6 +33,11 @@ class CreateCourseAPIRequest extends AppBaseFormRequest
             'credit_hours' => 'required',
             'course_id' => 'required',
             'lecturer_id' => 'required',
+            'level' => 'required'
         ];
     }
+
+    public function attributes(){
+        return ['credit_hours' => 'course load'];
+     }
 }

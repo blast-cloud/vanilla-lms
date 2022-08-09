@@ -46,6 +46,30 @@
     </p>
 </div>
 
+<!-- Sex Field -->
+<div id="div_student_sex" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('sex', 'Sex:', ['class'=>'control-label']) !!} 
+        <span id="spn_student_sex">
+        @if (isset($student->sex))
+            {!! $student->sex !!}
+        @endif
+        </span>
+    </p>
+</div>
+
+<!-- Sex Field -->
+<div id="div_student_level" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('sex', 'Level:', ['class'=>'control-label']) !!} 
+        <span id="spn_student_level">
+        @if (isset($student->level->name))
+            {!! $student->level->name !!}
+        @endif
+        </span>
+    </p>
+</div>
+
 <!-- Telephone Field -->
 <div id="div_student_telephone" class="col-sm-12 mb-10">
     <p>

@@ -9,7 +9,7 @@
 
 @section('page_title')
 @if (isset($department) && $department!=null)
-{{ $department->name }}
+{{ $department->name }}  <a id="btn-show-bulk-student-courseClass-enrollment-modal" href="#" class="btn btn-danger btn-xs pull-right" style="color: white"><i class="icon wb-reply" aria-hidden="true"></i>Bulk Student CourseClass Enrollment</a>
 @endif
 @stop
 
@@ -56,7 +56,7 @@
     <div class="col-sm-3">
         @include("dashboard.partials.side-panel")
     </div>
-
+    @include('dashboard.manager.modals.modify-student')
 @endsection
 
 @push('app_js')

@@ -30,7 +30,7 @@
                 <div class="pull-right">
                     <div class="pull-left inline-block dropdown">
                         <a id="btn-show-modify-student-modal" href="#" class="btn-new-mdl-student-modal btn btn-primary btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Enroll New Student</a>
-                        <a data-toggle="modal" data-target="#mdl-bulk-student-modal" href="#" class="btn btn-primary-alt btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Bulk upload</a>
+                        <a data-toggle="modal" data-target="#mdl-bulk-student-modal" href="#" class="btn btn-primary-alt btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Bulk Student upload</a>
                     </div>
                 </div>
                 <div class="clearfix"></div>

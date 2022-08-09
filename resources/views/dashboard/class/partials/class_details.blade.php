@@ -28,7 +28,7 @@
             @if (($courseClass) && count($courseClass->calendarEntries)>0)
             @foreach($courseClass->calendarEntries as $calendarEntry)
                 <li class="ml-10"><i class="text-primary fa fa-check mr-5"></i> 
-                    <span id="spn_dt_{{$calendarEntry->id}}_date">{{$calendarEntry->due_date->format('d-M-Y')}}</span> - <span id="spn_dt_{{$calendarEntry->id}}_title">{{$calendarEntry->title}}</span> 
+                    <span id="spn_dt_{{$calendarEntry->id}}_day">{{$calendarEntry->due_day}}</span> <span id="spn_dt_{{$calendarEntry->id}}_date_time">{{$calendarEntry->due_time->format('h:i A')}}</span> - <span id="spn_dt_{{$calendarEntry->id}}_title">{{$calendarEntry->title}}</span> 
                     @if ($current_user->lecturer_id!=null)
                     <a href="#" data-val="{{$calendarEntry->id}}" class="btn-edit-modify-date-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
                     <a href="#" data-val="{{$calendarEntry->id}}" class="btn-delete-date-entry"><i class="text-info fa fa-times ml-5 mr-5" style="font-size:80%;opacity:0.5;"></i></a>

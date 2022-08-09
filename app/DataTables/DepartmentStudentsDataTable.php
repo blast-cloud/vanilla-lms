@@ -46,6 +46,10 @@ class DepartmentStudentsDataTable extends StudentDataTable
             $query->orderBy('first_name',$order);
         });
 
+        $dataTable->addColumn('level', function ($query) {
+            return "{$query->level}";
+        });
+
         $dataTable->addColumn('action', 'students.datatables_actions');
         $dataTable->rawColumns(['matriculation_number','action']);
 
@@ -75,6 +79,12 @@ class DepartmentStudentsDataTable extends StudentDataTable
             ,
             Column::make('full_name')
                 ->addClass('text-right')
+            ,
+            Column::make('sex')
+                ->addClass('text-center')
+            ,
+            Column::make('level')
+            ->addClass('text-center')
             ,
             Column::make('telephone')
                 ->addClass('text-right')

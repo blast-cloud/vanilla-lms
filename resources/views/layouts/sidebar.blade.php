@@ -72,7 +72,8 @@
 						</ul>
 					</li>
 				</ul>
-			</div>	
+			</div>
+            <h4 class="pull-right" style="padding-top: 20px;">{{$current_user->first_name}} {{$current_user->last_name}}</h4>	
 		</nav>      
 		<!-- /Top Menu Items -->
 		
@@ -262,6 +263,12 @@
                 <li class="">
                     <a href="{{ route('announcements.index') }}" class="{{ Request::is('announcements*') ? 'active' : '' }}">
                         <div class="pull-left"><i class="zmdi zmdi-surround-sound mr-20"></i><span class="right-nav-text">Announcements</span></div><div class="pull-right"></div><div class="clearfix"></div>
+                    </a>
+                </li>
+
+                <li class="">
+                    <a href="{{ route('levels.index') }}" class="{{ Request::is('levels') ? 'active' : '' }}">
+                        <div class="pull-left"><i class="zmdi zmdi-surround-sound mr-20"></i><span class="right-nav-text">Levels</span></div><div class="pull-right"></div><div class="clearfix"></div>
                     </a>
                 </li>
 <!--

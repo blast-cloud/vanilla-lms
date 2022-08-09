@@ -8,7 +8,9 @@ use App\Events\EnrollmentDeleted;
 
 use App\Http\Requests\API\CreateEnrollmentAPIRequest;
 use App\Http\Requests\API\UpdateEnrollmentAPIRequest;
+use App\Http\Requests\API\CreateBulkCourseClassEnrollmentAPIRequest;
 use App\Models\Enrollment;
+use App\Models\Student;
 use App\Repositories\EnrollmentRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
@@ -286,6 +288,7 @@ class EnrollmentAPIController extends AppBaseController
         EnrollmentDeleted::dispatch($enrollment);
         return $this->sendSuccess('Enrollment deleted successfully');
     }
+
     public function approveEnrollment($id,Request $request){
         $enrollment = Enrollment::find($id);
         if(empty($enrollment)){
@@ -294,5 +297,53 @@ class EnrollmentAPIController extends AppBaseController
         $enrollment = $enrollment->update(['is_approved' => $request->get('is_approved')]);
 
         return $this->sendResponse($enrollment, 'Enrollment updated successfully');
+     }
+     public function bulkEnrollment(CreateBulkCourseClassEnrollmentAPIRequest $request){
+
+        $course_class_id = $request->course_class_id;
+        $department_id = $request->department_id;
+        $semester_id = $request->semester_id;
+
+        $students = Student::where('department_id', $department_id )->where('level', $request->level)->get();
+        $errors = [];
+        $sucesses = [];
+         foreach ($students as $student) {
+            # validate enrollment status exists
+          
+           $status = $this->validateStudentEnrollmentExists( $course_class_id,$semester_id,$department_id,$student->id);
+           if($status == true){
+
+            $errors [] = $student->getFullName(). " with matric no ".$student->matriculation_number. " has already been enrolled for the selec course class";
+
+           }else{
+             $enrollment = new Enrollment();
+             $enrollment->course_class_id = $course_class_id;
+             $enrollment->department_id = $department_id;
+             $enrollment->semester_id = $semester_id;
+             $enrollment->student_id = $student->id;
+             $enrollment->save();
+             $sucesses [] = $student->getFullName(). " with matric no ".$student->matriculation_number. " was enrolled sucessfully";
+           }
+         }   
+         if(count($errors) > 0){
+            if(count($errors) == $students->count()){
+                return response()->json(['enrollment_errors' => ['All students already enrolled in this course class']]); 
+            }
+
+           return response()->json(['enrollment_errors' => $errors, 'enrollment_successes' => $sucesses]);
+         }
+        return $this->sendResponse([], 'Enrollment saved successfully');
+     }
+
+     public function validateStudentEnrollmentExists($course_class_id,$semester_id,$department_id,$student_id){
+       
+        $enrollment = Enrollment::where('course_class_id',$course_class_id)
+        ->where('semester_id',$semester_id)
+        ->where('department_id',$department_id)
+        ->where('student_id',$student_id)->first();
+        if($enrollment != null){
+            return true;
+        }
+        return false;
      }
 }

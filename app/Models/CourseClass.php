@@ -168,7 +168,8 @@ class CourseClass extends Model
         'course_id',
         'semester_id',
         'department_id',
-        'lecturer_id'
+        'lecturer_id',
+        'level'
     ];
 
     /**
@@ -197,7 +198,8 @@ class CourseClass extends Model
         'course_id' => 'integer',
         'semester_id' => 'integer',
         'department_id' => 'integer',
-        'lecturer_id' => 'integer'
+        'lecturer_id' => 'integer',
+        'level' => 'integer'
     ];
 
 
@@ -290,5 +292,10 @@ class CourseClass extends Model
     public function calendarEntries()
     {
         return $this->hasMany(\App\Models\CalendarEntry::class, 'course_class_id');
+    }
+
+    public function getCourseClasslecturers(){ 
+
+         return CourseClass::where('course_id',$this->course_id)->where('semester_id',$this->semester_id)->where('lecturer_id', '!=', $this->lecturer_id)->get();
     }
 }

@@ -1,6 +1,6 @@
 
 
-<div class="modal fade" id="mdl-courseClass-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="mdl-courseClass-modal" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
@@ -8,7 +8,6 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <h4 id="lbl-courseClass-modal-title" class="modal-title">Course Class</h4>
             </div>
-
             <div class="modal-body">
                 <div id="div-courseClass-modal-error" class="alert alert-danger" role="alert"></div>
                 <form class="form-horizontal" id="frm-courseClass-modal" role="form" method="POST" enctype="multipart/form-data" action="">
@@ -33,19 +32,34 @@
                                 <div class="row">
                                     <div class="col-lg-10 ma-10">
 
-                                        <!-- Course Id Field -->
-                                        <div id="div-course_id" class="form-group">
-                                            <label class="control-label mb-10 col-sm-3" for="semester_id">Semester</label>
+                                        <!-- Level Field -->
+                                        <div id="div-level" class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="level">Level</label>
                                             <div class="col-sm-9">
-                                                {!! Form::select('semester_id', $semesterItems, null, ['id'=>'semester_id','class'=>'form-control select2']) !!}
-                                            </div>
+                                                <select name="level" id="level" class="form-control">
+                                                    <option value="">
+                                                        -- Select level --
+                                                    </option>
+                                                    @foreach ($levels as $item)
+                                                        <option value="{{$item->level}}"> 
+                                                            {{$item->name}}
+                                                        </option>
+                                                    @endforeach
+                                                </select>    
+                                            </div>  
                                         </div>
 
                                         <!-- Course Id Field -->
                                         <div id="div-course_id" class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Course</label>
                                             <div class="col-sm-9">
-                                                {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!}
+                                                <select name="course_id" id="course_id">
+                                                    <option value="">
+                                                        -- Select Course
+                                                    </option>
+                                                </select>
+                                                {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
+
                                             </div>
                                         </div>
 
@@ -99,6 +113,21 @@ $(document).ready(function() {
         $('#div-edit-txt-courseClass-primary-id').show();
     });
 
+    $(document).on('change', "#level", function(e) {
+        let level = $('#level').val();
+        console.log(level);
+        $('#course_id').empty();
+        $.get( "{{URL::to('/')}}/api/courses?level="+level).done(function(response) {
+            $('#course_id').append('<option value=""> -- Select Course -- </option>')
+            if(response.data && response.data.length > 0){
+                $.each(response.data,function(k,v){
+                    $('#course_id').append("<option value="+v.id+">"+v.code+" - "+v.name+"</option>");
+                })
+              
+            }
+        });
+    });
+
     //Show Modal for View
     $(document).on('click', ".btn-show-mdl-courseClass-modal", function(e) {
         e.preventDefault();
@@ -147,7 +176,7 @@ $(document).ready(function() {
 
             $('#course_id').val(response.data.course_id).trigger('change');
             $('#lecturer_id').val(response.data.lecturer_id).trigger('change');
-            $('#semester_id').val(response.data.semester_id).trigger('change');
+           /*  $('#semester_id').val(response.data.semester_id).trigger('change'); */
         });
     });
 
@@ -235,11 +264,12 @@ $(document).ready(function() {
             formData.append('_method', actionType);
             formData.append('code', response.data.code);
             formData.append('name', response.data.name);
+            formData.append('level', response.data.level);
             formData.append('credit_hours', response.data.credit_hours);
             formData.append('course_id', $('#course_id').val());
-            formData.append('department_id', {{$department->id}});
+            formData.append('department_id'," {{$department->id}}");
             formData.append('lecturer_id', $('#lecturer_id').val());
-            formData.append('semester_id', $('#semester_id').val());
+            formData.append('semester_id', "{{optional($current_semester)->id}}");
 
             $.ajax({
                 url:endPointUrl,

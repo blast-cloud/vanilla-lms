@@ -36,7 +36,16 @@ class UpdateStudentAPIRequest extends AppBaseFormRequest
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
             'email' => "required|email|max:100|unique:students,email,{$this->id}",
-            'telephone' => "required|digits:11|unique:students,telephone,{$this->id}"
+            'telephone' => "required|digits:11|unique:students,telephone,{$this->id}",
+            'sex' => 'required',
+            'level' => 'required|exists:levels,level'
+        ];
+    }
+
+    public function attributes(){
+         
+        return [
+            'level' => 'level'
         ];
     }
 }

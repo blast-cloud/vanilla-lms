@@ -9,6 +9,7 @@ use App\DataTables\DepartmentCourseCatalogDataTable;
 use App\DataTables\DepartmentCalendarEntryDataTable;
 use App\DataTables\DepartmentLecturersDataTable;
 use App\DataTables\DepartmentStudentsDataTable;
+use App\DataTables\LevelDataTable;
 use App\DataTables\DepartmentStudentEnrollmentDataTable;
 
 use App\Http\Requests;
@@ -28,8 +29,10 @@ use App\Repositories\DepartmentRepository;
 use App\Repositories\CourseClassRepository;
 use App\Repositories\AnnouncementRepository;
 use App\Repositories\CalendarEntryRepository;
+use App\Repositories\LevelRepository;
 use Illuminate\Support\Collection;
 
+use App\Models\Level;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\Lecturer;
@@ -62,13 +65,16 @@ class ManagerDashboardController extends AppBaseController
     /** @var  StudentRepository */
     private $studentRepository;
 
+    /** @var  LevelRepository */
+    private $levelRepo;
 
     public function __construct(DepartmentRepository $departmentRepo,
                                     CourseClassRepository $courseClassRepo,
                                     AnnouncementRepository $announcementRepo,
                                     CourseRepository $courseRepo,
                                     StudentRepository $studentRepo,
-                                    CalendarEntryRepository $calendarEntryRepo)
+                                    CalendarEntryRepository $calendarEntryRepo,
+                                    LevelRepository $levelRepo)
     {
         $this->courseRepository = $courseRepo;
         $this->studentRepository = $studentRepo;
@@ -76,6 +82,7 @@ class ManagerDashboardController extends AppBaseController
         $this->departmentRepository = $departmentRepo;
         $this->courseClassRepository = $courseClassRepo;
         $this->calendarEntryRepository = $calendarEntryRepo;
+        $this->levelRepository = $levelRepo;
     }
 
     public function index(Request $request)
@@ -101,6 +108,7 @@ class ManagerDashboardController extends AppBaseController
         $currentDate = date('Y/m/d');
         $lessThanCurrentDate = new Collection();
         $equalToCurrentDate = new Collection();
+        $levels = $this->levelRepository->all();
         foreach ($calendars as $key => $value) {
             if((date('Y/m/d', strtotime($value['due_date']))) == $currentDate){
                 $equalToCurrentDate[] = $value; ;
@@ -123,7 +131,7 @@ class ManagerDashboardController extends AppBaseController
                             ->pluck('full_name','id')
                             ->toArray();
 
-        $semesterItems = Semester::all()->pluck('code','id');
+        $current_semester = Semester::where('is_current', true)->first();
 
         $lecturerItems = Lecturer::select(DB::raw("CONCAT(COALESCE(job_title, ''),' ',last_name,', ',first_name) AS name"),'id')
                             ->pluck('name','id')
@@ -138,10 +146,11 @@ class ManagerDashboardController extends AppBaseController
                     ->with('courseItems', $courseItems)
                     ->with('student_count', $student_count)
                     ->with('lecturerItems', $lecturerItems)
-                    ->with('semesterItems', $semesterItems)
+                    ->with('current_semester', $current_semester)
                     ->with('department_calendar_items', $department_calendar_items)
                     ->with('course_catalog_items', $course_catalog_items)
-                    ->with('class_schedules_unassigned', $class_schedules_unassigned);
+                    ->with('class_schedules_unassigned', $class_schedules_unassigned)
+                    ->with('levels', $levels);
     }
 
     public function displayAnnouncements(Request $request)
@@ -162,6 +171,24 @@ class ManagerDashboardController extends AppBaseController
 
     }
 
+    public function displayLevels(Request $request)
+    {
+
+        $current_user = Auth()->user();
+        $department = $this->departmentRepository->find($current_user->department_id);
+        $levels = $this->levelRepository->all();
+        $levelDataTable = new LevelDataTable();
+
+        if ($request->expectsJson()) {
+
+            return $levelDataTable->ajax();
+        }
+        return $levelDataTable->render('dashboard.manager.tables.levels',
+
+        compact('current_user', 'department', 'levels'));
+
+    }
+
     public function displayClassSchedules(Request $request)
     {
 
@@ -176,24 +203,24 @@ class ManagerDashboardController extends AppBaseController
                             ->toArray();
 
         //$semesterItems = Semester::all()->pluck('code','id');
-        $semesterItems = Semester::select(
+        $current_semester = Semester::select(
             DB::raw("CONCAT(COALESCE(`code`,''),' ',COALESCE(`academic_session`,'')) AS semester_name"),'id')
-            ->pluck('semester_name', 'id')
-            ->toArray();
+            ->where('is_current', true)
+            ->first();
 
 
         $lecturerItems = Lecturer::select(DB::raw("CONCAT(COALESCE(job_title, ''),' ',last_name,', ',first_name) AS name"),'id')
                             ->where('department_id', $current_user->department_id )
                             ->pluck('name','id')
                             ->toArray();
-
+        $levels = $this->levelRepository->all();
         if ($request->expectsJson()) {
 
             return $class_schedulesDataTable->ajax();
         }
         return $class_schedulesDataTable->render('dashboard.manager.tables.class_schedules',
 
-        compact('current_user', 'department', 'class_schedules','courseItems', 'semesterItems', 'lecturerItems'));
+        compact('current_user', 'department', 'class_schedules','courseItems', 'current_semester', 'lecturerItems','levels'));
 
     }
 
@@ -203,14 +230,15 @@ class ManagerDashboardController extends AppBaseController
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
         $courseCatalogDataTable = new DepartmentCourseCatalogDataTable($current_user->department_id);
-
+        $levels = $this->levelRepository->all();
         if ($request->expectsJson()) {
 
             return $courseCatalogDataTable->ajax();
         }
+       
         return $courseCatalogDataTable->render('dashboard.manager.tables.course_catalog',
 
-        compact('current_user', 'department', 'class_schedules'));
+        compact('current_user', 'department', 'class_schedules','levels'));
 
     }
 
@@ -259,9 +287,14 @@ class ManagerDashboardController extends AppBaseController
 
             return $studentsDataTable->ajax();
         }
+
+        $levels = $this->levelRepository->all();
+        $course_classes = $this->courseClassRepository->all(['department_id'=>$current_user->department_id]);
+        $current_semester = Semester::where('is_current', 1)->first();
+
         return $studentsDataTable->render('dashboard.manager.tables.students',
 
-        compact('current_user', 'department', 'class_schedules'));
+        compact('current_user', 'department', 'class_schedules','levels','current_semester','course_classes'));
 
     }
 

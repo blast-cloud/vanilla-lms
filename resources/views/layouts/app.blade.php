@@ -470,7 +470,7 @@
                 <div class="container-fluid">
                     <!-- Title -->
                     <div class="row heading-bg">
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                             <h4 class="txt-dark">@yield('page_title','')</h4>
                         </div>
                         <!-- Breadcrumb -->

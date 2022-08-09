@@ -42,6 +42,7 @@ class StudentCreatedListener
         $user->password = Hash::make($password);
         $user->name = "{$event->student->first_name} {$event->student->last_name}";
         $user->is_platform_admin = false;
+        $user->sex = $event->student->sex;
         $user->save();
         
         //Send notification email
