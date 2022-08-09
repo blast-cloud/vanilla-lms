@@ -14,8 +14,8 @@
 <!-- Code Field -->
 <div id="div_level_name" class="col-sm-12 mb-10">
     <p>
-        {!! Form::label('code', 'Code:', ['class'=>'control-label']) !!} 
-        <span id="spn_level_code">
+        {!! Form::label('level', 'Level:', ['class'=>'control-label']) !!} 
+        <span id="spn_level_level">
         @if (isset($level->level))
             {!! $level->level !!}
         @endif

@@ -67,6 +67,7 @@ class CourseDataTable extends DataTable
         return [
             'code',
             'name',
+            'level',
             'credit_hours'
         ];
     }

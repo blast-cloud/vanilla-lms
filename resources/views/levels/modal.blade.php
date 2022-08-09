@@ -95,7 +95,7 @@
                     $('#txt-level-primary-id').val(response.data.id);
                     $('.spinner1').hide();
                     $('#spn_level_name').html(response.data.name);
-                    $('#spn_level_code').html(response.data.level);
+                    $('#spn_level_level').html(response.data.level);
                 });
             });
 
@@ -121,7 +121,7 @@
                     $('#frm-level-modal').trigger("reset");
                     $('#txt-level-primary-id').val(response.data.id);
                     $('#level_name').val(response.data.name);
-                    $('#level_code').val(response.data.level);
+                    $('#level_level').val(response.data.level);
                     // $('#').val(response.data.);
                     // $('#').val(response.data.);
                     $('.spinner1').hide();

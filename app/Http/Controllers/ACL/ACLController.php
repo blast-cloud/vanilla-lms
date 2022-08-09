@@ -172,7 +172,6 @@ class ACLController extends AppBaseController
             //$current_user = new User();
             if ($request->account_type == "student"){
                 $input = $request->all();
-                dd($input);
                 $student = $this->studentRepository->create($input);
                 StudentCreated::dispatch($student);
                 return $student->user;

@@ -102,6 +102,7 @@ class DepartmentClassScheduleDataTable extends CourseClassDataTable
             'lecturer',
             'academic_session',
             'semester',
+            'level',
             'credit_hours'
         ];
     }
