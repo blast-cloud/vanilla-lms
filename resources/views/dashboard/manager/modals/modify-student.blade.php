@@ -917,7 +917,7 @@
                             let actionType = "POST";
                             let endPointUrl = "{{ route('api.student.re-enroll') }}";
                             let formData = new FormData();
-                            let level = {{count($levels) > 0 ? $levels->sortByDesc('level')->first()->level: ""}};
+                            let level = "{{count($levels) > 0 ? $levels->sortByDesc('level')->first()->level:''}}";
                             formData.append('_token', $('input[name="_token"]').val());
                             formData.append('_method', actionType);
                             formData.append('level', level);
