@@ -96,7 +96,8 @@ class Student extends Model
         'profile_external_url',
         'department_id',
         'sex',
-        'level'
+        'level',
+        'has_graduated',
     ];
 
     /**
@@ -114,6 +115,7 @@ class Student extends Model
         'picture_file_path' => 'string',
         'profile_external_url' => 'string',
         'department_id' => 'integer',
+        'has_graduated' => 'boolean'
     ];
 
     /**

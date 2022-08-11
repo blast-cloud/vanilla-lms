@@ -18,7 +18,7 @@ class LevelDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-
+      
         return $dataTable->addColumn('action', 'levels.datatables_actions');
     }
 
@@ -31,7 +31,7 @@ class LevelDataTable extends DataTable
     public function query(Level $model)
     {
 
-        return $model->newQuery();
+        return $model->newQuery()->orderBy('level');
     }
 
     /**

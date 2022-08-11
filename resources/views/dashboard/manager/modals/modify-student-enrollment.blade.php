@@ -212,7 +212,6 @@ $('#course_id').select2();
         $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( response ) {
 			$('#div-enrollment-modal-error').hide();
             $('#btn-save-mdl-enrollment-modal').hide();
-            console.log(response);
 			$('#mdl-enrollment-modal').modal('show');
 			$('#frm-enrollment-modal').trigger("reset");
 			$('#txt-enrollment-primary-id').val(response.data.id);
@@ -237,9 +236,7 @@ $('#course_id').select2();
         let itemId = $(this).attr('data-val');
 
         // $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( data ) {
-        $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( response ) {     
-            console.log(response);  
-            conpsole.log(itemId) ;    
+        $.get( "{{URL::to('/')}}/api/enrollments/"+itemId).done(function( response ) {      
 			$('#div-enrollment-modal-error').hide();
 			$('#mdl-enrollment-modal').modal('show');
 			$('#frm-enrollment-modal').trigger("reset");
@@ -329,7 +326,7 @@ $('#course_id').select2();
         //console.log( {{ optional($current_semester)->id}});
         formData.append('_method', actionType);
         formData.append('course_class_id', $('#course_id').val());
-        formData.append('student_id', {{$student->id}} );
+        formData.append('student_id', "{{$student->id}}" );
         formData.append('department_id', $('#department_id').val() );
         formData.append('semester_id'," {{ optional($current_semester)->id}}" );
 

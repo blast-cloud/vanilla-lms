@@ -27,7 +27,7 @@ use Request;
 use App\Models\Announcement;
 use App\Managers\StudentActivityManager;
 
-class StudentDashboardController extends AppBaseController
+class ArchieveController extends AppBaseController
 {
     /** @var  DepartmentRepository */
     private $departmentRepository;
@@ -117,7 +117,7 @@ class StudentDashboardController extends AppBaseController
         foreach ($enrollments as $item){
             $enrollment_ids []= $item->course_class_id;
         }
-
+      
         $announcements = Announcement::where('department_id',$current_user->department_id)
                                         ->where('course_class_id',null)
                                         ->orWhere(function($query){
@@ -125,12 +125,27 @@ class StudentDashboardController extends AppBaseController
                                                 ->where('course_class_id', null);
                                         })->latest()->get();
         $current_semester = Semester::where('is_current',true)->first();
-        $class_schedules = CourseClass::with('enrollments')->findMany($enrollment_ids)->where('semester_id',optional($current_semester)->id);
+        $class_schedules = CourseClass::with('enrollments')->whereIn('id',$enrollment_ids)->where('semester_id','!=',optional($current_semester)->id)
+        ->latest()
+        ->paginate(1);
+        if($current_user->lecturer_id != null){
+            $class_schedules = CourseClass::where('lecturer_id',$current_user->lecturer_id)
+            ->where('department_id',$current_user->department_id)
+            ->where('semester_id','!=',optional($current_semester)->id)
+            ->latest()
+            ->paginate(15);
+        }
+        if($current_user->manager_id != null){
+            $class_schedules = CourseClass::where('department_id',$current_user->department_id)
+            ->where('semester_id','!=',optional($current_semester)->id)
+            ->latest()
+            ->paginate(15);
+        }
         $department = $this->departmentRepository->find($current_user->department_id);
         $classActivities = new StudentActivityManager(1);
-        $current_semester = Semester::where('is_current',true)->first();
+      
     
-        return view("dashboard.student.index")
+        return view("dashboard.archieves.index")
                 ->with('department', $department)
                 ->with('announcements', $announcements)
                 ->with('current_semester',$current_semester)

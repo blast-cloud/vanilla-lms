@@ -304,7 +304,7 @@ class EnrollmentAPIController extends AppBaseController
         $department_id = $request->department_id;
         $semester_id = $request->semester_id;
 
-        $students = Student::where('department_id', $department_id )->where('level', $request->level)->get();
+        $students = Student::where('department_id', $department_id )->where('level', $request->level)->where('has_graduated',false)->get();
         $errors = [];
         $sucesses = [];
          foreach ($students as $student) {

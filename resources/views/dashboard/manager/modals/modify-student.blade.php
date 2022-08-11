@@ -252,9 +252,55 @@
     </div>
 </div>
 
+{{-- re enroll student --}}
+<div class="modal fade" id="student-re-enrollment-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">×</span></button>
+                <h4 id="modify-user-re-enrollment-title" class="modal-title">Re Enroll Student</h4>
+            </div>
+
+            <div class="modal-body">
+                <div id="modify-user-re-enrollment-error-div" class="alert alert-danger" role="alert"></div>
+                <form class="form-horizontal" id="form-modify-user-re-enrollment" role="form" method="POST"
+                    enctype="multipart/form-data" action="">
+                    <div class="row">
+                        <div class="offline-flag"><span class="offline">You are currently offline</span></div>
+                        <div class="col-lg-12 ma-10">
+                            @csrf
+                            <div class="spinner1">
+                                <div class="loader" id="loader-1"></div>
+                            </div>
+
+                            <input type="hidden" id="txt_re-enrollment_student_id" value="0" />
+
+                           <div class="col-sm-12">
+                                <h5>
+                                    Performing this action will re enroll the student into the last level.
+                                </h3>
+                           </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer" id="student-re-enrollment-footer">
+                <button type="button" class="btn btn-primary" id="btn-save-modify-user-re-enrollment"
+                    value="add">Re Enroll</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 @section('js-129')
     <script type="text/javascript">
         $(document).ready(function() {
+            console.log($());
             $('.no-file').hide();
             $("#spinner-students").fadeOut(1);
             $('#div-bulk-student-modal-error').hide();
@@ -300,6 +346,12 @@
                     $('#spn_student_last_name').html(response.data.last_name);
                     $('#spn_student_telephone').html(response.data.telephone);
                     $('#spn_student_sex').html(response.data.sex);
+                    if (response.data.has_graduated == true) {
+                        $('#spn_student_has_graduated').html('Yes');
+                    } else {
+                        $('#spn_student_has_graduated').html('No');
+                    }
+
                     $('#spn_student_matriculation_number').html(response.data.matriculation_number);
                     $('#spn_student_level').html(response.data.level);
                 });
@@ -359,6 +411,11 @@
                     $('#first_name').val(response.data.first_name);
                     $('#last_name').val(response.data.last_name);
                     $('#telephone').val(response.data.telephone);
+                    if (response.data.has_graduated == true) {
+                        $('#has_graduated').prop('checked', true);
+                    } else {
+                        $('#has_graduated').prop('checked', false);
+                    }
                     $('#sex').val(response.data.sex);
                     $('#matriculation_number').val(response.data.matriculation_number);
                     $('#level').val(response.data.level);
@@ -453,7 +510,11 @@
                     endPointUrl = "{{ route('api.students.update', 0) }}" + primaryId;
                     formData.append('id', primaryId);
                 }
-
+                if ($('#has_graduated').is(':checked')) {
+                    formData.append('has_graduated', $('#has_graduated').val())
+                } else {
+                    formData.append('has_graduated', 0)
+                }
                 formData.append('_method', actionType);
                 formData.append('email', $('#email').val());
                 formData.append('first_name', $('#first_name').val());
@@ -633,7 +694,7 @@
                     contentType: false,
                     dataType: 'json',
                     success: function(result) {
-                         $('#div-bulk-student-courseClass-enrollment-modal-success').html('');
+                        $('#div-bulk-student-courseClass-enrollment-modal-success').html('');
                         if (result.errors) {
                             $('#div-bulk-student-courseClass-enrollment-modal-error').html('');
                             $('#div-bulk-student-courseClass-enrollment-modal-error').show();
@@ -673,9 +734,11 @@
                                         '<li class="">' +
                                         value + '</li>');
                             });
-                            if (result.enrollment_successes && result.enrollment_successes.length > 0) {
+                            if (result.enrollment_successes && result.enrollment_successes
+                                .length > 0) {
                                 console.log("here");
-                                $('#div-bulk-student-courseClass-enrollment-modal-success').html('');
+                                $('#div-bulk-student-courseClass-enrollment-modal-success')
+                                    .html('');
                                 $('#btn-save-mdl-bulk-student-courseClass-enrollment-modal')
                                     .prop("disabled", false);
                                 $('#div-bulk-student-courseClass-enrollment-modal-success')
@@ -733,6 +796,27 @@
                 $('#form-modify-user-password-reset').trigger("reset");
                 $('#modify-user-password-reset-error-div').hide();
 
+            });
+
+            //Show Modal for re enrollment
+            $(document).on('click', ".btn-student-re-enrollment-modal", function(e) {
+                e.preventDefault();
+
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                    }
+                });
+
+                let itemId = $(this).data('val');
+                $('#txt_re-enrollment_student_id').val(itemId);
+                $('.spinner1').hide();
+                $('#student-re-enrollment-modal').modal('show');
+                $('#form-modify-user-re-enrollment').trigger("reset");
+                $('#modify-user-re-enrollment-error-div').hide();
+                $('#student-re-enrollment-footer').show()
+                $('.modal-footer').show()
             });
 
             //Save user password-reset
@@ -797,6 +881,87 @@
                         }
                     },
                 });
+
+            });
+
+            $('#btn-save-modify-user-re-enrollment').click(function(e) {
+                e.preventDefault();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                    }
+                });
+
+                $('#modify-user-re-enrollment-modal').modal('hide');
+                swal({
+                        title: "Are you sure you want to re-enroll this Student to the previous level?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            const wrapper = document.createElement('div');
+                            wrapper.innerHTML = '<div class="loader2" id="loader-1"></div>';
+                            swal({
+                                title: 'Please Wait !',
+                                content: wrapper,
+                                buttons: false,
+                                closeOnClickOutside: false
+                            });
+                            $('#btn-save-modify-user-re-enrollment').prop("disabled", true);
+                            $('.spinner1').show();
+                            let actionType = "POST";
+                            let endPointUrl = "{{ route('api.student.re-enroll') }}";
+                            let formData = new FormData();
+                            let level = {{$levels->sortByDesc('level')->first()->level}}
+                            formData.append('_token', $('input[name="_token"]').val());
+                            formData.append('_method', actionType);
+                            formData.append('level', level);
+                            formData.append('id',   $('#txt_re-enrollment_student_id').val());
+
+                            $.ajax({
+                                url: endPointUrl,
+                                type: "POST",
+                                data: formData,
+                                cache: false,
+                                processData: false,
+                                contentType: false,
+                                dataType: 'json',
+                                success: function(result) {
+                                    if (result.errors) {
+                                        $('#modify-user-re-enrollment-error-div').html('');
+                                        $('#modify-user-re-enrollment-error-div').show();
+                                        $('#btn-save-modify-user-re-enrollment').prop(
+                                            "disabled", false);
+                                        $('.spinner1').hide();
+                                        $.each(result.errors, function(key, value) {
+                                            $('#modify-user-re-enrollment-error-div')
+                                                .append(
+                                                    '<li class="">' +
+                                                    value + '</li>');
+                                        });
+
+                                    } else {
+                                        $('#modify-user-re-enrollment-error-div').hide();
+                                        $('#btn-save-modify-user-re-enrollment').prop(
+                                            "disabled", false);
+                                        $('.spinner1').hide();
+                                        window.setTimeout(function() {
+                                            swal("Done!",
+                                                "Student Status changed successfully!",
+                                                "success");
+                                            $('#modify-user-re-enrollment-modal')
+                                                .modal('hide');
+                                            location.reload(true);
+                                        }, 50);
+                                    }
+                                },
+                            });
+                        }
+                    });
+
+
 
             });
         });

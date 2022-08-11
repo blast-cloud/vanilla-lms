@@ -24,7 +24,7 @@
     <div class="col-sm-9 panel panel-default card-view">
 
         @if ( ($class_material != null) && ($class_material->type=="class-assignments" || $class_material->type=="class-examinations"))
-            @if ($current_user->lecturer_id!=null)
+            @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
             <a id="btn-save-student-scores" href="#" class="btn btn-xs btn-primary vertical-align-middle pull-right">
                 <i class="fa fa-save" style=""></i>&nbsp;Save
             </a>
@@ -207,12 +207,12 @@
                         </div>
                     </form>
                 </div>
-
-                <div class="modal-footer">
-                    <hr class="light-grey-hr mb-10" />
-                    <button type="button" class="btn btn-primary" id="btn-save-mdl-comment-modal" value="add">Save</button>
-                </div>
-
+                @if (optional($current_semester)->id == $courseClass->semester_id)
+                    <div class="modal-footer">
+                        <hr class="light-grey-hr mb-10" />
+                        <button type="button" class="btn btn-primary" id="btn-save-mdl-comment-modal" value="add">Save</button>
+                    </div>   
+                @endif
             </div>
         </div>
     </div>

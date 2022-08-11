@@ -143,6 +143,7 @@ class ACLController extends AppBaseController
                 $current_user->sex = $request->sex;
                 $current_user->student->sex = $request->sex;
                 $current_user->student->level = $request->level;
+                $current_user->student->has_graduated = $request->has_graduated;
                 $current_user->student->save();
                 $current_user->save();
         

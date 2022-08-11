@@ -1,4 +1,4 @@
-@if ($current_user->lecturer_id!=null)
+@if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
 <a href="#" id="btn-show-new-discussion-modal" class="btn btn-xs btn-primary btn-new-mdl-forum-modal">
     <i class="fa fa-upload" style=""></i> New Discussion Board
 </a>

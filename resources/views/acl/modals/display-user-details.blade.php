@@ -71,7 +71,8 @@
                                     <div class="input-group mb-3">
                                         <input type="text" id="matriculation_number" name="matriculation_number"
                                             class="form-control @error('matriculation_number') is-invalid @enderror"
-                                            value="{{ old('matriculation_number') }}" placeholder="Matriculation Number">
+                                            value="{{ old('matriculation_number') }}"
+                                            placeholder="Matriculation Number">
                                         @error('matriculation_number')
                                             <span class="error invalid-feedback">{{ $message }}</span>
                                         @enderror
@@ -83,7 +84,8 @@
                                 <div class="col-sm-9">
 
                                     <div class="input-group">
-                                        <select name="level" id="level" class="form-control" style="padding-right: 20px">
+                                        <select name="level" id="level" class="form-control"
+                                            style="padding-right: 20px">
                                             <option value=""> -- Select level -- </option>
                                             @foreach ($levels as $item)
                                                 <option value="{{ $item->level }}">{{ $item->name }}</option>
@@ -93,7 +95,7 @@
                                             <span class="error invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    
+
 
                                 </div>
 
@@ -145,7 +147,8 @@
                                 <div class="col-sm-9">
 
                                     <div class="input-group">
-                                        <select name="sex" id="sex" class="form-control" style="padding-right: 20px">
+                                        <select name="sex" id="sex" class="form-control"
+                                            style="padding-right: 20px">
                                             <option value=""> -- Select sex -- </option>
                                             <option value="Male"> Male </option>
                                             <option value="Female"> Female </option>
@@ -154,11 +157,21 @@
                                             <span class="error invalid-feedback">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    
+
 
                                 </div>
 
                             </div>
+
+                            <!-- Has Graduated Field -->
+                            <div id="div-has_graduated" class="form-group">
+
+                                <label class="col-sm-3 control-label mb-10">Has Graduated</label>
+                                <label class="col-sm-2 checkbox-inline" style="margin-left: 20px">
+                                    <input id="has_graduated" type="checkbox" value="1">
+                                </label>
+                            </div>
+
                             <div class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="code">Telephone #</label>
                                 <div class="col-sm-9">
@@ -269,11 +282,13 @@
 
             $('#div_registration_num').hide();
             $('#div_level').hide();
+            $('#div-has_graduated').hide();
             $('#sel_account_type').on('change', function() {
                 $('#div_registration_num').hide();
                 if (this.value == "student") {
                     $('#div_registration_num').show();
                     $('#div_level').show();
+                    $('#div-has_graduated').show();
                 }
             });
 
@@ -324,18 +339,25 @@
                         $('#sel_account_type').val("student")
                         $('#div_registration_num').show();
                         $('#div_level').show();
+                        $('#div-has_graduated').show();
                         $('#matriculation_number').val(data.student.matriculation_number);
                         $('#level').val(data.student.level);
                         $('#txt_student_account_id').val(data.student_id);
+                        if(data.student.has_graduated == true){
+                            $('#has_graduated').prop('checked',true);
+                        }else{
+                            $('#has_graduated').prop('checked',false);
+                        }
                     } else {
                         $('#div_registration_num').hide();
                         $('#div_level').hide();
+                        $('#div-has_graduated').hide();
                     }
 
                     if (data.manager_id) {
                         $('#sel_account_type').val("manager")
                     }
-                    if(data.lecturer_id){
+                    if (data.lecturer_id) {
                         $('#sel_account_type').val("lecturer")
                     }
 
@@ -418,7 +440,7 @@
 
                             let itemId = $(this).attr('data-val');
                             let endPointUrl = "{{ route('dashboard.user-enable-account', 0) }}" +
-                            itemId;
+                                itemId;
 
                             $.ajax({
                                 url: endPointUrl,
@@ -471,7 +493,7 @@
                                 closeOnClickOutside: false
                             });
                             let endPointUrl = "{{ route('dashboard.user-delete-account', 0) }}" +
-                            itemId;
+                                itemId;
 
                             let formData = new FormData();
                             formData.append('_token', $('input[name="_token"]').val());
@@ -540,6 +562,11 @@
                 formData.append('department_id', $('#department_id').val());
                 formData.append('matriculation_number', $('#matriculation_number').val());
                 formData.append('level', $('#level').val());
+                if($('#has_graduated').is(':checked')){
+                    formData.append('has_graduated', 1);
+                }else{
+                    formData.append('has_graduated', 0);
+                }
                 formData.append('sex', $('#sex').val());
                 formData.append('account_type', $('#sel_account_type').val());
 

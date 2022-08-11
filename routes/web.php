@@ -47,6 +47,8 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     Route::get('dashboard/class/responded-feedbacks/{courseClassId}/view/{courseClassFeedbackId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'listOfRespondedFeebacks'])->name('responded-feedback-list');
 
     Route::get('dashboard/class/submission/{classMaterialId}/student/{studentId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'getStudentSubmission'])->name('student.submission');
+   
+    Route::get('dashboard/archieves', [App\Http\Controllers\Dashboard\ArchieveController::class, 'index'])->name('dashboard.archieves');
 
     Route::post('/attachment', [App\Http\Controllers\AttachmentController::class,"uploadFile"])->name('attachment-upload');
     

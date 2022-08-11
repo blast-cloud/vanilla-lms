@@ -34,7 +34,7 @@
 <div id="div-telephone" class="form-group">
     <label class="control-label mb-10 col-sm-3 text-right" for="sex">Sex</label>
     <div class="col-sm-9">
-       <select name="sex" id="sex" class="form-control">
+        <select name="sex" id="sex" class="form-control">
             <option value="">
                 -- Select Gender --
             </option>
@@ -44,7 +44,7 @@
             <option value="Female">
                 Female
             </option>
-       </select>
+        </select>
     </div>
 </div>
 <!-- Telephone Field -->
@@ -58,16 +58,25 @@
 <div id="div-level" class="form-group">
     <label class="control-label mb-10 col-sm-3 text-right" for="sex">Level</label>
     <div class="col-sm-9">
-       <select name="level" id="level" class="form-control">
+        <select name="level" id="level" class="form-control">
             <option value="">
                 -- Select Level --
             </option>
             @foreach ($levels as $level)
-                <option value="{{$level->level}}">
-                   {{$level->name}}
+                <option value="{{ $level->level }}">
+                    {{ $level->name }}
                 </option>
             @endforeach
-           
-       </select>
-    </div>  
+
+        </select>
+    </div>
+</div>
+
+<!-- Level Field -->
+<div id="div-level" class="form-group">
+
+    <label class="col-sm-3 control-label mb-10">Has Graduated</label>
+    <label class="col-sm-2 checkbox-inline" style="margin-left: 20px">
+        <input id="has_graduated" type="checkbox" value="1">
+    </label>
 </div>

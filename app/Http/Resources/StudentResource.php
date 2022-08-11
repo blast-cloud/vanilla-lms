@@ -27,7 +27,8 @@ class StudentResource extends JsonResource
             'profile_external_url' => $this->profile_external_url,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-            'department_id' => $this->department_id
+            'department_id' => $this->department_id,
+            'has_graduated' => $this->has_graduated
         ];
     }
 }

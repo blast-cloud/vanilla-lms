@@ -9,6 +9,7 @@ use View;
 
 use Illuminate\Support\Facades\Log;
 use App\Repositories\SettingRepository;
+use App\Models\Semester;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -53,7 +54,8 @@ class AppServiceProvider extends ServiceProvider
                 'txt_portal_contact_phone',
                 'txt_portal_contact_name',
                 'txt_portal_contact_email',
-                'txt_maximum_enrollment_limit'
+                'txt_maximum_enrollment_limit',
+                'txt_school_max_level'
             ];
             
             $settingRepo = new SettingRepository(app());
@@ -61,7 +63,8 @@ class AppServiceProvider extends ServiceProvider
                                         ->pluck('value','key')
                                         ->toArray();
         }
-
+        $current_semester = Semester::where('is_current',true)->first();
+        View::share('current_semester',$current_semester);
         View::share('app_settings', $app_settings);
         Schema::DefaultStringLength(191);
     }

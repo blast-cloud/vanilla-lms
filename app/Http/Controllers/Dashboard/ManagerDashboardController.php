@@ -90,13 +90,13 @@ class ManagerDashboardController extends AppBaseController
 
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
-
+        $current_semester = Semester::where('is_current', true)->first();
         $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)
                                       ->orWhere(function($query){
                                             $query->where('department_id', null)
                                                 ->where('course_class_id', null);
                                         })->latest()->get();
-        $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
+        $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id, 'semester_id' => optional($current_semester)->id],null, 10);
 
         $pending_enrollment_approval = Enrollment::with('student','courseClass')->where('is_approved',false)->Where('department_id', $current_user->department_id)->get();
 
@@ -121,7 +121,6 @@ class ManagerDashboardController extends AppBaseController
         }
         $calendars->sortBy('due_date');
         $department_calendar_items = collect( $equalToCurrentDate)->merge($calendars)->merge( $lessThanCurrentDate);
-
         $class_schedules_unassigned = $this->courseClassRepository->all([
             'lecturer_id'=>null,
             'department_id'=>$current_user->department_id
@@ -131,7 +130,7 @@ class ManagerDashboardController extends AppBaseController
                             ->pluck('full_name','id')
                             ->toArray();
 
-        $current_semester = Semester::where('is_current', true)->first();
+     
 
         $lecturerItems = Lecturer::select(DB::raw("CONCAT(COALESCE(job_title, ''),' ',last_name,', ',first_name) AS name"),'id')
                             ->pluck('name','id')

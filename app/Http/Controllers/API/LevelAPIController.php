@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\API;
 
 use App\Events\LevelCreated;
-use App\Events\LevelUpdated;
 use App\Events\LevelDeleted;
-
+use App\Events\LevelUpdated;
+use App\Http\Controllers\AppBaseController;
 use App\Http\Requests\API\CreateLevelAPIRequest;
 use App\Http\Requests\API\UpdateLevelAPIRequest;
+use App\Http\Resources\LevelResource;
 use App\Models\Level;
 use App\Repositories\LevelRepository;
+use App\Repositories\SettingRepository;
+use App\Repositories\StudentRepository;
 use Illuminate\Http\Request;
-use App\Http\Controllers\AppBaseController;
-use App\Http\Resources\LevelResource;
 use Response;
 
 /**
@@ -25,9 +26,13 @@ class LevelAPIController extends AppBaseController
     /** @var  LevelRepository */
     private $levelRepository;
 
-    public function __construct(LevelRepository $levelRepo)
+    /** @var  StudentRepository */
+    private $studentRepository;
+
+    public function __construct(LevelRepository $levelRepo,StudentRepository $studentRepo)
     {
         $this->levelRepository = $levelRepo;
+        $this->studentRepository = $studentRepo;
     }
 
     /**
@@ -116,7 +121,7 @@ class LevelAPIController extends AppBaseController
         $input = $request->all();
 
         $level = $this->levelRepository->create($input);
-        
+
         LevelCreated::dispatch($level);
         return $this->sendResponse(new LevelResource($level), 'Level saved successfully');
     }
@@ -229,7 +234,7 @@ class LevelAPIController extends AppBaseController
         }
 
         $level = $this->levelRepository->update($input, $id);
-        
+
         LevelUpdated::dispatch($level);
         return $this->sendResponse(new LevelResource($level), 'Level updated successfully');
     }
@@ -284,5 +289,40 @@ class LevelAPIController extends AppBaseController
         $level->delete();
         LevelDeleted::dispatch($level);
         return $this->sendSuccess('Level deleted successfully');
+    }
+
+    public function changeStudentLevel()
+    {
+        $app_settings = [];
+       
+            $setting_keys = [
+                'txt_school_max_level',
+            ];
+
+        $settingRepo = new SettingRepository(app());
+        $app_settings = $settingRepo->allWhereInQuery(['key' => $setting_keys], null, 100)
+        ->pluck('value', 'key')
+        ->toArray();
+
+        if(count($app_settings) > 0){
+            $students = $this->studentRepository->all();
+
+            foreach ($students as $student) {
+                # code...
+                if ($student->level == $app_settings['txt_school_max_level']) {
+                    # code...
+                    $student->has_graduated = true;
+                    $student->save();
+                    $user = $student->user;
+                    $user->is_disabled = true;
+                    $user->save();
+                }else{
+                    $student->level = $student->level + 100;
+                    $student->save();
+                }
+
+            }
+        }
+        return $this->sendResponse([], 'Student Level  upgraded successfully');
     }
 }
