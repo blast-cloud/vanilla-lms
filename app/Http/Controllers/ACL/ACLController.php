@@ -311,7 +311,7 @@ class ACLController extends AppBaseController
         // check for the type
         switch ($type) {
             case 'student':
-                $student_data = array_merge($request->input(), [
+                $student_data = array_merge(request()->input(), [
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
@@ -324,7 +324,7 @@ class ACLController extends AppBaseController
             break;
 
             case 'lecturer':
-                $lecturer_data = array_merge($request->input(), [
+                $lecturer_data = array_merge(request()->input(), [
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
@@ -335,7 +335,7 @@ class ACLController extends AppBaseController
             break;
 
             case 'manager':
-                $manager_data = array_merge($request->input(), [
+                $manager_data = array_merge(request()->input(), [
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
