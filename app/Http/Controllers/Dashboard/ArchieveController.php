@@ -127,7 +127,7 @@ class ArchieveController extends AppBaseController
         $current_semester = Semester::where('is_current',true)->first();
         $class_schedules = CourseClass::with('enrollments')->whereIn('id',$enrollment_ids)->where('semester_id','!=',optional($current_semester)->id)
         ->latest()
-        ->paginate(1);
+        ->paginate(10);
         if($current_user->lecturer_id != null){
             $class_schedules = CourseClass::where('lecturer_id',$current_user->lecturer_id)
             ->where('department_id',$current_user->department_id)

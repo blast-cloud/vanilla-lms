@@ -201,7 +201,7 @@ if ($current_user && $current_user->lecturer) {
                 @php
                     $class_type = 'Online Classes';
                     $class = $class_schedules->first();
-                    if ($class && $class->semster_id != optional($current_semester)->id) {
+                    if ($class && $class->semester_id != optional($current_semester)->id) {
                         $class_type = 'Archieved Classes';
                     }
                 @endphp
@@ -287,7 +287,7 @@ if ($current_user && $current_user->lecturer) {
                 @php
                     $class_type = 'Online Classes';
                     $class = $class_schedules->first();
-                    if ($class && $class->semster_id != optional($current_semester)->id) {
+                    if ($class && $class->semester_id != optional($current_semester)->id) {
                         $class_type = 'Archieved Classes';
                     }
                 @endphp
