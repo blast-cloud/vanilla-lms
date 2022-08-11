@@ -152,11 +152,14 @@
                                                     <option value="">
                                                         -- Select level --
                                                     </option>
-                                                    @foreach ($levels as $level)
-                                                        <option value="{{ $level->level }}">
-                                                            {{ $level->name }}
-                                                        </option>
-                                                    @endforeach
+                                                    @if(count($levels) > 0)
+                                                        @foreach ($levels as $level)
+                                                            <option value="{{ $level->level }}">
+                                                                {{ $level->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                    
                                                 </select>
                                             </div>
                                         </div>
@@ -914,7 +917,7 @@
                             let actionType = "POST";
                             let endPointUrl = "{{ route('api.student.re-enroll') }}";
                             let formData = new FormData();
-                            let level = {{$levels->sortByDesc('level')->first()->level}}
+                            let level = {{count($levels) > 0 ? $levels->sortByDesc('level')->first()->level: ""}};
                             formData.append('_token', $('input[name="_token"]').val());
                             formData.append('_method', actionType);
                             formData.append('level', level);
