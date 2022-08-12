@@ -109,7 +109,7 @@ class SemesterController extends AppBaseController
          /** @var Semester $semester */
         $semester = $this->semesterRepository->find($id);
 
-        if (!empty($semester)) {
+        if (empty($semester)) {
             return $this->sendError('Semester not found');
         }
         
