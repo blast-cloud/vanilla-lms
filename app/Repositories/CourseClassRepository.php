@@ -25,7 +25,8 @@ class CourseClassRepository extends BaseRepository
         'credit_hours',
         'semester_id',
         'department_id',
-        'lecturer_id'
+        'lecturer_id',
+        'level'
     ];
 
     /**

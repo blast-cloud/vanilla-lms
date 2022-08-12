@@ -68,6 +68,7 @@ class CourseClassDataTable extends DataTable
             'code',
             'name',
             'location',
+            'level',
             'credit_hours'
         ];
     }

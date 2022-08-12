@@ -28,6 +28,7 @@ use App\Http\Requests\API\BulkUsersApiRequest;
 use App\Repositories\StudentRepository;
 use App\Repositories\ManagerRepository;
 use App\Repositories\LecturerRepository;
+use App\Repositories\LevelRepository;
 
 use App\Events\StudentCreated;
 use App\Events\ManagerCreated;
@@ -48,15 +49,20 @@ class ACLController extends AppBaseController
     /** @var  ManagerRepository */
     private $managerRepository;
 
+    /** @var  LevelRepository */
+    private $levelRepository;
+
 
     public function __construct(
         StudentRepository $studentRepo,
         ManagerRepository $managerRepo,
-        LecturerRepository $lecturerRepo)
+        LecturerRepository $lecturerRepo,
+        LevelRepository $levelRepo)
     {
         $this->lecturerRepository = $lecturerRepo;
         $this->managerRepository = $managerRepo;
         $this->studentRepository = $studentRepo;
+        $this->levelRepository = $levelRepo;
     }
 
 
@@ -134,14 +140,22 @@ class ACLController extends AppBaseController
                 $current_user->student->last_name = $request->last_name;
                 $current_user->student->department_id = $request->department_id;
                 $current_user->department_id = $request->department_id;
+                $current_user->sex = $request->sex;
+                $current_user->student->sex = $request->sex;
+                $current_user->student->level = $request->level;
+                $current_user->student->has_graduated = $request->has_graduated;
                 $current_user->student->save();
+                $current_user->save();
         
             }else if ( ($current_user) && $current_user->lecturer_id != null){
                 $current_user->lecturer->first_name = $request->first_name;
                 $current_user->lecturer->last_name = $request->last_name;
                 $current_user->lecturer->department_id = $request->department_id;
                 $current_user->department_id = $request->department_id;
+                $current_user->sex = $request->sex;
+                $current_user->lecturer->sex = $request->sex;
                 $current_user->lecturer->save();
+                $current_user->save();
             }
     
             if (!empty($request->email) && $request->email!=null){
@@ -187,6 +201,7 @@ class ACLController extends AppBaseController
 
         //Get User Accounts DataTable
         $userAccountsDataTable = new UserAccountsDataTable();
+        $levels = $this->levelRepository->all();
              
         if ($request->expectsJson()) {
             
@@ -194,7 +209,7 @@ class ACLController extends AppBaseController
         }
         return $userAccountsDataTable->render('acl.user-accounts',
 
-        compact('current_user', 'departmentItems'));                                 
+        compact('current_user', 'departmentItems','levels'));                                 
     
     }
 
@@ -296,7 +311,7 @@ class ACLController extends AppBaseController
         // check for the type
         switch ($type) {
             case 'student':
-                $student_data = array_merge($request->input(), [
+                $student_data = array_merge(request()->input(), [
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
@@ -309,7 +324,7 @@ class ACLController extends AppBaseController
             break;
 
             case 'lecturer':
-                $lecturer_data = array_merge($request->input(), [
+                $lecturer_data = array_merge(request()->input(), [
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
@@ -320,7 +335,7 @@ class ACLController extends AppBaseController
             break;
 
             case 'manager':
-                $manager_data = array_merge($request->input(), [
+                $manager_data = array_merge(request()->input(), [
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],

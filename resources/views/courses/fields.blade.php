@@ -24,8 +24,25 @@
 
 <!-- Credit Hours Field -->
 <div id="div-credit_hours" class="form-group">
-    <label class="control-label mb-10 col-sm-3" for="credit_hours">Credit Hours</label>
+    <label class="control-label mb-10 col-sm-3" for="credit_hours">Credit Load</label>
     <div class="col-sm-3">
         {!! Form::number('credit_hours', null, ['class' => 'form-control']) !!}
     </div>
+    <label class="control-label mb-10 col-sm-1 text-left" for="level">Level</label>
+    <div class="col-sm-5">
+        <select name="level" id="level" class="form-control">
+            <option value=""> -- select level --</option>
+            @foreach ($levels as $item)
+                <option value="{{$item->level}}">{{ $item->name }}</option>
+            @endforeach
+        </select>
+    </div>
 </div>
+
+{{-- <!-- Level Field -->
+<div id="div-level" class="form-group">
+    <label class="control-label mb-10 col-sm-3" for="level">Credit Load</label>
+    <div class="col-sm-3">
+        {!! Form::number('level', null, ['class' => 'form-control']) !!}
+    </div>
+</div> --}}

@@ -61,4 +61,10 @@ class CreateCourseClassRequest extends AppBaseFormRequest
             'course_id' => 'Course'
         ];
     }
+
+    public function messages(){
+        return [
+            'semester_id.required' => 'No active semester found'
+        ];
+    }
 }

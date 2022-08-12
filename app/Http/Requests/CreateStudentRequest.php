@@ -40,9 +40,12 @@ class CreateStudentRequest extends AppBaseFormRequest
             'first_name' => 'required|string|max:100',
             'last_name' => 'required|string|max:100',
             'email' => "required|email|max:100|unique:students,email",
-            'telephone' => "required|digits:11|unique:students,telephone"
+            'telephone' => "required|digits:11|unique:students,telephone",
+            'sex' => 'required',
+            'level' => 'required|exists:levels,level'
         ];
     }
+
 
 
     // protected function failedValidation(Validator $validator)

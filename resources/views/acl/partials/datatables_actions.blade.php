@@ -8,6 +8,6 @@
     </a>
     --}}
     
-     <a href="#" data-val='{{$id}}' class='btn-delete-mdl-enrollment-modal'>
+    {{--  <a href="#" data-val='{{$id}}' class='btn-delete-mdl-enrollment-modal'>
         {!! Form::button('<i class="fa fa-trash"></i>', ['type'=>'button']) !!}
-    </a> 
+    </a>  --}}

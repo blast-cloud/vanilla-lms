@@ -75,7 +75,8 @@ class Course extends Model
         'name',
         'description',
         'credit_hours',
-        'department_id'
+        'department_id',
+        'level'
     ];
 
     /**
@@ -89,7 +90,8 @@ class Course extends Model
         'name' => 'string',
         'description' => 'string',
         'credit_hours' => 'integer',
-        'department_id' => 'integer'
+        'department_id' => 'integer',
+        'level' => 'integer'
     ];
 
 

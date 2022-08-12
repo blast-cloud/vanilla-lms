@@ -146,6 +146,7 @@ $(document).ready(function() {
             $('#spn_course_name').html(response.data.name);
             $('#spn_course_credit_hours').html(response.data.credit_hours);
             $('#spn_course_description').html(response.data.description);
+            $('#spn_course_course').html(response.data.course);
         });
     });
 
@@ -171,6 +172,7 @@ $(document).ready(function() {
             $('#name').val(response.data.name);
             $('#credit_hours').val(response.data.credit_hours);
             $('#description').val(response.data.description);
+            $('#level').val(response.data.level);
         });
     });
 
@@ -260,6 +262,7 @@ $(document).ready(function() {
         formData.append('name', $('#name').val());
         formData.append('txt_course_primary_id', $('#txt-course-primary-id').val());
         formData.append('description', $('#description').val());
+        formData.append('level', $('#level').val());
         formData.append('credit_hours', $('#credit_hours').val());
 
         $.ajax({

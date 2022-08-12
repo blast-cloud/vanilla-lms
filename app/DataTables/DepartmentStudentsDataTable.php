@@ -30,7 +30,8 @@ class DepartmentStudentsDataTable extends StudentDataTable
         $dataTable = new EloquentDataTable($query);
         $dataTable->addColumn('matriculation_number', function ($query) {
             $link = route('dashboard.manager.student-page',$query->id);
-            return "<a href='{$link}' class='call_telefonos' style='color:blue;' title='Manage $query->matriculation_number'><u>$query->matriculation_number</u></a>";
+            $message = $query->has_graduated ? "<h6 class='text-danger'> graduated </h6>" : "<h6 class='text-success'> active student </h6>";
+            return "<a href='{$link}' class='call_telefonos' style='color:blue;' title='Manage $query->matriculation_number'><u>$query->matriculation_number</u></a><br>'$message'";
         })->filterColumn('matriculation_number', function ($query, $keyword) {
            
             $query->whereRaw("matriculation_number like ?", ["%{$keyword}%"]);
@@ -44,6 +45,10 @@ class DepartmentStudentsDataTable extends StudentDataTable
             $query->whereRaw("CONCAT(first_name, last_name) like ?", ["%{$keywords}%"]);
          })->orderColumn('full_name', function ($query, $order) {
             $query->orderBy('first_name',$order);
+        });
+
+        $dataTable->addColumn('level', function ($query) {
+            return "{$query->level}";
         });
 
         $dataTable->addColumn('action', 'students.datatables_actions');
@@ -75,6 +80,12 @@ class DepartmentStudentsDataTable extends StudentDataTable
             ,
             Column::make('full_name')
                 ->addClass('text-right')
+            ,
+            Column::make('sex')
+                ->addClass('text-center')
+            ,
+            Column::make('level')
+            ->addClass('text-center')
             ,
             Column::make('telephone')
                 ->addClass('text-right')
@@ -110,7 +121,7 @@ class DepartmentStudentsDataTable extends StudentDataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
+            ->addAction(['width' => '130px', 'printable' => false])
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,

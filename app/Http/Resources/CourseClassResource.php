@@ -37,7 +37,9 @@ class CourseClassResource extends JsonResource
             'course_id' => $this->course_id,
             'semester_id' => $this->semester_id,
             'department_id' => $this->department_id,
-            'lecturer_id' => $this->lecturer_id
+            'lecturer_id' => $this->lecturer_id,
+            'level' => $this->level,
+            'lecturer' => $this->lecturer
         ];
     }
 }

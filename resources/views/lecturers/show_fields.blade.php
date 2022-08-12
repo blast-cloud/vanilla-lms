@@ -58,3 +58,15 @@
     </p>
 </div>
 
+<!-- Last Name Field -->
+<div id="div_lecturer_sex" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('sex', 'Sex:', ['class'=>'control-label']) !!} 
+        <span id="spn_lecturer_last_name">
+        @if (isset($lecturer->sex))
+            {!! $lecturer->sex !!}
+        @endif
+        </span>
+    </p>
+</div>
+

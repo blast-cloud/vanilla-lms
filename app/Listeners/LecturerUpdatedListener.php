@@ -33,6 +33,7 @@ class LecturerUpdatedListener
         $user->telephone = $event->lecturer->telephone;
         $user->lecturer_id = $event->lecturer->id;
         $user->student_id = null;
+        $user->sex = $event->lecturer->sex;
         $user->department_id = $event->lecturer->department_id;
         $user->name = "{$event->lecturer->first_name} {$event->lecturer->last_name}";
         $user->is_platform_admin = false;

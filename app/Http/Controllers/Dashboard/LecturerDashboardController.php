@@ -13,6 +13,7 @@ use App\Repositories\CalendarEntryRepository;
 use App\Repositories\CourseClassRepository;
 use App\Repositories\CourseRepository;
 use App\Repositories\DepartmentRepository;
+use App\Models\Semester;
 use Response;
 use Request;
 use App\Models\Announcement;
@@ -58,9 +59,10 @@ class LecturerDashboardController extends AppBaseController
                                             $query->where('department_id', null)
                                                 ->where('course_class_id', null);
                                         })->latest()->get();
-        
+        $current_semester = Semester::where('is_current',true)->first();
         $class_schedules = $this->courseClassRepository->all([
             'lecturer_id'=>$current_user->lecturer_id,
+            'semester_id' => optional($current_semester)->id
         ]);
 
 

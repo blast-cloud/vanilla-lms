@@ -207,15 +207,6 @@ class StudentActivityManager{
         
     }
 
-    public function getAppSettings(){
-        $db_settings = $this->settingRepository
-        ->allWhereInQuery(['key'=>$this->setting_keys],null,100)
-        ->pluck('value','key')
-        ->toArray();
-        
-        return $db_settings;
-    }
-
 }
 
 

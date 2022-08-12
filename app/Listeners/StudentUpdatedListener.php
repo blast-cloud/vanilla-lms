@@ -35,6 +35,7 @@ class StudentUpdatedListener
         $user->lecturer_id = null;
         $user->department_id = $event->student->department_id;
         $user->name = "{$event->student->first_name} {$event->student->last_name}";
+        $user->sex = $event->student->sex;
         $user->is_platform_admin = false;
         $user->save();
     }

@@ -90,6 +90,12 @@ Admin Settings
                                     </div>
                                 </div>
 
+                                <div class="row form-group">
+                                    <label class="control-label mb-10 col-sm-3" for="txt_school_max_level">Max School Level</label>
+                                    <div class="col-sm-6">
+                                        {!! Form::number('txt_school_max_level', $db_settings['txt_school_max_level']??"", ['id'=>'txt_school_max_level','class' => 'form-control']) !!}
+                                    </div>
+                                </div>
                                 {{-- <div class="row form-group">
                                     <label class="control-label mb-10 col-sm-5" for="cbx_display_course_list">Display Online Courses on Home Page</label>
                                     <div class="col-sm-1">

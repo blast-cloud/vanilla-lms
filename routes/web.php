@@ -47,6 +47,8 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     Route::get('dashboard/class/responded-feedbacks/{courseClassId}/view/{courseClassFeedbackId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'listOfRespondedFeebacks'])->name('responded-feedback-list');
 
     Route::get('dashboard/class/submission/{classMaterialId}/student/{studentId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'getStudentSubmission'])->name('student.submission');
+   
+    Route::get('dashboard/archieves', [App\Http\Controllers\Dashboard\ArchieveController::class, 'index'])->name('dashboard.archieves');
 
     Route::post('/attachment', [App\Http\Controllers\AttachmentController::class,"uploadFile"])->name('attachment-upload');
     
@@ -57,6 +59,7 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     Route::middleware('isManager')->group(function () {
         Route::get('dashboard/manager', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'index'])->name('dashboard.manager');
         Route::get('dashboard/manager/announcements', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayAnnouncements'])->name('dashboard.manager.announcements');
+        Route::get('dashboard/manager/levels', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayLevels'])->name('dashboard.manager.levels');
         Route::get('dashboard/manager/calendars', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayDepartmentCalendar'])->name('dashboard.manager.calendars');
         Route::get('dashboard/manager/classes', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayClassSchedules'])->name('dashboard.manager.classes');
         Route::get('dashboard/manager/courses', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayCourseCatalog'])->name('dashboard.manager.courses');
@@ -101,6 +104,8 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
 
     
     Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
+
+    Route::resource('levels', App\Http\Controllers\LevelController::class);
     
     Route::resource('courses', App\Http\Controllers\CourseController::class);
 

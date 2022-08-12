@@ -10,10 +10,28 @@
                             <div class="pull-left">
                                 <h4 class="panel-title txt-dark">{{ $classDetailItem->code}} :: {{ $classDetailItem->name}} </h4>
                                 @if (isset($current_user) && $current_user->lecturer_id == $classDetailItem->lecturer_id)
-                                <span style="font-size:70%" class="muted txt-danger">You are assigned to teach this class</span>
+                                    @if(optional($current_semester)->id == $classDetailItem->semester_id)
+                                        <span style="font-size:70%" class="muted txt-danger">You are assigned to teach this class</span>
+                                    @else
+                                        <span style="font-size:70%" class="muted txt-danger">You were assigned to teach this class</span>
+                                    @endif
+                                
                                 @endif
+                                @php
+                                $courseClassLecturers = $classDetailItem->getCourseClasslecturers();
+                            @endphp
+                            @if(isset($current_user) && $current_user->lecturer_id == $classDetailItem->lecturer_id && !empty($courseClassLecturers) && $courseClassLecturers->count() > 0)
+                                <div>
+                                    <strong style="font-size: 14px">Others assigned to take this course</strong>
+                                    <ul >
+                                        @foreach($courseClassLecturers as $idx =>$lect)
+                                            <li> <i class="text-primary fa fa-angle-double-right mr-5"></i>{{$lect->lecturer->first_name}} {{$lect->lecturer->last_name}} ({{$lect->lecturer->job_title}}) {{$lect->lecturer->email}} {{$lect->lecturer->telephone}}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>     
+                            @endif
                             </div>
-                            @if ($current_user->lecturer_id != null)
+                            @if ($current_user->lecturer_id != null || $current_user->manager_id != null)
                             <div class="pull-right">
                                 <a href="{{ route('dashboard.class',$classDetailItem->id) }}" class="btn btn-xs btn-primary pull-left inline-block mr-15">
                                     <i class="zmdi zmdi-square-right" style="font-size:inherit;color:white;"></i>&nbsp; View

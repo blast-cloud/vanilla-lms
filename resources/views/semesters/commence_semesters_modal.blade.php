@@ -29,7 +29,12 @@
                                             <label class="control-label mb-10 col-sm-3" for="is_current">Semester to Commence</label>
                                             <div class="col-sm-9">
                                                 <select class = "form-control" name="is_current" id="is_current">
-                                                    <option value="">None selected</option>       
+                                                    <option value="">None selected</option>
+                                                    @if($allSemesters != null)
+                                                        @foreach($allSemesters as $semester)
+                                                            <option value="{{ $semester->id }}"> {{ $semester->code }} {{ $semester->academic_session }} </option>
+                                                        @endforeach
+                                                    @endif  
                                                 </select>
                                             </div>
                                         </div>
@@ -59,11 +64,8 @@ $(document).ready(function() {
 
         let selectedVal = $('#is_current').val();
         if (selectedVal != null && selectedVal != "") {
-            $.get( "{{URL::to('/')}}/semesters/" + selectedVal + "/edit").done(function( response ) {
-                $('.spinner1').hide();
-                $('.modal-footer').show();
-                $('#get_end_date').val(response.data.end_date);
-            });
+            $('.spinner1').hide();
+            $('.modal-footer').show();     
         } else {
             $('#get_end_date').val('');
             $('.spinner1').hide();
@@ -79,17 +81,10 @@ $(document).ready(function() {
         $('#div-commence-txt-semester-primary-id').show();
         $('.modal-footer').hide();
         $('.spinner1').hide();
-        
-        $.get( "{{URL::to('/')}}/semesters/getallsemesters").done(function( response ) {            
-			$('#div-commence-semester-modal-error').hide();
-			$('#commence-semester-modal').modal('show');
-			$('#frm-commence-semester-modal').trigger("reset");
-            let data_length = response.data.length;
-            for(var row = 0; row < data_length; row++){
-                let date_val_to_go = "<option value='" + response.data[row].id + "'>"  + response.data[row].code + " ( " + response.data[row].academic_session + " ) </option>";
-                $('#is_current').append(date_val_to_go);
-            }
-        });
+                    
+		$('#div-commence-semester-modal-error').hide();
+		$('#commence-semester-modal').modal('show');
+		$('#frm-commence-semester-modal').trigger("reset");
     });
 
     //Save details commence semester

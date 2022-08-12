@@ -46,6 +46,30 @@
     </p>
 </div>
 
+<!-- Sex Field -->
+<div id="div_student_sex" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('sex', 'Sex:', ['class'=>'control-label']) !!} 
+        <span id="spn_student_sex">
+        @if (isset($student->sex))
+            {!! $student->sex !!}
+        @endif
+        </span>
+    </p>
+</div>
+
+<!-- Sex Field -->
+<div id="div_student_level" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('sex', 'Level:', ['class'=>'control-label']) !!} 
+        <span id="spn_student_level">
+        @if (isset($student->level))
+            {!! $student->level !!}
+        @endif
+        </span>
+    </p>
+</div>
+
 <!-- Telephone Field -->
 <div id="div_student_telephone" class="col-sm-12 mb-10">
     <p>
@@ -53,6 +77,18 @@
         <span id="spn_student_telephone">
         @if (isset($student->telephone))
             {!! $student->telephone !!}
+        @endif
+        </span>
+    </p>
+</div>
+
+<!-- Has Graduated Field -->
+<div id="div_student_has_graduated" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('has_graduated', 'Has Graduated:', ['class'=>'control-label']) !!} 
+        <span id="spn_student_has_graduated">
+        @if (isset($student->has_graduated))
+            {!! $student->has_graduated ? "Yes" : "No" !!}
         @endif
         </span>
     </p>

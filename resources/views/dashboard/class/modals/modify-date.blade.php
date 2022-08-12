@@ -36,9 +36,23 @@
 
                                 <!-- Due Date Field -->
                                 <div class="form-group">
-                                    <label class="control-label mb-10 col-sm-3" for="txt_due_date_date">Due Date</label>
+                                    <label class="control-label mb-10 col-sm-3" for="txt_due_date_due_day">Day</label>
+                                    <div class="col-sm-3">
+                                        <select name="due_day" id="txt_due_date_due_day" class="form-control">
+                                            <option value="">
+                                                <option value="">--choose class day--</option>
+                                                <option value="Monday">Monday</option>
+                                                <option value="Tuesday">Tuesday</option>
+                                                <option value="Wednesday">Wednesday</option>
+                                                <option value="Thursday">Thursday</option>
+                                                <option value="Friday">Friday</option>
+                                                <option value="Saturday">Saturday</option>                                            </option>
+                                        </select>
+                                       {{--  {!! Form::text('txt_due_date_due_date', null, ['class' => 'form-control','id'=>'txt_due_date_due_date']) !!} --}}
+                                    </div>
+                                    <label class="control-label mb-10 col-sm-1 text-left" for="txt_due_date_due_time">Time</label>
                                     <div class="col-sm-2">
-                                        {!! Form::text('txt_due_date_date', null, ['class' => 'form-control','id'=>'txt_due_date_date']) !!}
+                                        {!! Form::text('txt_due_date_due_time', null, ['class' => 'form-control','id'=>'txt_due_date_due_time']) !!}
                                     </div>
                                 </div>
 
@@ -62,11 +76,16 @@
 <script type="text/javascript">
 $(document).ready(function() {
 
-    $('#txt_due_date_date').datetimepicker({
+    /* $('#txt_due_date_due_date').datetimepicker({
         //format: 'YYYY-MM-DD HH:mm:ss',
         format: 'YYYY-MM-DD',
         useCurrent: true,
         sideBySide: true
+    }); */
+
+    $('#txt_due_date_due_time').datetimepicker({
+        //format: 'YYYY-MM-DD HH:mm:ss',
+        format: 'hh:mm A',
     });
 
     //Show Modal
@@ -78,7 +97,8 @@ $(document).ready(function() {
         $('#txt_date_id').val(0);
         $('#form-modify-date-modal').trigger("reset");
         $('#txt_due_date_title').val("");
-        $('#txt_due_date_date').val("");
+        $('#txt_due_date_due_day').val("");
+        $('#txt_due_date_due_time').val("");
     });
 
     //Show Modal for edit
@@ -93,7 +113,8 @@ $(document).ready(function() {
 
         //Set title and url
         $('#txt_due_date_title').val($('#spn_dt_'+itemId+'_title').html());
-        $('#txt_due_date_date').val($('#spn_dt_'+itemId+'_date').html());        
+        $('#txt_due_date_due_day').val($('#spn_dt_'+itemId+'_day').html());
+        $('#txt_due_date_due_time').val($('#spn_dt_'+itemId+'_date_time').html());        
     });
 
     //Delete action
@@ -169,7 +190,8 @@ $(document).ready(function() {
         formData.append('_method', actionType);
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
         formData.append('title', $('#txt_due_date_title').val());
-        formData.append('due_date', $('#txt_due_date_date').val());
+        formData.append('due_day', $('#txt_due_date_due_day').val());
+        formData.append('due_time', $('#txt_due_date_due_time').val());
         formData.append('id', $('#txt_date_id').val());
 
         $.ajax({

@@ -16,20 +16,20 @@
                 @endif
                 <!-- <li class="ml-10"><i class="text-primary fa fa-certificate mr-5"></i> Assignment #1 is due Monday, 12-Jun-21 </span></li> -->
             </ul>
-            @if ($current_user->lecturer_id!=null)
+            @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
             <a  href="#" data-val="{{$courseClass->id}}" id="btn-show-modify-class-detail-modal" class="text-info" style="font-size:70%">
                 <i class="text-info fa fa-edit ml-10 mr-5"></i>Edit Class Details
             </a>
+            <br/>
+            <br/>
             @endif
-            <br/>
-            <br/>
             <h6>Class Dates</h6>
             <ul class="list-icons" style="font-size:95%">
             @if (($courseClass) && count($courseClass->calendarEntries)>0)
             @foreach($courseClass->calendarEntries as $calendarEntry)
                 <li class="ml-10"><i class="text-primary fa fa-check mr-5"></i> 
-                    <span id="spn_dt_{{$calendarEntry->id}}_date">{{$calendarEntry->due_date->format('d-M-Y')}}</span> - <span id="spn_dt_{{$calendarEntry->id}}_title">{{$calendarEntry->title}}</span> 
-                    @if ($current_user->lecturer_id!=null)
+                    <span id="spn_dt_{{$calendarEntry->id}}_day">{{$calendarEntry->due_day}}</span> <span id="spn_dt_{{$calendarEntry->id}}_date_time">{{$calendarEntry->due_time->format('h:i A')}}</span> - <span id="spn_dt_{{$calendarEntry->id}}_title">{{$calendarEntry->title}}</span> 
+                    @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
                     <a href="#" data-val="{{$calendarEntry->id}}" class="btn-edit-modify-date-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
                     <a href="#" data-val="{{$calendarEntry->id}}" class="btn-delete-date-entry"><i class="text-info fa fa-times ml-5 mr-5" style="font-size:80%;opacity:0.5;"></i></a>
                     @endif
@@ -39,7 +39,7 @@
                 <li class="ml-10"><i class="text-primary fa fa-angle-double-right mr-5"></i> None Added</li>
             @endif
             </ul>
-            @if ($current_user->lecturer_id!=null)
+            @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
             <a id="btn-show-modify-date-modal" class="text-info" style="font-size:70%" href="#">
                 <i class="text-info fa fa-edit ml-10 mr-5"></i>Add New Date
             </a>
@@ -57,7 +57,7 @@
 
                     <li class="ml-10"><i class="text-primary fa fa-angle-double-right mr-5"></i> 
                         <span id="spn_rm_{{$item->id}}_title">{{$item->title}}</span>
-                        @if ($current_user->lecturer_id!=null)
+                        @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
                         <a href="#" data-val="{{$item->id}}" class="btn-edit-modify-reading-material-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
                         <a href="#" data-val="{{$item->id}}" class="btn-delete-reading-material"><i class="text-info fa fa-times ml-5 mr-5" style="font-size:80%;opacity:0.5;"></i></a>
                         @endif 
@@ -114,7 +114,7 @@
                 <li class="ml-10"><i class="text-primary fa fa-angle-double-right mr-5"></i> None Uploaded</li>
             @endif
             </ul>
-            @if ($current_user->lecturer_id!=null)
+            @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
             <a id="btn-show-modify-reading-material-modal" class="text-info" style="font-size:70%" href="#">
                 <i class="text-info fa fa-edit ml-10 mr-5"></i>Add New Reading Material
             </a>
@@ -124,7 +124,7 @@
         </div>
         <div class="col-sm-4">
             <h6>Announcements
-            @if ($current_user->lecturer_id!=null)
+            @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
             <a id="btn-show-modify-announcement-modal" class="pull-right text-info" style="font-size:70%" href="#">
                 <i class="text-info fa fa-edit ml-10 mr-5"></i>New
             </a>
@@ -137,7 +137,7 @@
 
                     <dl>
                         <dt class="mb-0"><i class="text-primary fa fa-bullhorn mr-5"></i><span id="spn_announcement_{{$item->id}}_title">{{ $item->title }}</span>
-                        @if ($current_user->lecturer_id!=null)
+                        @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
                         <a href="#" data-val="{{$item->id}}" class="btn-edit-modify-announcement-modal"><i class="text-info fa fa-pencil ml-5" style="font-size:80%;opacity:0.5;"></i></a> 
                             <a href="#" data-val="{{$item->id}}" class="btn-delete-announcement"><i class="text-info fa fa-times ml-5 mr-5" style="font-size:80%;opacity:0.5;"></i></a>
                         @endif

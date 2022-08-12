@@ -34,7 +34,12 @@ class UpdateCourseAPIRequest extends AppBaseFormRequest
             'id' => 'required|numeric|exists:courses,id',
             'code' => 'required',
             'name' => 'required',
-            'credit_hours' => 'required'
+            'credit_hours' => 'required',
+            'level' => 'required'
         ];
     }
+    
+    public function attributes(){
+        return ['credit_hours' => 'course load'];
+     }
 }

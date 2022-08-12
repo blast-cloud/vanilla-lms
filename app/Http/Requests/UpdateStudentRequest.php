@@ -37,7 +37,10 @@ class UpdateStudentRequest extends AppBaseFormRequest
             'first_name' => 'sometimes|required|string|max:100',
             'last_name' => 'sometimes|required|string|max:100',
             'email' => "sometimes|required|email|max:100|unique:students,email,{$this->id}",
-            'telephone' => "sometimes|required|digits:11|unique:students,telephone,{$this->id}"
+            'telephone' => "sometimes|required|digits:11|unique:students,telephone,{$this->id}",
+            'sex' => 'required',
+            'level' => 'required|exists:levels,level'
         ];
     }
+   
 }

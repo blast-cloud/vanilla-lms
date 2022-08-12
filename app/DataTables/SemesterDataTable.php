@@ -24,24 +24,24 @@ class SemesterDataTable extends DataTable
 */
         $dataTable->editColumn('academic_session', function ($query) {
             if($query->is_current == 1){
-                return "<font color='red'> ". $query->academic_session ."</font>";
+                return "<font color='green'> ". $query->academic_session ."</font>";
             } else {
                 return $query->academic_session;
             }   
         })->escapeColumns('active')->make(true);
 
         $dataTable->editColumn('code', function ($query) {
-            if($query->is_current == 1){ return "<font color='red'> ". $query->code ."</font>";
+            if($query->is_current == 1){ return "<font color='green'> ". $query->code ."</font>";
             } else { return $query->code; }
-        })->escapeColumns('active')->make(true);
+        })->escapeColumns('green')->make(true);
 
         $dataTable->editColumn('start_date', function ($query) {
-            if($query->is_current == 1){ return "<font color='red'> ". date('(D) d-M-Y', strtotime($query->start_date)) ."</font>";
+            if($query->is_current == 1){ return "<font color='green'> ". date('(D) d-M-Y', strtotime($query->start_date)) ."</font>";
             } else { return date('(D) d-M-Y', strtotime($query->start_date)); }
         })->escapeColumns('active')->make(true);
 
         $dataTable->editColumn('end_date', function ($query) {
-            if($query->is_current == 1){ return "<font color='red'> ". date('(D) d-M-Y', strtotime($query->end_date)) ."</font>";
+            if($query->is_current == 1){ return "<font color='green'> ". date('(D) d-M-Y', strtotime($query->end_date)) ."</font>";
             } else { return date('(D) d-M-Y', strtotime($query->end_date)); }
         })->escapeColumns('active')->make(true);
 
@@ -51,7 +51,7 @@ class SemesterDataTable extends DataTable
             } else {
                 $statusVal = 'Semester Not Current';
             }
-            if($query->is_current == 1){ return "<font color='red'> ". $statusVal ."</font>";
+            if($query->is_current == 1){ return "<font color='green'> ". $statusVal ."</font>";
             } else { return $statusVal; }
         })->escapeColumns('active')->make(true);
 

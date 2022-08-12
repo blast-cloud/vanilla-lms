@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 <td>
-                    @if ($current_user->lecturer_id!=null)
+                    @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
                     <a id="btn-save-student-scores" href="#" class="btn btn-xs btn-primary vertical-align-middle">
                         <i class="fa fa-save" style=""></i>&nbsp;Save
                     </a>

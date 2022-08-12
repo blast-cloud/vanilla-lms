@@ -88,11 +88,13 @@ class Lecturer extends Model
     public $fillable = [
         'email',
         'telephone',
+        'sex',
         'job_title',
         'first_name',
         'last_name',
         'picture_file_path',
         'profile_external_url',
+        'department_id',
         'department_id'
     ];
 
@@ -104,6 +106,7 @@ class Lecturer extends Model
     protected $casts = [
         'id' => 'integer',
         'email' => 'string',
+        'sex' => 'string',
         'telephone' => 'string',
         'job_title' => 'string',
         'first_name' => 'string',

@@ -1,4 +1,4 @@
-    @if ($current_user->lecturer_id!=null)
+    @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
     <a id="btn-show-start-lecture-modal" href="#" class="btn btn-xs btn-primary">
         <i class="fa fa-camera" style=""></i> Create Lecture
     </a>
@@ -22,7 +22,7 @@
 
 
                     @if ($item->blackboard_meeting_status=="in-progress")
-                        @if ($current_user->manager_id == null && $current_user->lecturer_id == null)
+                        @if ($current_user->manager_id == null && $current_user->lecturer_id == null && optional($current_semester)->id == $courseClass->semester_id)
                         <span class="pull-right">
                         <a href="{{ route('dashboard.class.join-lecture',[$courseClass->id,$item->id]) }}" target="_blank" class="btn btn-xs btn-primary {{ auth()->user()->lecturer_id == null ? 'join-lecture-btn':'' }}" data-save-details="{{ route('dashboard.class.save-details', [$courseClass->id,$item->id]) }}">
                             <i class="fa fa-sign-in" style=""></i>&nbsp;Join Lecture
@@ -30,7 +30,7 @@
                         @endif
                         </span>
                         <span class="pull-right">
-                        @if ($current_user->lecturer_id!=null )
+                        @if ($current_user->lecturer_id!=null && optional($current_semester)->id == $courseClass->semester_id)
                         <a href="{{ route('dashboard.class.end-lecture',[$courseClass->id,$item->id]) }}" class="btn btn-xs btn-primary">
                             <i class="fa fa-stop-circle" style=""></i>&nbsp;End Lecture
                         </a>
@@ -38,7 +38,7 @@
                         </span>
                         
                     @else
-                        @if ($current_user->lecturer_id!=null && $item->blackboard_meeting_status=="new")
+                        @if ($current_user->lecturer_id!=null && $item->blackboard_meeting_status=="new" && optional($current_semester)->id == $courseClass->semester_id)
                         <a href="{{ route('dashboard.class.start-lecture',[$courseClass->id,$item->id]) }}" target="_blank" class="btn btn-xs btn-primary pull-right">
                             <i class="fa fa-play" style=""></i>&nbsp;Start Lecture
                         </a>
@@ -56,7 +56,7 @@
                     @endif
                     <span class="text-danger">
                     @php
-                         if($item->lecture_date != null && $item->blackboard_meeting_status=="new"){
+                         if($item->lecture_date != null && $item->blackboard_meeting_status=="new" ){
                            $lectureDate = $timeObj->parse($item->lecture_date)->format('Y-m-d')." ".$timeObj->parse($item->lecture_time)->format('h:i');
                                 $remaining_time = $current_time->diffForHumans($lectureDate);
                                 if(strpos($remaining_time,"before")){
@@ -68,9 +68,9 @@
                     @endphp
                     </span>
                     <span class="text-primary" style="font-size:90%"><br/>
-                    @if ($item->blackboard_meeting_status=="in-progress" && $current_user->manager_id == null && $current_user->lecturer_id == null)
+                    @if ($item->blackboard_meeting_status=="in-progress" && $current_user->manager_id == null && $current_user->lecturer_id == null && optional($current_semester)->id == $courseClass->semester_id)
                         Online class is IN PROGRESS from {{ $item->created_at->format('d-M-Y h:m') }}, click the Join button to join the lecture
-                    @elseif ($item->blackboard_meeting_status=="new")
+                    @elseif ($item->blackboard_meeting_status=="new" && optional($current_semester)->id == $courseClass->semester_id)
                         @if($current_user->lecturer_id != null)
                             Online class is READY to start, click the Start button to commence the Lecture.
                         @else
@@ -80,7 +80,7 @@
                         Online class has ENDED, the lecture recordings will soon be available soon.
                     @elseif ($item->blackboard_meeting_status=="video-available") 
                         Online class has ENDED, the lecture recordings is available for viewing.
-                    @elseif ($item->blackboard_meeting_status=="in-progress" && $current_user->lecturer_id != null)
+                    @elseif ($item->blackboard_meeting_status=="in-progress" && $current_user->lecturer_id != null && optional($current_semester)->id == $courseClass->semester_id)
                         Your class is currently in progress. You may click End lecture button to end the class.
                     @endif
                     <br>
@@ -122,15 +122,16 @@
                     
                     <br/> <br/>
                        
-                    @if ($current_user->lecturer_id!=null)
+                    @if ($current_user->lecturer_id!=nulL)
                         
-                       
+                        @if (optional($current_semester)->id == $courseClass->semester_id)
                         <a class="text-info btn-edit-start-lecture-modal" href="#" alt="Edit Lecture" style="font-size:85%;opacity:0.5;" data-val="{{$item->id}}">
                             <i class="fa fa-pencil" style=""></i>&nbsp;Edit
                         </a> &nbsp;&nbsp;
                         <a class="text-info btn-delete-lecture" href="#"  alt="Delete Lecture" style="font-size:85%;opacity:0.5;" data-val="{{$item->id}}">
                             <i class="fa fa-trash" style=""></i>&nbsp;Delete
                         </a> &nbsp;&nbsp;
+                        @endif
                         <a class="text-info btn-lecture-attendance" href="#"  alt="Lecture Attendance" style="font-size:85%;opacity:0.5;" data-toggle="modal" data-target="#attendance_{{ $item->id }}">
                             <i class="fa fa-users" style=""></i>&nbsp;Attendance {{$item->attendance->count()}}
                         </a>
@@ -155,7 +156,8 @@
             $('.btn-student-class-activity').click(function(e) {
               
               e.preventDefault();
-               
+              let materialUrl = e.target.href;
+               if ({{optional($current_semester)->id == $courseClass->semester_id}}) {
                 $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
                 let url = "{{route('studentClassActivity.store')}}";
                 let formData = new FormData();
@@ -165,7 +167,7 @@
                 formData.append('course_class_id',e.target.attributes['course-class-id'].value);
                 formData.append('student_id',e.target.attributes['student-id'].value);
                 formData.append('class_material_id',e.target.attributes['class-material-id'].value);
-                let materialUrl = e.target.href
+               
              
                 $.ajax({
                     url: url,
@@ -182,6 +184,10 @@
                         console.log(error);
                     }
                 });
+               }else{
+                    window.open(materialUrl,'_blank');  
+               }
+                
                 
             });
 

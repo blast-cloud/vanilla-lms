@@ -37,7 +37,7 @@ class UpdateSemesterRequest extends AppBaseFormRequest
             'academic_session' => 'required',
             'code' => "required|string|in:". implode(['First Semester','Second Semester'], ','),
             'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
+            'end_date' => 'required|date',
             'unique_code' => 'required|min:11|max:11|unique:semesters,unique_code,' .$this->id,
         ];
     }

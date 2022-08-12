@@ -37,6 +37,11 @@ class UpdateCourseRequest extends AppBaseFormRequest
             'name' => "sometimes|required|max:191",
             'description' => 'required',
             'credit_hours' => 'sometimes|required|numeric|max:100|gt:0',
+            'level' => 'required'
         ];
     }
+
+    public function attributes(){
+        return ['credit_hours' => 'course load'];
+     }
 }
