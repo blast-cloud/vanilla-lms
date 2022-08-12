@@ -32,6 +32,11 @@ use App\Repositories\SemesterRepository;
 use App\Models\Submission;
 use App\Models\Grade;
 
+use BigBlueButton\BigBlueButton;
+use BigBlueButton\Parameters\CreateMeetingParameters;
+use BigBlueButton\Parameters\JoinMeetingParameters;
+use BigBlueButton\Parameters\EndMeetingParameters;
+use BigBlueButton\Parameters\GetRecordingsParameters;
 use App\Models\StudentAttendance;
 use App\Models\ClassMaterial;
 use App\Models\CourseClass;
@@ -41,7 +46,6 @@ use App\Models\StudentClassActivity;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Forum;
-use JoisarJignesh\Bigbluebutton\Facades\Bigbluebutton;
 use Response;
 use Illuminate\Http\Request;
 use DB;
@@ -195,29 +199,32 @@ class ClassDashboardController extends AppBaseController
         $lectureMaterial = $this->classMaterialRepository->find($lectureId);
 
         $displayName = "{$current_user->name}";
-        $password = 'PW$$attendee';
-        $password = 'PW$$moderator';
 
-        if ($current_user->lecturer_id!=null){
+        if ($current_user->lecturer_id!=null)
+        {
             $password = 'PW$$moderator';
         }
 
-        $join_info = [   
-            'meetingID' => $lectureMaterial->blackboard_meeting_id,
-            'fullName' => $displayName,
-            'userName' => $displayName,
-            'password' => $password,
-            'redirect' => true,
-            //'userId' =>  $current_user->id,
-        ];
+        if($current_user->student_id != null)
+        {
+            $password = 'PW$$attendee';
+        }
 
-        //dd($join_info);
-        $bbb_join = Bigbluebutton::join($join_info);
+        $meetingID = $lectureMaterial->blackboard_meeting_id;
+        $name = $displayName;
+        $bbb = new BigBlueButton();
+        $bbb_join = new JoinMeetingParameters($meetingID, $name, $password);
+        $bbb_join->setRedirect(true);
+        $url = $bbb->getJoinMeetingURL($bbb_join);
 
-        //dd(Bigbluebutton::all());
-        //dd($bbb_join);
+        if(empty($url))
+        {
+            return redirect()->route('dashboard.class',$id);
+        }
 
-        return redirect()->to($bbb_join);
+        return redirect($url);
+        header('location', $url);
+           
     }
 
     public function processStudentAttendanceDetails(Request $request, $course_class_id, $lectureId)
@@ -249,24 +256,33 @@ class ClassDashboardController extends AppBaseController
         }else{
              //Upload Captured Image  
             $lecture_photo = new StudentAttendance();        
-            $lecture_photo->create($input);
-            $lecture_photo->save();
-            
+            $lecture_photo->student_id = $current_user->student_id;
+            $lecture_photo->course_class_id = $course_class_id;
+            $lecture_photo->class_material_id = $lectureId;
+            $lecture_photo->photo_file_path = $storagePath;
+            $lecture_photo->save();    
         }
-        return true;
+          return true;
     }
 
     public function processEndOnlineLecture(Request $request, $id, $lectureId)
     {
         $current_user = Auth()->user();
-        $courseClass = $this->courseClassRepository->find($id);        
+        $courseClass = $this->courseClassRepository->find($id);  
+        $lectureMaterial = $this->classMaterialRepository->find($lectureId);      
 
         $this->classMaterialRepository->update(
             ['blackboard_meeting_status' => "ended"],
             $lectureId
         );
 
-        return redirect()->route('dashboard.class',$id);
+        $meetingID = $lectureMaterial->blackboard_meeting_id;
+        $moderator_password = 'PW$$moderator';
+        $bbb = new BigBlueButton();
+        $bbb_end = new EndMeetingParameters($meetingID, $moderator_password);
+        $response = $bbb->endMeeting($bbb_end);
+
+        return redirect()->route('dashboard.class',$id)->with('message', $response->getMessage());
     }
 
     public function processRecordingOnlineLecture(Request $request, $id, $lectureId)
@@ -274,24 +290,36 @@ class ClassDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $courseClass = $this->courseClassRepository->find($id);
         $lectureMaterial = $this->classMaterialRepository->find($lectureId);
+        $recordingUrl = "";
+        $bbb = new BigBlueButton();
+        $meetingID = $lectureMaterial->blackboard_meeting_id;
+        $bbb_get_recordings = new GetRecordingsParameters();
+        $response = $bbb->getRecordings($bbb_get_recordings);
+        
+        if($response->getReturnCode() == 'SUCCESS')
+        {
+            foreach($response->getRawXml()->recordings->recording as $recording) {
+                if ($recording->meetingID == $meetingID) {
+                   $recordingUrl = $recording->playback->format->url;
+                   break;
+                }
+                continue;
+            }
+            if($recordingUrl) {
+                return redirect($recordingUrl);
+            }
 
-        $bbb_recordings = Bigbluebutton::getRecordings([
-            'meetingID' => $lectureMaterial->blackboard_meeting_id,
-        ]);
+        }else{
+            return back()->withErrors(['msg', 'Recording not Found.']);
+        }
 
-        if ($bbb_recordings != null && count($bbb_recordings)>0){
-            Bigbluebutton::publishRecordings([
-                'recordID' => $bbb_recordings[0]->recordID,
-                'state' => true //default is true  
-            ]);
-
+        if ($recordingUrl != null){
             $this->classMaterialRepository->update([   
                 'blackboard_meeting_status' => "video-available",
-                'reference_material_url' => $bbb_recordings[0]->playback->format[1]->url
+                'reference_material_url' => $recordingUrl
                 ], $lectureId
             );
         }
-
     }
 
     public function processStartOnlineLecture(Request $request, $id, $lectureId)
@@ -300,34 +328,44 @@ class ClassDashboardController extends AppBaseController
         $courseClass = $this->courseClassRepository->find($id);
         $lectureMaterial = $this->classMaterialRepository->find($lectureId);
 
-        $bbb_available = Bigbluebutton::isConnect();
-        if ($bbb_available){
-
-            $meeting_id = "room-{$id}-{$lectureId}";
+        $bbb = new BigBlueButton();
+        if ($bbb){
+            $meetingID = "room-{$id}-{$lectureId}";
             $lecture_material = $this->classMaterialRepository->update([
-                'blackboard_meeting_id' => $meeting_id,
+                'blackboard_meeting_id' => $meetingID,
                 'blackboard_meeting_status' => "in-progress",
                 'course_class_id' => $id
             ], $lectureId);
 
-            $bbb_room = Bigbluebutton::create([
-                'meetingID' => $meeting_id,
-                'meetingName' => $lectureMaterial->title,
-                'attendeePW' => 'PW$$attendee',
-                'moderatorPW' => 'PW$$moderator',
-                'endCallbackUrl'  => route('dashboard.class.end-lecture',[$id,$lecture_material->id]),
-                'bbb-recording-ready-url'  => route('dashboard.class.record-lecture',[$id,$lecture_material->id]),
-                'record' => true,
-                'muteOnStart' => true,
-            ]);
+            $meetingName = $lectureMaterial->title;
+            $attendee_password= 'PW$$attendee';
+            $moderator_password = 'PW$$moderator';
+            $isRecordingTrue = true;
+            $endCallBackUrl = route('dashboard.class.end-lecture', [$id, $lecture_material->id]);
+            $recordingReadyCallbackUrl = route('dashboard.class.record-lecture', [$id, $lecture_material->id]);
+            
+            $bbb_room = new CreateMeetingParameters($meetingID, $meetingName);
+            $bbb_room->setAttendeePassword($attendee_password);
+            $bbb_room->setModeratorPassword($moderator_password);
+            $bbb_room->setEndCallbackUrl($endCallBackUrl);
+            $bbb_room->setRecordingReadyCallbackURL($recordingReadyCallbackUrl);
 
-            if ($bbb_room != null && count($bbb_room)>0)
+            if($isRecordingTrue) 
             {
-                if ($current_user->lecturer_id!=null){
+                $bbb_room->setRecord(true);
+                $bbb_room->setAllowStartStopRecording(true);
+                $bbb_room->setAutoStartRecording(true);
+            }
+
+            $response = $bbb->createMeeting($bbb_room);
+            if($response->getReturnCode() == 'SUCCESS')
+            {
+                if($current_user->lecturer_id != null)
+                {
                     return redirect()->route('dashboard.class.join-lecture',[$id,$lecture_material->id]);
                 }
-                return redirect()->route('dashboard.class',$id);
             }
+            return redirect()->route('dashboard.class',$id)->with('message', $response->getMessage());
         }else{
             return redirect()->back()->withErrors(['msg','The blackboard server is not available at this moment. Try again.']);
         }

@@ -5,7 +5,7 @@ return [
      * Default BigBlueButton Server Configurations
      * By default load this configuration not a multiple server configuration.
      */
-    'BBB_SECURITY_SALT'   => env('BBB_SECURITY_SALT', 'jOeRfJrwlCPwXQ7MEWU7aWI2jT9viUGC69tHg0y4wY'),
+    'BBB_SECURITY_SALT'   => env('BBB_SECURITY_SALT', '6Jsb8wqID6aEdB6TgICJSjUR8i8Wpt6rR2Z4f0QWNAE'),
     'BBB_SERVER_BASE_URL' => env('BBB_SERVER_BASE_URL', 'https://classroom.hasob.ng/bigbluebutton/'),
 
     /**

@@ -25,7 +25,7 @@ Route::get('/bbb-conf', function () {
 
 
 Route::get('dashboard/class/{id}/end-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processEndOnlineLecture'])->name('dashboard.class.end-lecture');
-Route::post('dashboard/class/{id}/record-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processRecordingOnlineLecture'])->name('dashboard.class.record-lecture');
+Route::get('dashboard/class/{id}/record-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processRecordingOnlineLecture'])->name('dashboard.class.record-lecture');
 
 
 Route::middleware(['auth', 'isDisabled'])->group(function () {
