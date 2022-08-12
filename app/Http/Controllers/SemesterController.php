@@ -39,7 +39,8 @@ class SemesterController extends AppBaseController
      */
     public function index(SemesterDataTable $semesterDataTable)
     {
-        return $semesterDataTable->render('semesters.index');
+        $allSemesters = $this->getAllSemesters();
+        return $semesterDataTable->render('semesters.index', ['allSemesters' => $allSemesters]);
     }
 
     /**
@@ -108,7 +109,7 @@ class SemesterController extends AppBaseController
          /** @var Semester $semester */
         $semester = $this->semesterRepository->find($id);
 
-        if (empty($semester)) {
+        if (!empty($semester)) {
             return $this->sendError('Semester not found');
         }
         
@@ -169,7 +170,8 @@ class SemesterController extends AppBaseController
     public function getAllSemesters()
     {
         $allSemesters = Semester::where('is_current', '!=', 1)->orWhereNull('is_current')->orderBy('academic_session', 'desc')->get();
-        return $this->sendResponse($allSemesters, 'Semesters retrieved successfully');
+        return $allSemesters;
+        //return $this->sendResponse($allSemesters, 'Semesters retrieved successfully');
     }
 
     public function setCurrentSemester(CommenceSemesterRequest $request)
