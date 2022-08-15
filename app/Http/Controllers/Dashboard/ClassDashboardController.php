@@ -13,6 +13,7 @@ use App\Models\Semester;
 
 use Log;
 use Flash;
+use Illuminate\Support\Str;
 use App\Managers\GradeManager;
 use App\Managers\StudentActivityManager;
 use App\Http\Controllers\AppBaseController;
@@ -223,7 +224,6 @@ class ClassDashboardController extends AppBaseController
         }
 
         return redirect($url);
-        header('location', $url);
            
     }
 
@@ -259,8 +259,13 @@ class ClassDashboardController extends AppBaseController
             $lecture_photo->student_id = $current_user->student_id;
             $lecture_photo->course_class_id = $course_class_id;
             $lecture_photo->class_material_id = $lectureId;
-            $lecture_photo->photo_file_path = $storagePath;
-            $lecture_photo->save();    
+            if(empty($lecture_photo->photo_file_path))
+            {
+                $lecture_photo->photo_file_path = "NULL";
+            }else{
+                $lecture_photo->photo_file_path = $storagePath;
+            }       
+            $lecture_photo->save(); 
         }
           return true;
     }
@@ -291,34 +296,38 @@ class ClassDashboardController extends AppBaseController
         $courseClass = $this->courseClassRepository->find($id);
         $lectureMaterial = $this->classMaterialRepository->find($lectureId);
         $recordingUrl = "";
+
         $bbb = new BigBlueButton();
         $meetingID = $lectureMaterial->blackboard_meeting_id;
         $bbb_get_recordings = new GetRecordingsParameters();
-        $response = $bbb->getRecordings($bbb_get_recordings);
+        $bbb_get_recordings->setMeetingId($meetingID);
+        $response = $bbb->getRecordings($bbb_get_recordings);  
         
         if($response->getReturnCode() == 'SUCCESS')
         {
-            foreach($response->getRawXml()->recordings->recording as $recording) {
-                if ($recording->meetingID == $meetingID) {
+            foreach($response->getRawXml()->recordings->recording as $recording) 
+            {
+                if ($recording->meetingID == $meetingID) 
+                {
                    $recordingUrl = $recording->playback->format->url;
                    break;
                 }
-                continue;
+
+                if ($recordingUrl != null)
+                {
+                    $this->classMaterialRepository->update([   
+                        'blackboard_meeting_status' => "video-available",
+                        'reference_material_url' => $recordingUrl
+                        ], $lectureId);
+                }
             }
-            if($recordingUrl) {
+            if($recordingUrl) 
+            {
                 return redirect($recordingUrl);
             }
 
         }else{
             return back()->withErrors(['msg', 'Recording not Found.']);
-        }
-
-        if ($recordingUrl != null){
-            $this->classMaterialRepository->update([   
-                'blackboard_meeting_status' => "video-available",
-                'reference_material_url' => $recordingUrl
-                ], $lectureId
-            );
         }
     }
 
@@ -327,10 +336,11 @@ class ClassDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $courseClass = $this->courseClassRepository->find($id);
         $lectureMaterial = $this->classMaterialRepository->find($lectureId);
+        $Uuid = Str::orderedUuid()->toString();
 
         $bbb = new BigBlueButton();
         if ($bbb){
-            $meetingID = "room-{$id}-{$lectureId}";
+            $meetingID = $Uuid; //Meeting ID must be unique to prevent simultaneous meetings with same ID;
             $lecture_material = $this->classMaterialRepository->update([
                 'blackboard_meeting_id' => $meetingID,
                 'blackboard_meeting_status' => "in-progress",
@@ -358,6 +368,7 @@ class ClassDashboardController extends AppBaseController
             }
 
             $response = $bbb->createMeeting($bbb_room);
+
             if($response->getReturnCode() == 'SUCCESS')
             {
                 if($current_user->lecturer_id != null)
