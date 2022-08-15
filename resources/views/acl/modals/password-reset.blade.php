@@ -20,12 +20,21 @@
                                 <div class="loader" id="loader-1"></div>
                             </div>
 
-                            <input type="hidden" id="txt_reset_account_id" value="0" />
+                            <div class="col-sm-12">
+                                <strong>USER CREDENTIALS:</strong>
+                                <blockquote class="col-sm-12">
+                                        <div class="col-sm-3"> <b>Full name :</b></div>
+                                        <div  class="col-sm-9"><i id="fullname_info">/i></div>
 
-                            <div class="form-group">
-                                <label class="control-label mb-10 col-sm-3" for="code">Password</label>
+                                        <div class="col-sm-3"> <b>Email :</b></div>
+                                        <div  class="col-sm-9"><i id="email_info"></i></div>
+                                </blockquote>
+                            </div><hr>
+                            <input type="hidden" id="txt_reset_account_id" value="0" />
+                            <div class="form-group col-sm-12">
+                                <label class="control-label mb-3 col-sm-3" for="code">New Password</label>
                                 <div class="col-sm-9">
-                                    <div class="input-group mb-3">
+                                    <div class="input-group mb-10">
                                         <input type="text"
                                             id="password"
                                             name="password"
@@ -63,10 +72,16 @@ $(document).ready(function() {
         $('.input-border-error').removeClass("input-border-error");
         let itemId = $(this).attr('data-val');
         $('#txt_reset_account_id').val(itemId);
-        $('.spinner1').hide();
-        $('#modify-user-password-reset-modal').modal('show');
-        $('#form-modify-user-password-reset').trigger("reset");
         $('#modify-user-password-reset-error-div').hide();
+        $('#form-modify-user-password-reset').trigger("reset");
+        $('.spinner1').show();
+        $.get("{{ route('dashboard.user', 0) }}" + itemId).done(function(data) {
+            $('.spinner1').hide();
+            console.log(data);
+            $('#fullname_info').text(data.first_name + ' ' + data.last_name);
+            $('#email_info').text(data.email);
+            $('#modify-user-password-reset-modal').modal('show');
+        });
 
     });
 

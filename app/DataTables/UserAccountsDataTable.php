@@ -62,12 +62,14 @@ class UserAccountsDataTable extends DataTable
 
             return "N/A";
 
-        })->addColumn('disabled', function ($query) {
-            if ($query->is_disabled){
-                return "Yes";
-            }
-            return "No";
         });
+
+        $dataTable->editColumn('disabled', function ($query) {
+            if ($query->is_disabled){
+                return "<font color='red'>De-activated</font>";
+            }
+            return "<font color='green'>Activated</font>";
+        })->escapeColumns('active')->make(true);
 
         $dataTable->addColumn('department', function($query)
         {
@@ -130,11 +132,10 @@ class UserAccountsDataTable extends DataTable
             'full_name',
             'email',
             'telephone',
-            // 'department',
             // 'job_title',
-            'disabled',
             'type',
             'department',
+            ['title'=>'Status', 'data'=>"disabled"],
             //'last_login_date'
         ];
     }

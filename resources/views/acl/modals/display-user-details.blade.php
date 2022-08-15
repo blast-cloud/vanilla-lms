@@ -380,10 +380,16 @@
                         'X-CSRF-TOKEN': $('input[name="_token"]').val()
                     }
                 });
-
-                swal({
-                        title: "Are you sure you want to disable this user account?",
+                let itemId = $(this).attr('data-val');
+                $.get("{{ route('dashboard.user', 0) }}" + itemId).done(function(data) {
+                    $('.spinner1').hide();
+                    console.log(data);
+                    let fullname_info = (data.first_name + ' ' + data.last_name);
+                    let email_info = data.email;
+                    swal({
+                        title: "Are you sure you want to disable " + fullname_info + " ?",
                         icon: "warning",
+                        text: 'EMAIL : ' + email_info,
                         buttons: true,
                         dangerMode: true,
                     })
@@ -392,7 +398,6 @@
                             let formData = new FormData();
                             formData.append('_token', $('input[name="_token"]').val());
 
-                            let itemId = $(this).attr('data-val');
                             let endPointUrl = "{{ route('dashboard.user-disable-account', 0) }}" +
                                 itemId;
 
@@ -408,7 +413,7 @@
                                     if (result.errors) {
                                         console.log(result.errors)
                                     } else {
-                                        swal("Done!", "The user account has been disabled!",
+                                        swal("Disabled!", "The user account (" + email_info + ") has been disabled!",
                                             "success");
                                         location.reload(true);
                                     }
@@ -416,6 +421,7 @@
                             });
                         }
                     });
+                });
             });
 
             //Enable Model
@@ -427,18 +433,26 @@
                     }
                 });
 
-                swal({
-                        title: "Are you sure you want to enable this user account?",
+                let itemId = $(this).attr('data-val');
+                $.get("{{ route('dashboard.user', 0) }}" + itemId).done(function(data) {
+                    $('.spinner1').hide();
+                    console.log(data);
+                    let fullname_info = (data.first_name + ' ' + data.last_name);
+                    let email_info = data.email;
+
+                    swal({
+                        title: "Are you sure you want to enable " + fullname_info + " ?",
                         icon: "warning",
+                        text: 'EMAIL : ' + email_info,
                         buttons: true,
                         dangerMode: false,
                     })
+
                     .then((willDelete) => {
                         if (willDelete) {
                             let formData = new FormData();
                             formData.append('_token', $('input[name="_token"]').val());
 
-                            let itemId = $(this).attr('data-val');
                             let endPointUrl = "{{ route('dashboard.user-enable-account', 0) }}" +
                                 itemId;
 
@@ -454,8 +468,8 @@
                                     if (result.errors) {
                                         console.log(result.errors)
                                     } else {
-                                        swal("Done!",
-                                            "The user account has been enabled! Kindly check your email to retrieve the details of your new account",
+                                        swal("Enabled!",
+                                            fullname_info + " account has been enabled! Kindly check " + email_info + " to retrieve account details.",
                                             "success");
                                         location.reload(true);
                                     }
@@ -463,6 +477,9 @@
                             });
                         }
                     });
+
+
+                });
             });
 
             //Delete action
