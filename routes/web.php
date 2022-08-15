@@ -88,7 +88,7 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
         Route::get('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'displayApplicationSettings'])->name('dashboard.admin-settings');
         Route::post('dashboard/admin/settings', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'processApplicationSettings'])->name('dashboard.admin-settings-process');
         Route::get('dashboard/admin/delete-settings/{key}', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'deleteApplicationSettings'])->name('dashboard.admin-delete-setting');
-
+        Route::resource('levels', App\Http\Controllers\LevelController::class);
         Route::get('semesters/getallsemesters', [App\Http\Controllers\SemesterController::class, 'getAllSemesters'])->name('semesters.getallsemesters');
         Route::put('semesters/setcurrentsemester', [App\Http\Controllers\SemesterController::class, 'setCurrentSemester'])->name('semesters.setcurrentsemester');
         Route::get('semesters/tabs/{id}', [App\Http\Controllers\SemesterController::class, 'show'])->name('semesters.tabs.show');
@@ -105,7 +105,6 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     
     Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
 
-    Route::resource('levels', App\Http\Controllers\LevelController::class);
     
     Route::resource('courses', App\Http\Controllers\CourseController::class);
 
