@@ -28,8 +28,8 @@ class UpdateLevelRequest extends AppBaseFormRequest
         //return Course::$rules;
  
         return [
-            'name' => "required|unique:levels,name",
-            'level' => 'required|unique:levels,level|numeric',
+            'name' => "required|unique:levels,name,{$this->id},id",
+            'level' => "required|numeric|unique:levels,level,{$this->id},id",
         ];
     }
 

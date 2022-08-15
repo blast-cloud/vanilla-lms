@@ -44,6 +44,16 @@
                         </a>
                         @endif
                     @endif
+                    @if($current_user->lecturer_id != null && $item->blackboard_meeting_status=="ended")
+                        <a href="{{ route('dashboard.class.record-lecture',[$courseClass->id,$item->id]) }}" target="_blank" class="btn btn-xs btn-primary pull-right">
+                            <i class="fa fa-play" style=""></i>&nbsp;Play Recording
+                        </a>
+                    @endif
+                    @if($current_user->student_id != null && $item->blackboard_meeting_status=="ended")
+                        <a href="{{ route('dashboard.class.record-lecture',[$courseClass->id,$item->id]) }}" target="_blank" class="btn btn-xs btn-primary pull-right">
+                            <i class="fa fa-play" style=""></i>&nbsp;Play Recording
+                        </a>
+                    @endif
                     <span class="text-danger">
                     @php
                          if($item->lecture_date != null && $item->blackboard_meeting_status=="new" ){
@@ -135,7 +145,7 @@
     @else
         <p style="font-size:95%;" class="muted">No Lectures available.</p>
     @endif
-    @include('dashboard.class.modals.lecture-start')
+@include('dashboard.class.modals.lecture-start')
 @include('dashboard.class.modals.student-capture')
 @include('dashboard.class.modals.lecture-attendance')
 @section('js-131')

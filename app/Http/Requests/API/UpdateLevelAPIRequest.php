@@ -26,8 +26,8 @@ class UpdateLevelAPIRequest extends AppBaseFormRequest
 
        
         return [
-            'name' => "required|unique:levels,name",
-            'level' => 'required|numeric|unique:levels,level,'.$this->id,
+            'name' => "required|unique:levels,name,{$this->id},id",
+            'level' => "required|numeric|unique:levels,level,{$this->id},id",
         ];
     }
 
