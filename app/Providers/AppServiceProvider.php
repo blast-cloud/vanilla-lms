@@ -63,8 +63,10 @@ class AppServiceProvider extends ServiceProvider
                                         ->pluck('value','key')
                                         ->toArray();
         }
-        $current_semester = Semester::where('is_current',true)->first();
-        View::share('current_semester',$current_semester);
+        if(Schema::hasTable('semesters')){
+            $current_semester = Semester::where('is_current',true)->first();
+            View::share('current_semester',$current_semester);
+        }
         View::share('app_settings', $app_settings);
         Schema::DefaultStringLength(191);
     }
