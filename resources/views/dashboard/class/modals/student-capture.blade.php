@@ -34,11 +34,23 @@
     <script>
         let tries = 0;
 
-        $(document).on('click', '.join-lecture-btn', function(e) {
+        $(document).on('click', '.join-lecture-btn', function(e) { 
             e.preventDefault();
+            $(this).text('Checking Webcam...');
             $('.capture-error').fadeOut(300);
-            $("input[name='join_url']").val($(this).attr('href'));
+            let join_url = $("input[name='join_url']").val($(this).attr('href'));
             $("input[name='save_url']").val($(this).data('save-details'));
+
+            navigator.getMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
+            navigator.getMedia({video: true}, function() {
+              //Webcam is available
+              $('#capture-photo-modal').modal('show');
+            }, function() {
+               //Webcam is not available
+               $('#capture-photo-modal').modal('hide');
+               allowJoinMeeting(join_url);
+            });
+
             // CAMERA SETTINGS.
             Webcam.set({
                 width: 420,
@@ -46,14 +58,14 @@
                 image_format: 'jpeg',
                 jpeg_quality: 100
             });
-            $('#capture-photo-modal').modal('show');
+          
             Webcam.attach('#camera');
             // $('#snapShot').fadeIn(300);
         });
 
         $(document).on('click', '#capture-btn', function(e) {
             e.preventDefault();
-            $(this).text('Capturing..');
+            $(this).text('Capturing...');
             $('.capture-error').fadeOut(300);
             captureImage();
         })
@@ -120,8 +132,31 @@
                 contentType: false,
                 dataType: 'json',
                 success: function(result){
-                    $('#capture-btn').text('Redirecting..');
-                    window.location.href = join_url;
+                    $('#capture-btn').text('Redirecting...');
+                    window.open(join_url, "_blank");
+                },
+            });
+        } 
+
+        function allowJoinMeeting(join_url) {
+            $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+            let actionType = "POST";
+            let endPointUrl = $("input[name='save_url']").val();
+            join_url = $("input[name='join_url']").val();
+
+            let formData = new FormData();
+            formData.append('photo_file_path', "NULL");
+            $.ajax({
+                url:endPointUrl,
+                type: "POST",
+                data: formData, 
+                cache: false,
+                processData:false, 
+                contentType: false,
+                dataType: 'json',
+                success: function(result){
+                    $('.join-lecture-btn').text('Redirecting...');
+                    window.open(join_url, "_blank");
                 },
             });
         }

@@ -259,14 +259,14 @@ class ClassDashboardController extends AppBaseController
             $lecture_photo->student_id = $current_user->student_id;
             $lecture_photo->course_class_id = $course_class_id;
             $lecture_photo->class_material_id = $lectureId;
-            if(empty($lecture_photo->photo_file_path))
+            if(empty($request->student_img))
             {
-                $lecture_photo->photo_file_path = "NULL";
+                $lecture_photo->photo_file_path = $request->photo_file_path;
             }else{
                 $lecture_photo->photo_file_path = $storagePath;
-            }       
+            }    
             $lecture_photo->save(); 
-        }
+         }    
           return true;
     }
 
