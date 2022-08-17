@@ -25,7 +25,7 @@ class SemesterNotificationsDatatable extends DataTable
             if ($query->students_receives == 1) { $receiversVar .= "All Students<br>"; } 
             if ($query->managers_receives == 0 && $query->lecturers_receives == 0 && $query->students_receives == 0) { $receiversVar .= " Nil<br>"; }
             return $receiversVar;
-        })->escapeColumns('active')->make(true);
+        })->filter(function () {})->escapeCmns('active')->make(true);
 
         $dataTable->editColumn('broadcast_status', function ($query) {
             if($query->broadcast_status == 1){ 
@@ -33,7 +33,7 @@ class SemesterNotificationsDatatable extends DataTable
             } else if($query->broadcast_status == 0) { 
                 return "<font color='red'>Not broadcasted!</font>"; 
             }
-        })->escapeColumns('active')->make(true);
+        })->filter(function () {})->escapeColumns('active')->make(true);
 
         $dataTable->editColumn('created_at', function ($query) {
             return date('(D) d-M-Y', strtotime($query->created_at));

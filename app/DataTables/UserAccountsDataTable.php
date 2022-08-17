@@ -82,7 +82,7 @@ class UserAccountsDataTable extends DataTable
         })->filterColumn('department_id', function ($query, $keyword){
                return $query->whereHas('department',function($q) use ($keyword){
                 
-                   return $q->where('name','like','%'.$keyword.'%');
+                    $q->where('name','like','%'.$keyword.'%');
                 });
         });
 
@@ -140,7 +140,7 @@ class UserAccountsDataTable extends DataTable
             'telephone',
             // 'job_title',
             'type',
-            ['title'=>'DEPARTMENT', 'data'=> "department_id"],
+            ['title'=>'DEPARTMENT', 'data'=> "department_id",'searchable' => 'true'],
             ['title'=>'Status', 'data'=> "is_disabled"],
             //'last_login_date'
         ];

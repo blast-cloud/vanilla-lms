@@ -266,9 +266,9 @@ class ACLController extends AppBaseController
             $errors[] = 'The email: '.$data[0].' already belongs to a user';
         }
 
-        $user = User::where('telephone', $data[3])->first();
+        $user = User::where('telephone', trim(strtolower($data[3]), "\r\n"))->first();
         if ($user) {
-            $errors[] = 'The telephone number: '.$data[3].' already belongs to a user';
+            $errors[] = 'The telephone number: '.trim(strtolower($data[3]), "\r\n").' already belongs to a user';
         }
 
         if ($type  == 'student') {
@@ -315,7 +315,7 @@ class ACLController extends AppBaseController
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
-                        'telephone' => $data[3],
+                        'telephone' => trim(strtolower($data[3]), "\r\n"),
                         'matriculation_number' => $data[4],
                         'department_id' => auth()->user()->department_id ?? null
                     ]);     
@@ -328,7 +328,7 @@ class ACLController extends AppBaseController
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
-                        'telephone' => $data[3],
+                        'telephone' => trim(strtolower($data[3]), "\r\n"),
                     ]);     
                 $lecturer = $this->lecturerRepository->create($lecturer_data);
                 LecturerCreated::dispatch($lecturer);
@@ -339,7 +339,7 @@ class ACLController extends AppBaseController
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
-                        'telephone' => $data[3],
+                        'telephone' =>  trim(strtolower($data[3]), "\r\n"),
                     ]);     
                 $manager = $this->managerRepository->create($manager_data); 
                 ManagerCreated::dispatch($manager);

@@ -84,7 +84,7 @@ class NotificationsDatatable extends DataTable
     {
         return [
             ['title'=>'Subject','data'=>"title"],
-            Column::make('broadcast_to'),
+            ['title'=>'Broadcast to','data'=>"admin_receives"],
             ['title'=>'Created on','data'=>"created_at"],
         ];
     }
