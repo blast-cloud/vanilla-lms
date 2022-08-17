@@ -6,6 +6,11 @@ use App\Models\User;
 
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Button;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
+
 
 class UserAccountsDataTable extends DataTable
 {
@@ -64,20 +69,21 @@ class UserAccountsDataTable extends DataTable
 
         });
 
-        $dataTable->editColumn('disabled', function ($query) {
+        $dataTable->editColumn('is_disabled', function ($query) {
             if ($query->is_disabled){
                 return "<font color='red'>De-activated</font>";
             }
             return "<font color='green'>Activated</font>";
         })->escapeColumns('active')->make(true);
 
-        $dataTable->addColumn('department', function($query)
+        $dataTable->addColumn('department_id', function($query)
         {
             return $query->department ? $query->department->name:'N/A';
-        })->filterColumn('department', function ($query, $keyword){
-            $query->whereHas('department',function($q) use ($keyword){
-                $q->where('name','like','%'.$keyword.'%');
-            });
+        })->filterColumn('department_id', function ($query, $keyword){
+               return $query->whereHas('department',function($q) use ($keyword){
+                
+                   return $q->where('name','like','%'.$keyword.'%');
+                });
         });
 
         $dataTable->addColumn('action', 'acl.partials.user-account-action-buttons');
@@ -134,8 +140,8 @@ class UserAccountsDataTable extends DataTable
             'telephone',
             // 'job_title',
             'type',
-            'department',
-            ['title'=>'Status', 'data'=>"disabled"],
+            ['title'=>'DEPARTMENT', 'data'=> "department_id"],
+            ['title'=>'Status', 'data'=> "is_disabled"],
             //'last_login_date'
         ];
     }

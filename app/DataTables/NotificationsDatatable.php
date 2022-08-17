@@ -6,6 +6,10 @@ use App\Models\BroadcastNotification;
 //use App\Models\Semester;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
+use Yajra\DataTables\Html\Button;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
 
 class NotificationsDatatable extends DataTable
 {
@@ -18,7 +22,7 @@ class NotificationsDatatable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-        $dataTable->editColumn('admin_receives', function ($query) {
+        $dataTable->editColumn('broadcast_to', function ($query) {
             $receiversVar = "";
             if($query->managers_receives == 1){   $receiversVar .= "All Managers<br>"; }
             if ($query->lecturers_receives == 1) { $receiversVar .= "All Lecturers<br>"; }
@@ -42,16 +46,8 @@ class NotificationsDatatable extends DataTable
      */
     public function query(BroadcastNotification $model)
     {
-        //return $model->newQuery();
-        if (auth()->user()->student_id != null && auth()->user()->is_platform_admin == 0) {
-            $user_type = 'students_receives';
-        } elseif (auth()->user()->lecturer_id != null && auth()->user()->is_platform_admin == 0) {
-            $user_type = 'lecturers_receives';
-        } elseif (auth()->user()->manager_id != null && auth()->user()->is_platform_admin == 0) {
-            $user_type = 'managers_receives';
-        }
-        
-        return $model->where($user_type, 1);
+        return $model->newQuery();
+       
     }
 
     /**
@@ -88,7 +84,7 @@ class NotificationsDatatable extends DataTable
     {
         return [
             ['title'=>'Subject','data'=>"title"],
-            ['title'=>'Broadcast to','data'=>"admin_receives"],
+            Column::make('broadcast_to'),
             ['title'=>'Created on','data'=>"created_at"],
         ];
     }
