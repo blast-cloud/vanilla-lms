@@ -106,3 +106,16 @@
     </p>
 </div>
 
+<!-- Outline Field -->
+<div id="div_courseClass_level" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('outline', 'Level:', ['class'=>'control-label']) !!} 
+        <span id="spn_courseClass_level">
+        @if (isset($courseClass->level))
+            {!! $courseClass->level !!}
+        @endif
+        </span>
+    </p>
+</div>
+
+

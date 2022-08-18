@@ -212,7 +212,6 @@ $(document).ready(function() {
                         $('#div-announcement-modal-error').append('<li class="">'+value+'</li>');
                         $('#'+key).addClass("input-border-error");
                         $('#'+key).keyup(function(e) {
-                            console.log("got here");
                             if($('#'+key).val() != ''){
                                 $('#'+key).removeClass("input-border-error")
                             }else{

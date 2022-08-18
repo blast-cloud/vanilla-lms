@@ -73,7 +73,7 @@
 </div>
 
 <!-- Level Field -->
-<div id="div-level" class="form-group">
+<div id="div-has_graduated" class="form-group">
 
     <label class="col-sm-3 control-label mb-10">Has Graduated</label>
     <label class="col-sm-2 checkbox-inline" style="margin-left: 20px">

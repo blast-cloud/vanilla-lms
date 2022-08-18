@@ -30,7 +30,7 @@ class CreateCourseAPIRequest extends AppBaseFormRequest
         return [
             'code' => 'required',
             'name' => 'required',
-            'credit_hours' => 'required',
+            'credit_hours' => 'required|gte:0',
             'course_id' => 'required',
             'lecturer_id' => 'required',
             'level' => 'required'
