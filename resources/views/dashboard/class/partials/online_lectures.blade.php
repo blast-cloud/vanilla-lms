@@ -74,7 +74,7 @@
                         @if($current_user->lecturer_id != null)
                             Online class is READY to start, click the Start button to commence the Lecture.
                         @else
-                            Online class has been set, you can click the Join button to Join when the Lecturer starts the Lecture.
+                            Online class is scheduled, you can click on the Join button when the Lecturer starts the Lecture.
                         @endif
                     @elseif ($item->blackboard_meeting_status=="ended") 
                         Online class has ENDED, the lecture recordings will soon be available soon.
