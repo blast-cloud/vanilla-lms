@@ -84,17 +84,17 @@ class SemesterController extends AppBaseController
          /** @var Semester $semester */
         $semester = $this->semesterRepository->find($id);
         
-        $current_semester = Semester::where('is_current', 1)->first();
+       // $current_semester = Semester::where('is_current', 1)->first();
 
         if (empty($semester)) {
             return redirect(route('semesters.index'))->with('error', 'Semester not found');
         }
         if (request()->has('offeredclasses')) {
-            return $SemesterOfferedCoursesDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester, 'current_semester' => $current_semester, ]);
+            return $SemesterOfferedCoursesDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester ]);
         } elseif (request()->has('notifications')) {
-            return $SemesterNotificationsDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester, 'current_semester' => $current_semester, ]);
+            return $SemesterNotificationsDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester]);
         }
-        return $SemesterOfferedCoursesDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester, 'current_semester' => $current_semester, ]);
+        return $SemesterOfferedCoursesDatatable->with('semester_id', $semester->id)->render('semesters.show', ['semester' => $semester]);
     }
 
     /**

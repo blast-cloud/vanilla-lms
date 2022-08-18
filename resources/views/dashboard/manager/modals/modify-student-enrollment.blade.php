@@ -259,6 +259,7 @@
             });
             $('.spinner1').hide();
             $('.input-border-error').removeClass("input-border-error");
+            $('#select2-container').css('border','none');
             $('#div-show-txt-enrollment-primary-id').hide();
             $('#div-edit-txt-enrollment-primary-id').show();
             let itemId = $(this).attr('data-val');

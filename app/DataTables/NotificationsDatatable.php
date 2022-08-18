@@ -22,7 +22,7 @@ class NotificationsDatatable extends DataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-        $dataTable->editColumn('broadcast_to', function ($query) {
+        $dataTable->addColumn('admin_receives', function ($query) {
             $receiversVar = "";
             if($query->managers_receives == 1){   $receiversVar .= "All Managers<br>"; }
             if ($query->lecturers_receives == 1) { $receiversVar .= "All Lecturers<br>"; }
