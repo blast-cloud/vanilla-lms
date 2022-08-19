@@ -121,7 +121,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
-                <h4 id="lbl-student-modal-title" class="modal-title">Bulk Course Class Enrollment</h4>
+                <h4 id="lbl-student-modal-title" class="modal-title">s Enrollment</h4>
             </div>
 
             <div class="modal-body">
@@ -378,9 +378,9 @@
                         $('#enrollment_course_class_id').append(
                             "<option value=''> -- Select course class -- </option>")
                         $.each(response.data, function(k, v) {
+                            let job_title = v.lecturer.job_title ? v.lecturer.job_title : '';
                             $('#enrollment_course_class_id').append("<option value=" + v
-                                .id + ">" + v.code + " -- taught by " + v.lecturer
-                                .job_title + " " + v.lecturer.first_name + " " + v
+                                .id + ">" + v.code + " -- taught by " + job_title  + " " + v.lecturer.first_name + " " + v
                                 .lecturer.last_name + "</option>")
                         })
                     }
