@@ -152,14 +152,14 @@
                                                     <option value="">
                                                         -- Select level --
                                                     </option>
-                                                    @if(count($levels) > 0)
+                                                    @if (count($levels) > 0)
                                                         @foreach ($levels as $level)
                                                             <option value="{{ $level->level }}">
                                                                 {{ $level->name }}
                                                             </option>
                                                         @endforeach
                                                     @endif
-                                                    
+
                                                 </select>
                                             </div>
                                         </div>
@@ -280,11 +280,11 @@
 
                             <input type="hidden" id="txt_re-enrollment_student_id" value="0" />
 
-                           <div class="col-sm-12">
+                            <div class="col-sm-12">
                                 <h5>
                                     Performing this action will re enroll the student into the last level.
-                                </h3>
-                           </div>
+                                    </h3>
+                            </div>
 
                         </div>
                     </div>
@@ -378,9 +378,11 @@
                         $('#enrollment_course_class_id').append(
                             "<option value=''> -- Select course class -- </option>")
                         $.each(response.data, function(k, v) {
-                            let job_title = v.lecturer.job_title ? v.lecturer.job_title : '';
+                            let job_title = v.lecturer.job_title ? v.lecturer.job_title :
+                            '';
                             $('#enrollment_course_class_id').append("<option value=" + v
-                                .id + ">" + v.code + " -- taught by " + job_title  + " " + v.lecturer.first_name + " " + v
+                                .id + ">" + v.code + " -- taught by " + job_title +
+                                " " + v.lecturer.first_name + " " + v
                                 .lecturer.last_name + "</option>")
                         })
                     }
@@ -550,16 +552,30 @@
                                     value + '</li>');
                                 $('#' + key).addClass("input-border-error");
 
-                                $('#' + key).keyup(function(e) {
+                                if (key == 'level' || key == 'sex') {
+                                    $('#' + key).change(function(e) {
+                                        if ($('#' + key).val() != '') {
+                                            $('#' + key).removeClass(
+                                                "input-border-error")
+                                        } else {
+                                            $('#' + key).addClass(
+                                                "input-border-error")
+                                        }
+                                    });
+                                } else {
+                                    $('#' + key).keyup(function(e) {
 
-                                    if ($('#' + key).val() != '') {
-                                        $('#' + key).removeClass(
-                                            "input-border-error")
-                                    } else {
-                                        $('#' + key).addClass(
-                                            "input-border-error")
-                                    }
-                                });
+                                        if ($('#' + key).val() != '') {
+                                            $('#' + key).removeClass(
+                                                "input-border-error")
+                                        } else {
+                                            $('#' + key).addClass(
+                                                "input-border-error")
+                                        }
+                                    });
+                                }
+
+
                             });
                         } else {
                             $('#div-student-modal-error').hide();
@@ -917,11 +933,12 @@
                             let actionType = "POST";
                             let endPointUrl = "{{ route('api.student.re-enroll') }}";
                             let formData = new FormData();
-                            let level = "{{count($levels) > 0 ? $levels->sortByDesc('level')->first()->level:''}}";
+                            let level =
+                                "{{ count($levels) > 0 ? $levels->sortByDesc('level')->first()->level : '' }}";
                             formData.append('_token', $('input[name="_token"]').val());
                             formData.append('_method', actionType);
                             formData.append('level', level);
-                            formData.append('id',   $('#txt_re-enrollment_student_id').val());
+                            formData.append('id', $('#txt_re-enrollment_student_id').val());
 
                             $.ajax({
                                 url: endPointUrl,
