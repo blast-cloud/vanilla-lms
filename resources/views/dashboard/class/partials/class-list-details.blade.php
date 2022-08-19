@@ -25,7 +25,7 @@
                                     <strong style="font-size: 14px">All lecturers assigned to take this course</strong>
                                     <ul >
                                         @foreach($courseClassLecturers as $idx =>$lect)
-                                            <li> <i class="text-primary fa fa-angle-double-right mr-5"></i>{{$lect->lecturer->first_name}} {{$lect->lecturer->last_name}} {{$lect->lecturer->job_title ? $lect->lecturer->job_title : ''}}  {{$lect->lecturer->email}} {{$lect->lecturer->telephone}}</li>
+                                            <li> <i class="text-primary fa fa-angle-double-right mr-5"></i>{{$lect->lecturer->job_title ? $lect->lecturer->job_title : ''}} {{$lect->lecturer->first_name}} {{$lect->lecturer->last_name}} {{$lect->lecturer->email}} {{$lect->lecturer->telephone}}</li>
                                         @endforeach
                                     </ul>
                                 </div>     

@@ -296,6 +296,6 @@ class CourseClass extends Model
 
     public function getCourseClasslecturers(){ 
 
-         return CourseClass::where('course_id',$this->course_id)->where('semester_id',$this->semester_id)->where('lecturer_id', '!=', $this->lecturer_id)->get();
+         return CourseClass::where('course_id',$this->course_id)->where('semester_id',$this->semester_id)->get();
     }
 }
