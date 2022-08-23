@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\BroadcastNotification;
+use App\Models\Semester;
 //use App\Models\Semester;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -44,9 +45,18 @@ class NotificationsDatatable extends DataTable
      * @param \App\Models\BroadcastNotification $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(BroadcastNotification $model)
-    {
-        return $model->newQuery();
+    public function query(BroadcastNotification $model) {
+        $current_semester = Semester::where('is_current',true)->first();
+        if(auth()->user()->student_id == true){
+            return $model->where('semester_id', optional($current_semester)->id)->where('students_receives', '1');
+        }
+        if(auth()->user()->lecturer_id == true){
+            return $model->where('semester_id', optional($current_semester)->id)->where('lecturers_receives', '1');
+        }
+        if(auth()->user()->manager_id == true){
+            return $model->where('semester_id', optional($current_semester)->id)->where('managers_receives', '1');
+        }
+        return $model->where('semester_id', optional($current_semester)->id);
        
     }
 
