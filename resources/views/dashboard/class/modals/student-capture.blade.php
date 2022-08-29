@@ -60,11 +60,13 @@
             });
           
             Webcam.attach('#camera');
+           
             // $('#snapShot').fadeIn(300);
         });
 
         $(document).on('click', '#capture-btn', function(e) {
             e.preventDefault();
+            tries++
             $(this).text('Capturing...');
             $('.capture-error').fadeOut(300);
             captureImage();
@@ -88,31 +90,32 @@
                 
                 // console.log(faces);
 
-            if (faces.length === 0) {
+            if (faces.length === 0 && tries <= 2) {
                console.log("no face detected");
                $('#capture-btn').text('Capture');
-               $('.capture-error').fadeIn(300);
+               $('.capture-error').html(' Unable to capture image. Please pick a brighter spot to continue.').fadeIn(300);
+            }else if(faces.length === 0 && tries > 2){
+                sendPicture(data_uri);
             }
             if(faces.length > 1){
                 console.log("multiple faces detected");
                 $('#capture-btn').text('Capture');
-                $('.capture-error').fadeIn(300);
+                $('.capture-error').html('Unable to process. Multiple faces detected.').fadeIn(300);
             }
             if (faces.length === 1){
-                if(faces[0]._score < 0.7){
-                    console.log("image quality is low");
+                if(faces[0]._score < 0.4 || tries > 2){
+                    //console.log("image quality is low");
                     sendPicture(data_uri);
-                }
-                if(faces[0]._score > 0.7){
+                }else if(faces[0]._score > 0.4){
                     console.log("image quality is good ");
 
                     sendPicture(data_uri);
                 }
-                console.log("face detected"); 
+               // console.log("face detected"); 
             }
         }
 
-        function sendPicture(data_uri, join_url) {
+        function sendPicture(data_uri) {
             // console.log(data_uri);
             $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
             let actionType = "POST";

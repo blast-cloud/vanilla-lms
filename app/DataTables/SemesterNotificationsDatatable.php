@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\BroadcastNotification;
+use App\Models\Semester;
 //use App\Models\Semester;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
@@ -51,7 +52,9 @@ class SemesterNotificationsDatatable extends DataTable
     public function query(BroadcastNotification $model)
     {
         //return $model->newQuery();
-        return $model->where('semester_id', $this->semester_id);
+        $current_semester = Semester::where('is_current',true)->first();
+
+        return $model->where('semester_id', optional($current_semester)->id);
     }
 
     /**
