@@ -19,13 +19,14 @@
             <label class="control-label mb-10 col-sm-3" for="is_current">Select recepient groups</label>
             <div class="col-sm-9">
                 <div class="col-sm-4">
-                    <input type="checkbox" name="managers" id="managers"> All Managers
+
+                    <input type="checkbox" name="managers" id="managers"> <label for="managers">All Managers</label>
                 </div>
                 <div class="col-sm-4">
-                    <input type="checkbox" name="lecturers" id="lecturers"> All Lecturers
+                    <input type="checkbox" name="lecturers" id="lecturers"> <label for="lecturers">All Lecturers</label>
                 </div>
                 <div class="col-sm-4">
-                    <input type="checkbox" name="students" id="students"> All Students
+                    <input type="checkbox" name="students" id="students"> <label for="students">All Students</label>
                 </div>
             </div>
         </div>

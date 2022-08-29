@@ -80,34 +80,26 @@ class BroadcastNotificationController extends AppBaseController
     }
 
     public function broadcastNotificationTo($eligible_receivers, $input, $broadcastNotificationID){ 
-        $strArgs = '';
-        $arrArgs = [];
-        foreach ($eligible_receivers as $key) {
-            if ($key == 'managers_receives') {
-                if ($strArgs == '') {
-                    $strArgs .= 'manager_id != ?';
-                } else {
-                    $strArgs .= ' or manager_id != ?';
+
+        $users = User::where(function ($query) use ($input) {
+                if ($input['managers_receives'] == '1') {
+                    $query->whereNotNull('manager_id')
+                    ->where('is_disabled', false);
                 }
-                array_push($arrArgs, 'null');
-            } elseif ($key == 'lecturers_receives') {
-                if ($strArgs == '') {
-                    $strArgs .= 'lecturer_id != ?';
-                } else {
-                    $strArgs .= ' or lecturer_id != ?';
+            })
+            ->orWhere(function ($query) use ($input) {
+                if ($input['lecturers_receives'] == '1') {
+                    $query->whereNotNull('lecturer_id')
+                    ->where('is_disabled', false);
                 }
-                array_push($arrArgs, 'null');
-            } elseif ($key == 'students_receives') {
-                if ($strArgs == '') {
-                    $strArgs .= 'student_id != ?';
-                } else {
-                    $strArgs .= ' or student_id != ?';
+            })
+            ->orWhere(function ($query) use ($input) {
+                if ($input['students_receives'] == '1') {
+                    $query->whereNotNull('student_id')
+                    ->where('is_disabled', false);
                 }
-                array_push($arrArgs, 'null');
-            }
-        }
-        
-        $users = User::whereRaw("$strArgs", $arrArgs)->get();
+            }) 
+            ->get();
         
         BroadcastNotificationJob::dispatch($users, $input);
         
