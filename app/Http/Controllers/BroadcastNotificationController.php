@@ -60,26 +60,11 @@ class BroadcastNotificationController extends AppBaseController
         $broadcastNotificationID = $this->broadcastNotificationRepository->create($input)->id;
         //Flash::success('Notification saved and broadcated successfully.');
 
-        //Broadcast  logic
-        $eligible_receivers = [];
-        $get_managers_receives_status = $input['managers_receives'];
-        $get_lecturers_receives_status = $input['lecturers_receives'];
-        $get_students_receives_status = $input['students_receives'];
-
-        if ($get_managers_receives_status == 1) {
-            array_push($eligible_receivers, 'managers_receives');
-        }
-        if ($get_lecturers_receives_status == 1) {
-            array_push($eligible_receivers, 'lecturers_receives');
-        }
-        if ($get_students_receives_status == 1) {
-            array_push($eligible_receivers, 'students_receives');
-        }
-        
-        return $this->broadcastNotificationTo($eligible_receivers, $input, $broadcastNotificationID);
+        //Broadcast  method
+        return $this->broadcastNotificationTo($input, $broadcastNotificationID);
     }
 
-    public function broadcastNotificationTo($eligible_receivers, $input, $broadcastNotificationID){ 
+    public function broadcastNotificationTo($input, $broadcastNotificationID){ 
 
         $users = User::where(function ($query) use ($input) {
                 if ($input['managers_receives'] == '1') {
