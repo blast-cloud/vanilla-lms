@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+    @php
+    $state = '';
+    $clientId = env('BIMS_CLIENT_ID');
+    if(Session::has('state'))
+    {
+        $state = Session::get('state');
+    }else{
+        $length = 32;
+        $state = Session::put('state', bin2hex(random_bytes($length/2)));
+        $state = Session::get('state');
+    }
+    @endphp
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -294,6 +306,12 @@
                                 
                                                                             <div class="form-group text-center">
                                                                                 <button type="submit" class="btn btn-primary">Log in</button>
+                                                                            </div>
+
+                                                                            <div class="mt-3">
+                                                                                <a class=" border-2 bg-white flex w-full text-black py-2 px-5 rounded" type="button" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri=http://localhost:8000&state={{$state}}">
+                                                                                  <div class="flex-1 w-28"><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 45px;" alt=""></div> <div class="flex-1 px-2 text-lg py-3" ><span style="color: green">Continue with BIMS</span></div>
+                                                                                </a>
                                                                             </div>
                                                                             
                                                                         </div>	

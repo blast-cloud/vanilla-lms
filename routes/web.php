@@ -23,7 +23,7 @@ Route::get('/bbb-conf', function () {
     dd(\Bigbluebutton::isConnect()); //default
 })->name('bbb-conf');
 
-
+Route::get('/bims/login', [\App\Http\Controllers\Auth\BimsController::class, 'login'])->name('bims.login');
 Route::get('dashboard/class/{id}/end-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processEndOnlineLecture'])->name('dashboard.class.end-lecture');
 Route::get('dashboard/class/{id}/record-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processRecordingOnlineLecture'])->name('dashboard.class.record-lecture');
 
@@ -54,6 +54,7 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     
     Route::middleware('isStudent')->group(function () {
         Route::get('dashboard/student', [App\Http\Controllers\Dashboard\StudentDashboardController::class, 'index'])->name('dashboard.student');
+
     });
 
     Route::middleware('isManager')->group(function () {
