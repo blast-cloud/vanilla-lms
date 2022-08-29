@@ -47,6 +47,13 @@ class FrontEndController extends AppBaseController
      */
     public function index(Request $request)
     {
+        $current_user = Auth()->user();
+        if($request->has('code') && $request->has('state')){
+         
+            return redirect()->route('bims.login',['code' => $request->get('code'),'state' => $request->get('state')]);
+            
+        }
+        
         return view('welcome');
     }
 

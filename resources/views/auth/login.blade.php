@@ -1,5 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+    @php
+    $state = '';
+    $clientId = env('BIMS_CLIENT_ID');
+    if(Session::has('state'))
+    {
+        $state = Session::get('state');
+    }else{
+        $length = 32;
+        $state = Session::put('state', bin2hex(random_bytes($length/2)));
+        $state = Session::get('state');
+    }
+    @endphp
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -295,6 +307,12 @@
                                                                             <div class="form-group text-center">
                                                                                 <button type="submit" class="btn btn-primary">Log in</button>
                                                                             </div>
+
+                                                                            <div class="">
+                                                                                <a class="btn btn-primary" role="button" style="border-radius:10px" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri=http://localhost:8000&state={{$state}}">
+                                                                                  <div class=""><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt=""></div> <div class="" ><span style="color: white">Continue with BIMS</span></div>
+                                                                                </a>
+                                                                            </div>
                                                                             
                                                                         </div>	
                                                                     </div>
@@ -304,8 +322,6 @@
                                                         <!-- /Row -->	
 
                                                     </form>
-
-
 
                                             </div>
                                             
