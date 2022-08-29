@@ -308,9 +308,9 @@
                                                                                 <button type="submit" class="btn btn-primary">Log in</button>
                                                                             </div>
 
-                                                                            <div class="mt-3">
-                                                                                <a class=" border-2 bg-white flex w-full text-black py-2 px-5 rounded" type="button" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri=http://localhost:8000&state={{$state}}">
-                                                                                  <div class="flex-1 w-28"><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 45px;" alt=""></div> <div class="flex-1 px-2 text-lg py-3" ><span style="color: green">Continue with BIMS</span></div>
+                                                                            <div class="">
+                                                                                <a class="btn btn-primary" role="button" style="border-radius:10px" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri=http://localhost:8000&state={{$state}}">
+                                                                                  <div class=""><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt=""></div> <div class="" ><span style="color: white">Continue with BIMS</span></div>
                                                                                 </a>
                                                                             </div>
                                                                             
@@ -322,8 +322,6 @@
                                                         <!-- /Row -->	
 
                                                     </form>
-
-
 
                                             </div>
                                             
