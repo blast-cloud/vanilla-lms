@@ -125,6 +125,15 @@ class StudentController extends AppBaseController
      */
     public function update($id, UpdateStudentRequest $request)
     {
+        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), [
+            'client_id' => env('BIMS_CLIENT_ID'),
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->telephone,
+            'gender' => "M"
+        ]);
+        
         $student = $this->studentRepository->find($id);
 
         if (empty($student)) {
