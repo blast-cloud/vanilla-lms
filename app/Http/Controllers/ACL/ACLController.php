@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UpdateUserPasswordResetRequest;
 use App\Http\Requests\API\BulkUsersApiRequest;
+use Illuminate\Support\Facades\Http;
 
 use App\Repositories\StudentRepository;
 use App\Repositories\ManagerRepository;
@@ -124,6 +125,15 @@ class ACLController extends AppBaseController
     }
 
     public function updateUserAccount(UpdateUserRequest $request, $id){
+      
+        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), [
+            'client_id' => env('BIMS_CLIENT_ID'),
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->telephone,
+            'gender' => "M"
+        ]);
 
         if($id != '0'){
             $current_user = User::find($id);

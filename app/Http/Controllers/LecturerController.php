@@ -14,6 +14,7 @@ use App\Repositories\LecturerRepository;
 use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
+use Illuminate\Support\Facades\Http;
 
 class LecturerController extends AppBaseController
 {
@@ -55,6 +56,15 @@ class LecturerController extends AppBaseController
      */
     public function store(CreateLecturerRequest $request)
     {
+        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), [
+            'client_id' => env('BIMS_CLIENT_ID'),
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->telephone,
+            'gender' => "M"
+        ]);
+
         $input = $request->all();
 
         $lecturer = $this->lecturerRepository->create($input);
