@@ -144,24 +144,26 @@
 		</div>
 		<!--/Preloader-->
 
-        <div class="wrapper pa-0">
-                
+        <div class="wrapper pa-0">         
             <header class="sp-header">
-                <div class="sp-logo-wrap pull-left">
-                    <a href="/">
-                        @if (isset($app_settings['file_icon_picture']))
-                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
-                        @endif
-                        <span class="brand-text">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
-                    </a>
+                <div class="col-xs-12" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px;">
+                    <div class="sp-logo-wrap pull-left" style="width: auto;">
+                        <a href="/">
+                            @if (isset($app_settings['file_icon_picture']))
+                                <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
+                            @endif
+                            <span class="brand-text text-left pull-left" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                    </div>
+                    @if (isset($app_settings['txt_official_website']))
+                        <div class="form-group mb-0 pull-right text-right" style="width: auto;"><br>
+                            <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_official_website'] }}">Portal</a>
+                        </div>
+                    @endif
+                    <div class="clearfix"></div>
                 </div>
-                <div class="form-group mb-0 pull-right">
-                    {{-- <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="/">Home</a> --}}
-                </div>
-                <div class="clearfix"></div>
             </header>
 
-            <div class="page-wrapper pa-20 ma-0">
+            <div class="page-wrapper ma-0">
                 <div class="container-fluid">
 
                     <div class="row mt-50 ">
@@ -353,7 +355,7 @@
                                                 </h6>
                                             </div>
                                             <div class="col-lg-12 text-center mt-20 auth-actions">
-                                                <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
+                                                <a class="btn btn-success btn-lg" href="{{ route('login') }}" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!};">Login</a>
 
                                                 @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
                                                 <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a>
@@ -399,7 +401,7 @@
 
                 </div>
 
-                <footer class="footer container-fluid pl-30 pr-30"> 
+                <footer class="footer container-fluid pl-30 pr-30" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-top: 10px;"> 
                     <div class="row">
                         <div class="col-sm-5" style="font-size:80%">
                             {{-- {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a> --}}

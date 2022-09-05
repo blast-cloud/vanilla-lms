@@ -80,6 +80,7 @@ class ArchieveController extends AppBaseController
         'txt_portal_contact_name',
         'txt_portal_contact_email',
         'txt_maximum_enrollment_limit',
+        'txt_school_home_color',
     ];
 
     public function __construct(DepartmentRepository $departmentRepo, 
