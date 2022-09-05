@@ -175,14 +175,21 @@
                                 <div class="panel panel-default card-view">
                                     <div class="panel-wrapper collapse in">
                                         <div class="panel-body pt-5" style="">
-                                            
-                                            <div class="col-lg-12 text-center mt-10">
+                                            <div class="col-sm-6">
+                                                <a class="btn btn-success col-xs-6 pull-left" role="button" style="border-radius:10px; background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!};" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri={{$redirectUrl}}&state={{$state}}">
+                                                  <div class=""><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt=""></div> <div class="" ><span style="color: white">Continue with BIMS</span></div>
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <button class="btn btn-success col-xs-6 pull-right" role="button" onclick="" id="lms_toggle_login_form" style="border-radius:10px; background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!};" href="">
+                                                  <div class=""><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt=""></div> <div class="" ><span style="color: white"><span class="fa fa-arrow-down"></span> Login Now</span></div>
+                                                </button>
+                                            </div>
 
+                                            <div style="display: block;" id="lms_login_form" class="col-lg-12 text-center">
 
                                                 <form method="post" action="{{ url('/login') }}">
-                                                    @csrf
-                                
-                                                        
+                                                    @csrf              
                                                         
                                                         <!-- Row -->
                                                         <div class="table-struct full-width ">
@@ -309,14 +316,9 @@
                                 
                                                                             <div class="form-group text-center">
                                                                                 <button type="submit" class="btn btn-primary">Log in</button>
-                                                                            </div>
+                                                                            </div>  
 
-                                                                            <div class="">
-                                                                                <a class="btn btn-success" role="button" style="border-radius:10px" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri={{$redirectUrl}}&state={{$state}}">
-                                                                                  <div class=""><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt=""></div> <div class="" ><span style="color: white">Continue with BIMS</span></div>
-                                                                                </a>
-                                                                            </div>
-                                                                            
+                                                                            <!-- took out bims clickable -->                      
                                                                         </div>	
                                                                     </div>
                                                                 </div>
