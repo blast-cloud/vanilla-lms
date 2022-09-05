@@ -64,9 +64,16 @@ class AppServiceProvider extends ServiceProvider
                                         ->toArray();
         }
         if(Schema::hasTable('semesters')){
-            $current_semester = Semester::where('is_current',true)->first();
-            View::share('current_semester',$current_semester);
+            try{
+                
+                $current_semester = Semester::where('is_current',true)->first();
+                View::share('current_semester',$current_semester);
+
+            } catch (\Illuminate\Database\QueryException $e) {
+                Log::info("Unable to set current semester");
+            }
         }
+
         View::share('app_settings', $app_settings);
         Schema::DefaultStringLength(191);
     }
