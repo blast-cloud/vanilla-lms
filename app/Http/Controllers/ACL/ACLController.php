@@ -125,15 +125,23 @@ class ACLController extends AppBaseController
     }
 
     public function updateUserAccount(UpdateUserRequest $request, $id){
-      
-        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), [
+
+        $bims_data = [
             'client_id' => env('BIMS_CLIENT_ID'),
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'phone' => $request->telephone,
             'gender' => "M"
-        ]);
+        ];
+
+        if ($request->sex == 'Male') {
+            $bims_data['gender'] = "M";
+        } else {
+            $bims_data['gender'] = "F";
+        }
+      
+        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
 
         if($id != '0'){
             $current_user = User::find($id);
