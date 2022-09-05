@@ -3,6 +3,7 @@
     @php
     $state = '';
     $clientId = env('BIMS_CLIENT_ID');
+    $redirectUrl = env('BIMS_REDIRECT_URL');
     if(Session::has('state'))
     {
         $state = Session::get('state');
@@ -309,7 +310,7 @@
                                                                             </div>
 
                                                                             <div class="">
-                                                                                <a class="btn btn-success" role="button" style="border-radius:10px" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri=http://localhost:8000&state={{$state}}">
+                                                                                <a class="btn btn-success" role="button" style="border-radius:10px" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri={{$redirectUrl}}&state={{$state}}">
                                                                                   <div class=""><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt=""></div> <div class="" ><span style="color: white">Continue with BIMS</span></div>
                                                                                 </a>
                                                                             </div>
