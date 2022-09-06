@@ -144,23 +144,41 @@
 		</div>
 		<!--/Preloader-->
 
-        <div class="wrapper pa-0">         
+        <div class="wrapper pa-0">      
             <header class="sp-header">
-                <div class="col-xs-12" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px;">
-                    <div class="sp-logo-wrap pull-left" style="width: auto;">
-                        <a href="/">
-                            @if (isset($app_settings['file_icon_picture']))
-                                <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
-                            @endif
-                            <span class="brand-text text-left pull-left" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                @if (isset($app_settings['txt_school_home_color']))
+                    <div class="col-xs-12 pl-30" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px; height: auto;">
+                        @if (isset($app_settings['txt_official_website']))
+                            <div class="pull-left pt-5">
+                                <strong style="color: black;">SCHOOL WEBSITE : </strong> 
+                                <a class="inline-block ml-10" style="color: black;" href="{{ $app_settings['txt_official_website'] }}" title="Visit {{ $app_settings['txt_official_website'] }}">
+                                   {{ strtolower($app_settings['txt_official_website']) }} 
+                                </a>
+                            </div>
+                        @endif
+                        @if (isset($app_settings['txt_official_email'])|| isset($app_settings['txt_portal_contact_phone']))
+                            <div class="pull-right text-left pt-5">
+                                @if (isset($app_settings['txt_official_email']))
+                                    <strong style="color: black;">Email : </strong>
+                                    <a class="inline-block" style="color: black;" href="mailto:{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_official_email'] }}"> {{ strtolower($app_settings['txt_official_email']) }} </a>
+                                @endif
+                                @if (isset($app_settings['txt_portal_contact_phone']))
+                                    <strong style="color: black;" class="pl-10">Tel : </strong>
+                                    <a class="inline-block" style="color: black;" href="tel:{{ $app_settings['txt_portal_contact_phone'] }}" title="{{ $app_settings['txt_portal_contact_phone'] }}"> {{ strtolower($app_settings['txt_portal_contact_phone']) }} </a>
+                                @endif
+                            </div>
+                        @endif
                     </div>
-                    @if (isset($app_settings['txt_official_website']))
-                        <div class="form-group mb-0 pull-right text-right" style="width: auto;"><br>
-                            <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_official_website'] }}">Portal</a>
-                        </div>
-                    @endif
-                    <div class="clearfix"></div>
+                @endif
+                <div class="sp-logo-wrap pull-left" style="width: auto;">
+                    <a href="/">
+                        @if (isset($app_settings['file_icon_picture']))
+                            <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
+                        @endif
+                        <span class="brand-text text-left pull-left" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                    </a>
                 </div>
+                <div class="clearfix"></div>
             </header>
 
             <div class="page-wrapper ma-0">
@@ -175,18 +193,28 @@
                                 <div class="panel panel-default card-view">
                                     <div class="panel-wrapper collapse in">
                                         <div class="panel-body pt-5" style="">
-                                            <div class="col-sm-6">
-                                                <a class="btn btn-success col-xs-6 pull-left" role="button" style="border-radius:10px; background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!};" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri={{$redirectUrl}}&state={{$state}}">
-                                                  <div class=""><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt=""></div> <div class="" ><span style="color: white">Continue with BIMS</span></div>
-                                                </a>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <button class="btn btn-success col-xs-6 pull-right" role="button" onclick="" id="lms_toggle_login_form" style="border-radius:10px; background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!};" href="">
-                                                  <div class=""><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt=""></div> <div class="" ><span style="color: white"><span class="fa fa-arrow-down"></span> Login Now</span></div>
-                                                </button>
+                                            <div class="col-sm-12 mt-20">
+                                                <div class="col-sm-3"></div>
+                                                <div class="col-sm-6">
+                                                    <a class="btn btn-success mt-10" role="button" style="border-radius:10px;  width: 100%;" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri={{$redirectUrl}}&state={{$state}}">
+                                                        <div class="">
+                                                            <img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt="">
+                                                        </div>
+                                                        <div class="" >
+                                                            <span style="color: white">Continue with BIMS</span>
+                                                        </div>
+                                                    </a>
+                                                    <button class="btn btn-primary mt-40" id="lms_toggle_login_form" style="border-radius:10px; background-color: white;">                                    
+                                                        <span style="color: black;">
+                                                            <span class="fa fa-angle-down" id="lms_login_icon_1" style="display: inline-block;"></span>
+                                                            <span class="fa fa-angle-up" id="lms_login_icon_2" style="display: none;"></span>
+                                                             Login Directly
+                                                        </span>
+                                                    </button>
+                                                </div>
                                             </div>
 
-                                            <div style="display: block;" id="lms_login_form" class="col-lg-12 text-center">
+                                            <div style="display: none;" id="lms_login_form" class="col-lg-12 text-center">
 
                                                 <form method="post" action="{{ url('/login') }}">
                                                     @csrf              
@@ -357,7 +385,7 @@
                                                 </h6>
                                             </div>
                                             <div class="col-lg-12 text-center mt-20 auth-actions">
-                                                <a class="btn btn-success btn-lg" href="{{ route('login') }}" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!};">Login</a>
+                                                <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
 
                                                 @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
                                                 <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a>
@@ -403,7 +431,7 @@
 
                 </div>
 
-                <footer class="footer container-fluid pl-30 pr-30" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-top: 10px;"> 
+                <footer class="footer container-fluid pl-30 pr-30"> 
                     <div class="row">
                         <div class="col-sm-5" style="font-size:80%">
                             {{-- {{ date('Y') }} &copy; ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a> --}}
@@ -454,6 +482,12 @@
 
                     // toggle icon class
                     icon.toggleClass('fa-eye-slash fa-eye')
+                })
+                $("#lms_toggle_login_form").on('click', function(e) {
+                    e.preventDefault()
+                    $('#lms_login_form').slideToggle('slow');
+                    $('#lms_login_icon_1').toggle();
+                    $('#lms_login_icon_2').toggle();
                 })
         });
         </script>
