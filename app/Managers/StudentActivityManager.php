@@ -65,6 +65,7 @@ class StudentActivityManager{
         'txt_portal_contact_email',
         'txt_maximum_enrollment_limit',
         'txt_school_home_color',
+        'txt_school_text_color'
     ];
     
 

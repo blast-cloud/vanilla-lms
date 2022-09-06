@@ -134,25 +134,30 @@
 
         <div class="wrapper pa-0">    
             <header class="sp-header">
-                @if (isset($app_settings['txt_school_home_color']))
+                @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
                     <div class="col-xs-12 pl-30" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px; height: auto;">
                         @if (isset($app_settings['txt_official_website']))
                             <div class="pull-left pt-5">
-                                <strong style="color: black;">SCHOOL WEBSITE : </strong> 
-                                <a class="inline-block ml-10" style="color: black;" href="{{ $app_settings['txt_official_website'] }}" title="Visit {{ $app_settings['txt_official_website'] }}">
-                                   {{ strtolower($app_settings['txt_official_website']) }} 
-                                </a>
+                                <strong> 
+                                    <a class="inline-block ml-10" target="_blank" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};" href="{{ $app_settings['txt_official_website'] }}" title="Visit {{ $app_settings['txt_official_website'] }}">
+                                       Go to School Website 
+                                    </a>
+                                </strong> 
                             </div>
                         @endif
-                        @if (isset($app_settings['txt_official_email'])|| isset($app_settings['txt_portal_contact_phone']))
-                            <div class="pull-right text-left pt-5">
-                                @if (isset($app_settings['txt_official_email']))
-                                    <strong style="color: black;">Email : </strong>
-                                    <a class="inline-block" style="color: black;" href="mailto:{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_official_email'] }}"> {{ strtolower($app_settings['txt_official_email']) }} </a>
+                        @if (isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone']))
+                            <div class="pull-right text-left pt-5" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                @if (isset($app_settings['txt_portal_contact_email']))
+                                    <strong>Email : </strong>
+                                    <a class="inline-block" href="mailto:{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_portal_contact_email'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};"> 
+                                        {{ strtolower($app_settings['txt_portal_contact_email']) }} 
+                                    </a>
                                 @endif
                                 @if (isset($app_settings['txt_portal_contact_phone']))
-                                    <strong style="color: black;" class="pl-10">Tel : </strong>
-                                    <a class="inline-block" style="color: black;" href="tel:{{ $app_settings['txt_portal_contact_phone'] }}" title="{{ $app_settings['txt_portal_contact_phone'] }}"> {{ strtolower($app_settings['txt_portal_contact_phone']) }} </a>
+                                    <strong class="pl-10">Tel : </strong>
+                                    <a class="inline-block" href="tel:{{ $app_settings['txt_portal_contact_phone'] }}" title="{{ $app_settings['txt_portal_contact_phone'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                        {{ strtolower($app_settings['txt_portal_contact_phone']) }}
+                                    </a>
                                 @endif
                             </div>
                         @endif
