@@ -35,7 +35,7 @@ class BimsController extends AppBaseController
                     "client_id" => env('BIMS_CLIENT_ID'),
                     "client_secret" => env('BIMS_CLIENT_SECRET'),
                     "code" => $request->get('code'),
-                    "redirect_uri" => "http://localhost:8000",
+                    "redirect_uri" => env('BIMS_REDIRECT_URL'),
                 ])->throw(function ($response, $e) {
                     //
                 });

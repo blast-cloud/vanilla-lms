@@ -132,29 +132,54 @@
 		</div>
 		<!--/Preloader-->
 
-        <div class="wrapper pa-0">
-                
+        <div class="wrapper pa-0">    
             <header class="sp-header">
-                <div class="sp-logo-wrap pull-left">
+                @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+                    <div class="col-xs-12 pl-30" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px; height: auto;">
+                        @if (isset($app_settings['txt_official_website']))
+                            <div class="pull-left pt-5">
+                                <strong> 
+                                    <a class="inline-block ml-10" target="_blank" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};" href="{{ $app_settings['txt_official_website'] }}" title="Visit {{ $app_settings['txt_official_website'] }}">
+                                       Go to School Website 
+                                    </a>
+                                </strong> 
+                            </div>
+                        @endif
+                        @if (isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone']))
+                            <div class="pull-right text-left pt-5" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                @if (isset($app_settings['txt_portal_contact_email']))
+                                    <strong>Email : </strong>
+                                    <a class="inline-block" href="mailto:{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_portal_contact_email'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};"> 
+                                        {{ strtolower($app_settings['txt_portal_contact_email']) }} 
+                                    </a>
+                                @endif
+                                @if (isset($app_settings['txt_portal_contact_phone']))
+                                    <strong class="pl-10">Tel : </strong>
+                                    <a class="inline-block" href="tel:{{ $app_settings['txt_portal_contact_phone'] }}" title="{{ $app_settings['txt_portal_contact_phone'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                        {{ strtolower($app_settings['txt_portal_contact_phone']) }}
+                                    </a>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+                @endif
+                <div class="sp-logo-wrap pull-left" style="width: auto;">
                     <a href="/">
                         @if (isset($app_settings['file_icon_picture']))
-                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
+                            <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
                         @endif
-                        <span class="brand-text">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                        <span class="brand-text text-left pull-left" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
                     </a>
-                </div>
-                <div class="form-group mb-0 pull-right">
-                    {{-- <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="/">Home</a> --}}
                 </div>
                 <div class="clearfix"></div>
             </header>
 
-            <div class="page-wrapper pa-20 ma-0">
-                <div class="container-fluid">
 
+
+            <div class="page-wrapper ma-0">
+                <div class="container-fluid">
                     <div class="row mt-50 ">
                         <div class="col-lg-8">
-
                             <div class="image-container">
                                 @if (isset($app_settings['file_landing_page_picture']))
                                 <img src="{{ asset($app_settings['file_landing_page_picture']) }}" width="85%" />
@@ -171,7 +196,7 @@
                                         <div class="panel-body pt-5" style="">
                                 
                                             <div class="col-lg-12 text-center">
-                                                @if (isset($app_settings['file_high_res_picture']))
+                                               @if (isset($app_settings['file_high_res_picture']))
                                                     <img src= "{{ asset($app_settings['file_high_res_picture']) }}" style="width:100px;height:100px;" class="user-auth-img">
                                                 @endif
                                                 <h3 class="text-center txt-dark mb-10">

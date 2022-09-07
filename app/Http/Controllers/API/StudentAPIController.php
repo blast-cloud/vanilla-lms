@@ -6,6 +6,7 @@ use App\Events\StudentCreated;
 use App\Events\StudentUpdated;
 use App\Events\StudentDeleted;
 
+use Illuminate\Support\Facades\Http;
 use App\Http\Requests\API\CreateStudentAPIRequest;
 use App\Http\Requests\API\UpdateStudentAPIRequest;
 use App\Http\Requests\API\BulkStudentApiRequest;
@@ -18,6 +19,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\StudentResource;
 use Response;
+
 
 /**
  * Class StudentController
@@ -311,19 +313,35 @@ class StudentAPIController extends AppBaseController
                     array_push($errors, $invalids);
                     continue;
                   }else{
+                    $bims_data = [
+                        'client_id' => env('BIMS_CLIENT_ID'),
+                        'first_name' => $data[1],
+                        'last_name' => $data[2],
+                        'email' => $data[0],
+                        'phone' => $data[4],
+                        'gender' => "M"
+                    ];
+                    if ($data[3] == 'Male') {
+                        $bims_data['gender'] = "M";
+                    } else {
+                        $bims_data['gender'] = "F";
+                    }       
+                    $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
+                    
                     $student_data = array_merge($request->input(), [
                         'email' => $data[0],
-                        'matriculation_number' => $data[1],
-                        'first_name' => $data[2],
-                        'last_name' => $data[3],
+                        'first_name' => $data[1],
+                        'last_name' => $data[2],
                         'telephone' => $data[4],
+                        'sex' => $data[3],
+                        'matriculation_number' => $data[5],
                       ]);     
                     $student = Student::create($student_data); 
                     StudentCreated::dispatch($student);
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (strtolower($headers[1]) != 'matric') {
+                    if (strtolower($headers[0]) != 'email') {
                         $invalids['inc'] = 'The file format is incorrect. Must be - "email,matriculation_number,first_name,last_name,telephone"';
                         array_push($errors, $invalids);
                         break;
@@ -362,9 +380,9 @@ class StudentAPIController extends AppBaseController
         }
 
         // validate matric number
-        $student = Student::where('matriculation_number', $data[1])->first();
+        $student = Student::where('matriculation_number', $data[5])->first();
         if ($student) {
-            $errors[] = 'The matriculation number: '.$data[1].' already belongs to a student';
+            $errors[] = 'The matriculation number: '.$data[5].' already belongs to a student';
         }
 
         // validate phone number

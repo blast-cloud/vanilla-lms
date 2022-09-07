@@ -95,7 +95,9 @@ class AdminDashboardController extends AppBaseController
         'txt_portal_contact_name',
         'txt_portal_contact_email',
         'txt_maximum_enrollment_limit',
-        'txt_school_max_level'
+        'txt_school_home_color',
+        'txt_school_max_level',
+        'txt_school_text_color'
     ];
 
     public function __construct(DepartmentRepository $departmentRepo, 
@@ -165,7 +167,6 @@ class AdminDashboardController extends AppBaseController
                                 ->allWhereInQuery(['key'=>$this->setting_keys],null,100)
                                 ->pluck('id','key')
                                 ->toArray();
-        
         foreach($this->setting_keys as $key){
             $is_newly_created = false;
 

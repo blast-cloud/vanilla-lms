@@ -449,8 +449,20 @@
         .navbar.navbar-inverse.navbar-fixed-top .nav-header{
             overflow: inherit !important;
         }*/
-
-        
+            #nav-header-div {
+                margin-top:68px;
+            }
+            #user_top_dashboad_div, #side_bar_div{
+                margin-top:120px;
+            }
+            @media screen and (min-width: 600px){
+                #user_top_dashboad_div{
+                    margin-top:80px;
+                }
+                #nav-header-div, #side_bar_div {
+                    margin-top:40px;
+                }
+            }        
 
         </style>
     </head>
@@ -466,7 +478,7 @@
             @include('layouts.sidebar')
 
             <!-- Main Content -->
-            <div class="page-wrapper">
+            <div class="page-wrapper" id="user_top_dashboad_div">
                 <div class="container-fluid">
                     <!-- Title -->
                     <div class="row heading-bg">

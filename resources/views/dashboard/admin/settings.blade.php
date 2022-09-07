@@ -96,6 +96,18 @@ Admin Settings
                                         {!! Form::number('txt_school_max_level', $db_settings['txt_school_max_level']??"", ['id'=>'txt_school_max_level','class' => 'form-control']) !!}
                                     </div>
                                 </div>
+                                <div class="row form-group">
+                                    <label class="control-label mb-10 col-sm-3" for="txt_school_home_color">School Primary Color</label>
+                                    <div class="col-sm-6">
+                                        {!! Form::color('txt_school_home_color', $db_settings['txt_school_home_color']??"", ['id'=>'txt_school_home_color','class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="control-label mb-10 col-sm-3" for="txt_school_text_color">Text Color</label>
+                                    <div class="col-sm-6">
+                                        {!! Form::color('txt_school_text_color', $db_settings['txt_school_text_color']??"", ['id'=>'txt_school_text_color','class' => 'form-control']) !!}
+                                    </div>
+                                </div>
                                 {{-- <div class="row form-group">
                                     <label class="control-label mb-10 col-sm-5" for="cbx_display_course_list">Display Online Courses on Home Page</label>
                                     <div class="col-sm-1">

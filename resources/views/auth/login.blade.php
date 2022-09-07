@@ -3,6 +3,7 @@
     @php
     $state = '';
     $clientId = env('BIMS_CLIENT_ID');
+    $redirectUrl = env('BIMS_REDIRECT_URL');
     if(Session::has('state'))
     {
         $state = Session::get('state');
@@ -143,24 +144,49 @@
 		</div>
 		<!--/Preloader-->
 
-        <div class="wrapper pa-0">
-                
+        <div class="wrapper pa-0">      
             <header class="sp-header">
-                <div class="sp-logo-wrap pull-left">
+                @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+                    <div class="col-xs-12 pl-30" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px; height: auto;">
+                        @if (isset($app_settings['txt_official_website']))
+                            <div class="pull-left pt-5">
+                                <strong> 
+                                    <a class="inline-block ml-10" target="_blank" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};" href="{{ $app_settings['txt_official_website'] }}" title="Visit {{ $app_settings['txt_official_website'] }}">
+                                       Go to School Website 
+                                    </a>
+                                </strong> 
+                            </div>
+                        @endif
+                        @if (isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone']))
+                            <div class="pull-right text-left pt-5" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                @if (isset($app_settings['txt_portal_contact_email']))
+                                    <strong>Email : </strong>
+                                    <a class="inline-block" href="mailto:{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_portal_contact_email'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};"> 
+                                        {{ strtolower($app_settings['txt_portal_contact_email']) }} 
+                                    </a>
+                                @endif
+                                @if (isset($app_settings['txt_portal_contact_phone']))
+                                    <strong class="pl-10">Tel : </strong>
+                                    <a class="inline-block" href="tel:{{ $app_settings['txt_portal_contact_phone'] }}" title="{{ $app_settings['txt_portal_contact_phone'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                        {{ strtolower($app_settings['txt_portal_contact_phone']) }}
+                                    </a>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+                @endif
+                <div class="sp-logo-wrap pull-left" style="width: auto;">
                     <a href="/">
                         @if (isset($app_settings['file_icon_picture']))
-                        <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
+                            <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
                         @endif
-                        <span class="brand-text">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                        <span class="brand-text text-left pull-left" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
                     </a>
-                </div>
-                <div class="form-group mb-0 pull-right">
-                    {{-- <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="/">Home</a> --}}
                 </div>
                 <div class="clearfix"></div>
             </header>
 
-            <div class="page-wrapper pa-20 ma-0">
+            <div class="page-wrapper ma-0">
                 <div class="container-fluid">
 
                     <div class="row mt-50 ">
@@ -172,14 +198,31 @@
                                 <div class="panel panel-default card-view">
                                     <div class="panel-wrapper collapse in">
                                         <div class="panel-body pt-5" style="">
-                                            
-                                            <div class="col-lg-12 text-center mt-10">
+                                            <div class="col-sm-12 mt-20">
+                                                <div class="col-sm-3"></div>
+                                                <div class="col-sm-6">
+                                                    <a class="btn btn-success mt-10" role="button" style="border-radius:10px;  width: 100%;" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri={{$redirectUrl}}&state={{$state}}">
+                                                        <div class="">
+                                                            <img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt="">
+                                                        </div>
+                                                        <div class="" >
+                                                            <span style="color: white">Continue with BIMS</span>
+                                                        </div>
+                                                    </a>
+                                                    <button class="btn btn-primary mt-40" id="lms_toggle_login_form" style="border-radius:10px; background-color: white;">                                    
+                                                        <span style="color: black;">
+                                                            <span class="fa fa-angle-down" id="lms_login_icon_1" style="display: inline-block;"></span>
+                                                            <span class="fa fa-angle-up" id="lms_login_icon_2" style="display: none;"></span>
+                                                             Login Directly
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
 
+                                            <div style="display: none;" id="lms_login_form" class="col-lg-12 text-center">
 
                                                 <form method="post" action="{{ url('/login') }}">
-                                                    @csrf
-                                
-                                                        
+                                                    @csrf              
                                                         
                                                         <!-- Row -->
                                                         <div class="table-struct full-width ">
@@ -306,14 +349,9 @@
                                 
                                                                             <div class="form-group text-center">
                                                                                 <button type="submit" class="btn btn-primary">Log in</button>
-                                                                            </div>
+                                                                            </div>  
 
-                                                                            <div class="">
-                                                                                <a class="btn btn-success" role="button" style="border-radius:10px" href="https://bims.tetfund.gov.ng/oauth/authorize?response_type=code&client_id={{$clientId}}&redirect_uri=http://localhost:8000&state={{$state}}">
-                                                                                  <div class=""><img src="{{asset('imgs/bims.png')}}" style="width: 80px; height: 35px;" alt=""></div> <div class="" ><span style="color: white">Continue with BIMS</span></div>
-                                                                                </a>
-                                                                            </div>
-                                                                            
+                                                                            <!-- took out bims clickable -->                      
                                                                         </div>	
                                                                     </div>
                                                                 </div>
@@ -449,6 +487,12 @@
 
                     // toggle icon class
                     icon.toggleClass('fa-eye-slash fa-eye')
+                })
+                $("#lms_toggle_login_form").on('click', function(e) {
+                    e.preventDefault()
+                    $('#lms_login_form').slideToggle('slow');
+                    $('#lms_login_icon_1').toggle();
+                    $('#lms_login_icon_2').toggle();
                 })
         });
         </script>

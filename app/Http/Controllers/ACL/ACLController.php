@@ -125,15 +125,23 @@ class ACLController extends AppBaseController
     }
 
     public function updateUserAccount(UpdateUserRequest $request, $id){
-      
-        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), [
+
+        $bims_data = [
             'client_id' => env('BIMS_CLIENT_ID'),
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'phone' => $request->telephone,
             'gender' => "M"
-        ]);
+        ];
+
+        if ($request->sex == 'Male') {
+            $bims_data['gender'] = "M";
+        } else {
+            $bims_data['gender'] = "F";
+        }
+      
+        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
 
         if($id != '0'){
             $current_user = User::find($id);
@@ -229,7 +237,7 @@ class ACLController extends AppBaseController
         $attachedFileName = time() . '.' . $extension;
         $request->file('bulk_user_file')->move(public_path('uploads'), $attachedFileName);
         $path_to_file = public_path('uploads').'/'.$attachedFileName;
-
+       
         $errors = [];
         $loop = 1;
         $lines = file($path_to_file);
@@ -244,7 +252,22 @@ class ACLController extends AppBaseController
                     array_push($errors, $invalids);
                     continue;
                   }else{
-                   list($valid, $msg) = $this->checknStoreUserType($request->type, $data);
+                    $bims_data = [
+                        'client_id' => env('BIMS_CLIENT_ID'),
+                        'first_name' => $data[1],
+                        'last_name' => $data[2],
+                        'email' => $data[0],
+                        'phone' => $data[4],
+                        'gender' => "M"
+                    ];
+                    if ($data[3] == 'Male') {
+                        $bims_data['gender'] = "M";
+                    } else {
+                        $bims_data['gender'] = "F";
+                    }       
+                    $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
+
+                    list($valid, $msg) = $this->checknStoreUserType($request->type, $data);
 
                    if (!$valid) {
                        $errors[] = $msg;
@@ -276,16 +299,16 @@ class ACLController extends AppBaseController
             $errors[] = 'The email: '.$data[0].' already belongs to a user';
         }
 
-        $user = User::where('telephone', trim(strtolower($data[3]), "\r\n"))->first();
+        $user = User::where('telephone', trim(strtolower($data[4]), "\r\n"))->first();
         if ($user) {
-            $errors[] = 'The telephone number: '.trim(strtolower($data[3]), "\r\n").' already belongs to a user';
+            $errors[] = 'The telephone number: '.trim(strtolower($data[4]), "\r\n").' already belongs to a user';
         }
 
         if ($type  == 'student') {
             // validate matric number
-            $student = Student::where('matriculation_number', $data[4])->first();
+            $student = Student::where('matriculation_number', $data[5])->first();
             if ($student) {
-                $errors[] = 'The matriculation number: '.$data[4].' already belongs to a student';
+                $errors[] = 'The matriculation number: '.$data[5].' already belongs to a student';
             }
 
             $student = Student::where('email', $data[0])->first();
@@ -325,8 +348,9 @@ class ACLController extends AppBaseController
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
-                        'telephone' => trim(strtolower($data[3]), "\r\n"),
-                        'matriculation_number' => $data[4],
+                        'telephone' => trim(strtolower($data[4]), "\r\n"),
+                        'sex' => $data[3],
+                        'matriculation_number' => $data[5],
                         'department_id' => auth()->user()->department_id ?? null
                     ]);     
                 $student = $this->studentRepository->create($student_data);
@@ -338,7 +362,8 @@ class ACLController extends AppBaseController
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
-                        'telephone' => trim(strtolower($data[3]), "\r\n"),
+                        'telephone' => trim(strtolower($data[4]), "\r\n"),
+                        'sex' => $data[3]
                     ]);     
                 $lecturer = $this->lecturerRepository->create($lecturer_data);
                 LecturerCreated::dispatch($lecturer);
@@ -349,7 +374,8 @@ class ACLController extends AppBaseController
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
-                        'telephone' =>  trim(strtolower($data[3]), "\r\n"),
+                        'telephone' =>  trim(strtolower($data[4]), "\r\n"),
+                        'sex' => $data[3]
                     ]);     
                 $manager = $this->managerRepository->create($manager_data); 
                 ManagerCreated::dispatch($manager);
