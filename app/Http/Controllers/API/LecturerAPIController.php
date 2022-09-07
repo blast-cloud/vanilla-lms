@@ -6,6 +6,7 @@ use App\Events\LecturerCreated;
 use App\Events\LecturerUpdated;
 use App\Events\LecturerDeleted;
 
+use Illuminate\Support\Facades\Http;
 use App\Http\Requests\API\CreateLecturerAPIRequest;
 use App\Http\Requests\API\UpdateLecturerAPIRequest;
 use App\Http\Requests\API\BulkLecturerApiRequest;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use App\Http\Resources\LecturerResource;
 use Response;
+
 
 /**
  * Class LecturerController
@@ -310,18 +312,34 @@ class LecturerAPIController extends AppBaseController
                     array_push($errors, $invalids);
                     continue;
                   }else{
+                    $bims_data = [
+                        'client_id' => env('BIMS_CLIENT_ID'),
+                        'first_name' => $data[1],
+                        'last_name' => $data[2],
+                        'email' => $data[0],
+                        'phone' => $data[4],
+                        'gender' => "M"
+                    ];
+                    if ($data[3] == 'Male') {
+                        $bims_data['gender'] = "M";
+                    } else {
+                        $bims_data['gender'] = "F";
+                    }       
+                    $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), $bims_data);
+                    
                     $staff_data = array_merge($request->input(), [
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
-                        'telephone' => $data[3],
+                        'telephone' => $data[4],
+                        'sex' => $data[3]
                       ]);     
                     $lecturer = Lecturer::create($staff_data); 
                     LecturerCreated::dispatch($lecturer);
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first_name') {
+                    if (strtolower($headers[0]) != 'email') {
                         $invalids['inc'] = 'The file format is incorrect. Must be - "email,first_name,last_name,telephone"';
                         array_push($errors, $invalids);
                         break;
@@ -359,14 +377,14 @@ class LecturerAPIController extends AppBaseController
         }
 
         // validate phone number
-        $student = Lecturer::where('telephone', $data[3])->first();
+        $student = Lecturer::where('telephone', $data[4])->first();
         if ($student) {
-            $errors[] = 'The telephone number: '.$data[3].' already exist';
+            $errors[] = 'The telephone number: '.$data[4].' already exist';
         }
 
-        $user = User::where('telephone', $data[3])->first();
+        $user = User::where('telephone', $data[4])->first();
         if ($user) {
-            $errors[] = 'The telephone number: '.$data[3].' already belongs to a user';
+            $errors[] = 'The telephone number: '.$data[4].' already belongs to a user';
         }
         return $errors;
     }
