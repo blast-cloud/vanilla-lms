@@ -277,7 +277,7 @@ class ACLController extends AppBaseController
                     $type = $request->type;
                     $headers = explode(',', $line);
                     if($type == 'student'){
-                        if (strtolower($headers[0]) != 'Email' || strtolower($headers[1]) != 'First Name') {
+                        if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
                             $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no"';
                             array_push($errors, $invalids);
                             break;
