@@ -55,7 +55,7 @@
 
         </style>
 
-        @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+        @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
             <style type="text/css"> 
             /*start styling header top text*/
                 #txt_school_home_color{
@@ -90,13 +90,13 @@
         <div class="wrapper pa-0">
                 
              <header class="sp-header">
-                @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+                @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
                     <div class="col-xs-12" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px; height: auto; width: 100%; position: fixed;">
                         @if (isset($app_settings['txt_official_website']))
                             <div class="col-sm-4 pull-left pt-5">
                                 <strong> 
-                                    <a class="inline-block ml-10" target="_blank" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};" href="{{ $app_settings['txt_official_website'] }}" title="Visit {{ $app_settings['txt_official_website'] }}">
-                                       Go to School Website 
+                                    <a class="inline-block ml-10" target="_blank" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};" href="{{ ($app_settings['txt_official_website']) ? $app_settings['txt_official_website'] : ''}}" title="{{ ($app_settings['txt_official_website']) ? 'Visit '.$app_settings['txt_official_website'] : '' }}">
+                                       {{ ($app_settings['txt_website_text_title']) ? $app_settings['txt_website_text_title'] : 'Go to School Website' }} 
                                     </a>
                                 </strong> 
                             </div>

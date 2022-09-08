@@ -451,7 +451,7 @@
         }*/
 
         </style>
-        @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+        @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
             <style type="text/css">
                /*start styling header top text*/
                 #nav-header-div {
