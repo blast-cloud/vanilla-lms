@@ -327,20 +327,26 @@ class LecturerAPIController extends AppBaseController
                     }       
                     $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), $bims_data);
                     
-                    $staff_data = array_merge($request->input(), [
+                    $ext_staff_data = [
                         'email' => $data[0],
                         'first_name' => $data[1],
                         'last_name' => $data[2],
                         'telephone' => $data[4],
                         'sex' => $data[3]
-                      ]);     
+                    ];
+                    if(strtolower($data[3]) == 'm' || strtolower($data[3]) == 'male'){
+                        $ext_staff_data['sex'] = "Male";
+                    }elseif(strtolower($data[3]) == 'f' || strtolower($data[3]) == 'female'){
+                        $ext_staff_data['sex'] = "Female";
+                    }
+                    $staff_data = array_merge($request->input(), $ext_staff_data);     
                     $lecturer = Lecturer::create($staff_data); 
                     LecturerCreated::dispatch($lecturer);
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (strtolower($headers[0]) != 'email') {
-                        $invalids['inc'] = 'The file format is incorrect. Must be - "email,first_name,last_name,telephone"';
+                    if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first_name') {
+                        $invalids['inc'] = 'The file format is incorrect. Must be - "email,first_name,last_name,sex,telephone"';
                         array_push($errors, $invalids);
                         break;
                     }
