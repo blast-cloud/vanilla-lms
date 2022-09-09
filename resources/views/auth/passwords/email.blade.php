@@ -96,7 +96,7 @@
                             <div class="col-sm-4 pull-left pt-5">
                                 <strong> 
                                     <a class="inline-block ml-10" target="_blank" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};" href="{{ ($app_settings['txt_official_website']) ? $app_settings['txt_official_website'] : ''}}" title="{{ ($app_settings['txt_official_website']) ? 'Visit '.$app_settings['txt_official_website'] : '' }}">
-                                       {{ ($app_settings['txt_website_text_title']) ? $app_settings['txt_website_text_title'] : 'Go to School Website' }} 
+                                       {{ (isset($app_settings['txt_website_text_title'])) ? $app_settings['txt_website_text_title'] : 'Go to School Website' }} 
                                     </a>
                                 </strong> 
                             </div>
