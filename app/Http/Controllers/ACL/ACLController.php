@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Department;
 use App\Models\Student;
 use App\Models\Lecturer;
+use App\Models\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AppBaseController;
@@ -282,11 +283,19 @@ class ACLController extends AppBaseController
                             array_push($errors, $invalids);
                             break;
                         }
-                    }else{
-                        $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
-                        array_push($errors, $invalids);
-                        break;
-                    }    
+                    }elseif($type == 'lecturer'){
+                        if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
+                            array_push($errors, $invalids);
+                            break;
+                        }
+                    }elseif($type == 'manager'){
+                        if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
+                            array_push($errors, $invalids);
+                            break;
+                        }
+                    }  
                 }
                 $loop++;
             }
