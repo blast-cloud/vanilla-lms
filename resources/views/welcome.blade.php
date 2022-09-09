@@ -250,7 +250,16 @@
                 <footer class="footer container-fluid pl-30 pr-30"> 
                     <div class="row">
                         <div class="col-sm-5" style="font-size:80%">
-                            {{ date('Y') }} &copy; ScolaLMS by <a href="http://hasob.ng" target="_blank">HASOB</a>
+                            
+                           @if (config('lmsvendors.sophira'))
+                                  {{ date('Y') }} &copy;  Sophira by <a href="#" target="_blank">SocketSystems Software Ltd</a>
+                           @elseif (config('lmsvendors.foresight'))
+                                 {{ date('Y') }} &copy;   ForesightLMS by <a href="http://etechcompletesolutions.com" target="_blank">E-TECH</a>
+                           @else
+                                 {{ date('Y') }} &copy;   ScolaLMS by <a href="http://hasob.ng" target="_blank">HASOB</a>
+                           @endif
+                            
+                            
                         </div>
                         <div class="col-sm-7 text-right" style="font-size:80%">
                             SPONSORED BY <a href="https://www.tetfund.gov.ng" target="_blank">TETFUND/ICT/2019-20</a>
