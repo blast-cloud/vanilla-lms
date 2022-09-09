@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Department;
 use App\Models\Student;
 use App\Models\Lecturer;
+use App\Models\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AppBaseController;
@@ -237,7 +238,7 @@ class ACLController extends AppBaseController
         $attachedFileName = time() . '.' . $extension;
         $request->file('bulk_user_file')->move(public_path('uploads'), $attachedFileName);
         $path_to_file = public_path('uploads').'/'.$attachedFileName;
-
+       
         $errors = [];
         $loop = 1;
         $lines = file($path_to_file);
@@ -252,12 +253,49 @@ class ACLController extends AppBaseController
                     array_push($errors, $invalids);
                     continue;
                   }else{
-                   list($valid, $msg) = $this->checknStoreUserType($request->type, $data);
+                    $bims_data = [
+                        'client_id' => env('BIMS_CLIENT_ID'),
+                        'first_name' => $data[1],
+                        'last_name' => $data[2],
+                        'email' => $data[0],
+                        'phone' => $data[4],
+                        'gender' => "M"
+                    ];
+                    if ($data[3] == 'Male') {
+                        $bims_data['gender'] = "M";
+                    } else {
+                        $bims_data['gender'] = "F";
+                    }       
+                    $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
+
+                    list($valid, $msg) = $this->checknStoreUserType($request->type, $data);
 
                    if (!$valid) {
                        $errors[] = $msg;
                    }
                   }
+                }else{
+                    $type = $request->type;
+                    $headers = explode(',', $line);
+                    if($type == 'student'){
+                        if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no"';
+                            array_push($errors, $invalids);
+                            break;
+                        }
+                    }elseif($type == 'lecturer'){
+                        if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
+                            array_push($errors, $invalids);
+                            break;
+                        }
+                    }elseif($type == 'manager'){
+                        if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
+                            array_push($errors, $invalids);
+                            break;
+                        }
+                    }  
                 }
                 $loop++;
             }
@@ -274,7 +312,7 @@ class ACLController extends AppBaseController
     public function validateValues($data, $type)
     {
         $errors = [];
-        // validte email
+        // validate email
         if (!filter_var($data[0], FILTER_VALIDATE_EMAIL)) {
             $errors[] = 'The email: '.$data[0].' is invalid';
         }
@@ -284,16 +322,16 @@ class ACLController extends AppBaseController
             $errors[] = 'The email: '.$data[0].' already belongs to a user';
         }
 
-        $user = User::where('telephone', trim(strtolower($data[3]), "\r\n"))->first();
+        $user = User::where('telephone', trim(strtolower($data[4]), "\r\n"))->first();
         if ($user) {
-            $errors[] = 'The telephone number: '.trim(strtolower($data[3]), "\r\n").' already belongs to a user';
+            $errors[] = 'The telephone number: '.trim(strtolower($data[4]), "\r\n").' already belongs to a user';
         }
 
         if ($type  == 'student') {
             // validate matric number
-            $student = Student::where('matriculation_number', $data[4])->first();
+            $student = Student::where('matriculation_number', $data[5])->first();
             if ($student) {
-                $errors[] = 'The matriculation number: '.$data[4].' already belongs to a student';
+                $errors[] = 'The matriculation number: '.$data[5].' already belongs to a student';
             }
 
             $student = Student::where('email', $data[0])->first();
@@ -329,36 +367,57 @@ class ACLController extends AppBaseController
         // check for the type
         switch ($type) {
             case 'student':
-                $student_data = array_merge(request()->input(), [
-                        'email' => $data[0],
-                        'first_name' => $data[1],
-                        'last_name' => $data[2],
-                        'telephone' => trim(strtolower($data[3]), "\r\n"),
-                        'matriculation_number' => $data[4],
-                        'department_id' => auth()->user()->department_id ?? null
-                    ]);     
+                $ext_student_data = [
+                    'email' => $data[0],
+                    'first_name' => $data[1],
+                    'last_name' => $data[2],
+                    'telephone' => trim(strtolower($data[4]), "\r\n"),
+                    'sex' => $data[3],
+                    'matriculation_number' => $data[5],
+                    'department_id' => auth()->user()->department_id ?? null
+                ];
+                if(strtolower($data[3]) == 'm' || strtolower($data[3]) == 'male'){
+                    $ext_student_data['sex'] = "Male";
+                }elseif(strtolower($data[3]) == 'f' || strtolower($data[3]) == 'female'){
+                    $ext_student_data['sex'] = "Female";
+                }
+                $student_data = array_merge(request()->input(),$ext_student_data);     
                 $student = $this->studentRepository->create($student_data);
                 StudentCreated::dispatch($student);
             break;
 
             case 'lecturer':
-                $lecturer_data = array_merge(request()->input(), [
-                        'email' => $data[0],
-                        'first_name' => $data[1],
-                        'last_name' => $data[2],
-                        'telephone' => trim(strtolower($data[3]), "\r\n"),
-                    ]);     
+                $ext_lecturer_data = [
+                    'email' => $data[0],
+                    'first_name' => $data[1],
+                    'last_name' => $data[2],
+                    'telephone' => trim(strtolower($data[4]), "\r\n"),
+                    'sex' => $data[3]
+                ];
+                if(strtolower($data[3]) == 'm' || strtolower($data[3]) == 'male'){
+                    $ext_lecturer_data['sex'] = "Male";
+                }elseif(strtolower($data[3]) == 'f' || strtolower($data[3]) == 'female'){
+                    $ext_lecturer_data['sex'] = "Female";
+                }
+                $lecturer_data = array_merge(request()->input(),$ext_lecturer_data);     
                 $lecturer = $this->lecturerRepository->create($lecturer_data);
                 LecturerCreated::dispatch($lecturer);
             break;
 
             case 'manager':
-                $manager_data = array_merge(request()->input(), [
-                        'email' => $data[0],
-                        'first_name' => $data[1],
-                        'last_name' => $data[2],
-                        'telephone' =>  trim(strtolower($data[3]), "\r\n"),
-                    ]);     
+                $ext_manager_data = [
+                    'email' => $data[0],
+                    'first_name' => $data[1],
+                    'last_name' => $data[2],
+                    'telephone' =>  trim(strtolower($data[4]), "\r\n"),
+                    'sex' => $data[3]
+                ];
+                if(strtolower($data[3]) == 'm' || strtolower($data[3]) == 'male'){
+                    $ext_manager_data['sex'] = "Male";
+                }elseif(strtolower($data[3]) == 'f' || strtolower($data[3]) == 'female'){
+                    $ext_manager_data['sex'] = "Female";
+                }
+                $manager_data = array_merge(request()->input(),$ext_manager_data);     
                 $manager = $this->managerRepository->create($manager_data); 
                 ManagerCreated::dispatch($manager);
             break;

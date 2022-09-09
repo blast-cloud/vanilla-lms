@@ -132,9 +132,31 @@
                     margin-left: 2px !important;
                 }
            }
-
         </style>
 
+        @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+            <style type="text/css"> 
+            /*start styling header top text*/
+                #txt_school_home_color{
+                    height: 80px;
+                }
+                #file_landing_page_picture, #file_icon_picture {
+                    margin-top: 70px;
+                }
+                @media screen and (min-width: 820px){
+                    #txt_portal_contact_email, #txt_portal_contact_phone{
+                        text-align: right;
+                    }
+                    #txt_school_home_color{
+                        height: auto;
+                    }
+                    #file_landing_page_picture, #file_icon_picture {
+                        margin-top: 50px;
+                    }
+                }  
+            /*stop styling header top text*/
+            </style>
+        @endif
 
 	</head>
 	<body>
@@ -146,34 +168,43 @@
 
         <div class="wrapper pa-0">      
             <header class="sp-header">
-                @if (isset($app_settings['txt_school_home_color']))
-                    <div class="col-xs-12 pl-30" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px; height: auto;">
+                @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+                    <div class="col-xs-12" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px; height: auto; width: 100%; position: fixed;">
                         @if (isset($app_settings['txt_official_website']))
-                            <div class="pull-left pt-5">
-                                <strong style="color: black;">SCHOOL WEBSITE : </strong> 
-                                <a class="inline-block ml-10" style="color: black;" href="{{ $app_settings['txt_official_website'] }}" title="Visit {{ $app_settings['txt_official_website'] }}">
-                                   {{ strtolower($app_settings['txt_official_website']) }} 
-                                </a>
+                            <div class="col-sm-4 pull-left pt-5">
+                                <strong> 
+                                    <a class="inline-block ml-10" target="_blank" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};" href="{{ ($app_settings['txt_official_website']) ? $app_settings['txt_official_website'] : ''}}" title="{{ ($app_settings['txt_official_website']) ? 'Visit '.$app_settings['txt_official_website'] : '' }}">
+                                        {{ (isset($app_settings['txt_website_text_title'])) ? $app_settings['txt_website_text_title'] : 'Go to School Website' }} 
+                                    </a>
+                                </strong> 
                             </div>
                         @endif
-                        @if (isset($app_settings['txt_official_email'])|| isset($app_settings['txt_portal_contact_phone']))
-                            <div class="pull-right text-left pt-5">
-                                @if (isset($app_settings['txt_official_email']))
-                                    <strong style="color: black;">Email : </strong>
-                                    <a class="inline-block" style="color: black;" href="mailto:{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_official_email'] }}"> {{ strtolower($app_settings['txt_official_email']) }} </a>
+                        @if (isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone']))
+                            <div class="col-xs-12 col-sm-8 pull-right text-left pt-5" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                @if (isset($app_settings['txt_portal_contact_email']))
+                                    <div class="col-xs-12 col-sm-8 pl-10" id="txt_portal_contact_email">
+                                        <strong>Email : </strong>
+                                        <a class="inline-block" href="mailto:{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_portal_contact_email'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};"> 
+                                            {{ strtolower($app_settings['txt_portal_contact_email']) }} 
+                                        </a>
+                                    </div>
                                 @endif
                                 @if (isset($app_settings['txt_portal_contact_phone']))
-                                    <strong style="color: black;" class="pl-10">Tel : </strong>
-                                    <a class="inline-block" style="color: black;" href="tel:{{ $app_settings['txt_portal_contact_phone'] }}" title="{{ $app_settings['txt_portal_contact_phone'] }}"> {{ strtolower($app_settings['txt_portal_contact_phone']) }} </a>
+                                    <div class="col-xs-12 col-sm-4 pl-10" id="txt_portal_contact_phone">
+                                        <strong class="">Tel : </strong>
+                                        <a class="inline-block" href="tel:{{ $app_settings['txt_portal_contact_phone'] }}" title="{{ $app_settings['txt_portal_contact_phone'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                            {{ strtolower($app_settings['txt_portal_contact_phone']) }}
+                                        </a>
+                                    </div>
                                 @endif
                             </div>
                         @endif
                     </div>
                 @endif
-                <div class="sp-logo-wrap pull-left" style="width: auto;">
+                <div class="sp-logo-wrap pull-left" id="file_icon_picture" style="width: auto;">
                     <a href="/">
                         @if (isset($app_settings['file_icon_picture']))
-                            <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
+                            <img class="brand-img mr-10" style="z-index: -1;" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
                         @endif
                         <span class="brand-text text-left pull-left" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
                     </a>
@@ -184,11 +215,9 @@
             <div class="page-wrapper ma-0">
                 <div class="container-fluid">
 
-                    <div class="row mt-50 ">
-
+                    <div class="row" id="file_landing_page_picture">
                         <div class="col-lg-8 auth-cont">
-
-                            
+            
                             <div class="col-lg-12 text-center">
                                 <div class="panel panel-default card-view">
                                     <div class="panel-wrapper collapse in">
@@ -304,7 +333,7 @@
                                                                                 <label class="pull-left control-label mb-10" for="exampleInputpwd_2">Password</label>
                                                                                 <a class="capitalize-font txt-primary block mb-10 pull-right font-12" href="{{ route('password.request') }}">forgot password ?</a>
                                                                                 <div class="clearfix"></div>
-                                                                                <div class="input-group">
+                                                                                                                                                                       <div class="input-group" style="z-index: 0;">
 
                                                                                     <input 
                                                                                     id="password" 

@@ -450,9 +450,45 @@
             overflow: inherit !important;
         }*/
 
-        
-
         </style>
+        @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+            <style type="text/css">
+               /*start styling header top text*/
+                #nav-header-div {
+                    margin-top:80px;
+                }
+                #user_top_dashboad_div{
+                    margin-top:130px;
+                }
+                #side_bar_div{
+                    margin-top: 80px;
+                }
+                #txt_school_home_color{
+                    height: 80px;
+                }
+                @media screen and (min-width: 820px){
+                    #user_top_dashboad_div{
+                        margin-top:70px;
+                    }
+                    #nav-header-div, #side_bar_div {
+                        margin-top:37px;
+                    }
+                    #txt_portal_contact_email, #txt_portal_contact_phone{
+                        text-align: right;
+                    }
+                    #txt_school_home_color{
+                        height: auto;
+                    }
+                }  
+            /*stop styling header top text*/
+            </style>
+        @else
+            <style type="text/css">
+                #user_top_dashboad_div{
+                    margin-top:40px;
+                }
+            </style>
+        @endif
     </head>
 
     <body>
@@ -466,7 +502,7 @@
             @include('layouts.sidebar')
 
             <!-- Main Content -->
-            <div class="page-wrapper">
+            <div class="page-wrapper" id="user_top_dashboad_div">
                 <div class="container-fluid">
                     <!-- Title -->
                     <div class="row heading-bg">

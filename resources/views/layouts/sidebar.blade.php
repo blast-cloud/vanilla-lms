@@ -9,7 +9,44 @@ if ($current_user && $current_user->lecturer) {
 }
 @endphp
 <!-- Top Menu Items -->
-<nav class="navbar navbar-inverse navbar-fixed-top">
+
+<!-- beginning of header backgorund and text -->
+    @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+        <div class="navbar-fixed-top col-xs-12" id="txt_school_home_color" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px; width: 100%;">
+            @if (isset($app_settings['txt_official_website']))
+                <div class="col-sm-4 pull-left pt-5">
+                    <strong> 
+                        <a class="inline-block ml-10" target="_blank" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};" href="{{ ($app_settings['txt_official_website']) ? $app_settings['txt_official_website'] : ''}}" title="{{ ($app_settings['txt_official_website']) ? 'Visit '.$app_settings['txt_official_website'] : '' }}">
+                           {{ (isset($app_settings['txt_website_text_title'])) ? $app_settings['txt_website_text_title'] : 'Go to School Website' }}
+                        </a>
+                    </strong> 
+                </div>
+            @endif
+            @if (isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone']))
+                <div class="col-xs-12 col-sm-8 pull-right text-left pt-5" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                    @if (isset($app_settings['txt_portal_contact_email']))
+                        <div class="col-xs-12 col-sm-8 pl-10" id="txt_portal_contact_email">
+                            <strong>Email : </strong>
+                            <a class="inline-block" href="mailto:{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_portal_contact_email'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};"> 
+                                {{ strtolower($app_settings['txt_portal_contact_email']) }} 
+                            </a>
+                        </div>
+                    @endif
+                    @if (isset($app_settings['txt_portal_contact_phone']))
+                        <div class="col-xs-12 col-sm-4 pl-10" id="txt_portal_contact_phone">
+                            <strong class="">Tel : </strong>
+                            <a class="inline-block" href="tel:{{ $app_settings['txt_portal_contact_phone'] }}" title="{{ $app_settings['txt_portal_contact_phone'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                {{ strtolower($app_settings['txt_portal_contact_phone']) }}
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            @endif
+        </div>
+    @endif
+    <div class="clearfix"></div>
+<!-- end of header backgorund and text -->
+<nav class="navbar navbar-inverse navbar-fixed-top" id="nav-header-div">
     <div class="mobile-only-brand pull-left">
         <div class="nav-header pull-left">
             <div class="logo-wrap side-bar-area">
@@ -83,7 +120,7 @@ if ($current_user && $current_user->lecturer) {
 <!-- /Top Menu Items -->
 
 <!-- Left Sidebar Menu -->
-<div class="fixed-sidebar-left">
+<div class="fixed-sidebar-left" id="side_bar_div">
     <ul class="nav navbar-nav side-nav nicescroll-bar">
 
         <li class="navigation-header">

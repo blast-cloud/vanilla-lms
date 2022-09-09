@@ -55,6 +55,29 @@
 
         </style>
 
+        @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+            <style type="text/css"> 
+            /*start styling header top text*/
+                #txt_school_home_color{
+                    height: 80px;
+                }
+                #file_landing_page_picture, #file_icon_picture {
+                    margin-top: 70px;
+                }
+                @media screen and (min-width: 820px){
+                    #txt_portal_contact_email, #txt_portal_contact_phone{
+                        text-align: right;
+                    }
+                    #txt_school_home_color{
+                        height: auto;
+                    }
+                    #file_landing_page_picture, #file_icon_picture {
+                        margin-top: 50px;
+                    }
+                }  
+            /*stop styling header top text*/
+            </style>
+        @endif
 
 	</head>
 	<body>
@@ -66,8 +89,49 @@
 
         <div class="wrapper pa-0">
                 
-            <header class="sp-header">
-                <div class="sp-logo-wrap pull-left">
+             <header class="sp-header">
+                @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
+                    <div class="col-xs-12" style="background-color: {!! $app_settings['txt_school_home_color'] ?? '' !!}; padding-bottom: 10px; height: auto; width: 100%; position: fixed;">
+                        @if (isset($app_settings['txt_official_website']))
+                            <div class="col-sm-4 pull-left pt-5">
+                                <strong> 
+                                    <a class="inline-block ml-10" target="_blank" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};" href="{{ ($app_settings['txt_official_website']) ? $app_settings['txt_official_website'] : ''}}" title="{{ ($app_settings['txt_official_website']) ? 'Visit '.$app_settings['txt_official_website'] : '' }}">
+                                       {{ (isset($app_settings['txt_website_text_title'])) ? $app_settings['txt_website_text_title'] : 'Go to School Website' }} 
+                                    </a>
+                                </strong> 
+                            </div>
+                        @endif
+                        @if (isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone']))
+                            <div class="col-xs-12 col-sm-8 pull-right text-left pt-5" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                @if (isset($app_settings['txt_portal_contact_email']))
+                                    <div class="col-xs-12 col-sm-8 pl-10" id="txt_portal_contact_email">
+                                        <strong>Email : </strong>
+                                        <a class="inline-block" href="mailto:{{ $app_settings['txt_official_website'] }}" title="{{ $app_settings['txt_portal_contact_email'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};"> 
+                                            {{ strtolower($app_settings['txt_portal_contact_email']) }} 
+                                        </a>
+                                    </div>
+                                @endif
+                                @if (isset($app_settings['txt_portal_contact_phone']))
+                                    <div class="col-xs-12 col-sm-4 pl-10" id="txt_portal_contact_phone">
+                                        <strong class="">Tel : </strong>
+                                        <a class="inline-block" href="tel:{{ $app_settings['txt_portal_contact_phone'] }}" title="{{ $app_settings['txt_portal_contact_phone'] }}" style="color: {!! $app_settings['txt_school_text_color'] ?? '#000000' !!};">
+                                            {{ strtolower($app_settings['txt_portal_contact_phone']) }}
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
+                    </div>
+                @endif
+                <div class="sp-logo-wrap pull-left" id="file_icon_picture" style="width: auto;">
+                    <a href="/">
+                        @if (isset($app_settings['file_icon_picture']))
+                            <img class="brand-img mr-10" style="z-index: -1;" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
+                        @endif
+                        <span class="brand-text text-left pull-right mt-10" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                    </a>
+                </div>
+               {{-- <div class="sp-logo-wrap pull-left">
                     <a href="/">
                         @if (isset($app_settings['file_icon_picture']))
                         <img class="brand-img mr-10" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
@@ -76,15 +140,15 @@
                     </a>
                 </div>
                 <div class="form-group mb-0 pull-right">
-                    {{-- <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="/">Home</a> --}}
-                </div>
+                    <a class="inline-block btn btn-info btn-rounded btn-outline nonecase-font" href="/">Home</a>
+                </div> --}}
                 <div class="clearfix"></div>
             </header>
 
             <div class="page-wrapper pa-20 ma-0">
                 <div class="container-fluid">
 
-                    <div class="row mt-50 ">
+                    <div class="row" id="file_landing_page_picture">
 
                         <div class="col-lg-8 auth-cont">
 

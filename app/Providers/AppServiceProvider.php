@@ -56,7 +56,9 @@ class AppServiceProvider extends ServiceProvider
                 'txt_portal_contact_email',
                 'txt_maximum_enrollment_limit',
                 'txt_school_max_level',
-                'txt_school_home_color'
+                'txt_school_home_color',
+                'txt_school_text_color',
+                'txt_website_text_title'
             ];
             
             $settingRepo = new SettingRepository(app());
@@ -65,9 +67,16 @@ class AppServiceProvider extends ServiceProvider
                                         ->toArray();
         }
         if(Schema::hasTable('semesters')){
-            $current_semester = Semester::where('is_current',true)->first();
-            View::share('current_semester',$current_semester);
+            try{
+                
+                $current_semester = Semester::where('is_current',true)->first();
+                View::share('current_semester',$current_semester);
+
+            } catch (\Illuminate\Database\QueryException $e) {
+                Log::info("Unable to set current semester");
+            }
         }
+
         View::share('app_settings', $app_settings);
         Schema::DefaultStringLength(191);
     }

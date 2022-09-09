@@ -79,14 +79,14 @@ Admin Settings
                                 <div class="row form-group">
                                     <label class="control-label mb-10 col-sm-3" for="txt_portal_contact_email">Portal Contact Email</label>
                                     <div class="col-sm-6">
-                                        {!! Form::text('txt_portal_contact_email', $db_settings['txt_portal_contact_email']??"", ['id'=>'txt_portal_contact_email','class' => 'form-control']) !!}
+                                        {!! Form::text('txt_portal_contact_email', $db_settings['txt_portal_contact_email']??"", ['id'=>'txt_portal_contact_email_fi','class' => 'form-control']) !!}
                                     </div>
                                 </div>
 
                                 <div class="row form-group">
                                     <label class="control-label mb-10 col-sm-3" for="txt_portal_contact_phone">Portal Contact Phone</label>
                                     <div class="col-sm-6">
-                                        {!! Form::number('txt_portal_contact_phone', $db_settings['txt_portal_contact_phone']??"", ['id'=>'txt_portal_contact_phone','class' => 'form-control']) !!}
+                                        {!! Form::number('txt_portal_contact_phone', $db_settings['txt_portal_contact_phone']??"", ['id'=>'txt_portal_contact_phone_fi','class' => 'form-control']) !!}
                                     </div>
                                 </div>
 
@@ -97,9 +97,21 @@ Admin Settings
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <label class="control-label mb-10 col-sm-3" for="txt_school_max_level">School Primary Color</label>
+                                    <label class="control-label mb-10 col-sm-3" for="txt_school_home_color">School Primary Color</label>
                                     <div class="col-sm-6">
-                                        {!! Form::color('txt_school_home_color', $db_settings['txt_school_home_color']??"", ['id'=>'txt_school_home_color','class' => 'form-control']) !!}
+                                        {!! Form::color('txt_school_home_color', $db_settings['txt_school_home_color']??"", ['id'=>'txt_school_home_color_fi','class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="control-label mb-10 col-sm-3" for="txt_website_text_title">Website Title Text</label>
+                                    <div class="col-sm-6">
+                                        {!! Form::text('txt_website_text_title', $db_settings['txt_website_text_title']??"", ['id'=>'txt_website_text_title','class' => 'form-control']) !!}
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <label class="control-label mb-10 col-sm-3" for="txt_school_text_color">Text Color</label>
+                                    <div class="col-sm-6">
+                                        {!! Form::color('txt_school_text_color', $db_settings['txt_school_text_color']??"", ['id'=>'txt_school_text_color','class' => 'form-control']) !!}
                                     </div>
                                 </div>
                                 {{-- <div class="row form-group">
