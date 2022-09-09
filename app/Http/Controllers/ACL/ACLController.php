@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Department;
 use App\Models\Student;
 use App\Models\Lecturer;
+use App\Models\Manager;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\AppBaseController;
@@ -274,12 +275,27 @@ class ACLController extends AppBaseController
                    }
                   }
                 }else{
+                    $type = $request->type;
                     $headers = explode(',', $line);
-                    if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first_name') {
-                        $invalids['inc'] = 'The file format is incorrect. Must be - "email,first_name,last_name,sex,telephone,matriculation_number"';
-                        array_push($errors, $invalids);
-                        break;
-                    } 
+                    if($type == 'student'){
+                        if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no"';
+                            array_push($errors, $invalids);
+                            break;
+                        }
+                    }elseif($type == 'lecturer'){
+                        if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
+                            array_push($errors, $invalids);
+                            break;
+                        }
+                    }elseif($type == 'manager'){
+                        if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
+                            array_push($errors, $invalids);
+                            break;
+                        }
+                    }  
                 }
                 $loop++;
             }
