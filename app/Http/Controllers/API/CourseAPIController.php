@@ -320,7 +320,6 @@ class CourseAPIController extends AppBaseController
                 }else{
                     $headers = explode(',', $line);
                     if (count($headers) != 4 || trim(strtolower($headers[1]), "\r\n") != 'name' || trim(strtolower($headers[2]), "\r\n") != 'description' || trim(strtolower($headers[3]), "\r\n") != 'credit_hours') {
-                        dd($headers[2]);
                         $invalids['inc'] = 'The file format is incorrect: Must be - "code,name,credit_hours" ';
                         array_push($errors, $invalids);
                         break;

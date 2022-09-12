@@ -347,7 +347,7 @@ class StudentAPIController extends AppBaseController
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name') {
+                    if (count($headers) != 6 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  || strtolower($headers['4']) != 'telephone' || strtolower($headers[5]) != 'matric no') {
                         $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no"';
                         array_push($errors, $invalids);
                         break;

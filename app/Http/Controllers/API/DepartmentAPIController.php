@@ -317,7 +317,7 @@ class DepartmentAPIController extends AppBaseController
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (strtolower($headers[0]) != 'code' || strtolower(trim($headers[1])) != 'name' || isset($headers[2])) {
+                    if (count($headers) != 2 || strtolower($headers[0]) != 'code' || strtolower(trim($headers[1])) != 'name' || isset($headers[2])) {
                         $invalids['inc'] = 'The file format is incorrect. Must be - "code,name"';
                         array_push($errors, $invalids);
                         break;
