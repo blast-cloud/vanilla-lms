@@ -278,19 +278,19 @@ class ACLController extends AppBaseController
                     $type = $request->type;
                     $headers = explode(',', $line);
                     if($type == 'student'){
-                        if (count($headers) != 6 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  || strtolower($headers['4']) != 'telephone' || strtolower($headers[5]) != 'matric no') {
+                        if (count($headers) != 6 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  || strtolower($headers['4']) != 'telephone' || trim(strtolower($headers[5]), "\r\n") != 'matric no') {
                             $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no"';
                             array_push($errors, $invalids);
                             break;
                         }
                     }elseif($type == 'lecturer'){
-                        if (count($headers) != 5 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  || strtolower($headers['4']) != 'telephone') {
+                        if (count($headers) != 5 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  || trim(strtolower($headers['4']), "\r\n")  != 'telephone') {
                             $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
                             array_push($errors, $invalids);
                             break;
                         }
                     }elseif($type == 'manager'){
-                        if (count($headers) != 5 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  || strtolower($headers['4']) != 'telephone') {
+                        if (count($headers) != 5 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  ||  trim(strtolower($headers['4']), "\r\n") != 'telephone') {
                             $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
                             array_push($errors, $invalids);
                             break;
