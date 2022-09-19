@@ -314,13 +314,13 @@ class LecturerAPIController extends AppBaseController
                   }else{
                     $bims_data = [
                         'client_id' => env('BIMS_CLIENT_ID'),
-                        'first_name' => $data[1],
-                        'last_name' => $data[2],
-                        'email' => $data[0],
-                        'phone' => $data[4],
+                        'first_name' => trim($data[1]),
+                        'last_name' => trim($data[2]),
+                        'email' => trim($data[0]),
+                        'phone' => trim($data[4]),
                         'gender' => "M"
                     ];
-                    if ($data[3] == 'Male') {
+                    if (trim($data[3]) == 'Male') {
                         $bims_data['gender'] = "M";
                     } else {
                         $bims_data['gender'] = "F";
@@ -328,15 +328,15 @@ class LecturerAPIController extends AppBaseController
                     $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), $bims_data);
                     
                     $ext_staff_data = [
-                        'email' => $data[0],
-                        'first_name' => $data[1],
-                        'last_name' => $data[2],
-                        'telephone' => $data[4],
-                        'sex' => $data[3]
+                        'email' => trim($data[0]),
+                        'first_name' => trim($data[1]),
+                        'last_name' => trim($data[2]),
+                        'telephone' => trim($data[4]),
+                        'sex' => trim($data[3])
                     ];
-                    if(strtolower($data[3]) == 'm' || strtolower($data[3]) == 'male'){
+                    if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){
                         $ext_staff_data['sex'] = "Male";
-                    }elseif(strtolower($data[3]) == 'f' || strtolower($data[3]) == 'female'){
+                    }elseif(strtolower(trim($data[3])) == 'f' || strtolower(trim($data[3])) == 'female'){
                         $ext_staff_data['sex'] = "Female";
                     }
                     $staff_data = array_merge($request->input(), $ext_staff_data);     
@@ -345,7 +345,7 @@ class LecturerAPIController extends AppBaseController
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (count($headers) != 5 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  || trim(strtolower($headers[4]), "\r\n") != 'telephone') {
+                    if (count($headers) != 5 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  || trim(strtolower($headers[4]), "\r\n") != 'telephone') {
                         $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
                         array_push($errors, $invalids);
                         break;
@@ -367,30 +367,30 @@ class LecturerAPIController extends AppBaseController
     {
         $errors = [];
         // validte email
-        if (!filter_var($data[0], FILTER_VALIDATE_EMAIL)) {
-            $errors[] = 'The email: '.$data[0].' is invalid';
+        if (!filter_var(trim($data[0]), FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'The email: '.trim($data[0]).' is invalid';
         }
 
         // validate email uniqueness
-        $student = Lecturer::where('email', $data[0])->first();
+        $student = Lecturer::where('email', trim($data[0]))->first();
         if ($student) {
-            $errors[] = 'The email: '.$data[0].' already exist';
+            $errors[] = 'The email: '.trim($data[0]).' already exist';
         }
 
-        $user = User::where('email', $data[0])->first();
+        $user = User::where('email', trim($data[0]))->first();
         if ($user) {
-            $errors[] = 'The email: '.$data[0].' already belongs to a user';
+            $errors[] = 'The email: '.trim($data[0]).' already belongs to a user';
         }
 
         // validate phone number
-        $student = Lecturer::where('telephone', $data[4])->first();
+        $student = Lecturer::where('telephone', trim($data[4]))->first();
         if ($student) {
-            $errors[] = 'The telephone number: '.$data[4].' already exist';
+            $errors[] = 'The telephone number: '.trim($data[4]).' already exist';
         }
 
-        $user = User::where('telephone', $data[4])->first();
+        $user = User::where('telephone', trim($data[4]))->first();
         if ($user) {
-            $errors[] = 'The telephone number: '.$data[4].' already belongs to a user';
+            $errors[] = 'The telephone number: '.trim($data[4]).' already belongs to a user';
         }
         return $errors;
     }

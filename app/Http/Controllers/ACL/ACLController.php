@@ -255,13 +255,13 @@ class ACLController extends AppBaseController
                   }else{
                     $bims_data = [
                         'client_id' => env('BIMS_CLIENT_ID'),
-                        'first_name' => $data[1],
-                        'last_name' => $data[2],
-                        'email' => $data[0],
-                        'phone' => $data[4],
+                        'first_name' => trim($data[1]),
+                        'last_name' => trim($data[2]),
+                        'email' => trim($data[0]),
+                        'phone' => trim($data[4]),
                         'gender' => "M"
                     ];
-                    if ($data[3] == 'Male') {
+                    if (trim($data[3]) == 'Male') {
                         $bims_data['gender'] = "M";
                     } else {
                         $bims_data['gender'] = "F";
@@ -278,19 +278,19 @@ class ACLController extends AppBaseController
                     $type = $request->type;
                     $headers = explode(',', $line);
                     if($type == 'student'){
-                        if (count($headers) != 6 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  || strtolower($headers['4']) != 'telephone' || trim(strtolower($headers[5]), "\r\n") != 'matric no') {
+                        if (count($headers) != 6 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  || trim(strtolower($headers['4'])) != 'telephone' || trim(strtolower($headers[5]), "\r\n") != 'matric no') {
                             $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no"';
                             array_push($errors, $invalids);
                             break;
                         }
                     }elseif($type == 'lecturer'){
-                        if (count($headers) != 5 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  || trim(strtolower($headers['4']), "\r\n")  != 'telephone') {
+                        if (count($headers) != 5 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  || trim(strtolower($headers['4']), "\r\n")  != 'telephone') {
                             $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
                             array_push($errors, $invalids);
                             break;
                         }
                     }elseif($type == 'manager'){
-                        if (count($headers) != 5 || strtolower($headers[0]) != 'email' || strtolower($headers[1]) != 'first name' || strtolower($headers[2]) != 'last name'  || strtolower($headers[3]) != 'sex'  ||  trim(strtolower($headers['4']), "\r\n") != 'telephone') {
+                        if (count($headers) != 5 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  ||  trim(strtolower($headers['4']), "\r\n") != 'telephone') {
                             $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
                             array_push($errors, $invalids);
                             break;
@@ -313,13 +313,13 @@ class ACLController extends AppBaseController
     {
         $errors = [];
         // validate email
-        if (!filter_var($data[0], FILTER_VALIDATE_EMAIL)) {
-            $errors[] = 'The email: '.$data[0].' is invalid';
+        if (!filter_var(trim($data[0]), FILTER_VALIDATE_EMAIL)) {
+            $errors[] = 'The email: '.trim($data[0]).' is invalid';
         }
 
-        $user = User::where('email', $data[0])->first();
+        $user = User::where('email', trim($data[0]))->first();
         if ($user) {
-            $errors[] = 'The email: '.$data[0].' already belongs to a user';
+            $errors[] = 'The email: '.trim($data[0]).' already belongs to a user';
         }
 
         $user = User::where('telephone', trim(strtolower($data[4]), "\r\n"))->first();
@@ -329,24 +329,24 @@ class ACLController extends AppBaseController
 
         if ($type  == 'student') {
             // validate matric number
-            $student = Student::where('matriculation_number', $data[5])->first();
+            $student = Student::where('matriculation_number', trim($data[5]))->first();
             if ($student) {
-                $errors[] = 'The matriculation number: '.$data[5].' already belongs to a student';
+                $errors[] = 'The matriculation number: '.trim($data[5]).' already belongs to a student';
             }
 
-            $student = Student::where('email', $data[0])->first();
+            $student = Student::where('email', trim($data[0]))->first();
             if ($student) {
-                $errors[] = 'The email: '.$data[0].' already belongs to a student';
+                $errors[] = 'The email: '.trim($data[0]).' already belongs to a student';
             }
         }elseif ($type == 'lecturer') {
-            $lecturer = Lecturer::where('email', $data[0])->first();
+            $lecturer = Lecturer::where('email', trim($data[0]))->first();
             if ($lecturer) {
-                $errors[] = 'This email: '.$data[0].' already belongs to a lecturer';
+                $errors[] = 'This email: '.trim($data[0]).' already belongs to a lecturer';
             }
         }elseif ($type == 'manager') {
-            $lecturer = Manager::where('email', $data[0])->first();
+            $lecturer = Manager::where('email', trim($data[0]))->first();
             if ($lecturer) {
-                $errors[] = 'This email: '.$data[0].' already belongs to a manager';
+                $errors[] = 'This email: '.trim($data[0]).' already belongs to a manager';
             }
         }
         return $errors;
@@ -368,17 +368,17 @@ class ACLController extends AppBaseController
         switch ($type) {
             case 'student':
                 $ext_student_data = [
-                    'email' => $data[0],
-                    'first_name' => $data[1],
-                    'last_name' => $data[2],
+                    'email' => trim($data[0]),
+                    'first_name' => trim($data[1]),
+                    'last_name' => trim($data[2]),
                     'telephone' => trim(strtolower($data[4]), "\r\n"),
-                    'sex' => $data[3],
-                    'matriculation_number' => $data[5],
+                    'sex' => trim($data[3]),
+                    'matriculation_number' => trim($data[5]),
                     'department_id' => auth()->user()->department_id ?? null
                 ];
-                if(strtolower($data[3]) == 'm' || strtolower($data[3]) == 'male'){
+                if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){
                     $ext_student_data['sex'] = "Male";
-                }elseif(strtolower($data[3]) == 'f' || strtolower($data[3]) == 'female'){
+                }elseif(strtolower(trim($data[3])) == 'f' || strtolower(trim($data[3])) == 'female'){
                     $ext_student_data['sex'] = "Female";
                 }
                 $student_data = array_merge(request()->input(),$ext_student_data);     
@@ -388,15 +388,15 @@ class ACLController extends AppBaseController
 
             case 'lecturer':
                 $ext_lecturer_data = [
-                    'email' => $data[0],
-                    'first_name' => $data[1],
-                    'last_name' => $data[2],
+                    'email' => trim($data[0]),
+                    'first_name' => trim($data[1]),
+                    'last_name' => trim($data[2]),
                     'telephone' => trim(strtolower($data[4]), "\r\n"),
-                    'sex' => $data[3]
+                    'sex' => trim($data[3])
                 ];
-                if(strtolower($data[3]) == 'm' || strtolower($data[3]) == 'male'){
+                if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){
                     $ext_lecturer_data['sex'] = "Male";
-                }elseif(strtolower($data[3]) == 'f' || strtolower($data[3]) == 'female'){
+                }elseif(strtolower(trim($data[3])) == 'f' || strtolower(trim($data[3])) == 'female'){
                     $ext_lecturer_data['sex'] = "Female";
                 }
                 $lecturer_data = array_merge(request()->input(),$ext_lecturer_data);     
@@ -406,15 +406,15 @@ class ACLController extends AppBaseController
 
             case 'manager':
                 $ext_manager_data = [
-                    'email' => $data[0],
-                    'first_name' => $data[1],
-                    'last_name' => $data[2],
+                    'email' => trim($data[0]),
+                    'first_name' => trim($data[1]),
+                    'last_name' => trim($data[2]),
                     'telephone' =>  trim(strtolower($data[4]), "\r\n"),
-                    'sex' => $data[3]
+                    'sex' => trim($data[3])
                 ];
-                if(strtolower($data[3]) == 'm' || strtolower($data[3]) == 'male'){
+                if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){
                     $ext_manager_data['sex'] = "Male";
-                }elseif(strtolower($data[3]) == 'f' || strtolower($data[3]) == 'female'){
+                }elseif(strtolower(trim($data[3])) == 'f' || strtolower(trim($data[3])) == 'female'){
                     $ext_manager_data['sex'] = "Female";
                 }
                 $manager_data = array_merge(request()->input(),$ext_manager_data);     
