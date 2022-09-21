@@ -26,8 +26,8 @@ User Accounts
 
                         <h4>
                             <div class="pull-right">
-                                <a id="btn-show-modify-user-details-modal" href="#" class="btn btn-xs btn-default"><i class="fa fa-user"></i>&nbsp;Create User</a>
-                                <a data-toggle="modal" data-target="#mdl-bulk-user-modal" href="#" class="btn btn-primary-alt btn-xs" style="height: 28px;"><i class="icon wb-reply" aria-hidden="true"></i>Bulk upload</a>
+                                <a id="btn-show-modify-user-details-modal" href="#" class="btn btn-xs btn-default mt-5 col-xs-9 col-sm-6"><i class="fa fa-user"></i>&nbsp;Create User</a>
+                                <a data-toggle="modal" data-target="#mdl-bulk-user-modal" href="#" class="btn btn-primary-alt btn-xs mt-5 col-xs-9 col-sm-6" style="height: 28px;"><i class="icon wb-reply" aria-hidden="true"></i>Bulk upload</a>
                             </div>
                         </h4>
 

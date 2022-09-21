@@ -22,8 +22,8 @@ Departments
             <div class="panel-heading" style="padding: 10px 15px;">
                 <div class="pull-left"></div>
                 <div class="pull-right">
-                    <a id="btn-new-department" href="#" class="btn btn-xs btn-default btn-new-mdl-department-modal"><i class="zmdi zmdi-home"></i>&nbsp;New Department</a>
-                    <a data-toggle="modal" data-target="#mdl-bulk-department-modal" href="#" class="btn btn-primary-alt btn-xs"><i class="zmdi zmdi-upload" aria-hidden="true"></i>Bulk upload</a>
+                    <a id="btn-new-department" href="#" class="btn btn-xs btn-default btn-new-mdl-department-modal mt-5 col-xs-9 col-sm-6"><i class="zmdi zmdi-home"></i> New Department</a>
+                    <a data-toggle="modal" data-target="#mdl-bulk-department-modal" href="#" class="btn btn-primary-alt btn-xs mt-5 col-xs-9 col-sm-6"><i class="zmdi zmdi-upload" aria-hidden="true"></i>Bulk upload</a>
                 </div>
                 <div class="clearfix"></div>
             </div>
@@ -33,9 +33,7 @@ Departments
 
                     <div class="table-wrap">
                         <div class="table-responsive">
-                            @include('departments.table')
-
-                            
+                            @include('departments.table')                
                         </div>
                     </div>
 

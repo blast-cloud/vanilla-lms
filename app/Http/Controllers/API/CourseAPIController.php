@@ -309,10 +309,10 @@ class CourseAPIController extends AppBaseController
                     continue;
                   }else{
                     $course_data = array_merge($request->input(), [
-                    'code' => $data[0],
-                    'name' => $data[1],
-                    'description' => $data[2],
-                    'credit_hours' => $data[3],
+                    'code' => trim($data[0]),
+                    'name' => trim($data[1]),
+                    'description' => trim($data[2]),
+                    'credit_hours' => trim($data[3]),
                   ]);     
                     $course = Course::create($course_data); 
                     CourseCreated::dispatch($course);
@@ -341,9 +341,9 @@ class CourseAPIController extends AppBaseController
     {
         $errors = [];
 
-        $user = Course::where('code', $data[0])->first();
+        $user = Course::where('code', trim($data[0]))->first();
         if ($user) {
-            $errors[] = 'The code: '.$data[0].' already belongs to a course';
+            $errors[] = 'The code: '.trim($data[0]).' already belongs to a course';
         }
         return $errors;
     }

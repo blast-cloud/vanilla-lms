@@ -309,15 +309,15 @@ class DepartmentAPIController extends AppBaseController
                     continue;
                   }else{
                     $dept_data = array_merge($request->input(), [
-                    'code' => $data[0],
-                    'name' => $data[1]
+                    'code' => trim($data[0]),
+                    'name' => trim($data[1])
                   ]);     
                     $dept = Department::create($dept_data); 
                     DepartmentCreated::dispatch($dept);
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (count($headers) != 2 || strtolower($headers[0]) != 'code' || strtolower(trim($headers[1])) != 'name' || isset($headers[2])) {
+                    if (count($headers) != 2 || strtolower(trim($headers[0])) != 'code' || strtolower(trim($headers[1])) != 'name' || isset($headers[2])) {
                         $invalids['inc'] = 'The file format is incorrect. Must be - "code,name"';
                         array_push($errors, $invalids);
                         break;
@@ -339,9 +339,9 @@ class DepartmentAPIController extends AppBaseController
     {
         $errors = [];
 
-        $department = Department::where('code', $data[0])->first();
+        $department = Department::where('code', trim($data[0]))->first();
         if ($department) {
-            $errors[] = 'The code: '.$data[0].' already belongs to a department';
+            $errors[] = 'The code: '.trim($data[0]).' already belongs to a department';
         }
         return $errors;
     }

@@ -27,10 +27,10 @@
                     <div class="pull-right">
                         <div class="pull-left inline-block dropdown">
                             
-                            <a href="#"  class="btn btn-xs btn-primary btn-new-mdl-semester-modal">
+                            <a href="#"  class="btn btn-xs btn-primary btn-new-mdl-semester-modal mt-5 col-xs-9 col-sm-6">
                                 Create New Semester
                             </a>
-                            <a href="#"  class="btn btn-xs btn-success btn-commence-a-semester-modal">
+                            <a href="#"  class="btn btn-xs btn-success btn-commence-a-semester-modal mt-5 col-xs-9 col-sm-6">
                                 Start New Semester
                             </a>
                         </div>
