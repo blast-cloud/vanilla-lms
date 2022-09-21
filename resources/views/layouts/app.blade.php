@@ -442,6 +442,10 @@
                 margin-right: 5px;
             }
     
+            .dt-btn-w {
+                width: 120px;
+            }
+            
         /*.fixed-sidebar-left{
             top: 110px !important;
         }
@@ -449,6 +453,7 @@
         .navbar.navbar-inverse.navbar-fixed-top .nav-header{
             overflow: inherit !important;
         }*/
+        
 
         </style>
         @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
