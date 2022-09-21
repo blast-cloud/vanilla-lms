@@ -233,7 +233,7 @@
                                 $('#div-semester-modal-error').append('<li class="">' +
                                     value + '</li>');
                                 $('#' + key).addClass("input-border-error");
-                                console.log($('#' + key).attr('type'));
+                              
                                 if (key == 'code' || key == 'academic_session') {
 
                                     $('#' + key).change(function(e) {
@@ -247,8 +247,19 @@
                                         }
                                     });
                                 } else {
-                                    $('#' + key).keyup(function(e) {
+                                    $('#' + key).click(function(e) {
+                                       
+                                        if ($('#' + key).val() != '') {
+                                            $('#' + key).removeClass(
+                                                "input-border-error")
+                                        } else {
+                                            $('#' + key).addClass(
+                                                "input-border-error")
+                                        }
+                                    });
 
+                                    $('#' + key).keyup(function(e) {
+                                       
                                         if ($('#' + key).val() != '') {
                                             $('#' + key).removeClass(
                                                 "input-border-error")
