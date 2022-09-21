@@ -162,7 +162,6 @@ $(document).ready(function() {
                         commentItem = "<li class='self mb-5'><div class='self-msg-wrap  pull-right' style='padding-left:200px;'>";
                             commentItem += "<img class='user-img img-circle' src='"+profile_picture+"'  alt='user'><div class='msg pull-right' style='margin-left:35px'>";
                         if(item.posting_user.lecturer){
-                            console.log(item.posting_user.lecturer);
                             let job_title = '';
                             if(item.posting_user.lecturer.job_title){
                                 job_title = item.posting_user.lecturer.job_title
