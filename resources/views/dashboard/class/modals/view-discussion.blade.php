@@ -146,7 +146,8 @@ $(document).ready(function() {
                         commentItem = "<li class='friend mb-5'><div class='friend-msg-wrap'>";
                         commentItem += "<img class='user-img img-circle block pull-left' src='"+profile_picture+"'  alt='user'><div class='msg pull-left'>";
                         if(item.posting_user.lecturer){
-                            commentItem += "<p><strong>"+ item.posting_user.lecturer.job_title+" "+ item.posting_user.lecturer.first_name+" "+ item.posting_user.lecturer.last_name +"</strong></p>";
+                           
+                            commentItem += "<p><strong>"+ item.posting_user.lecturer.job_title ?? item.posting_user.lecturer.job_title +" "+ item.posting_user.lecturer.first_name+" "+ item.posting_user.lecturer.last_name +"</strong></p>";
                         }
                         if(item.posting_user.student){
                             //console.log(item.posting_user.first_name);
@@ -161,7 +162,12 @@ $(document).ready(function() {
                         commentItem = "<li class='self mb-5'><div class='self-msg-wrap  pull-right' style='padding-left:200px;'>";
                             commentItem += "<img class='user-img img-circle' src='"+profile_picture+"'  alt='user'><div class='msg pull-right' style='margin-left:35px'>";
                         if(item.posting_user.lecturer){
-                            commentItem += "<p><strong>"+ item.posting_user.lecturer.job_title+" "+ item.posting_user.lecturer.first_name+" "+ item.posting_user.lecturer.last_name +"</strong></p>";
+                            console.log(item.posting_user.lecturer);
+                            let job_title = '';
+                            if(item.posting_user.lecturer.job_title){
+                                job_title = item.posting_user.lecturer.job_title
+                            }
+                            commentItem += "<p><strong>"+ job_title  +" "+ item.posting_user.lecturer.first_name+" "+ item.posting_user.lecturer.last_name +"</strong></p>";
                         }
                         if(item.posting_user.student){
                             //console.log(item.posting_user.first_name);
