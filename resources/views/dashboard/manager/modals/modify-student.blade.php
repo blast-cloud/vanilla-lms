@@ -838,6 +838,14 @@
                 $('.modal-footer').show()
             });
 
+        //handle event for enterkey submission
+            $('#form-modify-user-password-reset').keypress(function (e) {
+             if(e.which == 13) { // the enter key code
+                $('#btn-modify-user-password-reset').trigger('click');
+                return false;  
+              }
+            });
+            
             //Save user password-reset
             $('#btn-modify-user-password-reset').click(function(e) {
                 e.preventDefault();

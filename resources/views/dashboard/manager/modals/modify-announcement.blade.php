@@ -164,6 +164,14 @@ $(document).ready(function() {
         });
     });
 
+    //handle event for enterkey submission
+    $('#title').keypress(function (e) {
+     if(e.which == 13) { // the enter key code
+        $('#btn-save-mdl-announcement-modal').trigger('click');
+        return false;  
+      }
+    });
+
     //Save details
     $('#btn-save-mdl-announcement-modal').click(function(e) {
         e.preventDefault();

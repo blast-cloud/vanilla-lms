@@ -192,6 +192,21 @@ $(document).ready(function() {
         });
     });
 
+    //handle event for enterkey submission
+    $('#question').keypress(function (e) {
+         if(e.which == 13) { // the enter key code
+            $('#btn-save-mdl-faq-modal').trigger('click');
+            return false;  
+          }
+    });
+
+    $('input[name="is_visible"]').keypress(function (e) {
+         if(e.which == 13) { // the enter key code
+            $('#btn-save-mdl-faq-modal').trigger('click');
+            return false;  
+          }
+    });
+
     //Save details
     $('#btn-save-mdl-faq-modal').click(function(e) {
         e.preventDefault();
@@ -241,7 +256,7 @@ $(document).ready(function() {
                     $.each(result.errors, function(key, value){
                         $('#div-faq-modal-error').append('<li class="">'+value+'</li>');
                     });
-                }else{
+                } else {
                     $('#div-faq-modal-error').hide();
                     window.setTimeout( function(){
                         swal("Done!", "The FAQ record saved successfully!", "success");

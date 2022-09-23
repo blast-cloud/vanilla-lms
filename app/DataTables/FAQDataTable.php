@@ -18,6 +18,10 @@ class FAQDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
+        $dataTable->editColumn('is_visible', function ($query) {
+            return ($query->is_visible == 1) ? "Yes" : "No";
+        });
+
         return $dataTable->addColumn('action', 'faqs.datatables_actions');
     }
 
