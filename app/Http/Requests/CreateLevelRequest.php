@@ -25,18 +25,30 @@ class CreateLevelRequest extends AppBaseFormRequest
      */
     public function rules()
     {
-        //return Course::$rules;
+        $level_val = intval(request()->level);
+        $nearest_number = (!empty($level_val) && $level_val >= 100) ? intval(ceil($level_val / 100) * 100) : null;
+        $returned_validation = '';
+
+        if ($nearest_number != null) {
+            $possible_levels_in_hundreds = [];
+            
+            for ($i=100; $i<=$nearest_number ; $i+=100) { 
+                array_push($possible_levels_in_hundreds, $i);
+            }
+            $returned_validation = "|in:". implode($possible_levels_in_hundreds, ',');
+        }
         
         return [
             'name' => "required|unique:levels,name",
-            'level' => 'required|numeric|unique:levels,level,'.$this->id,
+            'level' => 'required|numeric|unique:levels,level,'.$this->id.'|min:100'.$returned_validation,
         ];
     }
 
     public function messages(){
 
         return [
-            'name.unique' => 'Level name aready exist'
+            'name.unique' => 'Level name aready exist',
+            'level.in' => 'Level must be in multiple of hundred (100\'s)',
         ];
    }
 }
