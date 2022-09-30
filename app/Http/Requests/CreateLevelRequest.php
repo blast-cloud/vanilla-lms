@@ -25,26 +25,25 @@ class CreateLevelRequest extends AppBaseFormRequest
      */
     public function rules()
     {
-        $level_val = intval(request()->level);
-        $nearest_number = (!empty($level_val) && $level_val >= 100) ? intval(ceil($level_val / 100) * 100) : null;
-        $returned_validation = '';
-
-        if ($nearest_number != null) {
-            $possible_levels_in_hundreds = [];
-            
-            for ($i=100; $i<=$nearest_number ; $i+=100) { 
-                array_push($possible_levels_in_hundreds, $i);
-            }
-            $returned_validation = "|in:". implode($possible_levels_in_hundreds, ',');
-        }
-        
         return [
             'name' => "required|unique:levels,name",
-            'level' => 'required|numeric|unique:levels,level,'.$this->id.'|min:100'.$returned_validation,
+            'level' => 'required|numeric|unique:levels,level,'.$this->id.'|min:100',
         ];
     }
 
-    public function messages(){
+    public function withValidator($validator) {
+        $validator->after(function ($validator) {
+            $level_val = intval(request()->level);
+
+            if( ($level_val > 100) && ($level_val%100 != 0) ) {
+                /*inputed level to nearest hundered*/
+                $possible_hundreds = intval(ceil($level_val / 100) * 100); 
+                $validator->errors()->add('level', 'Level must be a multiple of hundred (i.e: ' . strval($possible_hundreds-100) . ', ' . $possible_hundreds . ', ...)');
+            }
+        });
+    }
+
+    public function messages() {
 
         return [
             'name.unique' => 'Level name aready exist',
