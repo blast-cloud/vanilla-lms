@@ -192,7 +192,7 @@ if ($current_user && $current_user->lecturer) {
                 <a href="{{ route('dashboard.archieves') }}"
                     class="{{ Request::is('dashboard/archieves') ? 'active' : '' }}">
                     <div class="pull-left"><i class="zmdi zmdi-view-dashboard mr-20"></i><span
-                            class="right-nav-text">Archieves</span></div>
+                            class="right-nav-text">Archives</span></div>
                     <div class="pull-right"></div>
                     <div class="clearfix"></div>
                 </a>
