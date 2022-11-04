@@ -32,16 +32,9 @@ Account Profile
                                             <input type="email"
                                                 id="email"
                                                 name="email"
-                                               
                                                 value="{{ old('email', $current_user->email) }}"
                                                 class="form-control @error('email') is-invalid @enderror" 
-                                                placeholder="Email" 
-                                                 @if ($current_user->student_id != null)
-                                                    disabled
-                                                 @endif
-                                               
-                                                 
->
+                                                placeholder="Email" disabled>
                                             @error('email')
                                             <span class="error invalid-feedback">{{ $message }}</span>
                                             @enderror
@@ -118,12 +111,63 @@ Account Profile
                                     </div>
                                 </div>
                                 @endif
+                                @if($current_user->is_platform_admin != null)
+                                    @php
+                                    $name = $current_user->name;
+                                    $arr = explode(" ", $name);
+                                    $first_name = $arr[0];
+                                    $last_name = $arr[1];
+                                    @endphp
+                                        <div class="form-group">
+                                            <label class="control-label mb-5 col-sm-3" for="code">First Name</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group mb-3">
+                                                    <input type="name"
+                                                        id="first_name"
+                                                        name="first_name"
+                                                        value="{{ old('first_name', $first_name) }}"
+                                                        class="form-control @error('first_name') is-invalid @enderror" 
+                                                        placeholder="First Name"
+                                                        >
+                                                    @error('first_name')
+                                                    <span class="error invalid-feedback">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
 
+                                        <div class="form-group">
+                                            <label class="control-label mb-5 col-sm-3" for="code">Last Name</label>
+                                            <div class="col-sm-9">
+                                                <div class="input-group mb-3">
+                                                    <input type="name"
+                                                        id="last_name"
+                                                        name="last_name"
+                                                        value="{{ old('last_name', $last_name) }}"
+                                                        class="form-control @error('last_name') is-invalid @enderror" 
+                                                        placeholder="Last Name"
+                                                        >
+                                                    @error('last_name')
+                                                    <span class="error invalid-feedback">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                    </div>
+                                @else
                                 <div class="form-group">
                                     <label class="control-label mb-5 col-sm-3" for="code">First Name</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group mb-5" style="padding-top:7px;">
-                                            {{ $first_name }}
+                                        <div class="input-group mb-3">
+                                            <input type="name"
+                                                id="first_name"
+                                                name="first_name"
+                                                value="{{ old('first_name', $current_user->first_name) }}"
+                                                class="form-control @error('first_name') is-invalid @enderror" 
+                                                placeholder="First Name"
+                                                >
+                                            @error('first_name')
+                                            <span class="error invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -131,11 +175,22 @@ Account Profile
                                 <div class="form-group">
                                     <label class="control-label mb-5 col-sm-3" for="code">Last Name</label>
                                     <div class="col-sm-9">
-                                        <div class="input-group mb-5" style="padding-top:7px;">
-                                            {{ $last_name }}
+                                        <div class="input-group mb-3">
+                                            <input type="name"
+                                                id="last_name"
+                                                name="last_name"
+                                                value="{{ old('last_name', $current_user->last_name) }}"
+                                                class="form-control @error('last_name') is-invalid @enderror" 
+                                                placeholder="Last Name"
+                                                >
+                                            @error('last_name')
+                                            <span class="error invalid-feedback">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
+                                @endif
+                               
                                 @if($current_user->department)
                                 <div class="form-group">
                                     <label class="control-label mb-5 col-sm-3" for="code">Department</label>

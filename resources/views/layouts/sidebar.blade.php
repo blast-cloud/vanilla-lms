@@ -114,8 +114,12 @@ if ($current_user && $current_user->lecturer) {
             </li>
         </ul>
     </div>
+    @if($current_user->is_platform_admin != null)
+    <h4 class="pull-right" style="padding-top: 20px;">{{ $current_user->name }}
+    @else
     <h4 class="pull-right" style="padding-top: 20px;">{{ $current_user->first_name }} {{ $current_user->last_name }}
     </h4>
+    @endif
 </nav>
 <!-- /Top Menu Items -->
 
