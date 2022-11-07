@@ -97,6 +97,8 @@ class ProfileController extends AppBaseController
 
         $validation_rules = array(
             'email' => "sometimes|required|email|string|max:255|unique:users,email,{$current_user->id}",
+            'first_name' => "required|string",
+            "last_name" => "required|string",
             'telephone' => "required|numeric|digits:11|unique:users,telephone,{$current_user->id}",
             'password' => 'nullable|string|min:8|confirmed|regex:/^(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/', 
             'profile_picture' => 'nullable|mimes:jpg,png,jpeg|max:1000'           
@@ -108,6 +110,8 @@ class ProfileController extends AppBaseController
         );
 
         $attributes = array(
+            'first_name' => 'First Name',
+            'last_name' => 'Last Name',
             'password' => 'Password',
             'telephone' => 'Phone Number',
             'email' => 'Email Address',
@@ -137,14 +141,32 @@ class ProfileController extends AppBaseController
                 $current_user->email = $request->email;
             }
             $current_user->telephone = $request->telephone;
+            $current_user->name = $request->first_name." ".$request->last_name;
             if (!empty($request->password)){
                 $current_user->password = Hash::make($request->password);
             }
             
             $current_user->save();
+
+            if($current_user != null && $current_user->student_id  != null){
+                $student = $this->studentRepository->find($current_user->student_id); 
+                if($student){
+                    $student->email = $request->email;
+                    $student->telephone = $request->telephone;
+                    $student->first_name = $request->first_name;
+                    $student->last_name = $request->last_name;
+                    $student->save();
+                 }
+            }
+
             if($current_user != null && $current_user->student_id  != null && $request->hasFile('profile_picture')){
                $student = $this->studentRepository->find($current_user->student_id);
                if($student){
+                   $student->email = $request->email;
+                   $student->telephone = $request->telephone;
+                   $student->first_name = $request->first_name;
+                   $student->last_name = $request->last_name;
+
                 if($student->picture_file_path != null){
                     File::delete($student->picture_file_path);
                 }
@@ -154,9 +176,26 @@ class ProfileController extends AppBaseController
                 $student->save();
                }
             }
+
+            if($current_user != null && $current_user->lecturer_id  != null){
+                $lecturer = $this->lecturerRepository->find($current_user->lecturer_id); 
+                if($lecturer){
+                    $lecturer->email = $request->email;
+                    $lecturer->telephone = $request->telephone;
+                    $lecturer->first_name = $request->first_name;
+                    $lecturer->last_name = $request->last_name;
+                    $lecturer->save();
+                 }
+            }
+
             if($current_user != null && $current_user->lecturer_id  != null && $request->hasFile('profile_picture')){
                 $lecturer = $this->lecturerRepository->find($current_user->lecturer_id);
                 if($lecturer){
+                    $lecturer->email = $request->email;
+                    $lecturer->telephone = $request->telephone;
+                    $lecturer->first_name = $request->first_name;
+                    $lecturer->last_name = $request->last_name;
+                    
                     if($lecturer->picture_file_path != null){
                         File::delete($lecturer->picture_file_path);
                     }
@@ -167,16 +206,28 @@ class ProfileController extends AppBaseController
                    
                 }
             }
+
+            if($current_user != null && $current_user->manager_id  != null){
+                $manager = $this->managerRepository->find($current_user->manager_id); 
+                if($manager){
+                    $manager->email = $request->email;
+                    $manager->telephone = $request->telephone;
+                    $manager->first_name = $request->first_name;
+                    $manager->last_name = $request->last_name;
+                    $manager->save();
+                 }
+            }
+
             if($current_user != null && $current_user->manager_id  != null && $request->hasFile('profile_picture')){
-                $lecturer = $this->lecturerRepository->find($current_user->manager_id); 
-                if($lecturer){
-                    if($lecturer->picture_file_path != null){
-                        File::delete($lecturer->picture_file_path);
+                $manager = $this->managerRepository->find($current_user->manager_id); 
+                if($manager){
+                    if($manager->picture_file_path != null){
+                        File::delete($manager->picture_file_path);
                     }
                     $imageName = time().'.'.$request->file('profile_picture')->getClientOriginalExtension();
                     $request->file('profile_picture')->move(public_path('uploads'),$imageName);
-                    $lecturer->picture_file_path = 'uploads/'.$imageName;
-                    $lecturer->save();
+                    $manager->picture_file_path = 'uploads/'.$imageName;
+                    $manager->save();
                 }
             }
 
