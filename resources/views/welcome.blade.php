@@ -109,6 +109,7 @@
 
                 .image-container{
                     display: flex;
+                    justify-content:"center"
                     
                 }
 
@@ -120,6 +121,7 @@
                     margin-left: 2px !important;
                 }
            }
+
 
         </style>
        @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
@@ -208,9 +210,9 @@
                 <div class="container-fluid">
                     <div class="row" id="file_landing_page_picture">
                         <div class="col-lg-8">
-                            <div class="image-container">
+                            <div class="image-container" style="">
                                 @if (isset($app_settings['file_landing_page_picture']))
-                                <img src="{{ asset($app_settings['file_landing_page_picture']) }}" width="85%" />
+                                <img class='' src="{{ asset($app_settings['file_landing_page_picture']) }}"  style="max-width:80vw;width:85%;height:100%"/>
                                 <div class="image-text-bottom-left"><h4 class="">{!! $app_settings['txt_welcome_text'] ?? '' !!}</h4></div>
                                 @endif
                             </div>
