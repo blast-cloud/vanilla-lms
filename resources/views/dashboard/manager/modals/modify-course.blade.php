@@ -168,11 +168,11 @@ $(document).ready(function() {
 			$('#frm-course-modal').trigger("reset");
 			$('#txt-course-primary-id').val(response.data.id);
 
-            $('#code').val(response.data.code);
-            $('#name').val(response.data.name);
-            $('#credit_hours').val(response.data.credit_hours);
-            $('#description').val(response.data.description);
-            $('#level').val(response.data.level);
+            $('#course_code').val(response.data.code);
+            $('#course_name').val(response.data.name);
+            $('#course_credit_hours').val(response.data.credit_hours);
+            $('#course_description').val(response.data.description);
+            $('#course_level').val(response.data.level);
         });
     });
 
@@ -257,13 +257,13 @@ $(document).ready(function() {
         }
         
         formData.append('_method', actionType);
-        formData.append('department_id', {{$department->id}});
-        formData.append('code', $('#code').val());
-        formData.append('name', $('#name').val());
+        formData.append('department_id', "{{$department->id}}");
+        formData.append('code', $('#course_code').val());
+        formData.append('name', $('#course_name').val());
         formData.append('txt_course_primary_id', $('#txt-course-primary-id').val());
-        formData.append('description', $('#description').val());
-        formData.append('level', $('#level').val());
-        formData.append('credit_hours', $('#credit_hours').val());
+        formData.append('description', $('#course_description').val());
+        formData.append('level', $('#course_level').val());
+        formData.append('credit_hours', $('#course_credit_hours').val());
 
         $.ajax({
             url:endPointUrl,
@@ -281,13 +281,13 @@ $(document).ready(function() {
                     $('#btn-save-mdl-course-modal').prop("disabled", false);
                     $.each(result.errors, function(key, value){
                         $('#div-course-modal-error').append('<li class="">'+value+'</li>');
-                        $('#'+key).addClass("input-border-error");
+                        $('#course_'+key).addClass("input-border-error");
                         
-                        $('#'+key).keyup(function(e) {
-                            if($('#'+key).val() != ''){
-                                $('#'+key).removeClass("input-border-error")
+                        $('#course_'+key).keyup(function(e) {
+                            if($('#course_'+key).val() != ''){
+                                $('#course_'+key).removeClass("input-border-error")
                             }else{
-                                $('#'+key).addClass("input-border-error")
+                                $('#course_'+key).addClass("input-border-error")
                             }
                         });
                     });
