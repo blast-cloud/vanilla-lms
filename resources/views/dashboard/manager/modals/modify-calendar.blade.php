@@ -109,9 +109,9 @@ $(document).ready(function() {
             // let due_date = new Intl.DateTimeFormat('en-GB').format(Date.parse(response.data.due_date));
             let date_val =new Date(Date.parse(response.data.due_date)) ;
             let due_date = date_val.getDate()+'-'+date_val.getMonth()+'-'+date_val.getFullYear();
-            $('#title').val(response.data.title);
-            $('#due_date').val(due_date);
-            $('#description').val(response.data.description);
+            $('#calendar_title').val(response.data.title);
+            $('#calendar_due_date').val(due_date);
+            $('#calendar_description').val(response.data.description);
         });
     });
 
@@ -186,10 +186,10 @@ $(document).ready(function() {
         }
         
         formData.append('_method', actionType);
-        formData.append('department_id', {{$department->id}});
-        formData.append('title', $('#title').val());
-        formData.append('due_date', $('#due_date').val());
-        formData.append('description', $('#description').val());
+        formData.append('department_id', "{{$department->id}}");
+        formData.append('title', $('#calendar_title').val());
+        formData.append('due_date', $('#calendar_due_date').val());
+        formData.append('description', $('#calendar_description').val());
 
         $.ajax({
             url:endPointUrl,
@@ -207,13 +207,13 @@ $(document).ready(function() {
                     $('.spinner1').hide();
                     $.each(result.errors, function(key, value){
                         $('#div-calendarEntry-modal-error').append('<li class="">'+value+'</li>');
-                        $('#'+key).addClass("input-border-error");
+                        $('#calendar_'+key).addClass("input-border-error");
 
-                        $('#'+key).keyup(function(e) {
-                            if($('#'+key).val() != ''){
-                                $('#'+key).removeClass("input-border-error")
+                        $('#calendar_'+key).keyup(function(e) {
+                            if($('#calendar_'+key).val() != ''){
+                                $('#calendar_'+key).removeClass("input-border-error")
                             }else{
-                                $('#'+key).addClass("input-border-error")
+                                $('#calendar_'+key).addClass("input-border-error")
                             }
                         });
                     });

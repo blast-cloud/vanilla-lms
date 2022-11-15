@@ -109,8 +109,8 @@ $(document).ready(function() {
 			$('#frm-announcement-modal').trigger("reset");
 			$('#txt-announcement-primary-id').val(response.data.id);
 
-            $('#title').val(response.data.title);
-            $('#description').val(response.data.description);
+            $('#announcement_title').val(response.data.title);
+            $('#announcement_description').val(response.data.description);
         });
     });
 
@@ -203,9 +203,9 @@ $(document).ready(function() {
         }
 
         formData.append('_method', actionType);
-        formData.append('title', $('#title').val());
-        formData.append('description', $('#description').val());
-        formData.append('department_id', {{$department->id}});
+        formData.append('title', $('#announcement_title').val());
+        formData.append('description', $('#announcement_description').val());
+        formData.append('department_id', "{{$department->id}}");
 
         $.ajax({
             url:endPointUrl,
@@ -223,13 +223,13 @@ $(document).ready(function() {
                     $('#btn-save-mdl-announcement-modal').prop("disabled", false);
                     $.each(data.errors, function(key, value){
                         $('#div-announcement-modal-error').append('<li class="">'+value+'</li>');
-                        $('#'+key).addClass("input-border-error");
+                        $('#announcement_'+key).addClass("input-border-error");
 
-                        $('#'+key).keyup(function(e) {
-                            if($('#'+key).val() != ''){
-                                $('#'+key).removeClass("input-border-error")
+                        $('#announcement_'+key).keyup(function(e) {
+                            if($('#announcement_'+key).val() != ''){
+                                $('#announcement_'+key).removeClass("input-border-error")
                             }else{
-                                $('#'+key).addClass("input-border-error")
+                                $('#announcement_'+key).addClass("input-border-error")
                             }
                         });
                     });
