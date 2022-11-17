@@ -39,9 +39,9 @@ class UpdateApplicationSettings extends FormRequest
             'txt_welcome_text'=>'nullable|string|max:2000',
             'txt_registration_text'=>'nullable|string|max:2000',
             'txt_enrollment_text'=>'nullable|string|max:2000',
-            'file_high_res_picture'=>'nullable|file|max:1024|mimes:jpeg,png,jpg',
-            'file_icon_picture'=>'nullable|file|max:100|mimes:jpeg,png,jpg',
-            'file_landing_page_picture'=>'nullable|file|max:1024|mimes:jpeg,png,jpg',
+            'file_high_res_picture'=>'nullable|file|max:2048|mimes:jpeg,png,jpg',
+            'file_icon_picture'=>'nullable|file|max:1024|mimes:jpeg,png,jpg',
+            'file_landing_page_picture'=>'nullable|file|max:2048|mimes:jpeg,png,jpg',
             'txt_portal_contact_phone'=>'nullable|numeric|digits:11',
             'txt_portal_contact_name'=>'nullable|string|max:50',
             'txt_portal_contact_email'=>'nullable|email|max:100',
@@ -56,9 +56,9 @@ class UpdateApplicationSettings extends FormRequest
     public function messages()
     {
         return [
-            'file_high_res_picture.max' => "Maximum file size to upload is 1MB. If you are uploading a photo, try to reduce its resolution to make it under 1MB",
-            'file_landing_page_picture.max' => "Maximum file size to upload is 1MB. If you are uploading a photo, try to reduce its resolution to make it under 1MB",
-            'file_icon_picture.max' => "Maximum file size to upload is 100KB. If you are uploading a photo, try to reduce its resolution to make it under 100KB"
+            'file_high_res_picture.max' => "Maximum file size to upload is 2MB. If you are uploading a photo, try to reduce its resolution to make it under 2MB",
+            'file_landing_page_picture.max' => "Maximum file size to upload is 2MB. If you are uploading a photo, try to reduce its resolution to make it under 2MB",
+            'file_icon_picture.max' => "Maximum file size to upload is 1MB. If you are uploading a photo, try to reduce its resolution to make it under 1MB"
         ];
     }
 
