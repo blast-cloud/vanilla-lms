@@ -278,8 +278,8 @@ class ACLController extends AppBaseController
                     $type = $request->type;
                     $headers = explode(',', $line);
                     if($type == 'student'){
-                        if (count($headers) != 6 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  || trim(strtolower($headers['4'])) != 'telephone' || trim(strtolower($headers[5]), "\r\n") != 'matric no') {
-                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no"';
+                        if (count($headers) != 7 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  || trim(strtolower($headers['4'])) != 'telephone' || trim(strtolower($headers[5])) != 'matric no' || trim(strtolower($headers[6]), "\r\n") != 'level') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no,Level"';
                             array_push($errors, $invalids);
                             break;
                         }
@@ -374,6 +374,7 @@ class ACLController extends AppBaseController
                     'telephone' => trim(strtolower($data[4]), "\r\n"),
                     'sex' => trim($data[3]),
                     'matriculation_number' => trim($data[5]),
+                    'level' => trim($data[6]),
                     'department_id' => auth()->user()->department_id ?? null
                 ];
                 if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){

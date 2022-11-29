@@ -335,6 +335,7 @@ class StudentAPIController extends AppBaseController
                         'telephone' => trim($data[4]),
                         'sex' => trim($data[3]),
                         'matriculation_number' => trim($data[5]),
+                        'level' => trim($data[6]),
                     ];
                     if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){
                         $ext_student_data['sex'] = "Male";
@@ -347,8 +348,8 @@ class StudentAPIController extends AppBaseController
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (count($headers) != 6 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  || strtolower(trim($headers['4'])) != 'telephone' || trim(strtolower($headers[5]), "\r\n") != 'matric no') {
-                        $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no"';
+                    if (count($headers) != 7 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  || strtolower(trim($headers['4'])) != 'telephone' || trim(strtolower($headers[5]) != 'matric no') || trim(strtolower($headers[6]), "\r\n") != 'level') {
+                        $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone,Matric no,Level"';
                         array_push($errors, $invalids);
                         break;
                     }

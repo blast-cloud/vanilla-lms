@@ -121,7 +121,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
-                <h4 id="lbl-student-modal-title" class="modal-title">s Enrollment</h4>
+                <h4 id="lbl-student-modal-title" class="modal-title">Student Enrollment</h4>
             </div>
 
             <div class="modal-body">

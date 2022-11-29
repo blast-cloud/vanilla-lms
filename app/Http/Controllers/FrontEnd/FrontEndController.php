@@ -14,6 +14,7 @@ use App\Models\User;
 use App\Models\Course;
 use App\Models\Lecturer;
 use App\Models\Department;
+use App\Models\Level;
 
 use App\Events\StudentCreated;
 use App\Events\LecturerCreated;
@@ -69,9 +70,11 @@ class FrontEndController extends AppBaseController
         }
 
         $departmentItems = \App\Models\Department::pluck('name','id')->toArray();
+        $levels = Level::all();
 
         return view('student-register')
-                ->with("departmentItems", $departmentItems);
+                ->with("departmentItems", $departmentItems)
+                ->with('levels', $levels);
                 
     }
 

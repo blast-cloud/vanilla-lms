@@ -9,7 +9,7 @@
 
 @section('page_title')
 @if (isset($department) && $department!=null)
-{{ $department->name }}  <a id="btn-show-bulk-student-courseClass-enrollment-modal" href="#" class="btn btn-danger btn-xs pull-right" style="color: white"><i class="icon wb-reply" aria-hidden="true"></i>Bulk Student CourseClass Enrollment</a>
+{{ $department->name }}  <a id="btn-show-bulk-student-courseClass-enrollment-modal" href="#" class="btn btn-danger btn-xs pull-right" style="color: white"><i class="icon wb-reply" aria-hidden="true"></i>Bulk Student Course Class Enrollment</a>
 @endif
 @stop
 

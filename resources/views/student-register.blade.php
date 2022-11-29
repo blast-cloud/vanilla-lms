@@ -217,6 +217,62 @@
                                                                 </div>
                                                             </div>
 
+                                                             <!-- First Name Field -->
+                                                             <div id="div-first_name" class="form-group">
+                                                                <label class="control-label mb-10 col-sm-3" for="first_name">Student Name</label>
+                                                                <div class="col-sm-4">
+                                                                    {!! Form::text('first_name', null, ['id'=>'first_name','placeholder'=>'First Name','class' => 'form-control']) !!}
+                                                                </div>
+                                                                <div class="col-sm-4">
+                                                                    {!! Form::text('last_name', null, ['id'=>'last_name','placeholder'=>'Last Name','class' => 'form-control']) !!}
+                                                                </div>
+                                                            </div>
+
+                                                             <!-- Telephone Field -->
+                                                             <div id="div-telephone" class="form-group">
+                                                                <label class="control-label mb-10 col-sm-3" for="telephone">Telephone</label>
+                                                                <div class="col-sm-4">
+                                                                    {!! Form::text('telephone', null, ['id'=>'telephone','class' => 'form-control']) !!}
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Gender Field -->
+                                                            <div id="div-telephone" class="form-group">
+                                                                <label class="control-label mb-10 col-sm-3" for="sex">Sex</label>
+                                                                <div class="col-sm-4">
+                                                                    <select name="sex" id="sex" class="form-control">
+                                                                        <option value="">
+                                                                            -- Select Gender --
+                                                                        </option>
+                                                                        <option value="Male">
+                                                                            Male
+                                                                        </option>
+                                                                        <option value="Female">
+                                                                            Female
+                                                                        </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                            <!-- Level Field -->
+                                                            <div id="div-level" class="form-group">
+                                                                <label class="control-label mb-10 col-sm-3" for="sex">Level</label>
+                                                                <div class="col-sm-4">
+                                                                    <select name="level" id="level" class="form-control">
+                                                                        <option value="">
+                                                                            -- Select Level --
+                                                                        </option>
+                                                                        @if($levels != null && count($levels) > 0)
+                                                                            @foreach ($levels as $level)
+                                                                                <option value="{{ $level->level }}">
+                                                                                    {{ $level->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        @endif
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
                                                             <!-- Password Field -->
                                                             {{-- <div id="div-password" class="form-group">
                                                                 <label class="control-label mb-10 col-sm-3" for="password">Password</label>
@@ -229,30 +285,12 @@
                                                             </div> --}}
 
 
-                                                            <!-- First Name Field -->
-                                                            <div id="div-first_name" class="form-group">
-                                                                <label class="control-label mb-10 col-sm-3" for="first_name">Student Name</label>
-                                                                <div class="col-sm-4">
-                                                                    {!! Form::text('first_name', null, ['id'=>'first_name','placeholder'=>'First Name','class' => 'form-control']) !!}
-                                                                </div>
-                                                                <div class="col-sm-4">
-                                                                    {!! Form::text('last_name', null, ['id'=>'last_name','placeholder'=>'Last Name','class' => 'form-control']) !!}
-                                                                </div>
-                                                            </div>
+                                                           
 
                                                             <!-- Last Name Field -->
                                                             {{-- <div id="div-last_name" class="form-group">
                                                                 <label class="control-label mb-10 col-sm-3" for="last_name">Last Name</label>
                                                             </div> --}}
-
-                                                            <!-- Telephone Field -->
-                                                            <div id="div-telephone" class="form-group">
-                                                                <label class="control-label mb-10 col-sm-3" for="telephone">Telephone</label>
-                                                                <div class="col-sm-4">
-                                                                    {!! Form::text('telephone', null, ['id'=>'telephone','class' => 'form-control']) !!}
-                                                                </div>
-                                                            </div>
-
 
                                                             <div class="col-lg-12 text-center mt-20">
                                                                 
