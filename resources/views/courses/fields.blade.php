@@ -24,7 +24,7 @@
 
 <!-- Credit Hours Field -->
 <div id="div-credit_hours" class="form-group">
-    <label class="control-label mb-10 col-sm-3" for="credit_hours">Credit Load</label>
+    <label class="control-label mb-10 col-sm-3" for="credit_hours">Credit Hours</label>
     <div class="col-sm-3">
         {!! Form::number('credit_hours', null, ['id' => 'course_credit_hours','class' => 'form-control']) !!}
     </div>
