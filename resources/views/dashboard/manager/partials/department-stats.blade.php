@@ -41,7 +41,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-7 text-center pl-0 pr-0 data-wrap-left">
-                                <span class="txt-dark block counter"><span class="counter-anim">{{ number_format($student_count) }}</span></span>
+                                <span class="txt-dark block counter"><span class="counter-anim">@if(isset($student_count) && $student_count != null){{ number_format($student_count) }}@endif</span></span>
                                 <span class="weight-500 uppercase-font block font-13">Students</span>
                             </div>
                             <div class="col-xs-5 text-center  pl-0 pr-0 data-wrap-right">
@@ -63,7 +63,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-7 text-center pl-0 pr-0 data-wrap-left">
-                                <span class="txt-dark block counter"><span class="counter-anim">{{ number_format($class_count,0) }}</span></span>
+                                <span class="txt-dark block counter"><span class="counter-anim">@if(isset($class_count) && $class_count != null){{ number_format($class_count,0) }}@endif</span></span>
                                 <span class="weight-500 uppercase-font block">Online Classes</span>
                             </div>
                             <div class="col-xs-5 text-center  pl-0 pr-0 data-wrap-right">
