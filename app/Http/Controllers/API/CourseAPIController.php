@@ -313,14 +313,15 @@ class CourseAPIController extends AppBaseController
                     'name' => trim($data[1]),
                     'description' => trim($data[2]),
                     'credit_hours' => trim($data[3]),
+                    'level' => trim($data[4])
                   ]);     
                     $course = Course::create($course_data); 
                     CourseCreated::dispatch($course);
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (count($headers) != 4 || trim(strtolower($headers[1]), "\r\n") != 'name' || trim(strtolower($headers[2]), "\r\n") != 'description' || trim(strtolower($headers[3]), "\r\n") != 'credit_hours') {
-                        $invalids['inc'] = 'The file format is incorrect: Must be - "code,name,credit_hours" ';
+                    if (count($headers) != 5 || trim(strtolower($headers[0]), "\r\n") != 'code' || trim(strtolower($headers[1]), "\r\n") != 'name' || trim(strtolower($headers[2]), "\r\n") != 'description' || trim(strtolower($headers[3]), "\r\n") != 'credit_hours' || trim(strtolower($headers[4]), "\r\n") != 'level') {
+                        $invalids['inc'] = 'The file format is incorrect: Must be - "code,name,description,credit_hours,level" ';
                         array_push($errors, $invalids);
                         break;
                     }
