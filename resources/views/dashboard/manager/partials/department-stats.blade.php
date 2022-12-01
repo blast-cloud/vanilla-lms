@@ -85,7 +85,7 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-xs-7 text-center pl-0 pr-0 data-wrap-left">
-                                <span class="txt-dark block counter"><span class="counter-anim">{{ number_format($course_count,0) }}</span></span>
+                                <span class="txt-dark block counter"><span class="counter-anim">@if(isset($course_count) && $course_count != null){{ number_format($course_count,0) }}@endif</span></span>
                                 <span class="weight-500 uppercase-font block">Course Catalog</span>
                             </div>
                             <div class="col-xs-5 text-center  pl-0 pr-0 data-wrap-right">
