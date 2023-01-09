@@ -8,6 +8,7 @@ use App\Events\DepartmentDeleted;
 
 use App\DataTables\DepartmentDataTable;
 use App\Http\Requests;
+use App\Models\Department;
 use App\Http\Requests\CreateDepartmentRequest;
 use App\Http\Requests\UpdateDepartmentRequest;
 use App\Repositories\DepartmentRepository;
@@ -31,6 +32,15 @@ class DepartmentController extends AppBaseController
      * @param DepartmentDataTable $departmentDataTable
      * @return Response
      */
+    public function facultyDepts(DepartmentDataTable $departmentDataTable, $faculty_id)
+    {
+        $faculty = Department::where('parent_id',null)
+                             ->where('is_parent',true)
+                             ->find($faculty_id);
+
+        return $departmentDataTable->render('departments.index', compact('faculty'));
+    }
+
     public function index(DepartmentDataTable $departmentDataTable)
     {
         return $departmentDataTable->render('departments.index');
@@ -55,14 +65,16 @@ class DepartmentController extends AppBaseController
      */
     public function store(CreateDepartmentRequest $request)
     {
-        $input = $request->all();
+        $is_parent = false;
 
-        $department = $this->departmentRepository->create($input);
+        $input = array_merge(['is_parent' => $is_parent], $request->all());
+
+        $department = Department::create($input);
 
         Flash::success('Department saved successfully.');
         
         DepartmentCreated::dispatch($department);
-        return redirect(route('departments.index'));
+        return redirect()->back();
     }
 
     /**
@@ -74,12 +86,14 @@ class DepartmentController extends AppBaseController
      */
     public function show($id)
     {
-        $department = $this->departmentRepository->find($id);
+        $department = Department::where('parent_id', '!=', null)
+                                 ->where('is_parent', false)
+                                 ->find($id);
 
         if (empty($department)) {
             Flash::error('Department not found');
 
-            return redirect(route('departments.index'));
+            return redirect()->back();
         }
 
         return view('departments.show')->with('department', $department);
@@ -94,12 +108,14 @@ class DepartmentController extends AppBaseController
      */
     public function edit($id)
     {
-        $department = $this->departmentRepository->find($id);
+        $department = Department::where('parent_id', '!=', null)
+                                 ->where('is_parent', false)
+                                 ->find($id);
 
         if (empty($department)) {
             Flash::error('Department not found');
 
-            return redirect(route('departments.index'));
+            return redirect()->back();
         }
 
         return view('departments.edit')->with('department', $department);
@@ -115,20 +131,22 @@ class DepartmentController extends AppBaseController
      */
     public function update($id, UpdateDepartmentRequest $request)
     {
-        $department = $this->departmentRepository->find($id);
+        $department = Department::where('parent_id', '!=', null)
+                                 ->where('is_parent', false)
+                                 ->find($id);
 
         if (empty($department)) {
             Flash::error('Department not found');
 
-            return redirect(route('departments.index'));
+            return redirect()->back();
         }
 
-        $department = $this->departmentRepository->update($request->all(), $id);
+        $department->update($request->all());
 
         Flash::success('Department updated successfully.');
         
         DepartmentUpdated::dispatch($department);
-        return redirect(route('departments.index'));
+        return redirect()->back();
     }
 
     /**
@@ -140,19 +158,21 @@ class DepartmentController extends AppBaseController
      */
     public function destroy($id)
     {
-        $department = $this->departmentRepository->find($id);
+        $department = Department::where('parent_id', '!=', null)
+                                 ->where('is_parent', false)
+                                 ->find($id);
 
         if (empty($department)) {
             Flash::error('Department not found');
 
-            return redirect(route('departments.index'));
+            return redirect()->back();
         }
 
-        $this->departmentRepository->delete($id);
+        $department->delete($id);
 
         Flash::success('Department deleted successfully.');
 
         DepartmentDeleted::dispatch($department);
-        return redirect(route('departments.index'));
+        return redirect()->back();
     }
 }

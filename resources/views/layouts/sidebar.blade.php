@@ -366,10 +366,13 @@ if ($current_user && $current_user->lecturer) {
             </li>
 
             <li class="">
-                <a href="{{ route('departments.index') }}"
-                    class="{{ Request::is('departments*') ? 'active' : '' }}">
-                    <div class="pull-left"><i class="zmdi zmdi-home mr-20"></i><span
-                            class="right-nav-text">Departments</span></div>
+                <a href="{{ route('faculties.index') }}"
+                    class="{{ Request::is('faculties*') ? 'active' : '' }}">
+                    <div class="pull-left">
+                        <i class="zmdi zmdi-home mr-20"></i>@if(config('lmsfaculty.faculty',true))<span class="right-nav-text">Faculties</span>@endif
+                        @if(config('lmsfaculty.college',true))<span class="right-nav-text">Colleges</span>@endif
+                        @if(config('lmsfaculty.school',true))<span class="right-nav-text">Schools</span>@endif
+                    </div>
                     <div class="pull-right"></div>
                     <div class="clearfix"></div>
                 </a>

@@ -95,6 +95,8 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
         Route::get('semesters/tabs/{id}', [App\Http\Controllers\SemesterController::class, 'show'])->name('semesters.tabs.show');
         Route::resource('semesters', App\Http\Controllers\SemesterController::class);
         Route::resource('departments', App\Http\Controllers\DepartmentController::class);
+        Route::resource('faculties', App\Http\Controllers\FacultyController::class);
+        Route::get('faculty/{id}/departments', [App\Http\Controllers\DepartmentController::class,'facultyDepts'])->name('faculty.departments');
         Route::resource('faqs', App\Http\Controllers\FAQController::class);
         Route::resource('notifications', App\Http\Controllers\BroadcastNotificationController::class, ['except' => ['index', 'show']]);
 
@@ -106,7 +108,6 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     
     Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
 
-    
     Route::resource('courses', App\Http\Controllers\CourseController::class);
 
     Route::resource('courseClasses', App\Http\Controllers\CourseClassController::class);

@@ -6,7 +6,7 @@ use App\Models\Department;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 
-class DepartmentDataTable extends DataTable
+class FacultyDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -18,7 +18,7 @@ class DepartmentDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'departments.datatables_actions');
+        return $dataTable->addColumn('action', 'faculties.datatables_actions');
     }
 
     /**
@@ -28,12 +28,10 @@ class DepartmentDataTable extends DataTable
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Department $model)
-    { 
-        $faculty_id = request()->route()->parameter('id');                    
-
+    {
         if((Auth()->user()->is_platform_admin) == true){
-            return $model->where('parent_id',$faculty_id)
-                         ->where('is_parent',false);
+            return $model->where('parent_id', null)
+                         ->where('is_parent', true);
         }
         return $model->newQuery();
     }
@@ -86,6 +84,6 @@ class DepartmentDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'departments_datatable_' . time();
+        return 'faculties_datatable_' . time();
     }
 }

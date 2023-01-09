@@ -56,7 +56,7 @@
 
                             <!-- Department Field -->
                             <div id="div-department_id" class="form-group">
-                                <label class="control-label mb-10 col-sm-3" for="department_id">Department</label>
+                                <label class="control-label mb-10 col-sm-3" for="department_id">Faculty/Department</label>
                                 <div class="col-sm-8">
                                     {!! Form::select('department_id', $departmentItems, null, [
                                         'id' => 'department_id',
@@ -273,7 +273,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $('#department_id').prepend('<option value="">-- select department--</option>')
+            $('#department_id').prepend('<option value="">-- select faculty or department--</option>')
 
             $('.no-file').hide();
             $("#spinner-user").fadeOut(1);

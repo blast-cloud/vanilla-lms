@@ -65,11 +65,13 @@ class DepartmentAPIController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $departments = $this->departmentRepository->all(
-            $request->except(['skip', 'limit']),
-            $request->get('skip'),
-            $request->get('limit')
-        );
+
+        $departments = Department::where('parent_id', '!=', null)
+                                ->where('is_parent', false)->all(
+                                    $request->except(['skip', 'limit']),
+                                    $request->get('skip'),
+                                    $request->get('limit')
+                                );
 
         return $this->sendResponse(DepartmentResource::collection($departments), 'Departments retrieved successfully');
     }
@@ -114,9 +116,11 @@ class DepartmentAPIController extends AppBaseController
      */
     public function store(CreateDepartmentAPIRequest $request)
     {
-        $input = $request->all();
+        $is_parent = false;
 
-        $department = $this->departmentRepository->create($input);
+        $input = array_merge(['is_parent' => $is_parent], $request->all());
+
+        $department = Department::create($input);
         
         DepartmentCreated::dispatch($department);
         return $this->sendResponse(new DepartmentResource($department), 'Department saved successfully');
@@ -162,8 +166,9 @@ class DepartmentAPIController extends AppBaseController
      */
     public function show($id)
     {
-        /** @var Department $department */
-        $department = $this->departmentRepository->find($id);
+        $department = Department::where('parent_id', '!=', null)
+                                 ->where('is_parent', false)
+                                 ->find($id);
 
         if (empty($department)) {
             return $this->sendError('Department not found');
@@ -220,16 +225,15 @@ class DepartmentAPIController extends AppBaseController
      */
     public function update($id, UpdateDepartmentAPIRequest $request)
     {
-        $input = $request->all();
-
-        /** @var Department $department */
-        $department = $this->departmentRepository->find($id);
+        $department = Department::where('parent_id', '!=', null)
+                                 ->where('is_parent', false)
+                                 ->find($id);
 
         if (empty($department)) {
             return $this->sendError('Department not found');
         }
 
-        $department = $this->departmentRepository->update($input, $id);
+       $department->update($request->all());
         
         DepartmentUpdated::dispatch($department);
         return $this->sendResponse(new DepartmentResource($department), 'Department updated successfully');
@@ -275,8 +279,9 @@ class DepartmentAPIController extends AppBaseController
      */
     public function destroy($id)
     {
-        /** @var Department $department */
-        $department = $this->departmentRepository->find($id);
+        $department = Department::where('parent_id', '!=', null)
+                                 ->where('is_parent', false)
+                                 ->find($id);
 
         if (empty($department)) {
             return $this->sendError('Department not found');
@@ -339,7 +344,7 @@ class DepartmentAPIController extends AppBaseController
     {
         $errors = [];
 
-        $department = Department::where('code', trim($data[0]))->first();
+        $department = Department::where('is_parent',false)->where('parent_id', '!=', null)->where('code', trim($data[0]))->first();
         if ($department) {
             $errors[] = 'The code: '.trim($data[0]).' already belongs to a department';
         }

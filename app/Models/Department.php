@@ -73,7 +73,9 @@ class Department extends Model
         'name',
         'website_url',
         'email_address',
-        'contact_phone'
+        'contact_phone',
+        'parent_id',
+        'is_parent'
     ];
 
     /**
@@ -120,5 +122,10 @@ class Department extends Model
     public function calendarEntries()
     {
         return $this->hasMany(\App\Models\CalendarEntry::class, 'course_class_id');
+    }
+
+    public function parent()
+    {
+        return $this->hasOne(Department::class, 'id', 'parent_id');    
     }
 }
