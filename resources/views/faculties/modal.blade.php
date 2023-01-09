@@ -6,7 +6,13 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 id="lbl-faculty-modal-title" class="modal-title">Faculty</h4>
+                <h4 id="lbl-faculty-modal-title" class="modal-title">@if(config('lmsfaculty.faculty',true))<span class="right-nav-text">Faculty</span>
+                    @elseif(config('lmsfaculty.school',true))<span class="right-nav-text">School</span>
+                    @elseif(config('lmsfaculty.college',true))<span class="right-nav-text">College</span>
+                    @else
+                    <span class="right-nav-text">Faculty</span>
+                    @endif
+                </h4>
             </div>
 
             <div class="modal-body">
@@ -57,7 +63,7 @@
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 id="lbl-faculty-modal-title" class="modal-title">{{ isset($title) ? "Bulk Faculty Upload" : "Bulk faculty Upload" }}</h4>
+                <h4 id="lbl-faculty-modal-title" class="modal-title">{{ isset($title) ? "Bulk Upload" : "Bulk Upload" }}</h4>
             </div>
 
             <div class="modal-body">
@@ -82,7 +88,7 @@
                                                 {!! Form::file('bulk_faculty', ['class' => 'custom-file-input', 'id'=>'bulk_faculty']) !!}
                                             </div>
                                         </div>
-                                        <span class="badge badge-pill badge-secondary mb-5 ml-30">Faculty csv file format:</span>
+                                        <span class="badge badge-pill badge-secondary mb-5 ml-30">csv file format:</span>
                                         <a href="{{asset('csv/faculty_upload_csv_format.csv')}}" class="btn btn-sm btn-danger" data-toggle="tootip" title="faculty csv file format"><i class="fa fa-download"></i> Download</a>
                                     </div>
                                 </div>
