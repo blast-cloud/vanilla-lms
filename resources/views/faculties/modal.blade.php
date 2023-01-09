@@ -192,13 +192,7 @@ $('#spinner-faculties').fadeOut(1);
           dangerMode: true,
         })
         .then((willDelete) => {
-          if (willDelete) {
-            swal({
-                title: 'Please Wait !',
-                content: wrapper, 
-                buttons: false,
-                closeOnClickOutside: false
-            });
+          if (willDelete) {        
             let endPointUrl = "{{ route('faculties.destroy',0) }}"+itemId;
 
             let formData = new FormData();

@@ -188,12 +188,6 @@ $('#spinner-departments').fadeOut(1);
         })
         .then((willDelete) => {
           if (willDelete) {
-            swal({
-                title: 'Please Wait !',
-                content: wrapper, 
-                buttons: false,
-                closeOnClickOutside: false
-            });
             let endPointUrl = "{{ route('departments.destroy',0) }}"+itemId;
 
             let formData = new FormData();
