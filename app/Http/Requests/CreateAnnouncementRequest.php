@@ -39,10 +39,10 @@ class CreateAnnouncementRequest extends AppBaseFormRequest
 
     public function withValidator($validator)
     {
-        $validator->after(function ($validator) {
-            if (count($this->announcement_exist()) != 0) {
-                $validator->errors()->add('announcement_exist', 'Announcement Already Exist');
-            }
-        });
+        // $validator->after(function ($validator) {
+        //     if (count($this->announcement_exist()) != 0) {
+        //         $validator->errors()->add('announcement_exist', 'Announcement Already Exist');
+        //     }
+        // });
     }
 }
