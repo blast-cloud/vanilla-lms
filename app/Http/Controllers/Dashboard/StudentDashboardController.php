@@ -21,6 +21,7 @@ use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Semester;
 use App\Models\Lecturer;
+use App\Models\Department;
 use DB;
 use Response;
 use Request;
@@ -114,7 +115,10 @@ class StudentDashboardController extends AppBaseController
 
        
         $semesterItems = $this->semesterRepository->all();
-        $departmentItems = $this->departmentRepository->all()->sortBy('name');
+        $departmentItems = Department::where('is_parent',false)
+                                     ->where('parent_id','!=',null)
+                                     ->select('id','name')
+                                     ->get()->sortBy('name');
         $enrollment_ids = [];
         $enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
         foreach ($enrollments as $item){

@@ -56,7 +56,7 @@
 
                             <!-- Department Field -->
                             <div id="div-department_id" class="form-group">
-                                <label class="control-label mb-10 col-sm-3" for="department_id">Faculty/Department</label>
+                                <label class="control-label mb-10 col-sm-3" for="department_id">Department</label>
                                 <div class="col-sm-8">
                                     {!! Form::select('department_id', $departmentItems, null, [
                                         'id' => 'department_id',
@@ -231,6 +231,18 @@
                                 </div>
                             </div>
 
+                            <div id="departments_div" class="form-group">
+                                <label class="control-label col-sm-3">Departments</label>
+                                <div class="col-sm-7">
+                                    <select id="department" class="form-control select2">
+                                        <option value="">--Select Option--</option>
+                                        @foreach($departments as $department)
+                                             <option value={{$department->id}}>{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="offline-flag"><span class="no-file">Please upload a csv file</span></div>
                             <div id="spinner-user" class="">
                                 <div class="loader" id="loader-1"></div>
@@ -273,7 +285,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            $('#department_id').prepend('<option value="">-- select faculty or department--</option>')
+            $('#department_id').prepend('<option value="">-- select department--</option>')
 
             $('.no-file').hide();
             $("#spinner-user").fadeOut(1);
@@ -648,7 +660,7 @@
             } else if (type == 'lecturer') {
                 $(img_area).attr("href", "{{ asset('csv/lecturer_user_upload_cvs_format.csv') }}");
             } else if (type == 'manager') {
-                $(img_area).attr("href", "{{ asset('csv/lecturer_user_upload_cvs_format.csv') }}");
+                $(img_area).attr("href", "{{ asset('csv/manager_user_upload_csv_format.csv')}}");
             } else {
                 return;
             }
@@ -670,6 +682,7 @@
             @endif
             formData.append('type', $('#type').val());
             formData.append('_token', $('input[name="_token"]').val());
+            formData.append('department_id',$('#department').val());
             if ($('#bulk_user')[0].files.length > 0) {
                 formData.append('bulk_user_file', $('#bulk_user')[0].files[0]);
                 $.ajax({

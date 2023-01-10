@@ -25,8 +25,8 @@ class UpdateLevelRequest extends AppBaseFormRequest
      */
     public function rules() {           
         return [
-            'name' => "required|unique:levels,name,{$this->id},id",
-            'level' => "required|numeric|unique:levels,level,{$this->id},id|min:100",
+            'name' => "required|unique:levels,name,{$this->id},id,deleted_at,NULL",
+            'level' => "required|numeric|unique:levels,level,{$this->id},id,deleted_at,NULL|min:100",
         ];
     }
 

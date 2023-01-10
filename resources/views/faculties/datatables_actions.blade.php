@@ -7,10 +7,10 @@
         {!! Form::button('<i class="fa fa-edit"></i>', ['type'=>'button']) !!}
     </a>
 
-    <a href="#" data-val='{{$id}}' class='btn-delete-mdl-faculty-modal' data-toggle="tootip" title="Delete faculty details">
+   {{--  <a href="#" data-val='{{$id}}' class='btn-delete-mdl-faculty-modal' data-toggle="tootip" title="Delete faculty details">
         {!! Form::button('<i class="fa fa-trash"></i>', ['type'=>'button']) !!}
     </a>
-    
+     --}}
     <a href="{{ route('faculty.departments', [$id]) }}"
         class="{{ Request::is('faculties*') ? 'active' : '' }}" data-val='{{$id}}' class='btn-add-mdl-department-modal' data-toggle="tooltip" title="Add and View Department">
         {!! Form::button('<i class="fa fa-plus"></i>', ['type'=>'button']) !!}

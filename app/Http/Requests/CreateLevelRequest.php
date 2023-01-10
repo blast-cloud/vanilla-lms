@@ -26,8 +26,8 @@ class CreateLevelRequest extends AppBaseFormRequest
     public function rules()
     {
         return [
-            'name' => "required|unique:levels,name",
-            'level' => 'required|numeric|unique:levels,level,'.$this->id.'|min:100',
+            'name' => "required|unique:levels,name,NULL,id,deleted_at,NULL",
+            'level' => 'required|numeric|unique:levels,level,NULL,id,deleted_at,NULL'.$this->id.'|min:100',
         ];
     }
 

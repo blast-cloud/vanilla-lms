@@ -11,6 +11,6 @@
         {!! Form::button('<i class="fa fa-key"></i>', ['type'=>'button']) !!}
     </a>
      --}}
-    {{-- <a href="#" data-val='{{$id}}' class='btn-delete-mdl-level-modal'>
+    <a href="#" data-val='{{$id}}' class='btn-delete-mdl-level-modal' data-toggle="tootip" title="Delete level">
         {!! Form::button('<i class="fa fa-trash"></i>', ['type'=>'button']) !!}
-    </a> --}}
+    </a>

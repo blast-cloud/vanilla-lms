@@ -218,6 +218,8 @@ class ACLController extends AppBaseController
 
         $departmentItems = Department::pluck('name','id')->toArray();
 
+        $departments = Department::select('name','id')->get();
+
         //Get User Accounts DataTable
         $userAccountsDataTable = new UserAccountsDataTable();
         $levels = $this->levelRepository->all();
@@ -228,7 +230,7 @@ class ACLController extends AppBaseController
         }
         return $userAccountsDataTable->render('acl.user-accounts',
 
-        compact('current_user', 'departmentItems','levels'));                                 
+        compact('current_user', 'departmentItems','levels','departments'));                                 
     
     }
 

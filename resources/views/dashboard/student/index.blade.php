@@ -29,7 +29,7 @@ Student Dashboard
                             </div>
                             <div class="panel-heading text-center mb-20 mt-10">
                                 <h4 class="text-danger">You are NOT enrolled in any classes</h4>
-                                <p class="muted">Please contact your department to enroll you for classes on this Platform</p>
+                                <p class="muted">Please contact your department to enroll or enable self-enrollment for classes on this Platform</p>
                             </div>
                         </div>
                     </div>
