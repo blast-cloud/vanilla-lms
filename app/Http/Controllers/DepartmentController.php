@@ -37,8 +37,13 @@ class DepartmentController extends AppBaseController
         $faculty = Department::where('parent_id',null)
                              ->where('is_parent',true)
                              ->find($faculty_id);
+                             
+        $faculties = Department::where('parent_id',null)
+                                ->where('is_parent', true)
+                                ->select('id','name')
+                                ->get();
 
-        return $departmentDataTable->render('departments.index', compact('faculty'));
+        return $departmentDataTable->render('departments.index', compact('faculty','faculties'));
     }
 
     public function index(DepartmentDataTable $departmentDataTable)

@@ -36,6 +36,14 @@
                                 </div>
                             </div>
 
+                            <div id="div-edit2-txt-department-primary-id">
+                                <div class="row">
+                                    <div class="col-lg-10 ma-10">
+                                    @include('departments.fields2')
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </form>
@@ -119,6 +127,7 @@ $('#spinner-departments').fadeOut(1);
         $('#txt-department-primary-id').val(0);
 
         $('#div-show-txt-department-primary-id').hide();
+        $('#div-edit2-txt-department-primary-id').hide();
         $('#div-edit-txt-department-primary-id').show();
     });
 
@@ -129,6 +138,7 @@ $('#spinner-departments').fadeOut(1);
         $('#spinner1').hide();
         $('#div-show-txt-department-primary-id').show();
         $('#div-edit-txt-department-primary-id').hide();
+        $('#div-edit2-txt-department-primary-id').hide();
         $('.modal-footer').hide('show');
         let itemId = $(this).attr('data-val');
 
@@ -154,7 +164,8 @@ $('#spinner-departments').fadeOut(1);
         $('#spinner1').hide();
         $('.input-border-error').removeClass("input-border-error");
         $('#div-show-txt-department-primary-id').hide();
-        $('#div-edit-txt-department-primary-id').show();
+        $('#div-edit-txt-department-primary-id').hide();
+        $('#div-edit2-txt-department-primary-id').show();
         $('.modal-footer').show();
         let itemId = $(this).attr('data-val');
 
@@ -164,11 +175,11 @@ $('#spinner-departments').fadeOut(1);
 			$('#frm-department-modal').trigger("reset");
 			$('#txt-department-primary-id').val(response.data.id);
 
-            $('#code').val(response.data.code);
-            $('#name').val(response.data.name);
-            $('#email_address').val(response.data.email_address);
-            $('#website_url').val(response.data.website_url);
-            $('#contact_phone').val(response.data.contact_phone);
+            $('#code1').val(response.data.code);
+            $('#name1').val(response.data.name);
+            $('#email_address1').val(response.data.email_address);
+            $('#website_url1').val(response.data.website_url);
+            $('#contact_phone1').val(response.data.contact_phone);
 
         });
     });
@@ -221,8 +232,8 @@ $('#spinner-departments').fadeOut(1);
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
         $('#spinner1').show();
         $('#btn-save-mdl-department-modal').prop("disabled", true);
-        let actionType = "POST";
-        let endPointUrl = "{{ route('departments.store') }}";
+        let actionType = "";
+        let endPointUrl = "";
         let primaryId = $('#txt-department-primary-id').val();
         
         let formData = new FormData();
@@ -232,16 +243,26 @@ $('#spinner-departments').fadeOut(1);
             actionType = "PUT";
             endPointUrl = "{{ route('departments.update',0) }}"+primaryId;
             formData.append('id', primaryId);
+            formData.append('_method', actionType);
+            formData.append('parent_id', $('#dept_faculties').val());
+            formData.append('code', $('#code1').val());
+            formData.append('name', $('#name1').val());
+            formData.append('email_address', $('#email_address1').val());
+            formData.append('website_url', $('#website_url1').val());
+            formData.append('contact_phone', $('#contact_phone1').val());
+        }else{
+            actionType = "POST";
+            endPointUrl = "{{ route('departments.store') }}";
+            formData.append('id', primaryId);
+            formData.append('_method', actionType);
+            formData.append('parent_id', '{{$faculty->id}}');
+            formData.append('code', $('#code').val());
+            formData.append('name', $('#name').val());
+            formData.append('email_address', $('#email_address').val());
+            formData.append('website_url', $('#website_url').val());
+            formData.append('contact_phone', $('#contact_phone').val());
         }
         
-        formData.append('_method', actionType);
-        formData.append('parent_id', '{{$faculty->id}}');
-        formData.append('code', $('#code').val());
-        formData.append('name', $('#name').val());
-        formData.append('email_address', $('#email_address').val());
-        formData.append('website_url', $('#website_url').val());
-        formData.append('contact_phone', $('#contact_phone').val());
-
         $.ajax({
             url:endPointUrl,
             type: "POST",
