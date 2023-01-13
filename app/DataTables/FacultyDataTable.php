@@ -18,6 +18,12 @@ class FacultyDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
+        $dataTable->editColumn('name', function($faculty) {
+
+            return '<a href="'.route('faculty.departments', $faculty->id) .'" data-toggle="tooltip" title="View Faculty Departments"><span class="text-primary"><u>'.$faculty->name.'</u></span></a>';
+            
+        })->rawColumns(['name','action']);
+
         return $dataTable->addColumn('action', 'faculties.datatables_actions');
     }
 

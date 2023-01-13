@@ -12,6 +12,6 @@
     </a>
      --}}
     <a href="{{ route('faculty.departments', [$id]) }}"
-        class="{{ Request::is('faculties*') ? 'active' : '' }}" data-val='{{$id}}' class='btn-add-mdl-department-modal' data-toggle="tooltip" title="Add and View Department">
+        class="{{ Request::is('faculties*') ? 'active' : '' }}" data-val='{{$id}}' class='btn-add-mdl-department-modal' data-toggle="tooltip" title="Add Faculty Department">
         {!! Form::button('<i class="fa fa-plus"></i>', ['type'=>'button']) !!}
     </a>

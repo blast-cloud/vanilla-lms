@@ -279,11 +279,21 @@ $('#spinner-departments').fadeOut(1);
                     $('#btn-save-mdl-department-modal').prop("disabled", false);
                     
                     $.each(result.errors, function(key, value){
-                        $('#div-department-modal-error').append('<li class="">'+value+'</li>');
-                        $('#'+key).addClass("input-border-error");
-
                         
-                    });
+                        $('#div-department-modal-error').append('<li class="">' +
+                                    value + '</li>');
+                                $('#' + key).addClass("input-border-error");
+
+                                $('#' + key).keyup((e) => {
+                                    if ($('#' + key).val() != '') {
+                                        $('#' + key).removeClass(
+                                            "input-border-error")
+                                    } else {
+                                        $('#' + key).addClass(
+                                            "input-border-error")
+                                    }
+                                }); 
+                            });
                 }else{
                     $('#div-department-modal-error').hide();
                     $('#spinner1').hide();

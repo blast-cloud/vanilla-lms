@@ -262,9 +262,20 @@ $('#spinner-faculties').fadeOut(1);
                     $('#btn-save-mdl-faculty-modal').prop("disabled", false);
                     
                     $.each(result.errors, function(key, value){
-                        $('#div-faculty-modal-error').append('<li class="">'+value+'</li>');
-                        $('#'+key).addClass("input-border-error");
+        
+                        $('#div-faculty-modal-error').append('<li class="">' +
+                                    value + '</li>');
+                                $('#' + key).addClass("input-border-error");
 
+                                $('#' + key).keyup((e) => {
+                                    if ($('#' + key).val() != '') {
+                                        $('#' + key).removeClass(
+                                            "input-border-error")
+                                    } else {
+                                        $('#' + key).addClass(
+                                            "input-border-error")
+                                    }
+                                });
                         
                     });
                 }else{
