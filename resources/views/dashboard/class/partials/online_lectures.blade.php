@@ -86,7 +86,9 @@
                     <br>
                     </span>
                     @if($item->lecture_date)
-                    lecture Date:  <span id="spn_ol_{{$item->id}}_lecture_date">@php echo $timeObj->parse($item->lecture_date)->format('Y-m-d'); @endphp</span> <span id="spn_ol_{{$item->id}}_lecture_time">@php echo $timeObj->parse($item->lecture_time)->format('h:i A');@endphp</span>
+                    Lecture Date:  <span id="spn_ol_{{$item->id}}_lecture_date">@php echo $timeObj->parse($item->lecture_date)->format('Y-m-d'); @endphp</span> <br>
+                    Lecture Time: <span id="spn_ol_{{$item->id}}_lecture_time">@php echo $timeObj->parse($item->lecture_time)->format('h:i A');@endphp</span> - 
+                    <span id="spn_ol_{{$item->id}}_lecture_end_time">@php echo $timeObj->parse($item->lecture_end_time)->format('h:i A');@endphp</span>
                     </span>
                     @endif
                     

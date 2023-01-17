@@ -46,6 +46,7 @@
                                 <div class="col-sm-9">
                                     <div class="input-group mb-3">
                                         <select id="sel_account_type" class="form-control">
+                                            <option value="">Choose Type</option>
                                             <option value="lecturer">Lecturer</option>
                                             <option value="student">Student</option>
                                             <option value="manager">Department Admin</option>
@@ -100,6 +101,20 @@
                                 </div>
 
                             </div>
+                            <div id="div-job_title" class="form-group">
+                                <label class="control-label mb-10 col-sm-3" for="job_title">Job Tile</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group mb-3">
+                                        <input type="text" id="job_title" name="job_title"
+                                            class="form-control @error('job_title') is-invalid @enderror"
+                                            value="{{ old('job_title') }}" placeholder="Job Title">
+                                        @error('job_title')
+                                            <span class="error invalid-feedback">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="code">First Name</label>
                                 <div class="col-sm-9">
@@ -295,12 +310,18 @@
             $('#div_registration_num').hide();
             $('#div_level').hide();
             $('#div-has_graduated').hide();
+            $("#div-job_title").hide();
             $('#sel_account_type').on('change', function() {
                 $('#div_registration_num').hide();
                 if (this.value == "student") {
                     $('#div_registration_num').show();
                     $('#div_level').show();
                     $('#div-has_graduated').show();
+                    $("#div-job_title").hide();
+                } else if(this.value == "lecturer") {
+                    $("#div-job_title").show();
+                } else{
+                    $("#div-job_title").hide();
                 }
             });
 
@@ -332,7 +353,7 @@
                 let itemId = $(this).attr('data-val');
                 $('#txt_user_account_id').val(itemId);
                 $('.input-border-error').removeClass("input-border-error");
-                $('#div_account_type').hide();
+                //$('#div_account_type').hide();
                 $('.spinner1').hide();
 
                 $('#modify-user-details-title').html("Modify User Account");
@@ -349,6 +370,7 @@
                     console.log(data);
                     if (data.student_id != null) {
                         $('#sel_account_type').val("student")
+                        $("#div-job_title").hide();
                         $('#div_registration_num').show();
                         $('#div_level').show();
                         $('#div-has_graduated').show();
@@ -360,10 +382,16 @@
                         }else{
                             $('#has_graduated').prop('checked',false);
                         }
-                    } else {
+                    } else if (data.lecturer_id != null) {
                         $('#div_registration_num').hide();
                         $('#div_level').hide();
                         $('#div-has_graduated').hide();
+                        $("#div-job_title").show();
+                    } else{
+                        $('#div_registration_num').hide();
+                        $('#div_level').hide();
+                        $('#div-has_graduated').hide();
+                        $("#div-job_title").hide();
                     }
 
                     if (data.manager_id) {
@@ -371,6 +399,7 @@
                     }
                     if (data.lecturer_id) {
                         $('#sel_account_type').val("lecturer")
+                        $('#job_title').val(data.lecturer.job_title);
                     }
 
                     $('#sex').val(data.sex);
@@ -583,6 +612,7 @@
                 formData.append('_token', $('input[name="_token"]').val());
                 formData.append('_method', actionType);
                 formData.append('id', primaryId);
+                formData.append('job_title', $('#job_title').val());
                 formData.append('first_name', $('#first_name').val());
                 formData.append('last_name', $('#last_name').val());
                 formData.append('email', $('#email').val());

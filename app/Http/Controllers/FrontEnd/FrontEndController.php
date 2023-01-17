@@ -69,7 +69,9 @@ class FrontEndController extends AppBaseController
             return abort(404);
         }
 
-        $departmentItems = \App\Models\Department::pluck('name','id')->toArray();
+        $departmentItems = \App\Models\Department::where('parent_id','!=', null)
+                                                ->where('is_parent', false)
+                                                ->pluck('name','id')->toArray();
         $levels = Level::all();
 
         return view('student-register')
@@ -90,7 +92,9 @@ class FrontEndController extends AppBaseController
             return abort(404);
         }
 
-        $departmentItems = \App\Models\Department::pluck('name','id')->toArray();
+        $departmentItems = \App\Models\Department::where('parent_id','!=', null)
+                                                ->where('is_parent', false)
+                                                ->pluck('name','id')->toArray();
 
         return view('lecturer-register')
                 ->with("departmentItems", $departmentItems);

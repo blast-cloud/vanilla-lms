@@ -113,6 +113,7 @@ class ClassMaterial extends Model
         'lecture_number',
         'assignment_number',
         'due_date',
+        'due_time',
         'upload_file_path',
         'upload_file_type',
         'reference_material_url',
@@ -127,6 +128,7 @@ class ClassMaterial extends Model
         'semester_id',
         'lecture_date',
         'lecture_time',
+        'lecture_end_time',
         'exam_date',
         'exam_time',
     ];
@@ -140,6 +142,7 @@ class ClassMaterial extends Model
         'id' => 'integer',
         'type' => 'string',
         'title' => 'string',
+        'due_time' => 'datetime',
         'description' => 'string',
         'lecture_number' => 'integer',
         'assignment_number' => 'integer',
@@ -155,6 +158,7 @@ class ClassMaterial extends Model
         'examination_number' => 'integer',
         'lecture_date' => 'datetime',
         'lecture_time' => 'datetime',
+        'lecture_end_time' => 'datetime',
         'exam_date' => 'datetime',
         'exam_time' => 'datetime',
     ];

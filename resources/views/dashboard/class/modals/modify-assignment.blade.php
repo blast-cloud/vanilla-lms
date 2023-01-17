@@ -71,6 +71,18 @@
                                         </div>
                                     </div>
 
+                                    <!-- Due Time Field -->
+                                    <div class="form-group">
+                                        <label class="control-label mb-10 col-sm-3" for="txt_assignment_due_time">Due 
+                                            Time</label>
+                                        <div class="col-sm-2">
+                                            {!! Form::text('txt_assignment_due_time', null, [
+                                                'id' => 'txt_assignment_due_time',
+                                                'class' => 'form-control',
+                                            ]) !!}
+                                        </div>
+                                    </div>
+
 
                                     <!-- Assignment Max Score Field -->
                                     <div class="form-group">
@@ -169,6 +181,11 @@
                 minDate: new Date()
             });
 
+            $('#txt_assignment_due_time').datetimepicker({
+                //format: 'YYYY-MM-DD HH:mm:ss',
+                format: 'hh:mm A',
+            });
+
             //Show Modal
             $('#btn-show-modify-assignment-modal').click(function() {
                 $('.spinner').hide();
@@ -222,6 +239,7 @@
                 }
 
                 $('#txt_assignment_due_date').val($('#spn_ass_' + itemId + '_date').html());
+                $('#txt_assignment_due_time').val($('#spn_ass_' + itemId + '_time').html());
                 $('#txt_assignment_reference_material_url').val($('#spn_ass_' + itemId + '_url').html());
             });
 
@@ -309,6 +327,7 @@
                 formData.append('title', $('#txt_assignment_title').val());
                 formData.append('description', $('#txt_assignment_description').val());
                 formData.append('due_date', $('#txt_assignment_due_date').val());
+                formData.append('due_time', $('#txt_assignment_due_time').val());
                 formData.append('allow_late_submission', allow_late_submission);
                 formData.append('remaining_pct_grade', $('#txt_assignment_grade_contribution_pct').attr('max'));
                 formData.append('id', primaryId);

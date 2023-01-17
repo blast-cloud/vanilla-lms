@@ -34,15 +34,16 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'description' => 'required_without_all:file,reference_material_url',
             'file' => 'required_if:type,reading-materials|mimes:pdf,doc,docx,zip,xls,xlsx,xlsb,xlsm',
             'due_date' => 'required_if:type,class-assignments|date|after_or_equal:'.$today,
-            'assignment_number' => 'required_if:type,class-assignments|gt:0|unique:class_materials,assignment_number,NULL,id,course_class_id,'.$this->get('course_class_id'),
-            'lecture_number' => 'required_if:type,class-lectures|gt:0|unique:class_materials,lecture_number,NULL,id,course_class_id,'.$this->get('course_class_id'),
-            'examination_number' => 'required_if:type,class-examinations|gt:0|unique:class_materials,examination_number,NULL,id,course_class_id,'.$this->get('course_class_id'),
+            'assignment_number' => 'required_if:type,class-assignments|gt:0|unique:class_materials,assignment_number,NULL,id,deleted_at,NULL,course_class_id,'.$this->get('course_class_id'),
+            'lecture_number' => 'required_if:type,class-lectures|gt:0|unique:class_materials,lecture_number,NULL,id,deleted_at,NULL,course_class_id,'.$this->get('course_class_id'),
+            'examination_number' => 'required_if:type,class-examinations|gt:0|unique:class_materials,examination_number,NULL,id,deleted_at,NULL,course_class_id,'.$this->get('course_class_id'),
             'reference_material_url' => 'nullable|url',
             'grade_max_points' => 'required_if:type,class-examinations|numeric|min:0|max:100',
             'grade_contribution_pct' => 'required_if:type,class-examinations|numeric|min:0|max:'.$remaining_pct_grade,
             'grade_contribution_notes' => 'nullable|string|max:300',
             'lecture_date' => 'required_if:type,lecture_classes|date|after:today',
             'lecture_time' => 'required_if:type,lecture_classes|date_format:h:i A',
+            'lecture_end_time' => 'required_if:type,lecture_classes|date_format:h:i A',
             'exam_time' => 'required_if:type,class-examinations|date_format:h:i A',
             'exam_date' => 'required_if:type,class-examinations|date|after:today',
         ];
@@ -62,6 +63,7 @@ class CreateClassMaterialRequest extends AppBaseFormRequest
             'due_date.after_or_equal' => 'The :attribute field cannot be set to a past date',
             'grade_contribution_pct.max' => 'The :attribute field cannot be zero or greater than the remaining available percentage grade contribution',
             'lecture_time.date_format' => 'The :attribute field should be a time in 12 hours format',
+            'lecture_end_time.date_format' => 'The :attribute field should be a time in 12 hours format',
             'exam_time.date_format' => 'The :attribute field should be a time in 12 hours format'
         ];
     }

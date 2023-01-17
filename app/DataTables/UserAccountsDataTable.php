@@ -69,6 +69,10 @@ class UserAccountsDataTable extends DataTable
 
         });
 
+        $dataTable->addColumn('job_title', function($query){
+            return $query->lecturer ? $query->lecturer->job_title:'N/A';
+        });
+
         $dataTable->editColumn('is_disabled', function ($query) {
             if ($query->is_disabled){
                 return "<font color='red'>De-activated</font>";
@@ -138,7 +142,7 @@ class UserAccountsDataTable extends DataTable
             'full_name',
             'email',
             'telephone',
-            // 'job_title',
+            'job_title',
             'type',
             ['title'=>'DEPARTMENT', 'data'=> "department_id",'searchable' => 'true'],
             ['title'=>'Status', 'data'=> "is_disabled"],

@@ -75,10 +75,21 @@
 
                             <div class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_lecture_time">Lecture
-                                    Time</label>
+                                    Start Time</label>
                                 <div class="col-sm-6">
                                     {!! Form::text('txt_start_lecture_lecture_time', null, [
                                         'id' => 'txt_start_lecture_lecture_time',
+                                        'class' => 'form-control',
+                                    ]) !!}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label mb-10 col-sm-3" for="txt_start_lecture_lecture_end_time">Lecture
+                                    End Time</label>
+                                <div class="col-sm-6">
+                                    {!! Form::text('txt_start_lecture_lecture_end_time', null, [
+                                        'id' => 'txt_start_lecture_lecture_end_time',
                                         'class' => 'form-control',
                                     ]) !!}
                                 </div>
@@ -132,7 +143,12 @@
             $('#txt_start_lecture_lecture_time').datetimepicker({
                 //format: 'YYYY-MM-DD HH:mm:ss',
                 format: 'hh:mm A',
-            })
+            });
+
+            $('#txt_start_lecture_lecture_end_time').datetimepicker({
+                //format: 'YYYY-MM-DD HH:mm:ss',
+                format: 'hh:mm A',
+            });
 
             //Show Modal
             $('#btn-show-start-lecture-modal').click(function(e) {
@@ -163,6 +179,7 @@
                 $('#txt_start_lecture_reference_material_url').val($('#spn_ass_' + itemId + '_url').html());
                 $('#txt_start_lecture_lecture_date').val($('#spn_ol_' + itemId + '_lecture_date').html());
                 $('#txt_start_lecture_lecture_time').val($('#spn_ol_' + itemId + '_lecture_time').html());
+                $('#txt_start_lecture_lecture_end_time').val($('#spn_ol_' + itemId + '_lecture_end_time').html());
 
             });
 
@@ -250,6 +267,7 @@
                 formData.append('description', $('#txt_start_lecture_description').val());
                 formData.append('lecture_date', $('#txt_start_lecture_lecture_date').val());
                 formData.append('lecture_time', $('#txt_start_lecture_lecture_time').val());
+                formData.append('lecture_end_time', $('#txt_start_lecture_lecture_end_time').val());
                 if (fileDetails != null) {
                     formData.append('upload_file_path', fileDetails[0]);
                     formData.append('upload_file_type', fileDetails[1]);

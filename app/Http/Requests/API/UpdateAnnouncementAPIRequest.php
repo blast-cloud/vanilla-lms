@@ -31,7 +31,6 @@ class UpdateAnnouncementAPIRequest extends AppBaseFormRequest
         return $rules;
         */
         return [
-            'id' => 'required|numeric|exists:announcements,id',
             'title' => 'required',
             'description' => 'required',
         ];
@@ -43,10 +42,10 @@ class UpdateAnnouncementAPIRequest extends AppBaseFormRequest
 
     public function withValidator($validator)
     {
-        $validator->after(function ($validator) {
-            if (count($this->announcement_exist()) != 0) {
-                $validator->errors()->add('announcement_exist', 'Announcement Already Exist');
-            }
-        });
+        // $validator->after(function ($validator) {
+        //     if (count($this->announcement_exist()) != 0) {
+        //         $validator->errors()->add('announcement_exist', 'Announcement Already Exist');
+        //     }
+        // });
     }
 }

@@ -7,7 +7,7 @@
     @php
         $class_assignments = $classActivities->get_class_assignment();
     @endphp
-    <hr class="light-grey-hr mb-10 mt-0" />
+    <hr class="light-grey-hr mb-10 mt-0" style="width:96%" />
 
     @if ($class_assignments != null && count($class_assignments) > 0)
         @foreach ($class_assignments as $item)
@@ -16,11 +16,10 @@
                     <div class="col-md-6">
                         <dl>
                             <dt class="mb-0">
-                                Assignment #<span
-                                    id="spn_ass_{{ $item->id }}_num">{{ $item->assignment_number }}</span> - Due on
-                                <span
-                                    id="spn_ass_{{ $item->id }}_date">{{ date('Y-m-d', strtotime($item->due_date)) }}
-                                </span> - <span id="spn_ass_{{ $item->id }}_title">{{ $item->title }}</span>
+                                Assignment #<span id="spn_ass_{{ $item->id }}_num">{{ $item->assignment_number }}</span> - Due on
+                                <span id="spn_ass_{{ $item->id }}_date">{{ date('Y-m-d', strtotime($item->due_date)) }} </span> at 
+                                 <span id="spn_ass_{{$item->id}}_time">@php echo $timeObj->parse($item->due_time)->format('h:i A');@endphp</span> - 
+                                 <span id="spn_ass_{{ $item->id }}_title">{{ $item->title }}</span>
                                 <span class="text-danger" style="font-size:80%"><br />
                                     Posted on {{ $item->created_at->format('d-M-Y') }} &nbsp;&nbsp;|&nbsp;&nbsp; Points
                                     <span
@@ -126,6 +125,7 @@
                                 ->first();
                             $is_assignment_graded = $submission && $submission->grade_id != null ? true : false;
                             $assignment_due_date = strtotime($item->due_date . ' +1 day') - time();
+                            $assignment_due_time = strtotime($item->due_time) - time();
                         @endphp
                         <div class="col-md-12">
                             @if ($current_user->student_id && $is_assignment_graded == true)
@@ -178,7 +178,7 @@
 
                     </div>
 
-                    <hr class="col-md-12 light-grey-hr mb-10" />
+                    <hr class="col-md-12 light-grey-hr mb-10"  style="width:96%"/>
                 @endif
 
             </div>

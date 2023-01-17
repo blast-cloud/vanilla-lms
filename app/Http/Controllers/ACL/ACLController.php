@@ -167,12 +167,14 @@ class ACLController extends AppBaseController
                 $current_user->save();
         
             }else if ( ($current_user) && $current_user->lecturer_id != null){
+
                 $current_user->lecturer->first_name = $request->first_name;
                 $current_user->lecturer->last_name = $request->last_name;
                 $current_user->lecturer->department_id = $request->department_id;
                 $current_user->department_id = $request->department_id;
                 $current_user->sex = $request->sex;
                 $current_user->lecturer->sex = $request->sex;
+                $current_user->lecturer->job_title = $request->job_title;
                 $current_user->lecturer->save();
                 $current_user->save();
             }

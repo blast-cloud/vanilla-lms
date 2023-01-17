@@ -32,22 +32,21 @@ class UpdateAnnouncementRequest extends AppBaseFormRequest
         */
 
         return [
-            'id' => 'required|numeric|exists:announcements,id',
             'title' => 'required',
             'description' => 'required',
         ];
     }
 
     public function announcement_exist(){
-        return Announcement::where('title', $this->title)->where('description', $this->description)->where('id','<>', $this->id)->get();
+        return Announcement::where('title', request()->title)->where('description', request()->description)->get();
     }
 
     public function withValidator($validator)
     {
-        $validator->after(function ($validator) {
-            if (count($this->announcement_exist()) != 0) {
-                $validator->errors()->add('announcement_exist', 'Announcement Already Exist');
-            }
-        });
+        // $validator->after(function ($validator) {
+        //     if (count($this->announcement_exist()) != 0) {
+        //         $validator->errors()->add('announcement_exist', 'Announcement Already Exist');
+        //     }
+        // });
     }
 }
