@@ -47,6 +47,7 @@ use App\Models\StudentClassActivity;
 use App\Models\Student;
 use App\Models\User;
 use App\Models\Forum;
+use App\Models\Level;
 use Response;
 use Illuminate\Http\Request;
 use DB;
@@ -171,8 +172,11 @@ class ClassDashboardController extends AppBaseController
     
         $classActivities = new StudentActivityManager($id);
 
+        $levels = Level::orderBy('level')->get();
+
        
         return view("dashboard.class.index")
+                    ->with('levels',$levels)
                     ->with('department', $department)
                     ->with('courseClass', $courseClass)
                     ->with('current_user', $current_user)

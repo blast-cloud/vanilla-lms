@@ -57,6 +57,22 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label mb-10 col-sm-3"
+                                                for="level">Level</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" id="level" name="level"
+                                                    @if (!isset($current_semester)) disabled @endif>
+                                                    <option value="">-- select level --</option>
+                                                    @foreach ($levels as $level)
+                                                        <option value="{{ $level->level }}">{{ $level->level }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
                                         <!-- Course Id Field -->
                                         <div id="div-course_class_id" class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_class_id">Course
@@ -163,6 +179,7 @@
             $('.no-student').fadeOut(1);
             $('#course_class_id').select2();
             $('#department_id').select2();
+            $('#level').select2();
         });
 
         $(document).on('change', "#department_id", function(e) {
@@ -170,6 +187,42 @@
             let formData = new FormData();
             formData.append('semester_id', {{ optional($current_semester)->id }});
             formData.append('department_id', $('#department_id').val());
+            formData.append('level', $('#level').val());
+            $.ajax({
+                url: endPointUrl,
+                type: "POST",
+                data: formData,
+                cache: false,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function(response) {         
+                    $('#course_class_id').empty();
+                    $('#course_class_id').append(
+                        '<option value=""> -- select course class -- </option>')
+                    if (response.data.length > 0) {
+                        $.each(response.data, function(k, v) {
+                            let job_title = v.lecturer.job_title ? v.lecturer.job_title : '';
+                            $('#course_class_id').append('<option value="' + v.id + '">' + v
+                                .code + " :: " + v.name + " taught by " + job_title + " " +
+                                v.lecturer.first_name + " " + v.lecturer.last_name +
+                                '</option>');
+                        });
+
+                    }
+                },
+                error: function(data) {
+                    conole.log(data);
+                }
+            });
+        });
+
+        $(document).on('change', "#level", function(e) {
+            let endPointUrl = "{{ route('api.department.semester.course') }}";
+            let formData = new FormData();
+            formData.append('semester_id', {{ optional($current_semester)->id }});
+            formData.append('department_id', $('#department_id').val());
+            formData.append('level', $('#level').val());
             $.ajax({
                 url: endPointUrl,
                 type: "POST",
@@ -367,6 +420,7 @@
             formData.append('student_id', "{{ $student->id }}");
             formData.append('department_id', $('#department_id').val());
             formData.append('semester_id', " {{ optional($current_semester)->id }}");
+            formData.append('level', $('#level').val());
 
             $.ajax({
                 url: endPointUrl,

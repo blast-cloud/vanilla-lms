@@ -94,7 +94,7 @@
                                             </li>    
                                             @else
                                             <div class="panel-heading text-center mb-20 mt-10">
-                                                <h4 class="text-danger">You are request to enroll in this class has not been approved.</h4>
+                                                <h4 class="text-danger">Your request to enroll in this class has not been approved.</h4>
                                                 <p class="muted">Please contact your department to accept your enrollment on this Platform</p>
                                             </div>
                                             @endif

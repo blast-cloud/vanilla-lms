@@ -287,7 +287,10 @@ class CourseClassAPIController extends AppBaseController
     }
     public function departmentSemesterCourse(Request $request){
 
-        $courseClasses = CourseClass::with('lecturer')->where('semester_id',$request->semester_id)->where('department_id',$request->department_id)->orderBy('name')->get();
+        $courseClasses = CourseClass::with('lecturer')->where('semester_id',$request->semester_id)
+                                    ->where('department_id',$request->department_id)
+                                    ->where('level',$request->level)
+                                    ->orderBy('name')->get();
 
         return $this->sendResponse($courseClasses->toArray(), "courseClases retrieved Successfully");
     }

@@ -32,6 +32,7 @@ class CreateEnrollmentRequest extends AppBaseFormRequest
             'student_id' => 'required',
             'department_id' => 'required',
             'course_class_id' => 'required',
+            'level' => 'required',
             'semester_id' => 'required'
         ];
     }
@@ -42,11 +43,11 @@ class CreateEnrollmentRequest extends AppBaseFormRequest
 
     public function withValidator($validator)
     {
-        $validator->after(function ($validator) {
-            if (count($this->enrollment_exist()) != 0) {
-                $validator->errors()->add('enrollment_exist', 'This Student is already enrolled for this Class');
-            }
-        });
+        // $validator->after(function ($validator) {
+        //     if (count($this->enrollment_exist()) != 0) {
+        //         $validator->errors()->add('enrollment_exist', 'This Student is already enrolled for this Class');
+        //     }
+        // });
     }
 
     public function attributes(){

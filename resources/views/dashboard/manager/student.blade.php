@@ -31,6 +31,14 @@
                 <div class="pull-left">
                     <h4 class="txt-primary mt-5">Student Profile</h4>
                 </div>
+
+                <div class="pull-right">
+                    @if(($student->has_graduated) == true)
+                     <a href="#" class="btn btn-primary btn-student-re-enrollment-modal" data-val='{{$student->id}}' data-toggle="tootip" title="Re-enroll student">
+                        Re-Enroll
+                     </a>
+                    @endif
+                </div>
                 <div class="pull-right">
                     <div class="pull-left inline-block dropdown">
                         @if (isset($student) && !$student->has_graduated)  
@@ -57,6 +65,8 @@
     </div>
 
     @include('dashboard.manager.modals.modify-student-enrollment')
+
+    @include('dashboard.manager.modals.modify-student')
 
 @endsection
 

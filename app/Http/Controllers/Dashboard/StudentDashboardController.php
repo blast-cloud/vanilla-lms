@@ -22,6 +22,7 @@ use App\Models\CourseClass;
 use App\Models\Semester;
 use App\Models\Lecturer;
 use App\Models\Department;
+use App\Models\Level;
 use DB;
 use Response;
 use Request;
@@ -119,6 +120,7 @@ class StudentDashboardController extends AppBaseController
                                      ->where('parent_id','!=',null)
                                      ->select('id','name')
                                      ->get()->sortBy('name');
+        $levels = Level::orderBy('level')->get();
         $enrollment_ids = [];
         $enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
         foreach ($enrollments as $item){
@@ -138,6 +140,7 @@ class StudentDashboardController extends AppBaseController
         $current_semester = Semester::where('is_current',true)->first();
     
         return view("dashboard.student.index")
+                ->with('levels', $levels)
                 ->with('department', $department)
                 ->with('announcements', $announcements)
                 ->with('current_semester',$current_semester)

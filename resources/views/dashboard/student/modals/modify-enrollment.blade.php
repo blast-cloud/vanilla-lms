@@ -43,8 +43,20 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="form-group">
+                                            <label class="control-label mb-10 col-sm-3" for="level">Level</label>
+                                            <div class="col-sm-9">
+                                                <select class="form-control" id="level" name="level">
+                                                    <option value=""> -- select level --</option>
+                                                    @foreach ($levels as $level)
+                                                        <option value="{{$level->level}}">{{$level->level}} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
                                         <!-- Course Id Field -->
-                                        --<div id="div-course_id" class="form-group">
+                                        <div id="div-course_id" class="form-group">
                                             <label class="control-label mb-10 col-sm-3" for="course_id">Course Class</label>
                                             <div class="col-sm-9">
                                                 {{-- {!! Form::select('course_id', $courseItems, null, ['id'=>'course_id','class'=>'form-control select2']) !!} --}}
@@ -83,6 +95,7 @@
 $(document).ready(function() {
     $('#department_id').select2();
     $('#semester_id').select2();
+    $('#level_id').select2();
     $('#course_id').select2();
  
     $(document).on('change', "#semester_id", function(e) {
@@ -91,6 +104,7 @@ $(document).ready(function() {
        
        formData.append('semester_id',"{{ optional($current_semester)->id}}");
        formData.append('department_id',$('#department_id').val());
+       formData.append('level',$('#level').val());
         $.ajax({
             url:endPointUrl,
             type: "POST",
@@ -120,6 +134,38 @@ $(document).ready(function() {
        let formData = new FormData();
        formData.append('semester_id',{{ optional($current_semester)->id}});
        formData.append('department_id',$('#department_id').val());
+       formData.append('level',$('#level').val());
+        $.ajax({
+            url:endPointUrl,
+            type: "POST",
+            data: formData,
+            cache: false,
+            processData:false,
+            contentType: false,
+            dataType: 'json',
+            success: function(response){
+                console.log(response);
+                $('#course_id').empty();
+                $('#course_id').append('<option value=""> -- select course -- </option>')
+                if(response.data.length > 0){
+                    $.each(response.data,function(k,v){
+                        $('#course_id').append('<option value="'+v.id+'">'+ v.code+ " :: " + v.name + " taught by " + v.lecturer.job_title +" " +v.lecturer.first_name + '</option>' );
+                    });
+                   
+                }
+            }, 
+            error: function(data){
+                    conole.log(data);
+            }
+        });
+    });
+
+    $(document).on('change', "#level", function(e) {
+       let endPointUrl = "{{route('api.department.semester.course')}}" ;  
+       let formData = new FormData();
+       formData.append('semester_id',{{ optional($current_semester)->id}});
+       formData.append('department_id',$('#department_id').val());
+       formData.append('level',$('#level').val());
         $.ajax({
             url:endPointUrl,
             type: "POST",
@@ -271,6 +317,7 @@ $(document).ready(function() {
         formData.append('student_id', "{{$current_user->student_id}}" );
         formData.append('department_id',$('#department_id').val() );
         formData.append('semester_id',"{{ optional($current_semester)->id}}");
+        formData.append('level',$('#level').val());
         formData.append('is_approved','0');
 
         $.ajax({

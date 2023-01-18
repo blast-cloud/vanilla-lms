@@ -79,6 +79,7 @@ class Enrollment extends Model
         'course_class_id',
         'semester_id',
         'department_id',
+        'level',
         'is_approved'
     ];
 
@@ -94,6 +95,7 @@ class Enrollment extends Model
         'course_class_id' => 'integer',
         'semester_id' => 'integer',
         'department_id' => 'integer',
+        'level' => 'integer',
         'is_approved' => 'boolean'
     ];
 
