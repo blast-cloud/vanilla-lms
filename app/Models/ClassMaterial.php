@@ -5,6 +5,7 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @SWG\Definition(
@@ -98,6 +99,7 @@ class ClassMaterial extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    use Notifiable;
 
     public $table = 'class_materials';
     
@@ -126,6 +128,7 @@ class ClassMaterial extends Model
         'blackboard_meeting_id',
         'blackboard_meeting_status',
         'semester_id',
+        'department_id',
         'lecture_date',
         'lecture_time',
         'lecture_end_time',
@@ -169,7 +172,12 @@ class ClassMaterial extends Model
      **/
     public function courseClass()
     {
-        return $this->hasOne(\App\Models\CourseClass::class, 'id', 'course_id');
+        return $this->hasOne(CourseClass::class, 'id', 'course_id');
+    }
+
+    public function department()
+    {
+       return $this->hasOne(Department::class, 'id', 'department_id');
     }
 
     /**

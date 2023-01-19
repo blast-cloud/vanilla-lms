@@ -151,6 +151,14 @@ class StudentDashboardController extends AppBaseController
                 ->with('departmentItems',$departmentItems);
     }
 
+    public function readNotification(Request $Request){
+        $user = Auth()->user();
+
+        $user->unreadNotifications()->update(['read_at' => now()]);
+        
+        return response()->noContent();
+    }
+
 }
 
 ?>

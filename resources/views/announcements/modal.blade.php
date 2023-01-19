@@ -200,8 +200,8 @@ $(document).ready(function() {
         }
         
         formData.append('_method', actionType);
-        formData.append('title', $('#title').val());
-        formData.append('description', $('#description').val());
+        formData.append('title', $('#announcement_title').val());
+        formData.append('description', $('#announcement_description').val());
 
         $.ajax({
             url:endPointUrl,

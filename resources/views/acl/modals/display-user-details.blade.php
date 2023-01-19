@@ -102,7 +102,7 @@
 
                             </div>
                             <div id="div-job_title" class="form-group">
-                                <label class="control-label mb-10 col-sm-3" for="job_title">Job Tile</label>
+                                <label class="control-label mb-10 col-sm-3" for="job_title">Job Title</label>
                                 <div class="col-sm-9">
                                     <div class="input-group mb-3">
                                         <input type="text" id="job_title" name="job_title"
@@ -318,10 +318,8 @@
                     $('#div_level').show();
                     $('#div-has_graduated').show();
                     $("#div-job_title").hide();
-                } else if(this.value == "lecturer") {
-                    $("#div-job_title").show();
                 } else{
-                    $("#div-job_title").hide();
+                    $("#div-job_title").show();
                 }
             });
 
@@ -353,7 +351,7 @@
                 let itemId = $(this).attr('data-val');
                 $('#txt_user_account_id').val(itemId);
                 $('.input-border-error').removeClass("input-border-error");
-                //$('#div_account_type').hide();
+                $('#div_account_type').show();
                 $('.spinner1').hide();
 
                 $('#modify-user-details-title').html("Modify User Account");
@@ -369,7 +367,8 @@
                     $('#modify-user-details-error-div').hide();
                     console.log(data);
                     if (data.student_id != null) {
-                        $('#sel_account_type').val("student")
+                        $('#sel_account_type').val("student");
+                        $('#div_account_type').hide();
                         $("#div-job_title").hide();
                         $('#div_registration_num').show();
                         $('#div_level').show();
@@ -382,20 +381,16 @@
                         }else{
                             $('#has_graduated').prop('checked',false);
                         }
-                    } else if (data.lecturer_id != null) {
+                    } else {
                         $('#div_registration_num').hide();
                         $('#div_level').hide();
                         $('#div-has_graduated').hide();
                         $("#div-job_title").show();
-                    } else{
-                        $('#div_registration_num').hide();
-                        $('#div_level').hide();
-                        $('#div-has_graduated').hide();
-                        $("#div-job_title").hide();
                     }
 
                     if (data.manager_id) {
                         $('#sel_account_type').val("manager")
+                        $('#job_title').val(data.manager.job_title);
                     }
                     if (data.lecturer_id) {
                         $('#sel_account_type').val("lecturer")

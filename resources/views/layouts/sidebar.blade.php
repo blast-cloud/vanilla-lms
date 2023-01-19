@@ -93,6 +93,28 @@ if ($current_user && $current_user->lecturer) {
     </div>
     <div id="mobile_only_nav" class="mobile-only-nav pull-right">
         <ul class="nav navbar-right top-nav pull-right">
+            @if(($current_user->student_id) != null)
+                <ul class="pull-right">
+                    <h5>
+                        <li class="dropdown auth-drp">
+                            <a href="#" class="dropdown-toggle pr-0 notification-bell" data-toggle="dropdown"><i class="fa fa-bell"></i>@if(($current_user->unreadNotifications->count()) > 0)<span class="badge rounded-pill bg-danger" style="color:white">
+                                {{ $current_user->unreadNotifications->count() }}</span>
+                                @endif
+                            </a>
+                            <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
+                            @if(($current_user->unreadNotifications->count()) > 0)
+                                @foreach($current_user->unreadNotifications as $notification) 
+                                    <li><a id="notifications" class="notifications" href="#">Notification:{{$notification->data['title']}}</a></li>
+                                    <li class="divider"></li>
+                                @endforeach
+                            @else
+                            <span style="align-items: center">No New Notifications</span>
+                            @endif
+                         </ul>
+                        </li>
+                </h5>
+                </ul> 
+            @endif
             <li class="dropdown auth-drp">
                 <a href="#" class="dropdown-toggle pr-0" data-toggle="dropdown"><img
                         src="{{ $profile_picture ? asset($profile_picture) : asset('dist/img/user-badge.fw.png') }}"
@@ -498,3 +520,36 @@ if ($current_user && $current_user->lecturer) {
         @endif
     </ul>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+@if(($current_user->student_id) != null)
+<script type="text/javascript">
+        $(document).ready(function(){
+            function sendMarkRequest(id = null) {
+        return $.ajax("{{ route('mark.notification') }}", {
+            method: 'POST',
+            data: {
+                //_token,
+                id
+            }
+        });
+    }
+    $(function() {
+        $('.notification-bell').click(function(e) {
+        e.preventDefault();
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
+            let request = sendMarkRequest($(this).data('id'));
+            request.done(() => {
+                $('.fa fa-bell').remove();
+                //$(this).parents('div.alert').remove();
+            });
+        });
+        $('#notification').click(function(e) {
+            let request = sendMarkRequest();
+            request.done(() => {
+                //$('div.alert').remove();
+            })
+        });
+   });
+});   
+</script>
+@endif

@@ -70,7 +70,13 @@ class UserAccountsDataTable extends DataTable
         });
 
         $dataTable->addColumn('job_title', function($query){
-            return $query->lecturer ? $query->lecturer->job_title:'N/A';
+            if($query->lecturer_id!=null){
+                return $query->lecturer->job_title;
+            }elseif($query->manager_id!=null){
+                return $query->manager->job_title;
+            }else{
+                return "N/A";
+            }
         });
 
         $dataTable->editColumn('is_disabled', function ($query) {

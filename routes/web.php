@@ -54,6 +54,7 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     
     Route::middleware('isStudent')->group(function () {
         Route::get('dashboard/student', [App\Http\Controllers\Dashboard\StudentDashboardController::class, 'index'])->name('dashboard.student');
+        Route::post('/mark-as-read', [App\Http\Controllers\Dashboard\StudentDashboardController::class, 'readNotification'])->name('mark.notification');
 
     });
 
@@ -79,6 +80,7 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
 
     Route::middleware('isAdmin')->group(function () {
         Route::get('dashboard/admin', [App\Http\Controllers\Dashboard\AdminDashboardController::class, 'index'])->name('dashboard.admin');
+       
         Route::get('dashboard/users', [App\Http\Controllers\ACL\ACLController::class, 'displayUserAccounts'])->name('dashboard.users');
         Route::get('dashboard/user/{id}', [App\Http\Controllers\ACL\ACLController::class, 'getUser'])->name('dashboard.user');
         Route::post('dashboard/user/{id}', [App\Http\Controllers\ACL\ACLController::class, 'updateUserAccount'])->name('dashboard.user-update');
