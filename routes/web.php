@@ -54,7 +54,7 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     
     Route::middleware('isStudent')->group(function () {
         Route::get('dashboard/student', [App\Http\Controllers\Dashboard\StudentDashboardController::class, 'index'])->name('dashboard.student');
-        Route::post('/mark-as-read', [App\Http\Controllers\Dashboard\StudentDashboardController::class, 'readNotification'])->name('mark.notification');
+        Route::post('/mark-as-read', [App\Http\Controllers\Dashboard\StudentDashboardController::class, 'markNotification'])->name('mark.notification');
 
     });
 

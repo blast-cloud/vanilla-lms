@@ -142,18 +142,31 @@ class ACLController extends AppBaseController
             $bims_data['gender'] = "F";
         }
       
-        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
+        //$register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
 
         if($id != '0'){
             $current_user = User::find($id);
 
-            if ( ($current_user) && $current_user->manager_id != null){
-                $current_user->manager->first_name = $request->first_name;
-                $current_user->manager->last_name = $request->last_name;
-                $current_user->department_id = $request->department_id;
-                $current_user->manager->save();
-    
-            }else if ( ($current_user) && $current_user->student_id != null){
+            if (($current_user) && $current_user->manager_id != null){
+                if($request->account_type == "manager"){
+                    $current_user->manager->first_name = $request->first_name;
+                    $current_user->manager->last_name = $request->last_name;
+                    $current_user->department_id = $request->department_id;
+                    $current_user->manager->job_title = $request->job_title;
+                    $current_user->manager->save();
+                    $current_user->save();
+                }elseif($request->account_type == "lecturer"){
+                    $input = $request->all();
+                    $lecturer = Lecturer::create($input);  
+
+                    $manager = Manager::find($current_user->manager_id);
+                    $manager->delete();
+
+                    $current_user->lecturer_id = $lecturer->id;
+                    $current_user->manager_id = null;
+                    $current_user->save();     
+                }
+            }else if (($current_user) && $current_user->student_id != null){
                 $current_user->student->matriculation_number = $request->matriculation_number;
                 $current_user->student->first_name = $request->first_name;
                 $current_user->student->last_name = $request->last_name;
@@ -166,17 +179,29 @@ class ACLController extends AppBaseController
                 $current_user->student->save();
                 $current_user->save();
         
-            }else if ( ($current_user) && $current_user->lecturer_id != null){
+            }else if (($current_user) && $current_user->lecturer_id != null){
+                if($request->account_type == "lecturer"){
+                    $current_user->lecturer->first_name = $request->first_name;
+                    $current_user->lecturer->last_name = $request->last_name;
+                    $current_user->lecturer->department_id = $request->department_id;
+                    $current_user->department_id = $request->department_id;
+                    $current_user->sex = $request->sex;
+                    $current_user->lecturer->sex = $request->sex;
+                    $current_user->lecturer->job_title = $request->job_title;
+                    $current_user->lecturer->save();
+                    $current_user->save();
 
-                $current_user->lecturer->first_name = $request->first_name;
-                $current_user->lecturer->last_name = $request->last_name;
-                $current_user->lecturer->department_id = $request->department_id;
-                $current_user->department_id = $request->department_id;
-                $current_user->sex = $request->sex;
-                $current_user->lecturer->sex = $request->sex;
-                $current_user->lecturer->job_title = $request->job_title;
-                $current_user->lecturer->save();
-                $current_user->save();
+                }elseif($request->account_type == "manager"){
+                    $input = $request->all();
+                    $manager = Manager::create($input); 
+       
+                    $lecturer = Lecturer::find($current_user->lecturer_id);
+                    $lecturer->delete();
+ 
+                    $current_user->manager_id = $manager->id;
+                    $current_user->lecturer_id = null;
+                    $current_user->save();    
+                }
             }
     
             if (!empty($request->email) && $request->email!=null){
@@ -270,7 +295,7 @@ class ACLController extends AppBaseController
                     } else {
                         $bims_data['gender'] = "F";
                     }       
-                    $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
+                    //$register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
 
                     list($valid, $msg) = $this->checknStoreUserType($request->type, $data);
 

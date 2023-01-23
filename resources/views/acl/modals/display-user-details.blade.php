@@ -55,6 +55,19 @@
                                 </div>
                             </div>
 
+                            <div id="div_account_type1" class="form-group">
+                                <label class="control-label mb-10 col-sm-3" for="code">Account Type</label>
+                                <div class="col-sm-9">
+                                    <div class="input-group mb-3">
+                                        <select id="sel_account_type1" class="form-control">
+                                            <option value="">Choose Type</option>
+                                            <option value="lecturer">Lecturer</option>
+                                            <option value="manager">Department Admin</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Department Field -->
                             <div id="div-department_id" class="form-group">
                                 <label class="control-label mb-10 col-sm-3" for="department_id">Department</label>
@@ -320,6 +333,7 @@
                     $("#div-job_title").hide();
                 } else{
                     $("#div-job_title").show();
+                    $('#div_level').hide();
                 }
             });
 
@@ -334,6 +348,7 @@
                 $('#form-modify-user-details').trigger("reset");
                 $('#txt_user_account_id').val(0);
                 $('#div_account_type').show();
+                $('#div_account_type1').hide();
                 $('#department_id option').attr('selected', false);
 
                 $('#modify-user-details-title').html("Create User Account");
@@ -351,7 +366,8 @@
                 let itemId = $(this).attr('data-val');
                 $('#txt_user_account_id').val(itemId);
                 $('.input-border-error').removeClass("input-border-error");
-                $('#div_account_type').show();
+                $('#div_account_type1').show();
+                $('#div_account_type').hide();
                 $('.spinner1').hide();
 
                 $('#modify-user-details-title').html("Modify User Account");
@@ -365,10 +381,9 @@
                     $('#div_registration_num').hide();
                     $('.modal-footer').show();
                     $('#modify-user-details-error-div').hide();
-                    console.log(data);
                     if (data.student_id != null) {
                         $('#sel_account_type').val("student");
-                        $('#div_account_type').hide();
+                        $('#div_account_type1').hide();
                         $("#div-job_title").hide();
                         $('#div_registration_num').show();
                         $('#div_level').show();
@@ -389,11 +404,11 @@
                     }
 
                     if (data.manager_id) {
-                        $('#sel_account_type').val("manager")
+                        $('#sel_account_type1').val("manager")
                         $('#job_title').val(data.manager.job_title);
                     }
                     if (data.lecturer_id) {
-                        $('#sel_account_type').val("lecturer")
+                        $('#sel_account_type1').val("lecturer")
                         $('#job_title').val(data.lecturer.job_title);
                     }
 
@@ -596,33 +611,53 @@
                 let endPointUrl = "{{ route('dashboard.user-update', 0) }}";
                 let primaryId = $('#txt_user_account_id').val();
 
+                let formData = new FormData();
+                formData.append('_token', $('input[name="_token"]').val());
+
                 if (primaryId > 0) {
                     actionType = "POST";
                     endPointUrl = "{{ route('dashboard.user-update', 0) }}" + primaryId;
 
-                }
+                    formData.append('_method', actionType);
+                    formData.append('id', primaryId);
+                    formData.append('job_title', $('#job_title').val());
+                    formData.append('first_name', $('#first_name').val());
+                    formData.append('last_name', $('#last_name').val());
+                    formData.append('email', $('#email').val());
+                    formData.append('telephone', $('#telephone').val());
+                    formData.append('student_id', $('#txt_student_account_id').val());
+                    formData.append('department_id', $('#department_id').val());
+                    formData.append('matriculation_number', $('#matriculation_number').val());
+                    formData.append('level', $('#level').val());
+                    if($('#has_graduated').is(':checked')){
+                        formData.append('has_graduated', 1);
+                    }else{
+                        formData.append('has_graduated', 0);
+                    }
+                    formData.append('sex', $('#sex').val());
+                    formData.append('account_type', $('#sel_account_type1').val());
 
-                let formData = new FormData();
-                console.log($('#sex').val());
-                formData.append('_token', $('input[name="_token"]').val());
-                formData.append('_method', actionType);
-                formData.append('id', primaryId);
-                formData.append('job_title', $('#job_title').val());
-                formData.append('first_name', $('#first_name').val());
-                formData.append('last_name', $('#last_name').val());
-                formData.append('email', $('#email').val());
-                formData.append('telephone', $('#telephone').val());
-                formData.append('student_id', $('#txt_student_account_id').val());
-                formData.append('department_id', $('#department_id').val());
-                formData.append('matriculation_number', $('#matriculation_number').val());
-                formData.append('level', $('#level').val());
-                if($('#has_graduated').is(':checked')){
-                    formData.append('has_graduated', 1);
+
                 }else{
-                    formData.append('has_graduated', 0);
-                }
-                formData.append('sex', $('#sex').val());
-                formData.append('account_type', $('#sel_account_type').val());
+                    formData.append('_method', actionType);
+                    formData.append('id', primaryId);
+                    formData.append('job_title', $('#job_title').val());
+                    formData.append('first_name', $('#first_name').val());
+                    formData.append('last_name', $('#last_name').val());
+                    formData.append('email', $('#email').val());
+                    formData.append('telephone', $('#telephone').val());
+                    formData.append('student_id', $('#txt_student_account_id').val());
+                    formData.append('department_id', $('#department_id').val());
+                    formData.append('matriculation_number', $('#matriculation_number').val());
+                    formData.append('level', $('#level').val());
+                    if($('#has_graduated').is(':checked')){
+                        formData.append('has_graduated', 1);
+                    }else{
+                        formData.append('has_graduated', 0);
+                    }
+                    formData.append('sex', $('#sex').val());
+                    formData.append('account_type', $('#sel_account_type').val());
+                    }
 
                 $.ajax({
                     url: endPointUrl,

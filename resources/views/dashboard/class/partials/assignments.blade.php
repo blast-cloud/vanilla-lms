@@ -124,8 +124,8 @@
                                 ->where('course_class_id', $item->course_class_id)
                                 ->first();
                             $is_assignment_graded = $submission && $submission->grade_id != null ? true : false;
-                            $assignment_due_date = strtotime($item->due_date . ' +1 day') - time();
-                            $assignment_due_time = strtotime($item->due_time) - time();
+                           //$assignment_due_date = strtotime($item->due_date . ' +1 day') - time();
+                            //$assignment_due_time = strtotime($item->due_time) - time();
                         @endphp
                         <div class="col-md-12">
                             @if ($current_user->student_id && $is_assignment_graded == true)
@@ -158,10 +158,23 @@
 
                     </div>
                     <div class="col-md-2">
+                        @php
+                        $hours = "";
+                        $minutes = "";
+                        $time= "";
+                        $due_time_arr = explode(" ", $item->due_time);
+                        if(count($due_time_arr) >= 2){
+                            $time = explode(":",$due_time_arr[1]);
+                            if(count($time)>=3){
+                                $hours = $time[0];
+                                $minutes = $time[1];
+                            }
+                        }
+                        @endphp
 
                         @if ($current_user->student_id != null &&
                             !$is_assignment_graded &&
-                            (($item->allow_late_submission == false && $assignment_due_date > 0) || $item->allow_late_submission == true))
+                            (($item->allow_late_submission == false && time() <= strtotime($item->due_date) + ($hours*60*60) + ($minutes*60)) || $item->allow_late_submission == true))
                             @if (optional($current_semester)->id == $courseClass->semester_id)
                                 <button href="#" id="btn-show-submit-assignment-modal"
                                     class="btn btn-xs btn-primary btn-show-submit-assignment-modal"
