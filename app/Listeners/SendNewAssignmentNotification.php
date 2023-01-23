@@ -29,8 +29,14 @@ class SendNewAssignmentNotification
      */
     public function handle(ClassMaterialCreated $event)
     {
-        $dept_students = User::where('student_id',"!=", null)->where('department_id', $event->classMaterial->department_id)->get();
+        $course_class_students = User::whereHas('student', function ($query) use ($event){
+            $query->whereHas('enrollments', function($query2) use ($event){
+                $query2->where('course_class_id',$event->classMaterial->course_class_id);
+            }); 
+        })->where('student_id','!=',null)
+          ->where('department_id', $event->classMaterial->department_id)
+          ->get();
 
-        Notification::send($dept_students, new NewAssignmentNotification($event->classMaterial));
+        Notification::send($course_class_students, new NewAssignmentNotification($event->classMaterial));
     }
 }

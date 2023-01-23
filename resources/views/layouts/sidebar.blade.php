@@ -104,8 +104,10 @@ if ($current_user && $current_user->lecturer) {
                             <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
                             @if(($current_user->unreadNotifications->count()) > 0)
                                 @foreach($current_user->unreadNotifications as $notification) 
-                                    <li><a id="notifications" class="notifications" href="#">Notification:{{$notification->data['title']}}</a></li>
-                                    <li class="divider"></li>
+                                    <li><span id="title-notifications" class="title-notifications">Title: {{$notification->data['title']}}</span></li>
+                                    
+                                    <li><span id="description-notifications" class="description-notifications">Description: {{$notification->data['description']}}</span></li> 
+                                    <li class="divider"></li>        
                                 @endforeach
                             @else
                             <span style="align-items: center">No New Notifications</span>
@@ -524,7 +526,7 @@ if ($current_user && $current_user->lecturer) {
 @if(($current_user->student_id) != null)
 <script type="text/javascript">
         $(document).ready(function(){
-            function sendMarkRequest(id = null) {
+        function sendMarkRequest(id = null) {
         return $.ajax("{{ route('mark.notification') }}", {
             method: 'POST',
             data: {
@@ -539,11 +541,10 @@ if ($current_user && $current_user->lecturer) {
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('input[name="_token"]').val()}});
             let request = sendMarkRequest($(this).data('id'));
             request.done(() => {
-                $('.fa fa-bell').remove();
-                //$(this).parents('div.alert').remove();
+                $(this).find("span.badge").remove();
             });
         });
-        $('#notification').click(function(e) {
+        $('#notifications').click(function(e) {
             let request = sendMarkRequest();
             request.done(() => {
                 //$('div.alert').remove();

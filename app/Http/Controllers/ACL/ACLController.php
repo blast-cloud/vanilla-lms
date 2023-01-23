@@ -142,7 +142,7 @@ class ACLController extends AppBaseController
             $bims_data['gender'] = "F";
         }
       
-        //$register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
+        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
 
         if($id != '0'){
             $current_user = User::find($id);
@@ -295,7 +295,7 @@ class ACLController extends AppBaseController
                     } else {
                         $bims_data['gender'] = "F";
                     }       
-                    //$register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
+                    $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
 
                     list($valid, $msg) = $this->checknStoreUserType($request->type, $data);
 
