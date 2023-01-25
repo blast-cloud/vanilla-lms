@@ -103,7 +103,7 @@ class SemesterDataTable extends DataTable
     {
         return [
             'academic_session',
-            ['title'=>'Session Code','data'=>"code"],
+            ['title'=>'Semester Code','data'=>"code"],
             'start_date',
             'end_date',
             'status',

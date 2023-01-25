@@ -98,7 +98,7 @@ class DepartmentClassScheduleDataTable extends CourseClassDataTable
     {
         return [
             'code',
-            'name',
+            ['title' => 'Course Title', 'data' => 'name'],
             'lecturer',
             'academic_session',
             'semester',
