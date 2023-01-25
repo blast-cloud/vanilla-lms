@@ -35,7 +35,9 @@ class SendNewAnnouncementNotification
 
             Notification::send($all_students, new NewAnnouncementNotification($event->announcement));
         }else{
-            $dept_students = User::where('student_id', '!=', null)->where('department_id', $event->announcement->department_id)->get();
+            $dept_students = User::where('student_id', '!=', null)
+                                 ->where('department_id', $event->announcement->department_id)
+                                 ->get();
 
             Notification::send($dept_students, new NewAnnouncementNotification($event->announcement));
         }    

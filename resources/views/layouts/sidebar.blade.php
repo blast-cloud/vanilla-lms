@@ -104,10 +104,21 @@ if ($current_user && $current_user->lecturer) {
                             <ul class="dropdown-menu user-auth-dropdown" data-dropdown-in="flipInX" data-dropdown-out="flipOutX">
                             @if(($current_user->unreadNotifications->count()) > 0)
                                 @foreach($current_user->unreadNotifications as $notification) 
-                                    <li><span id="title-notifications" class="title-notifications">Title: {{$notification->data['title']}}</span></li>
-                                    
-                                    <li><span id="description-notifications" class="description-notifications">Description: {{$notification->data['description']}}</span></li> 
-                                    <li class="divider"></li>        
+                                    @if($notification->data['category'] == "class_materials")
+                                        <li>
+                                            <a href="{{ route('dashboard.class',$notification->data['course_class_id']) }}" title="Link" target="_blank">
+                                                <li><span id="class_material-notifications" class="class_material-notifications">Title: {{$notification->data['title']}}</span></li>
+                                                <li class="divider"></li>   
+                                            </a>  
+                                        </li> 
+                                    @else
+                                        <li>
+                                            <a href="#" class="btn-show-mdl-announcement-modal" id="btn-show-mdl-announcement-modal" title="View" data-val="{{ $notification->data['id'] }}">
+                                                <li><span id="announcement-notifications" class="announcement-notifications"><i class="zmdi zmdi-eye"></i>Title: {{$notification->data['title']}}</span></li>
+                                                <li class="divider"></li>
+                                            </a>
+                                        </li>
+                                    @endif
                                 @endforeach
                             @else
                             <span style="align-items: center">No New Notifications</span>

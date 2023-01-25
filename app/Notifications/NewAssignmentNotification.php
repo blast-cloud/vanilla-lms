@@ -58,8 +58,11 @@ class NewAssignmentNotification extends Notification
     public function toArray($notifiable)
     {
         return [
+            'id' => $this->classMaterial->id,
+            'course_class_id' => $this->classMaterial->course_class_id,
             'title' => $this->classMaterial->title,
-            'description' => $this->classMaterial->description
+            'description' => $this->classMaterial->description,
+            'category' => 'class_materials'
         ];
     }
 }

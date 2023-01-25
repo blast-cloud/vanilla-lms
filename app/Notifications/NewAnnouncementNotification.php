@@ -59,8 +59,10 @@ class NewAnnouncementNotification extends Notification
     public function toArray($notifiable)
     {
         return [
+            'id' => $this->announcement->id,
             'title' => $this->announcement->title,
-            'description' => $this->announcement->description
+            'description' => $this->announcement->description,
+            'category' => 'announcements'
         ];
     }
 }
