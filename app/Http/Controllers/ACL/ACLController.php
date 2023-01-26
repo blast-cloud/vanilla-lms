@@ -159,8 +159,8 @@ class ACLController extends AppBaseController
                     $input = $request->all();
                     $lecturer = Lecturer::create($input);  
 
-                    $manager = Manager::find($current_user->manager_id);
-                    $manager->delete();
+                    // $manager = Manager::find($current_user->manager_id);
+                    // $manager->delete();
 
                     $current_user->lecturer_id = $lecturer->id;
                     $current_user->manager_id = null;
@@ -195,8 +195,8 @@ class ACLController extends AppBaseController
                     $input = $request->all();
                     $manager = Manager::create($input); 
        
-                    $lecturer = Lecturer::find($current_user->lecturer_id);
-                    $lecturer->delete();
+                    // $lecturer = Lecturer::find($current_user->lecturer_id);
+                    // $lecturer->delete();
  
                     $current_user->manager_id = $manager->id;
                     $current_user->lecturer_id = null;
