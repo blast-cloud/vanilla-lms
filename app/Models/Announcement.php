@@ -70,6 +70,7 @@ class Announcement extends Model
         'title',
         'description',
         'course_class_id',
+        'announcement_end_date',
         'department_id'
     ];
 

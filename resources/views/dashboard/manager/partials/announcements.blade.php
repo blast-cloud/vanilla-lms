@@ -5,7 +5,14 @@
         </div>
         <div class="panel-heading" style="padding: 10px 15px;">
             <div class="pull-left">
-                <h4 class="panel-title txt-dark">{{  ($current_user->manager_id != null) ? 'Announcements' : 'Dept Announcements'  }}</h4>
+                <h4 class="panel-title txt-dark">Announcements</h4>
+            </div>
+            <div class="pull-right">
+                @if($current_user->lecturer_id != null || $current_user->student_id != null)
+                    <a href="{{ route('lect-stud.announcements') }}" class="pull-left inline-block mr-15">
+                        <i class="zmdi zmdi-eye" style="font-size:inherit;"></i> View All
+                    </a>
+                @endif
             </div>
 
             @if (($current_user->manager_id != null))
@@ -35,17 +42,19 @@
                     <table class="table table-hover mb-0">
                         <tbody>
                             @if (isset($announcements) && count($announcements)>0)
-                            @foreach($announcements as $announcement)
-                            <tr>
-                                <td class="text-left">
-                                    {{$announcement->title}} ...
-                                    <p class="txt-primary" style="font-size:70%">posted {{ $announcement->created_at->format('d-M-Y') }}</p>
-                                </td>
-                                <td class="text-right">
-                                    <a href="javascript:void(0)" class="pr-3 btn-show-mdl-announcement-modal" data-toggle="tooltip" title="" data-val="{{ $announcement->id }}" data-original-title="View"><i class="zmdi zmdi-eye"></i></a>
-                                </td>
-                            </tr>
-                            @endforeach
+                                @foreach($announcements as $announcement)
+                                    @if(time() <= strtotime($announcement->announcement_end_date))
+                                    <tr>
+                                        <td class="text-left">
+                                            {{$announcement->title}} ...
+                                            <p class="txt-primary" style="font-size:70%">posted {{ $announcement->created_at->format('d-M-Y') }}</p>
+                                        </td>
+                                        <td class="text-right">
+                                            <a href="javascript:void(0)" class="pr-3 btn-show-mdl-announcement-modal" data-toggle="tooltip" title="" data-val="{{ $announcement->id }}" data-original-title="View"><i class="zmdi zmdi-eye"></i></a>
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
                             @else
                             <tr>
                                 <td class="text-left">

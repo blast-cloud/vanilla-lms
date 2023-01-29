@@ -62,7 +62,8 @@ class NewAnnouncementNotification extends Notification
             'id' => $this->announcement->id,
             'title' => $this->announcement->title,
             'description' => $this->announcement->description,
-            'category' => 'announcements'
+            'category' => 'announcements',
+            'announcement_end_date' => $this->announcement->announcement_end_date
         ];
     }
 }

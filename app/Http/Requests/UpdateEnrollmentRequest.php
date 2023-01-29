@@ -43,16 +43,16 @@ class UpdateEnrollmentRequest extends AppBaseFormRequest
     }
 
     public function enrollment_exist(){
-        return Enrollment::where('student_id', $this->student_id)->where('course_class_id', $this->course_class_id)->where('id','<>', $this->id)->get();
+        return Enrollment::where('student_id', request()->student_id)->where('course_class_id', request()->course_class_id)->where('department_id', request()->department_id)->get();
     }
 
     public function withValidator($validator)
     {
-        // $validator->after(function ($validator) {
-        //     if (count($this->enrollment_exist()) != 0) {
-        //         $validator->errors()->add('enrollment_exist', 'This Student is already enrolled for this Class');
-        //     }
-        // });
+        $validator->after(function ($validator) {
+            if (count($this->enrollment_exist()) != 0) {
+                $validator->errors()->add('enrollment_exist', 'This Student is already enrolled for this Class');
+            }
+        });
     }
 
     public function attributes(){

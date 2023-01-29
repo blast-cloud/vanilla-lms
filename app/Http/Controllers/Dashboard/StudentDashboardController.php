@@ -129,10 +129,12 @@ class StudentDashboardController extends AppBaseController
 
         $announcements = Announcement::where('department_id',$current_user->department_id)
                                         ->where('course_class_id',null)
+                                        ->where('announcement_end_date',">=", date("Y-m-d", time()))
                                         ->orWhere(function($query){
                                             $query->where('department_id', null)
-                                                ->where('course_class_id', null);
-                                        })->latest()->get();
+                                                ->where('course_class_id', null)
+                                                ->where('announcement_end_date',">=", date("Y-m-d", time()));
+                                        })->latest()->take(5)->get();
         $current_semester = Semester::where('is_current',true)->first();
         $class_schedules = CourseClass::with('enrollments')->findMany($enrollment_ids)->where('semester_id',optional($current_semester)->id);
         $department = $this->departmentRepository->find($current_user->department_id);

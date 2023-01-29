@@ -110,6 +110,8 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     
     Route::resource('announcements', App\Http\Controllers\AnnouncementController::class);
 
+    Route::get('lectnStudAnnouncements', [App\Http\Controllers\AnnouncementController::class, 'lectnStudAnnouncements'])->name('lect-stud.announcements');
+
     Route::resource('courses', App\Http\Controllers\CourseController::class);
 
     Route::resource('courseClasses', App\Http\Controllers\CourseClassController::class);

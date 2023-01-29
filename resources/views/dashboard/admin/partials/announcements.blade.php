@@ -22,17 +22,19 @@
                     <table class="table table-hover mb-0">
                         <tbody>
                             @if (isset($announcements) && count($announcements)>0)
-                            @foreach($announcements as $item)
-                            <tr>
-                                <td class="text-left">
-                                    {{$item->title}} {{$item->description}}
-                                </td>
-                            </tr>
-                            @endforeach
+                                @foreach($announcements as $item)
+                                    @if(time() <= strtotime($item->announcement_end_date))
+                                    <tr>
+                                        <td class="text-left">
+                                            {{$item->title}}
+                                        </td>
+                                    </tr>
+                                    @endif
+                                @endforeach
                             @else
                             <tr>
                                 <td class="text-left">
-                                    <p>No Genaral Announcements</p>
+                                    <p>No General Announcements</p>
                                 </td>
                             </tr>
                             @endif

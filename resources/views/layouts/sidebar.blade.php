@@ -111,13 +111,17 @@ if ($current_user && $current_user->lecturer) {
                                                 <li class="divider"></li>   
                                             </a>  
                                         </li> 
-                                    @else
-                                        <li>
-                                            <a href="#" class="btn-show-mdl-announcement-modal" id="btn-show-mdl-announcement-modal" title="View" data-val="{{ $notification->data['id'] }}">
-                                                <li><span id="announcement-notifications" class="announcement-notifications"><i class="fa fa-bullhorn"></i>Title: {{$notification->data['title']}}</span></li>
-                                                <li class="divider"></li>
-                                            </a>
-                                        </li>
+                                    @elseif($notification->data['category'] == "announcements")
+                                        @if(time() <= strtotime($notification->data['announcement_end_date']))
+                                            <li>
+                                                <a href="#" class="btn-show-mdl-announcement-modal" id="btn-show-mdl-announcement-modal" title="View" data-val="{{ $notification->data['id'] }}">
+                                                    <li><span id="announcement-notifications" class="announcement-notifications"><i class="fa fa-bullhorn"></i>Title: {{$notification->data['title']}}</span></li>
+                                                    <li class="divider"></li>
+                                                </a>
+                                            </li>
+                                            @else
+                                            <span style="align-items: center">No New Notifications</span>
+                                        @endif
                                     @endif
                                 @endforeach
                             @else
@@ -219,6 +223,7 @@ if ($current_user && $current_user->lecturer) {
                 <div class="pull-right"></div>
                 <div class="clearfix"></div>
             </a>
+        </li>
         <li>
             <hr class="light-grey-hr mb-10" />
         </li>

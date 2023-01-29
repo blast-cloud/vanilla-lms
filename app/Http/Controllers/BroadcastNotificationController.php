@@ -8,8 +8,11 @@ use App\Http\Controllers\AppBaseController;
 use Response;
 use App\Models\BroadcastNotification;
 use Flash;
+use App\Models\CourseClass;
 use App\Http\Resources\BroadcastNotificationResource;
 use App\Repositories\BroadcastNotificationRepository;
+use App\Repositories\EnrollmentRepository;
+use App\Repositories\CourseClassRepository;
 use App\DataTables\NotificationsDatatable;
 use App\Jobs\BroadcastNotificationJob;
 /*use Notification;*/
@@ -21,9 +24,20 @@ class BroadcastNotificationController extends AppBaseController
     /** @var  BroadcastNotificationRepository */
     private $broadcastNotificationRepository;
 
-    public function __construct(BroadcastNotificationRepository $broadcastNotificationRepo)
+    /** @var  CourseClassRepository */
+    private $courseClassRepository;
+
+    /** @var  EnrollmentRepository */
+    private $enrollmentRepository;
+
+
+    public function __construct(BroadcastNotificationRepository $broadcastNotificationRepo,
+                                      CourseClassRepository $courseClassRepo,
+                                      EnrollmentRepository $enrollmentRepo)
     {
         $this->broadcastNotificationRepository = $broadcastNotificationRepo;
+        $this->courseClassRepository = $courseClassRepo;
+        $this->enrollmentRepository = $enrollmentRepo;
     }
 
     /**
@@ -33,9 +47,30 @@ class BroadcastNotificationController extends AppBaseController
      */
     public function index(NotificationsDatatable $NotificationsDatatable)
     {
+        $current_user = Auth()->user();
+
         $current_semester = \App\Models\Semester::where('is_current', 1)->first();
 
-        return $NotificationsDatatable->with('current_semester', $current_semester)->render('semesters.category_notifications', ['current_semester' => $current_semester]);
+        $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
+
+        if($current_user->student_id != null){
+            $enrollment_ids = [];
+            $enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
+            foreach ($enrollments as $item){
+                $enrollment_ids []= $item->course_class_id;
+            }
+            $class_schedules = CourseClass::with('enrollments')->findMany($enrollment_ids)->where('semester_id',optional($current_semester)->id)
+            ->where('department_id',$current_user->department_id);
+
+        }elseif($current_user->lecturer_id != null){
+            $class_schedules = $this->courseClassRepository->all([
+                'department_id' => $current_user->department_id,
+                'lecturer_id'=>$current_user->lecturer_id,
+                'semester_id' => optional($current_semester)->id
+            ]);
+        }
+
+        return $NotificationsDatatable->with('current_semester', $current_semester)->render('semesters.category_notifications', ['current_semester' => $current_semester, 'class_schedules' => $class_schedules]);
     }
 
     /**

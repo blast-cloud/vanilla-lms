@@ -7,6 +7,7 @@ use App\Events\AnnouncementUpdated;
 use App\Events\AnnouncementDeleted;
 
 use App\DataTables\AnnouncementDataTable;
+use App\DataTables\lectnStudAnnouncementsDataTable;
 use App\Http\Requests;
 use App\Http\Requests\CreateAnnouncementRequest;
 use App\Http\Requests\UpdateAnnouncementRequest;
@@ -34,6 +35,11 @@ class AnnouncementController extends AppBaseController
     public function index(AnnouncementDataTable $announcementDataTable)
     {
         return $announcementDataTable->render('announcements.index');
+    }
+
+    public function lectnStudAnnouncements(lectnStudAnnouncementsDataTable $lectnStudAnnouncementsDataTable)
+    {
+        return $lectnStudAnnouncementsDataTable->render('announcements.index');
     }
 
     /**

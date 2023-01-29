@@ -28,6 +28,7 @@ class DepartmentAnnouncementsDataTable extends AnnouncementDataTable
     {
 
         return Announcement::where("department_id", $this->department_id)
+                            ->where('announcement_end_date', ">=", date("Y-m-d", time()))
                             ->select("announcements.*");                    
 
     }

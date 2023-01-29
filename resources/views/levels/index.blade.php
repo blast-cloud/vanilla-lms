@@ -9,8 +9,6 @@ Levels
 Levels
 @stop
 
-
-
 @section('content')
     
     @include('flash::message')
@@ -26,6 +24,7 @@ Levels
                     <div class="pull-right">
                         <div class="pull-left inline-block dropdown">
                             <a id="btn-show-modify-level-modal" href="#" class="btn-new-mdl-level-modal btn btn-primary btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Add Level</a>
+                            <a id="btn-change-student-level-modal" href="#" class="btn-change-student-level-modal btn btn-danger btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Change Student Level</a>
                         </div>
                     </div>
                     <div class="clearfix"></div>
@@ -49,6 +48,7 @@ Levels
         @include("dashboard.partials.side-panel")
     </div>
 
-    @include('levels.modal')
+@include('levels.modal')
+
 @endsection
 

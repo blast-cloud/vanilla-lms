@@ -21,6 +21,7 @@ use App\Models\Course;
 use App\Models\CourseClass;
 use App\Models\Semester;
 use App\Models\Lecturer;
+use App\Models\Level;
 use DB;
 use Response;
 use Request;
@@ -120,26 +121,48 @@ class ArchieveController extends AppBaseController
         foreach ($enrollments as $item){
             $enrollment_ids []= $item->course_class_id;
         }
+
+        $levels = Level::orderBy('name')->get();
       
         $announcements = Announcement::where('department_id',$current_user->department_id)
+                                        ->where('announcement_end_date',">=", date("Y-m-d", time()))
                                         ->where('course_class_id',null)
                                         ->orWhere(function($query){
                                             $query->where('department_id', null)
-                                                ->where('course_class_id', null);
+                                                ->where('course_class_id', null)
+                                                ->where('announcement_end_date',">=", date("Y-m-d", time()));
                                         })->latest()->get();
         $current_semester = Semester::where('is_current',true)->first();
-        $class_schedules = CourseClass::with('enrollments')->whereIn('id',$enrollment_ids)->where('semester_id','!=',optional($current_semester)->id)
+        $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 10);
+
+        if($current_user->student_id != null){
+            $enrollment_ids = [];
+            $enrollments = $this->enrollmentRepository->all(['student_id'=>$current_user->student_id]);
+            foreach ($enrollments as $item){
+                $enrollment_ids []= $item->course_class_id;
+            }
+            $class_schedules = CourseClass::with('enrollments')->findMany($enrollment_ids)->where('semester_id',optional($current_semester)->id)
+                                         ->where('department_id', $current_user->department_id);
+        }elseif($current_user->lecturer_id != null){
+            $class_schedules = $this->courseClassRepository->all([
+                'department_id' => $current_user->department_id,
+                'lecturer_id'=>$current_user->lecturer_id,
+                'semester_id' => optional($current_semester)->id
+            ]);
+        }
+
+        $schedules = CourseClass::with('enrollments')->whereIn('id',$enrollment_ids)->where('semester_id','!=',optional($current_semester)->id)
         ->latest()
         ->paginate(10);
         if($current_user->lecturer_id != null){
-            $class_schedules = CourseClass::where('lecturer_id',$current_user->lecturer_id)
+            $schedules = CourseClass::where('lecturer_id',$current_user->lecturer_id)
             ->where('department_id',$current_user->department_id)
             ->where('semester_id','!=',optional($current_semester)->id)
             ->latest()
             ->paginate(15);
         }
         if($current_user->manager_id != null){
-            $class_schedules = CourseClass::where('department_id',$current_user->department_id)
+            $schedules = CourseClass::where('department_id',$current_user->department_id)
             ->where('semester_id','!=',optional($current_semester)->id)
             ->latest()
             ->paginate(15);
@@ -149,6 +172,8 @@ class ArchieveController extends AppBaseController
       
     
         return view("dashboard.archieves.index")
+                ->with('levels',$levels)
+                ->with('schedules', $schedules)
                 ->with('department', $department)
                 ->with('announcements', $announcements)
                 ->with('current_semester',$current_semester)

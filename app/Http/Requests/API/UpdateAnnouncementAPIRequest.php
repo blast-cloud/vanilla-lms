@@ -33,6 +33,7 @@ class UpdateAnnouncementAPIRequest extends AppBaseFormRequest
         return [
             'title' => 'required',
             'description' => 'required',
+            'announcement_end_date' => 'required'
         ];
     }
 

@@ -91,18 +91,16 @@ class ManagerDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
         $current_semester = Semester::where('is_current', true)->first();
-        $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)
-                                      ->orWhere(function($query){
-                                            $query->where('department_id', null)
-                                                ->where('course_class_id', null);
-                                        })->latest()->get();
-        $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id, 'semester_id' => optional($current_semester)->id],null, 10);
+        $announcements = Announcement::where('department_id',$current_user->department_id)
+                                     ->where('announcement_end_date',">=", date("Y-m-d", time()))
+                                     ->latest()->take(5)->get();
+        $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id, 'semester_id' => optional($current_semester)->id],null, 5);
 
-        $pending_enrollment_approval = Enrollment::with('student','courseClass')->where('is_approved',false)->Where('department_id', $current_user->department_id)->get();
+        $pending_enrollment_approval = Enrollment::with('student','courseClass')->where('is_approved',false)->Where('department_id', $current_user->department_id)->take(5)->get();
 
 
-        $department_calendar_items = CalendarEntry::where('department_id',$current_user->department_id)->get();
-        $course_catalog_items = Course::where('department_id', $current_user->department_id)->get();
+        $department_calendar_items = CalendarEntry::where('department_id',$current_user->department_id)->take(5)->get();
+        $course_catalog_items = Course::where('department_id', $current_user->department_id)->take(5)->get();
         $student_count = $this->studentRepository->all(['department_id'=>$current_user->department_id])->count();
         $calendars = $department_calendar_items->sortByDesc('due_date');
         $currentDate = date('Y/m/d');

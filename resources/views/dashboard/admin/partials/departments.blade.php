@@ -5,10 +5,10 @@
         </div>
         <div class="panel-heading" style="padding: 10px 15px;">
             <div class="pull-left">
-                <h4 class="panel-title txt-dark">Departments</h4>
+                <h4 class="panel-title txt-dark">Faculties</h4>
             </div>
             <div class="pull-right">
-                <a href="{{ route('departments.index') }}" class="pull-left inline-block mr-15">
+                <a href="{{ route('faculties.index') }}" class="pull-left inline-block mr-15">
                     <i class="zmdi zmdi-surround-sound" style="font-size:inherit;"></i> Manage
                 </a>
 
@@ -22,8 +22,8 @@
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <tbody>
-                            @if (isset($departments) && count($departments)>0)
-                            @foreach($departments as $item)
+                            @if (isset($faculties) && count($faculties)>0)
+                            @foreach($faculties as $item)
                             <tr>
                                 <td class="text-left">
                                     {{$item->name}} ({{$item->code}})
@@ -33,7 +33,7 @@
                             @else
                             <tr>
                                 <td class="text-left">
-                                    <p>No Departments</p>
+                                    <p>No Faculties</p>
                                 </td>
                             </tr>
                             @endif

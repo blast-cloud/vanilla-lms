@@ -2,7 +2,15 @@
 
 
 @section('title_postfix')
-Student Dashboard
+@php
+    $title = "";
+    if($current_user->manager_id != null){
+        $title = "Manager Dashboard";
+    }elseif($current_user->lecturer_id != null){
+        $title = "Lecturer Dashboard";
+    }
+@endphp
+{{$title}}
 @stop
 
 @section('page_title')
@@ -27,8 +35,8 @@ Student Dashboard
         @include('flash::message')
         <div class="col-sm-9">
 
-            @if (isset($class_schedules) && $class_schedules!=null && count($class_schedules)>0)
-            @foreach($class_schedules as $classDetailItem)
+            @if (isset($schedules) && $schedules!=null && count($schedules)>0)
+            @foreach($schedules as $classDetailItem)
                 @include("dashboard.class.partials.class-list-details")
             @endforeach
             @else
@@ -47,7 +55,7 @@ Student Dashboard
             @endif
             <div class="row">
                 <div class="col-sm-12">
-                    {{ $class_schedules->links() }}
+                    {{ $schedules->links() }}
                 </div>
             </div>
            

@@ -18,6 +18,7 @@ class AnnouncementResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'announcement_end_date' => $this->announcement_end_date,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'course_class_id' => $this->course_class_id,

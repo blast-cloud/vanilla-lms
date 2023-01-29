@@ -19,9 +19,11 @@ Announcements
         <div class="panel panel-default card-view">
             <div class="panel-heading" style="padding: 10px 15px;">
                 <div class="pull-left"></div>
-                <div class="pull-right">
-                    <a id="btn-show-modify-announcement-modal" class="btn btn-primary btn-xs btn-new-mdl-announcement-modal" href="#" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Add Announcement</a>
-                </div>
+                @if ((auth()->user()->is_platform_admin == true))
+                    <div class="pull-right">
+                        <a id="btn-show-modify-announcement-modal" class="btn btn-primary btn-xs btn-new-mdl-announcement-modal" href="#" role="menuitem"><i class="icon wb-reply" aria-hidden="true"></i>Add Announcement</a>
+                    </div>
+                @endif
                 <div class="clearfix"></div>
             </div>
             @if ((auth()->user()->is_platform_admin == 1))

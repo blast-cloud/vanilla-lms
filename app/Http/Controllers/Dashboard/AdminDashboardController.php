@@ -130,20 +130,22 @@ class AdminDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
 
-        $managers = $this->managerRepository->all([],null, 10);
-        $semesters = $this->semesterRepository->all([],null, 10);
-        $lecturers = $this->lecturerRepository->all([],null, 10);
-        $departments = $this->departmentRepository->all([],null, 10);
-        $announcements = Announcement::where('department_id', null)->where('course_class_id',null)->latest()->get();
+        $managers = $this->managerRepository->all([],null, 5);
+        $semesters = $this->semesterRepository->all([],null, 5);
+        $lecturers = $this->lecturerRepository->all([],null, 5);
+        $faculties = Department::where('parent_id',null)->where('is_parent', true)
+                                ->take(5)->get();
+        $announcements = Announcement::where('department_id', null)->where('course_class_id',null)
+                                     ->where('announcement_end_date',">=", date("Y-m-d", time()))
+                                     ->latest()->take(5)->get();
 
         return view("dashboard.admin.index")
-                ->with('department', $department)
+                ->with('faculties', $faculties)
                 ->with('current_user', $current_user)
                 ->with('managers', $managers)
                 ->with('semesters', $semesters)
                 ->with('lecturers', $lecturers)
-                ->with('announcements', $announcements)
-                ->with('departments', $departments);
+                ->with('announcements', $announcements);
     }
 
     public function displayApplicationSettings(Request $request){

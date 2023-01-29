@@ -80,6 +80,12 @@ $(document).ready(function() {
 
         // $.get( "{{URL::to('/')}}/api/announcements/"+itemId).done(function( data ) {
         $.get( "{{URL::to('/')}}/api/announcements/"+itemId).done(function( response ) {
+            const t = (response.data.announcement_end_date).split("-"); 
+            const date = new Date(Date.UTC(t[0], t[1]-1, t[2])); 
+            const month = (date.getMonth() + 1) < 10 ? `0${(date.getMonth() + 1)}` : `${(date.getMonth() + 1)}`;
+            const day = (date.getDate() + 1) < 10 ? `0${(date.getDate())}` : `${(date.getDate())}`;
+            const date_value = `${day}-${month}-${date.getUTCFullYear()}`;
+
 			$('#div-announcement-modal-error').hide();
             $('#div-announcement-modal-footer').hide();
 			$('#mdl-announcement-modal').modal('show');
@@ -88,7 +94,9 @@ $(document).ready(function() {
 			$('#txt-announcement-primary-id').val(response.data.id);
 
             $('#spn_announcement_title').html(response.data.title);
+            $('#spn_announcement_end_date').html(date_value);
             $('#spn_announcement_description').html(response.data.description);   
+            
         });
         $("#spinner1").hide();
     });
@@ -112,8 +120,9 @@ $(document).ready(function() {
 			$('#frm-announcement-modal').trigger("reset");
 			$('#txt-announcement-primary-id').val(response.data.id);
 
-            $('#title').val(response.data.title);
-            $('#description').val(response.data.description);
+            $('#announcement_title').val(response.data.title);
+            $('#announcement_description').val(response.data.description);
+            $('#announcement_end_date').val(response.data.announcement_end_date);
         });
         $("#spinner1").hide();
     });
@@ -201,6 +210,7 @@ $(document).ready(function() {
         
         formData.append('_method', actionType);
         formData.append('title', $('#announcement_title').val());
+        formData.append('announcement_end_date', $('#announcement_end_date').val());
         formData.append('description', $('#announcement_description').val());
 
         $.ajax({

@@ -5,9 +5,8 @@ namespace App\DataTables;
 use App\Models\Announcement;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
-use Carbon\Carbon;
 
-class AnnouncementDataTable extends DataTable
+class LectnStudAnnouncementsDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -19,13 +18,7 @@ class AnnouncementDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        $dataTable->editColumn('announcement_end_date', function($announcement) {
-
-            return Carbon::createFromFormat('Y-m-d', $announcement->announcement_end_date)->format('d-m-Y');
-
-        });
-
-        return $dataTable->addColumn('action', 'announcements.datatables_actions');
+        return $dataTable;
     }
 
     /**
@@ -37,12 +30,16 @@ class AnnouncementDataTable extends DataTable
     public function query(Announcement $model)
     {
         $current_user = Auth()->user();
-
-        if ($current_user->is_platform_admin == true) {
-            return $model->where('department_id', null)
-                        ->where('course_class_id',null)
-                        ->where('announcement_end_date',">=", date("Y-m-d", time()))
-                        ->latest();
+        
+        if($current_user->student_id != null || $current_user->lecturer_id != null){
+            return $model->where('department_id',$current_user->department_id)
+                            ->where('course_class_id',null)
+                            ->where('announcement_end_date', ">=", date("Y-m-d", time()))
+                            ->orWhere(function($query2){
+                            $query2->where('department_id', null)
+                                ->where('course_class_id', null)
+                                ->where('announcement_end_date', ">=", date("Y-m-d", time()));
+                            });
         }
         return $model->newQuery();
     }
@@ -57,7 +54,7 @@ class AnnouncementDataTable extends DataTable
         return $this->builder()
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->addAction(['width' => '120px', 'printable' => false])
+           // ->addAction(['width' => '120px', 'printable' => false])
             ->parameters([
                 'dom'       => 'Bfrtip',
                 'stateSave' => true,
@@ -80,8 +77,7 @@ class AnnouncementDataTable extends DataTable
     {
         return [
             'title',
-            'description',
-            'announcement_end_date'
+            'description'
         ];
     }
 

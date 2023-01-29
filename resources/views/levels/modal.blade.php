@@ -260,6 +260,62 @@
                 });
             });
 
+        //Change Student Level
+        $(document).on('click', ".btn-change-student-level-modal", function(e) {
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                }
+            });
+
+            let itemId = $(this).attr('data-val');
+            swal({
+                    title: "Are you sure you want to change all students level to the next level?",
+                    text: "This is an irriversible action!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        const wrapper = document.createElement('div');
+                        wrapper.innerHTML = '<div class="loader2" id="loader-1"></div>';
+                        swal({
+                            title: 'Please Wait !',
+                            content: wrapper,
+                            buttons: false,
+                            closeOnClickOutside: false
+                        });
+                        let endPointUrl = "{{ route('api.levels.upgrade') }}";
+
+                        let formData = new FormData();
+                        formData.append('_token', $('input[name="_token"]').val());
+
+                        $.ajax({
+                            url: endPointUrl,
+                            type: "POST",
+                            data: formData,
+                            cache: false,
+                            processData: false,
+                            contentType: false,
+                            dataType: 'json',
+                            success: function(result) {
+                                if (result.errors) {
+                                    console.log(result.errors)
+                                } else {
+                                    swal("Done!",
+                                        "The Student levels changed successfully!",
+                                        "success");
+                                    setTimeout(() => {
+                                        location.reload(true);
+                                    }, 2000);
+                                }
+                            },
+                        });
+                    }
+                });
         });
+});
     </script>
 @endsection
