@@ -13,7 +13,7 @@
 <!-- Name Field -->
 <div id="div_course_name" class="col-sm-12 mb-10">
     <p>
-        {!! Form::label('name', 'Name:', ['class'=>'control-label']) !!} 
+        {!! Form::label('name', 'Course Title:', ['class'=>'control-label']) !!} 
         <span id="spn_course_name">
         @if (isset($course->name))
             {!! $course->name !!}

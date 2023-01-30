@@ -8,7 +8,7 @@
 
 <!-- Name Field -->
 <div id="div-name" class="form-group">
-    <label class="control-label mb-10 col-sm-3" for="name">Name</label>
+    <label class="control-label mb-10 col-sm-3" for="name">Course Title</label>
     <div class="col-sm-9">
         {!! Form::text('name', null, ['id' => 'course_name','class' => 'form-control']) !!}
     </div>

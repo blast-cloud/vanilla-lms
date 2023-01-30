@@ -66,7 +66,7 @@ class CourseClassDataTable extends DataTable
     {
         return [
             'code',
-            'name',
+            ['title' => 'Course Title', 'data' => 'name'],
             'location',
             'level',
             'credit_hours'
