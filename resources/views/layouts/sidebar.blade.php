@@ -218,7 +218,7 @@ if ($current_user && $current_user->lecturer) {
         @endif
         <li class="">
             <a href="{{ route('notifications.index') }}" class="{{ Request::is('notifications') ? 'active' : '' }}">
-                <div class="pull-left"><i class="fa fa-bell mr-20"></i><span class="right-nav-text">Notifications</span>
+                <div class="pull-left"><i class="fa fa-bullhorn mr-20"></i><span class="right-nav-text">Broadcasts</span>
                 </div>
                 <div class="pull-right"></div>
                 <div class="clearfix"></div>

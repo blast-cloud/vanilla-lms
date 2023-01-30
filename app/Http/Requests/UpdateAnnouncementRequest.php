@@ -34,7 +34,7 @@ class UpdateAnnouncementRequest extends AppBaseFormRequest
         return [
             'title' => 'required',
             'description' => 'required',
-            'announcement_end_date' => 'required'
+            'announcement_end_date' => 'required|after_or_equal:today'
         ];
     }
 

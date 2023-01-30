@@ -91,9 +91,13 @@ class ManagerDashboardController extends AppBaseController
         $current_user = Auth()->user();
         $department = $this->departmentRepository->find($current_user->department_id);
         $current_semester = Semester::where('is_current', true)->first();
-        $announcements = Announcement::where('department_id',$current_user->department_id)
-                                     ->where('announcement_end_date',">=", date("Y-m-d", time()))
-                                     ->latest()->take(5)->get();
+        $announcements = Announcement::where('department_id',$current_user->department_id)->where('course_class_id',null)
+                                        ->where('announcement_end_date',">=", date("Y-m-d", time()))
+                                        ->orWhere(function($query){
+                                            $query->where('department_id', null)
+                                                ->where('course_class_id', null)
+                                                ->where('announcement_end_date',">=", date("Y-m-d", time()));
+                                        })->latest()->take(5)->get();
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id, 'semester_id' => optional($current_semester)->id],null, 5);
 
         $pending_enrollment_approval = Enrollment::with('student','courseClass')->where('is_approved',false)->Where('department_id', $current_user->department_id)->take(5)->get();

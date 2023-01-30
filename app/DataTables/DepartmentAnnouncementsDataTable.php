@@ -25,11 +25,14 @@ class DepartmentAnnouncementsDataTable extends AnnouncementDataTable
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Announcement $model)
-    {
-
-        return Announcement::where("department_id", $this->department_id)
-                            ->where('announcement_end_date', ">=", date("Y-m-d", time()))
-                            ->select("announcements.*");                    
+    {    
+        return Announcement::where('department_id',$this->department_id)->where('course_class_id',null)
+                            ->where('announcement_end_date',">=", date("Y-m-d", time()))
+                            ->orWhere(function($query){
+                                $query->where('department_id', null)
+                                    ->where('course_class_id', null)
+                                    ->where('announcement_end_date',">=", date("Y-m-d", time()));
+                            });           
 
     }
 
