@@ -135,7 +135,11 @@
                         </a> &nbsp;&nbsp;
                         @endif
                         <a class="text-info btn-lecture-attendance" href="#"  alt="Lecture Attendance" style="font-size:85%;opacity:0.5;" data-toggle="modal" data-target="#attendance_{{ $item->id }}">
-                            <i class="fa fa-users" style=""></i>&nbsp;Attendance {{$item->attendance->count()}}
+                            <i class="fa fa-users" style=""></i>&nbsp;Attendance({{$item->attendance->count()}})
+                        </a>&nbsp;
+                        <a class="text-info" href="{{ route('print.attendance',[$courseClass->id,$item->id]) }}"  alt="Lecture Attendance" style="font-size:85%;opacity:0.5;" data-toggle="" data-target=""
+                            target="_blank">
+                            <i class="fa fa-print" style=""></i>&nbsp;Print Attendance
                         </a>
                     @endif
                 </dd>

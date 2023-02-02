@@ -609,6 +609,23 @@ class ClassDashboardController extends AppBaseController
         return true;
     }
 
+    public function printAttendanceList(Request $request,$course_class_id,$class_material_id)
+    {
+        $course_class = CourseClass::find($course_class_id);
+
+        $current_semester = $this->semesterRepository->all(['is_current'=>true])->first();
+
+        $lecture = ClassMaterial::where('type','lecture-classes')
+                                ->where('semester_id',$current_semester->id)
+                                ->find($class_material_id);
+
+        $attendances = StudentAttendance::where('course_class_id',$course_class->id)
+                                    ->where('class_material_id', $lecture->id)->get();
+
+        return view('dashboard.class.partials.attendance')
+               ->with('course_class',$course_class)
+               ->with('attendances',$attendances);
+    }
 }
 
 ?>

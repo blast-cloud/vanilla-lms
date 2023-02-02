@@ -38,6 +38,8 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     Route::get('help', [App\Http\Controllers\FAQController::class, 'showHelp'])->name('help');
 
     Route::get('dashboard/class/{id}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'index'])->name('dashboard.class');
+    Route::get('dashboard/class/attendance/{course_class_id}/{class_material_id}',[App\Http\Controllers\Dashboard\ClassDashboardController::class, 'printAttendanceList'])->name('print.attendance');
+
     Route::get('dashboard/class/{id}/start-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processStartOnlineLecture'])->name('dashboard.class.start-lecture');
     Route::get('dashboard/class/{id}/join-lecture/{lectureId}', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processJoinOnlineLecture'])->name('dashboard.class.join-lecture');
     Route::post('dashboard/class/{course_class_id}/{lectureId}/save-details', [App\Http\Controllers\Dashboard\ClassDashboardController::class, 'processStudentAttendanceDetails'])->name('dashboard.class.save-details');
