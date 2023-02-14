@@ -71,7 +71,7 @@ class StudentController extends AppBaseController
             $bims_data['gender'] = "F";
         }
 
-        //$register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), $bims_data);
+        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), $bims_data);
 
         $input = $request->all();
 
@@ -148,7 +148,7 @@ class StudentController extends AppBaseController
             $bims_data['gender'] = "F";
         }
 
-        //$register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), $bims_data);
+        $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'), $bims_data);
         
         $student = $this->studentRepository->find($id);
 
