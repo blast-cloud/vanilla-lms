@@ -133,7 +133,7 @@
             <hr class="light-grey-hr mb-5"/>
             @if ( ($courseClass) && $courseClass->announcements!=null && count($courseClass->announcements)>0)
             @foreach($courseClass->announcements as $item)
-                @if ($item->course_class_id == $courseClass->id )
+                @if ($item->course_class_id == $courseClass->id && (time() <= strtotime($item->announcement_end_date)))
 
                     <dl>
                         <dt class="mb-0"><i class="text-primary fa fa-bullhorn mr-5"></i><span id="spn_announcement_{{$item->id}}_title">{{ $item->title }}</span>
@@ -144,9 +144,15 @@
                         </dt>
                         <dd class="mb-0" style="font-size:85%;"><span id="spn_announcement_{{$item->id}}_desc">{{ $item->description }}</span></dd>
                     </dl>
+                    @if($current_user->lecturer_id!=null)
                     <p class="text-primary" style="font-size:80%;">
-                        Posted on {{ $item->created_at->format('d-M-Y') }}
+                        End date: {{ date('d-m-Y', strtotime($item->announcement_end_date)) }}
                     </p>
+                    @elseif($current_user->student_id!=null)
+                    <p class="text-primary" style="font-size:80%;">
+                        Sent On: {{ date('d-m-Y', strtotime($item->created_at)) }}
+                    </p>
+                    @endif
                     <hr class="light-grey-hr mb-10"/>
 
                 @endif

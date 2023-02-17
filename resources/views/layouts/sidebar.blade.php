@@ -119,8 +119,6 @@ if ($current_user && $current_user->lecturer) {
                                                     <li class="divider"></li>
                                                 </a>
                                             </li>
-                                            @else
-                                            <span style="align-items: center">No New Notifications</span>
                                         @endif
                                     @endif
                                 @endforeach

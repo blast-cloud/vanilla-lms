@@ -34,6 +34,14 @@
                                         </div>
                                     </div>
 
+                                    <!-- Announcement End Date Field -->
+                                <div class="form-group">
+                                    <label class="control-label mb-10 col-sm-2" for="txt_announcement_end_date">End Date</label>
+                                    <div class="col-sm-4">
+                                        {!! Form::date('txt_announcement_end_date', null, ['id'=>'txt_announcement_end_date', 'class' => 'form-control']) !!}
+                                    </div>
+                                </div>      
+
                                     <!-- Description Field -->
                                     <div class="form-group">
                                         <label class="control-label mb-10 col-sm-2" for="txt_announcement_description">Description</label>
@@ -84,10 +92,11 @@ $(document).ready(function() {
         let itemId = $(this).attr('data-val');
         $('#txt_announcement_id').val(itemId);
 
-        //Set title and description
+        //Set title, end date and description
         $('#txt_announcement_title').val($('#spn_announcement_'+itemId+'_title').html());
+        $('#txt_announcement_end_date').val($('#spn_announcement_'+itemId+'_end_date').html());
         $('#txt_announcement_description').val($('#spn_announcement_'+itemId+'_desc').html());
-
+        
     });
 
     //Delete action
@@ -164,7 +173,9 @@ $(document).ready(function() {
         formData.append('course_class_id', {{ ($courseClass) ? $courseClass->id : ''}});
         formData.append('title', $('#txt_announcement_title').val());
         formData.append('id', primaryId);
+        formData.append('announcement_end_date',$('#txt_announcement_end_date').val());
         formData.append('description', $('#txt_announcement_description').val());
+        formData.append('department_id','{{$current_user->department_id}}');
 
         $.ajax({
             url:endPointUrl,
