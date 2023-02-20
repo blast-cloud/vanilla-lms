@@ -67,6 +67,7 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
         Route::get('dashboard/manager/calendars', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayDepartmentCalendar'])->name('dashboard.manager.calendars');
         Route::get('dashboard/manager/classes', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayClassSchedules'])->name('dashboard.manager.classes');
         Route::get('dashboard/manager/courses', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayCourseCatalog'])->name('dashboard.manager.courses');
+        Route::get('dashboard/manager/max-credit-load', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayMaxCreditLoads'])->name('dashboard.manager.max-course-load');
         Route::get('dashboard/manager/lecturers', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayDepartmentLecturers'])->name('dashboard.manager.lecturers');
         Route::get('dashboard/manager/students', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayDepartmentStudents'])->name('dashboard.manager.students');
         Route::get('dashboard/manager/student/{id}', [App\Http\Controllers\Dashboard\ManagerDashboardController::class, 'displayDepartmentStudentPage'])->name('dashboard.manager.student-page');
@@ -115,6 +116,8 @@ Route::middleware(['auth', 'isDisabled'])->group(function () {
     Route::get('lectnStudAnnouncements', [App\Http\Controllers\AnnouncementController::class, 'lectnStudAnnouncements'])->name('lect-stud.announcements');
 
     Route::resource('courses', App\Http\Controllers\CourseController::class);
+
+    Route::resource('semesters_max_credit_load', App\Http\Controllers\API\SemesterMaxCreditLoadAPIController::class);
 
     Route::resource('courseClasses', App\Http\Controllers\CourseClassController::class);
 

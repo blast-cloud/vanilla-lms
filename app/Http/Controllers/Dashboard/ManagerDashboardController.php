@@ -299,6 +299,11 @@ class ManagerDashboardController extends AppBaseController
 
     }
 
+    public function displayMaxCreditLoads(Request $request)
+    {
+        $current_user = Auth()->user();
+    }
+
     public function displayDepartmentStudentPage(Request $request, $student_id)
     {
         $current_user = Auth()->user();

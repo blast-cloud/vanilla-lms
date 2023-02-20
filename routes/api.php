@@ -36,6 +36,8 @@ Route::post('/student-re-enroll', [\App\Http\Controllers\API\StudentAPIControlle
         
     Route::resource('semesters', App\Http\Controllers\API\SemesterAPIController::class);
 
+    Route::resource('semesters_max_credit_load', App\Http\Controllers\API\SemesterMaxCreditLoadAPIController::class);
+
     Route::resource('departments', App\Http\Controllers\API\DepartmentAPIController::class);
 
     Route::resource('faculties', App\Http\Controllers\API\FacultyAPIController::class);
