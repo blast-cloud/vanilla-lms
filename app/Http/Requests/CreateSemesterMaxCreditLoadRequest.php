@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Http\Requests\API;
+namespace App\Http\Requests;
 
-use InfyOm\Generator\Request\APIRequest;
 use App\Http\Requests\AppBaseFormRequest;
 
-
-class CreateSemesterAPIRequest extends AppBaseFormRequest
+class CreateSemesterMaxCreditLoadRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests\API;
 
-use InfyOm\Generator\Request\APIRequest;
 use App\Http\Requests\AppBaseFormRequest;
 
-
-class CreateSemesterAPIRequest extends AppBaseFormRequest
+class CreateSemesterMaxCreditLoadAPIRequest extends AppBaseFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +23,6 @@ class CreateSemesterAPIRequest extends AppBaseFormRequest
      */
     public function rules()
     {
-        // return Semester::$rules;
         return [
            
         ];

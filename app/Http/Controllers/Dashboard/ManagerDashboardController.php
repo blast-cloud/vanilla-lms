@@ -11,6 +11,7 @@ use App\DataTables\DepartmentLecturersDataTable;
 use App\DataTables\DepartmentStudentsDataTable;
 use App\DataTables\LevelDataTable;
 use App\DataTables\DepartmentStudentEnrollmentDataTable;
+use App\DataTables\SemesterMaxCreditLoadDataTable;
 
 use App\Http\Requests;
 use App\Http\Requests\CreateAnnouncementRequest;
@@ -38,6 +39,7 @@ use App\Models\Course;
 use App\Models\Lecturer;
 use App\Models\Department;
 use App\Models\Semester;
+use App\Models\SemesterMaxCreditLoad;
 use App\Models\CourseClass;
 use App\Models\Announcement;
 use App\Models\CalendarEntry;
@@ -302,6 +304,19 @@ class ManagerDashboardController extends AppBaseController
     public function displayMaxCreditLoads(Request $request)
     {
         $current_user = Auth()->user();
+        $department = $this->departmentRepository->find($current_user->department_id);
+        $CreditLoadDataTable = new SemesterMaxCreditLoadDataTable($current_user->department_id);
+
+        if($request->expectsJson()) {
+
+            return $CreditLoadDataTable->ajax();
+        }
+        $current_semester = Semester::where('is_current',true)->first();
+        $levels = Level::orderBy('name')->get();
+
+        return $CreditLoadDataTable->render('dashboard.manager.tables.credit_loads',
+        
+        compact('current_user', 'department', 'current_semester', 'levels'));
     }
 
     public function displayDepartmentStudentPage(Request $request, $student_id)

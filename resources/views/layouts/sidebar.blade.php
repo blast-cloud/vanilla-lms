@@ -340,6 +340,15 @@ if ($current_user && $current_user->lecturer) {
                 </a>
             </li>
             <li class="">
+                <a href="{{ route('dashboard.manager.credit-loads') }}"
+                    class="{{ Request::is('dashboard/manager/credit-loads') ? 'active' : '' }}">
+                    <div class="pull-left"><i class="zmdi zmdi-collection-bookmark mr-20"></i><span
+                            class="right-nav-text">Credit Loads</span></div>
+                    <div class="pull-right"></div>
+                    <div class="clearfix"></div>
+                </a>
+            </li>
+            <li class="">
                 <a href="{{ route('dashboard.manager.announcements') }}"
                     class="{{ Request::is('dashboard/manager/announcements') ? 'active' : '' }}">
                     <div class="pull-left"><i class="zmdi zmdi-surround-sound mr-20"></i><span
