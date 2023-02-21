@@ -311,12 +311,12 @@ class ManagerDashboardController extends AppBaseController
 
             return $CreditLoadDataTable->ajax();
         }
-        $current_semester = Semester::where('is_current',true)->first();
+        $semesters = Semester::orderBy('code')->get();
         $levels = Level::orderBy('name')->get();
 
         return $CreditLoadDataTable->render('dashboard.manager.tables.credit_loads',
         
-        compact('current_user', 'department', 'current_semester', 'levels'));
+        compact('current_user', 'department', 'semesters', 'levels'));
     }
 
     public function displayDepartmentStudentPage(Request $request, $student_id)
@@ -325,7 +325,7 @@ class ManagerDashboardController extends AppBaseController
         $departmentItems = Department::where('parent_id', '!=', null)
                                      ->where('is_parent', false)
                                      ->orderBy('name')->get();
-        $levels = Level::orderBy('name')->get();
+        $levels = Level::orderBy('level')->get();
         $department = $this->departmentRepository->find($current_user->department_id);
         $class_schedules = $this->courseClassRepository->all(['department_id'=>$current_user->department_id],null, 20);
 

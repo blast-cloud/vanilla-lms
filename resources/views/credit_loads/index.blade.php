@@ -23,8 +23,8 @@ Credit Loads
                     </div>
                     <div class="pull-right">
                         <div class="pull-left inline-block dropdown">
-                            <a id="btn-show-modify-credit-load-modal" href="#" class="btn-new-mdl-credit-load-modal btn btn-primary btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Add Level</a>
-                            <a id="btn-change-student-credit-load-modal" href="#" class="btn-change-student-credit-load-modal btn btn-danger btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Change Student Level</a>
+                            {{-- <a id="btn-show-modify-credit-load-modal" href="#" class="btn-new-mdl-credit-load-modal btn btn-primary btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Add Level</a>
+                            <a id="btn-change-student-credit-load-modal" href="#" class="btn-change-student-credit-load-modal btn btn-danger btn-xs"><i class="icon wb-reply" aria-hidden="true"></i>Change Student Level</a> --}}
                         </div>
                     </div>
                     <div class="clearfix"></div>

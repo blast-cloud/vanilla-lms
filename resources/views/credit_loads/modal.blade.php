@@ -1,15 +1,15 @@
-<div class="modal fade" id="mdl-credit_load-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="mdl-credit-load-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">×</span></button>
-                <h4 id="lbl-credit_load-modal-title" class="modal-title">credit_load</h4>
+                <h4 id="lbl-credit_load-modal-title" class="modal-title">Credit Load</h4>
             </div>
 
             <div class="modal-body">
-                <div id="div-credit_load-modal-error" class="alert alert-danger" role="alert"></div>
+                <div id="div-credit-load-modal-error" class="alert alert-danger" role="alert"></div>
 
                 <form class="form-horizontal" id="frm-credit_load-modal" role="form" method="POST"
                     enctype="multipart/form-data" action="">
@@ -94,8 +94,9 @@
                     $('#frm-credit_load-modal').trigger("reset");
                     $('#txt-credit_load-primary-id').val(response.data.id);
                     $('.spinner1').hide();
-                    $('#spn_credit_load_name').html(response.data.name);
-                    $('#spn_credit_load_credit_load').html(response.data.credit_load);
+                    $('#spn_level').html(response.data.level);
+                    $('#spn_semester_code').html(response.data.semester_code);
+                    $('#spn_max_credit_load').html(response.data.max_credit_load);
                 });
             });
 
@@ -120,8 +121,9 @@
                     $('#mdl-credit_load-modal').modal('show');
                     $('#frm-credit_load-modal').trigger("reset");
                     $('#txt-credit_load-primary-id').val(response.data.id);
-                    $('#credit_load_name').val(response.data.name);
-                    $('#credit_load_credit_load').val(response.data.credit_load);
+                    $('#level').val(response.data.level);
+                    $('#semester_code').val(response.data.semester_code);
+                    $('#max_credit_load').val(response.data.max_credit_load);
                     // $('#').val(response.data.);
                     // $('#').val(response.data.);
                     $('.spinner1').hide();
@@ -194,7 +196,6 @@
                 });
 
                 let actionType = "POST";
-                // let endPointUrl = "{{ URL::to('/') }}/api/credit_loads/create";
                 let endPointUrl = "{{ route('credit_loads.store') }}";
                 let primaryId = $('#txt-credit-load-primary-id').val();
 
@@ -203,16 +204,15 @@
 
                 if (primaryId > 0) {
                     actionType = "PUT";
-                    // endPointUrl = "{{ URL::to('/') }}/api/credit_loads/"+itemId;
                     endPointUrl = "{{ route('credit_loads.update', 0) }}" + primaryId;
                     formData.append('id', primaryId);
                 }
-                formData.append('name', $('#credit_load_name').val())
-                formData.append('credit_load', $('#credit_load_credit_load').val())
                 formData.append('_method', actionType);
-                // formData.append('', $('#').val());
-                // formData.append('', $('#').val());
-
+                formData.append('level', $('#level').val());
+                formData.append('semester_code', $('#semester_code').val());
+                formData.append('max_credit_load', $('#max_credit_load').val());
+                formData.append('department_id', '{{$current_user->department_id}}')
+    
                 $.ajax({
                     url: endPointUrl,
                     type: "POST",
@@ -259,63 +259,6 @@
                     }
                 });
             });
-
-        //Change Student credit_load
-        $(document).on('click', ".btn-change-student-credit-load-modal", function(e) {
-            e.preventDefault();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('input[name="_token"]').val()
-                }
-            });
-
-            let itemId = $(this).attr('data-val');
-            swal({
-                    title: "Are you sure you want to change all students credit load to the next credit_load?",
-                    text: "This is an irriversible action!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        const wrapper = document.createElement('div');
-                        wrapper.innerHTML = '<div class="loader2" id="loader-1"></div>';
-                        swal({
-                            title: 'Please Wait !',
-                            content: wrapper,
-                            buttons: false,
-                            closeOnClickOutside: false
-                        });
-                        let endPointUrl = "{{ route('api.credit_loads.upgrade') }}";
-
-                        let formData = new FormData();
-                        formData.append('_token', $('input[name="_token"]').val());
-
-                        $.ajax({
-                            url: endPointUrl,
-                            type: "POST",
-                            data: formData,
-                            cache: false,
-                            processData: false,
-                            contentType: false,
-                            dataType: 'json',
-                            success: function(result) {
-                                if (result.errors) {
-                                    console.log(result.errors)
-                                } else {
-                                    swal("Done!",
-                                        "The Student credit loads changed successfully!",
-                                        "success");
-                                    setTimeout(() => {
-                                        location.reload(true);
-                                    }, 2000);
-                                }
-                            },
-                        });
-                    }
-                });
-        });
-});
+  });
     </script>
 @endsection

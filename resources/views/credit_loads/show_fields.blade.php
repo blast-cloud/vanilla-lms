@@ -1,25 +1,37 @@
-<!-- Email Field -->
-<div id="div_level_name" class="col-sm-12 mb-10">
+<!-- Semester Field -->
+<div id="div_semester_code" class="col-sm-12 mb-10">
     <p>
-        {!! Form::label('name', 'Name:', ['class'=>'control-label']) !!} 
-        {{-- <span id="spn_level_name">
-        @if (isset($level->name))
-            {!! $level->name !!}
+        {!! Form::label('semester_code', 'Semester:', ['class'=>'control-label']) !!} 
+        <span id="spn_semester_code">
+        @if (isset($semesterMaxCreditLoad->semester_code))
+            {!! $semesterMaxCreditLoad->semester_code !!}
         @endif
-        </span> --}}
+        </span>
     </p>
 </div>
 
 
-<!-- Code Field -->
-<div id="div_level_name" class="col-sm-12 mb-10">
+<!-- Level Field -->
+<div id="div_level" class="col-sm-12 mb-10">
     <p>
         {!! Form::label('level', 'Level:', ['class'=>'control-label']) !!} 
-        {{-- <span id="spn_level_level">
-        @if (isset($level->level))
-            {!! $level->level !!}
+        <span id="spn_level">
+        @if (isset($semesterMaxCreditLoad->level))
+            {!! $semesterMaxCreditLoad->level !!}
         @endif
-        </span> --}}
+        </span>
+    </p>
+</div>
+
+<!-- Max Credit Load Field -->
+<div id="div_max_credit_load" class="col-sm-12 mb-10">
+    <p>
+        {!! Form::label('max_credit_load', 'Max Credit Load:', ['class'=>'control-label']) !!} 
+        <span id="spn_max_credit_load">
+        @if (isset($semesterMaxCreditLoad->max_credit_load))
+            {!! $semesterMaxCreditLoad->max_credit_load !!}
+        @endif
+        </span>
     </p>
 </div>
 

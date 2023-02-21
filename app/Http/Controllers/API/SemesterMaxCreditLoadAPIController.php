@@ -2,83 +2,70 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\API\CreateSemesterMaxCreditLoadAPIRequest;
+use App\Http\Requests\API\UpdateSemesterMaxCreditLoadAPIRequest;
+use App\Models\SemesterMaxCreditLoad;
+use App\Repositories\SemesterMaxCreditLoadRepository;
+use App\Http\Controllers\AppBaseController;
+use App\Http\Resources\SemesterMaxCreditLoadResource;
 use Illuminate\Http\Request;
+use Response;
 
-class SemesterMaxCreditLoadAPIController extends Controller
+class SemesterMaxCreditLoadAPIController extends AppBaseController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    /** @var  SemesterMaxCreditLoadRepository */
+    private $semesterMaxCreditLoadRepository;
+
+    public function __construct(SemesterMaxCreditLoadRepository $semesterMaxCreditLoadRepo)
     {
-        //
+        $this->semesterMaxCreditLoadRepository = $semesterMaxCreditLoadRepo;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function store(CreateSemesterMaxCreditLoadAPIRequest $request)
     {
-        //
+        $input = $request->all();
+
+        $semesterMaxCreditLoad = $this->semesterMaxCreditLoadRepository->create($input);
+        
+        return $this->sendResponse(new SemesterMaxCreditLoadResource($semesterMaxCreditLoad), 'SemesterMaxCreditLoad saved successfully');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
-        //
+        $semesterMaxCreditLoad = $this->semesterMaxCreditLoadRepository->find($id);
+
+        if (empty($semesterMaxCreditLoad)) {
+            return $this->sendError('SemesterMaxCreditLoad not found');
+        }
+
+        return $this->sendResponse(new SemesterMaxCreditLoadResource($semesterMaxCreditLoad), 'SemesterMaxCreditLoad retrieved successfully');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update($id, UpdateSemesterMaxCreditLoadAPIRequest $request)
     {
-        //
+        $input = $request->all();
+
+        $semesterMaxCreditLoad = $this->semesterMaxCreditLoadRepository->find($id);
+
+        if (empty($semesterMaxCreditLoad)) {
+            return $this->sendError('SemesterMaxCreditLoad not found');
+        }
+
+        $semesterMaxCreditLoad = $this->semesterMaxCreditLoadRepository->update($input, $id);
+        
+        return $this->sendResponse(new SemesterMaxCreditLoadResource($semesterMaxCreditLoad), 'SemesterMaxCreditLoad updated successfully');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        //
+        $semesterMaxCreditLoad = $this->semesterMaxCreditLoadRepository->find($id);
+
+        if (empty($semesterMaxCreditLoad)) {
+            return $this->sendError('SemesterMaxCreditLoad not found');
+        }
+
+        $semesterMaxCreditLoad->delete();
+        return $this->sendSuccess('SemesterMaxCreditLoad deleted successfully');
     }
 }
