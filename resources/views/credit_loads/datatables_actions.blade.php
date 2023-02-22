@@ -11,6 +11,6 @@
         {!! Form::button('<i class="fa fa-key"></i>', ['type'=>'button']) !!}
     </a>
      --}}
-    {{-- <a href="#" data-val='{{$id}}' class='btn-delete-mdl-credit-load-modal' data-toggle="tootip" title="Delete Credit Load">
+    <a href="#" data-val='{{$id}}' class='btn-delete-mdl-credit-load-modal' data-toggle="tootip" title="Delete Credit Load">
         {!! Form::button('<i class="fa fa-trash"></i>', ['type'=>'button']) !!}
-    </a> --}}
+    </a>

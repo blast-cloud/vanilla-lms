@@ -20,6 +20,10 @@ class SemesterMaxCreditLoadDataTable extends DataTable
     
     public function query(SemesterMaxCreditLoad $model)
     {
+        $current_user = Auth()->user();
+        if($current_user->manager_id != null){
+            return $model->where('department_id',$current_user->department_id);
+        }
         return $model->newQuery();
     }
 
