@@ -243,9 +243,11 @@ class ACLController extends AppBaseController
 
         $current_user = Auth()->user();
 
-        $departmentItems = Department::pluck('name','id')->toArray();
+        $departmentItems = Department::where('parent_id','!=',null)->where('is_parent',false)
+                                     ->pluck('name','id')->toArray();
 
-        $departments = Department::select('name','id')->get();
+        $departments = Department::where('parent_id','!=',null)->where('is_parent',false)
+                                 ->select('name','id')->get();
 
         //Get User Accounts DataTable
         $userAccountsDataTable = new UserAccountsDataTable();

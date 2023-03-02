@@ -28,13 +28,21 @@ class DepartmentStudentsDataTable extends StudentDataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
+        $searchValue = request()->get('search')['value'];
         $dataTable->addColumn('matriculation_number', function ($query) {
             $link = route('dashboard.manager.student-page',$query->id);
             $message = $query->has_graduated ? "<h6 class='text-danger'> graduated </h6>" : "<h6 class='text-success'> active student </h6>";
             return "<a href='{$link}' class='call_telefonos' style='color:blue;' title='Manage $query->matriculation_number'><u>$query->matriculation_number</u></a><br>'$message'";
-        })->filterColumn('matriculation_number', function ($query, $keyword) {
-           
-            $query->whereRaw("matriculation_number like ?", ["%{$keyword}%"]);
+        })->filterColumn('matriculation_number', function ($query, $keyword) use ($searchValue) {
+            $searchValue = trim($searchValue);
+            if($searchValue=="100"||$searchValue=="200"||$searchValue=="300"||
+                $searchValue=="400"||$searchValue=="500"||$searchValue=="600"){
+                 return;
+            }else{
+                $keyword = trim($keyword);
+                $query->whereRaw("matriculation_number like ?", ["%{$keyword}%"]);
+            }
+          
          })->orderColumn('matriculation_number', function ($query, $order) {
             $query->orderBy('matriculation_number', $order);
         });
@@ -47,8 +55,37 @@ class DepartmentStudentsDataTable extends StudentDataTable
             $query->orderBy('first_name',$order);
         });
 
+        $dataTable->addColumn('email',function($query) {
+            return "{$query->email}";
+        })->filterColumn('email',function($q,$w) use ($searchValue) {
+            $searchValue = trim($searchValue);
+            if($searchValue=="100"||$searchValue=="200"||$searchValue=="300"||
+                 $searchValue=="400"||$searchValue=="500"||$searchValue=="600"){
+                   return;
+            }else{
+                $w = trim($w);
+                $q->where('email','LIKE',"%{$w}%");
+            }
+        });
+ 
         $dataTable->addColumn('level', function ($query) {
             return "{$query->level}";
+        })->filterColumn('level',function($q,$w){
+            $w = trim($w);
+            $q->where('level', 'LIKE', "%{$w}%");
+        });
+
+        $dataTable->addColumn('telephone',function($query) {
+            return "{$query->telephone}";
+        })->filterColumn('telephone',function($q,$w) use ($searchValue) {
+            $searchValue = trim($searchValue);
+            if($searchValue=="100"||$searchValue=="200"||$searchValue=="300"||
+                $searchValue=="400"||$searchValue=="500"||$searchValue=="600"){
+                    return;
+            }else{
+                $w = trim($w);
+                $q->where('telephone', 'LIKE', "%{$w}%");
+            }
         });
 
         $dataTable->addColumn('action', 'students.datatables_actions');
