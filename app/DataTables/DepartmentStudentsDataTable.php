@@ -28,7 +28,10 @@ class DepartmentStudentsDataTable extends StudentDataTable
     public function dataTable($query)
     {
         $dataTable = new EloquentDataTable($query);
-        $searchValue = request()->get('search')['value'];
+        $searchValue = "";
+        if(!empty(request()->get('search')['value'])){
+            $searchValue = request()->get('search')['value'];
+        }
         $dataTable->addColumn('matriculation_number', function ($query) {
             $link = route('dashboard.manager.student-page',$query->id);
             $message = $query->has_graduated ? "<h6 class='text-danger'> graduated </h6>" : "<h6 class='text-success'> active student </h6>";
