@@ -326,7 +326,7 @@ class StudentAPIController extends AppBaseController
                     } else {
                         $bims_data['gender'] = "F";
                     }       
-                    $register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
+                    //$register_for_bims = Http::acceptJson()->post(env('BIMS_CREATE_USER_URL'),  $bims_data);
                     
                     $ext_student_data =  [
                         'email' => trim($data[0]),
