@@ -406,7 +406,6 @@ class ACLController extends AppBaseController
                     'sex' => trim($data[3]),
                     'matriculation_number' => trim($data[5]),
                     'level' => trim($data[6]),
-                    'department_id' => auth()->user()->department_id ?? null
                 ];
                 if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){
                     $ext_student_data['sex'] = "Male";

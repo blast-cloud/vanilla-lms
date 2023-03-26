@@ -537,7 +537,7 @@
                     </div>
                 </div>
                                 
-
+                    
                 <footer class="footer container-fluid pl-30 pr-30"> 
 				<div class="row">
 					<div class="col-sm-5" style="font-size:80%">
@@ -554,9 +554,10 @@
 							<li class="logo-footer"><a href="#">privacy</a></li>
 						</ul> -->
 					</div>
-					<div class="col-sm-7 text-right" style="font-size:80%">
-						SPONSORED BY <a href="https://www.tetfund.gov.ng" target="_blank">TETFUND/ICT/2019-20</a>
-					</div>	
+                    <div class="" style="float:right">
+                        <img src="{{asset('imgs/TETFund.png')}}" style="width: 80px; height: 30px;" alt="">
+                        <a style="font-size:80%;float:right" href="https://www.tetfund.gov.ng" target="_blank"> SPONSORED BY TETFUND/ICT/2019-20</a>
+                    </div>
 				</div>	
 			    </footer>
 
