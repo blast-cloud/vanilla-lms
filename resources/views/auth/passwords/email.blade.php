@@ -75,6 +75,12 @@
                         margin-top: 50px;
                     }
                 }  
+
+                @media (max-width: 768px){
+                    .school_name{
+                        font-size: 16px
+                    }
+                }
             /*stop styling header top text*/
             </style>
         @endif
@@ -128,7 +134,7 @@
                         @if (isset($app_settings['file_icon_picture']))
                             <img class="brand-img mr-10" style="z-index: -1;" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/>
                         @endif
-                        <span class="brand-text text-left pull-right mt-10" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                        <span class="brand-text text-left pull-right mt-10 school_name" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
                     </a>
                 </div>
                {{-- <div class="sp-logo-wrap pull-left">
