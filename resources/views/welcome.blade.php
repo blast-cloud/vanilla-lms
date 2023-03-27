@@ -122,12 +122,6 @@
                 }
            }
 
-           @media (max-width: 768px){
-                    .school_name{
-                        font-size: 16px
-                    }
-                }
-
 
         </style>
        @if (isset($app_settings['txt_school_home_color']) && (isset($app_settings['txt_website_text_title']) || isset($app_settings['txt_official_website']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_phone'])))
@@ -204,7 +198,7 @@
                         @if (isset($app_settings['file_icon_picture']))
                             <img class="brand-img mr-10" style="z-index: -1;" src="{{ asset($app_settings['file_icon_picture']) }}" alt="brand"/><br>
                         @endif
-                        <span class="brand-text text-left pull-left school_name" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
+                        <span class="brand-text text-left pull-left" style="width: auto">{!! $app_settings['txt_long_name'] ?? '' !!}</span>
                     </a>
                 </div>
                 <div class="clearfix"></div>
@@ -244,13 +238,21 @@
                                             </div>
                                             <div class="col-lg-12 text-center mt-20 auth-actions">
                                                 <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
+                                                {{-- @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
+                                                <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a>
+                                                @endif --}}
+                                            </div>
+
+                                            <div class="col-lg-12 text-center mt-20 auth-actions">
+                                                 @if (isset($app_settings['cbx_allow_lecturer_registration']) && $app_settings['cbx_allow_lecturer_registration']==1)
+                                                 <a class="btn btn-success btn-lg" href="{{ route('lecturer-register') }}">Lecturer Reg.</a>
+                                                 @endif
 
                                                 @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
-                                                <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a>
+                                                <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Student Reg.</a>
                                                 @endif
 
                                             </div>
-                                            
                                             
                                         </div>
                                     </div>

@@ -7,7 +7,7 @@
             {{$app_settings['txt_long_name']??''}}
             @yield('title', config('app.title', 'LMS'))
             @yield('title_prefix')
-            Student Registration
+            Lecturer Registration
         </title>
         <meta name="description" content="{{$app_settings['txt_long_name']??''}} Learning Management System." />
         <meta name="keywords" content="LMS, VanillaLMS, Foresight, Hasob" />
@@ -232,11 +232,16 @@
                                                 </h6>
                                             </div>
                                             <div class="col-lg-12 text-center mt-20">
-                                                <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
-
-                                                @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
-                                                <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a>
-                                                @endif
+                                                @php
+                                                $currentUrl = request()->url();
+                                                @endphp
+                                                 @if(str_contains(trim($currentUrl),'lecturer-register'))
+                                                      <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
+                                                 @else
+                                                     @if (isset($app_settings['cbx_allow_lecturer_registration']) && $app_settings['cbx_allow_lecturer_registration']==1)
+                                                     <a class="btn btn-success btn-lg" href="{{ route('lecturer-register') }}">Register</a>
+                                                     @endif
+                                                 @endif
                                             </div>
                                             
                                         </div>
