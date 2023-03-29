@@ -418,24 +418,15 @@
                                                     {!! $app_settings['txt_app_name'] ?? '' !!}
                                                 </h6>
                                             </div>
-                                            <h5 class="text-center">Self Registrations</h5>
                                             <div class="col-lg-12 text-center mt-20 auth-actions">
-                                                @if((!isset($app_settings['cbx_allow_lecturer_registration']) && $app_settings['cbx_allow_lecturer_registration']==false)&&
-                                                (!isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==false))
-                                                 <span class="text-danger text-center">Not Available</span>
+                                                @php
+                                                $currentUrl = request()->url();
+                                                @endphp
+                                                @if(str_contains(trim($currentUrl),'student-register') || str_contains(trim($currentUrl),'lecturer-register'))
+                                                    <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
                                                 @else
-                                                    @php
-                                                    $currentUrl = request()->url();
-                                                    @endphp
-                                                    @if(str_contains(trim($currentUrl),'student-register') || str_contains(trim($currentUrl),'lecturer-register'))
-                                                        <a class="btn btn-success btn-lg" href="{{ route('login') }}">Login</a>
-                                                    @else
-                                                        @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
-                                                        <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Student</a>
-                                                        @endif
-                                                        @if (isset($app_settings['cbx_allow_lecturer_registration']) && $app_settings['cbx_allow_lecturer_registration']==1)
-                                                        <a class="btn btn-success btn-lg" href="{{ route('lecturer-register') }}">Lecturer</a>
-                                                        @endif
+                                                    @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
+                                                    <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Register</a>
                                                     @endif
                                                 @endif
                                             </div>
@@ -488,7 +479,7 @@
                            @endif
                         </div>
                         <div class="" style="float:right">
-                            <img src="{{asset('imgs/TETFund.png')}}" style="width: 80px; height: 30px;" alt="">
+                            <img src="{{asset('imgs/TETFund.png')}}" style="width:80px; height: 15px;" alt="">
                             <a style="font-size:80%;float:right" href="https://www.tetfund.gov.ng" target="_blank"> SPONSORED BY TETFUND/ICT/2019-20</a>
                         </div>	
                     </div>	

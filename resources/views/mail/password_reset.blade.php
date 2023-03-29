@@ -1,3 +1,4 @@
+@php $link = url('/login') @endphp
 @component('mail::message')
 Password Reset for {{ $user->email }}
 
@@ -7,7 +8,8 @@ Password Reset for {{ $user->email }}
 Find below your New Password.<br/>
 Password: <span style="color:blue">{{ $password }}</span>
 <br/>
-Please keep your password safe.
+Please keep your password safe.<br>
+Link: <a href="{{$link}}" target="_blank">{{$link}}</a>
 @endcomponent
 
 Thanks,<br>

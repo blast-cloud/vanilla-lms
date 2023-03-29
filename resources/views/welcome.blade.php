@@ -302,7 +302,7 @@
                            @endif   
                         </div>
                         <div class="" style="float:right">
-                            <img src="{{asset('imgs/TETFund.png')}}" style="width: 80px; height: 30px;" alt="">
+                            <img src="{{asset('imgs/TETFund.png')}}" style="width: 80px; height: 15px;" alt="">
                             <a style="font-size:80%;float:right" href="https://www.tetfund.gov.ng" target="_blank"> SPONSORED BY TETFUND/ICT/2019-20</a>
                         </div>	
                     </div>	
