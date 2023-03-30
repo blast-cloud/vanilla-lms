@@ -221,7 +221,7 @@
                 <div class="container-fluid">
 
                     <div class="row" id="file_landing_page_picture">
-                        <div class="col-lg-8 auth-cont">
+                        <div class="col-lg-9 auth-cont">
             
                             <div class="col-lg-12 text-center">
                                 <div class="panel panel-default card-view">
@@ -338,8 +338,7 @@
                                                                                 <label class="pull-left control-label mb-10" for="exampleInputpwd_2">Password</label>
                                                                                 <a class="capitalize-font txt-primary block mb-10 pull-right font-12" href="{{ route('password.request') }}">forgot password ?</a>
                                                                                 <div class="clearfix"></div>
-                                                                                                                                                                       <div class="input-group" style="z-index: 0;">
-
+                                                                                    <div class="input-group" style="z-index: 0;">
                                                                                     <input 
                                                                                     id="password" 
                                                                                     type="password" 
@@ -350,17 +349,16 @@
                                                                                     >
                                                                                     <div class="input-group-addon bg-secondary">
                                                                                         <span class="input-group-text">
-                    <a href="">
-                        <i 
-                        class="fa fa-eye-slash toggle_hide_password" 
-                        aria-hidden="true" 
-                        style="cursor: pointer;" 
-                    ></i>
-                    </a>
-            </span>
+                                                                                            <a href="">
+                                                                                                <i 
+                                                                                                class="fa fa-eye-slash toggle_hide_password" 
+                                                                                                aria-hidden="true" 
+                                                                                                style="cursor: pointer;" 
+                                                                                            ></i>
+                                                                                            </a>
+                                                                                    </span>
                                                                                     </div>
-            
-                                                                   @error('password')
+                                                                                    @error('password')
                                                                                         <span class="invalid-feedback" role="alert">
                                                                                             <strong>{{ $message }}</strong>
                                                                                         </span>
@@ -401,7 +399,7 @@
                         </div>
 
                         <div class="col-lg-4">
-
+{{-- 
                             <div class="col-lg-12 text-center">
                                 <div class="panel panel-default card-view">
                                     <div class="panel-wrapper collapse in">
@@ -433,7 +431,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             
                             <div class="col-lg-12 mt-20">
                                 @if (isset($app_settings['txt_portal_contact_phone']) || isset($app_settings['txt_portal_contact_email']) || isset($app_settings['txt_portal_contact_name']))
@@ -480,7 +478,7 @@
                         </div>
                         <div class="" style="float:right">
                             <img src="{{asset('imgs/TETFund.png')}}" style="width:80px; height: 15px;" alt="">
-                            <a style="font-size:80%;float:right" href="https://www.tetfund.gov.ng" target="_blank"> SPONSORED BY TETFUND/ICT/2019-20</a>
+                            <a style="font-size:80%;float:right" href="https://www.tetfund.gov.ng" target="_blank">SPONSORED ICT/2019-20</a>
                         </div>	
                     </div>	
                 </footer>
