@@ -540,7 +540,7 @@
                     
                 <footer class="footer container-fluid pl-30 pr-30"> 
 				<div class="row">
-					<div class="col-sm-5" style="font-size:80%">
+					<div class="col-sm-5" style="font-size:110%">
                         @if (config('lmsvendors.sophira'))
                                   {{ date('Y') }} &copy;  Sophira by <a href="#" target="_blank">SocketSystems Software Ltd</a>
                         @elseif (config('lmsvendors.foresight'))
@@ -555,8 +555,8 @@
 						</ul> -->
 					</div>
                     <div class="" style="float:right">
-                        <img src="{{asset('imgs/TETFund.png')}}" style="width: 80px; height: 15px;" alt="">
-                        <a style="font-size:80%;float:right" href="https://www.tetfund.gov.ng" target="_blank"> SPONSORED ICT/2019-20</a>
+                        <img src="{{asset('imgs/TETFund.png')}}" style="width: 80px; height:25px;" alt="">
+                        <a style="font-size:110%;float:right" href="https://www.tetfund.gov.ng" target="_blank"> SPONSORED ICT/2019-20</a>
                     </div>
 				</div>	
 			    </footer>
