@@ -17,11 +17,9 @@ class BulkManagersCreatedNotification extends Notification implements ShouldQueu
      *
      * @return void
      */
-    public $tries = 10;
-
     public $manager;
     public $password;
-    
+
     public function __construct(Manager $manager,$password)
     {
         $this->manager = $manager;

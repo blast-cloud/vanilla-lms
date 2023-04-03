@@ -17,11 +17,9 @@ class BulkLecturersCreatedNotification extends Notification implements ShouldQue
      *
      * @return void
      */
-    public $tries = 10;
-
     public $lecturer;
     public $password;
-    
+
     public function __construct(Lecturer $lecturer,$password)
     {
         $this->lecturer = $lecturer;

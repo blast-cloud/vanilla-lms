@@ -17,12 +17,9 @@ class BulkStudentsCreatedNotification extends Notification implements ShouldQueu
      *
      * @return void
      */
-
-    public $tries = 10;
-
     public $student;
     public $password;
-    
+
     public function __construct(Student $student,$password)
     {
         $this->student = $student;
