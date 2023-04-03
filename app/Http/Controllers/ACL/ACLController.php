@@ -36,6 +36,10 @@ use App\Events\StudentCreated;
 use App\Events\ManagerCreated;
 use App\Events\LecturerCreated;
 
+use App\Events\BulkStudentsCreated;
+use App\Events\BulkManagersCreated;
+use App\Events\BulkLecturersCreated;
+
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\PasswordResetNotification;
 
@@ -315,14 +319,14 @@ class ACLController extends AppBaseController
                             break;
                         }
                     }elseif($type == 'lecturer'){
-                        if (count($headers) != 5 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  || trim(strtolower($headers['4']), "\r\n")  != 'telephone') {
-                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
+                        if (count($headers) != 6 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex' ||  strtolower(trim($headers[4])) != 'job title' || trim(strtolower($headers['5']), "\r\n")  != 'telephone') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Job Title,Telephone"';
                             array_push($errors, $invalids);
                             break;
                         }
                     }elseif($type == 'manager'){
-                        if (count($headers) != 5 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  ||  trim(strtolower($headers['4']), "\r\n") != 'telephone') {
-                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
+                        if (count($headers) != 6 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex' || strtolower(trim($headers[4])) != 'job title' ||  trim(strtolower($headers['5']), "\r\n") != 'telephone') {
+                            $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Job Title,Telephone"';
                             array_push($errors, $invalids);
                             break;
                         }
@@ -414,7 +418,7 @@ class ACLController extends AppBaseController
                 }
                 $student_data = array_merge(request()->input(),$ext_student_data);     
                 $student = $this->studentRepository->create($student_data);
-                StudentCreated::dispatch($student);
+                BulkStudentsCreated::dispatch($student);
             break;
 
             case 'lecturer':
@@ -422,8 +426,9 @@ class ACLController extends AppBaseController
                     'email' => trim($data[0]),
                     'first_name' => trim($data[1]),
                     'last_name' => trim($data[2]),
-                    'telephone' => trim(strtolower($data[4]), "\r\n"),
-                    'sex' => trim($data[3])
+                    'telephone' => trim(strtolower($data[5]), "\r\n"),
+                    'sex' => trim($data[3]),
+                    'job_title'=> trim($data[4])
                 ];
                 if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){
                     $ext_lecturer_data['sex'] = "Male";
@@ -432,7 +437,7 @@ class ACLController extends AppBaseController
                 }
                 $lecturer_data = array_merge(request()->input(),$ext_lecturer_data);     
                 $lecturer = $this->lecturerRepository->create($lecturer_data);
-                LecturerCreated::dispatch($lecturer);
+                BulkLecturersCreated::dispatch($lecturer);
             break;
 
             case 'manager':
@@ -440,8 +445,9 @@ class ACLController extends AppBaseController
                     'email' => trim($data[0]),
                     'first_name' => trim($data[1]),
                     'last_name' => trim($data[2]),
-                    'telephone' =>  trim(strtolower($data[4]), "\r\n"),
-                    'sex' => trim($data[3])
+                    'telephone' =>  trim(strtolower($data[5]), "\r\n"),
+                    'sex' => trim($data[3]),
+                    'job_title' => trim($data[4])
                 ];
                 if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){
                     $ext_manager_data['sex'] = "Male";
@@ -450,7 +456,7 @@ class ACLController extends AppBaseController
                 }
                 $manager_data = array_merge(request()->input(),$ext_manager_data);     
                 $manager = $this->managerRepository->create($manager_data); 
-                ManagerCreated::dispatch($manager);
+                BulkManagersCreated::dispatch($manager);
             break;
             
             default:

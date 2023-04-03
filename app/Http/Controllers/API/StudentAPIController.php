@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Events\StudentCreated;
 use App\Events\StudentUpdated;
 use App\Events\StudentDeleted;
+use App\Events\BulkStudentsCreated;
 
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\API\CreateStudentAPIRequest;
@@ -344,7 +345,7 @@ class StudentAPIController extends AppBaseController
                     }
                     $student_data = array_merge($request->input(), $ext_student_data);     
                     $student = Student::create($student_data); 
-                    StudentCreated::dispatch($student);
+                    BulkStudentsCreated::dispatch($student);
                   }
                 }else{
                     $headers = explode(',', $line);

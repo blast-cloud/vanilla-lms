@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Events\LecturerCreated;
 use App\Events\LecturerUpdated;
 use App\Events\LecturerDeleted;
+use App\Events\BulkLecturersCreated;
 
 use Illuminate\Support\Facades\Http;
 use App\Http\Requests\API\CreateLecturerAPIRequest;
@@ -331,7 +332,8 @@ class LecturerAPIController extends AppBaseController
                         'email' => trim($data[0]),
                         'first_name' => trim($data[1]),
                         'last_name' => trim($data[2]),
-                        'telephone' => trim($data[4]),
+                        'job_title' => trim($data[4]),
+                        'telephone' => trim($data[5]),
                         'sex' => trim($data[3])
                     ];
                     if(strtolower(trim($data[3])) == 'm' || strtolower(trim($data[3])) == 'male'){
@@ -341,12 +343,12 @@ class LecturerAPIController extends AppBaseController
                     }
                     $staff_data = array_merge($request->input(), $ext_staff_data);     
                     $lecturer = Lecturer::create($staff_data); 
-                    LecturerCreated::dispatch($lecturer);
+                    BulkLecturersCreated::dispatch($lecturer);
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (count($headers) != 5 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex'  || trim(strtolower($headers[4]), "\r\n") != 'telephone') {
-                        $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Telephone"';
+                    if (count($headers) != 5 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex' || strtolower(trim($headers[4])) != 'job title' || trim(strtolower($headers[5]), "\r\n") != 'telephone') {
+                        $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Job Title,Telephone"';
                         array_push($errors, $invalids);
                         break;
                     }
