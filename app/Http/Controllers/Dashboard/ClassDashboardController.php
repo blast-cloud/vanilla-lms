@@ -302,7 +302,7 @@ class ClassDashboardController extends AppBaseController
         $recordingUrl = "";
 
         $bbb = new BigBlueButton();
-        $meetingID = $lectureMaterial->blackboard_meeting_id;
+        $meetingID = optional($lectureMaterial)->blackboard_meeting_id;
         $bbb_get_recordings = new GetRecordingsParameters();
         $bbb_get_recordings->setMeetingId($meetingID);
         $response = $bbb->getRecordings($bbb_get_recordings);  
