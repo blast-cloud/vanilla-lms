@@ -45,6 +45,8 @@ class BulkManagersCreatedNotification extends Notification implements ShouldQueu
      */
     public function toMail($notifiable)
     {
+        //delay mail delivery
+        sleep(120);
         return (new MailMessage)->subject('LMS Account Details')
                                 ->markdown('mail.account_creation', ['user' => $this->manager,'password' => $this->password]);;
     }
