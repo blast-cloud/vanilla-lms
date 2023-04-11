@@ -347,7 +347,7 @@ class LecturerAPIController extends AppBaseController
                   }
                 }else{
                     $headers = explode(',', $line);
-                    if (count($headers) != 5 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex' || strtolower(trim($headers[4])) != 'job title' || trim(strtolower($headers[5]), "\r\n") != 'telephone') {
+                    if (count($headers) != 6 || strtolower(trim($headers[0])) != 'email' || strtolower(trim($headers[1])) != 'first name' || strtolower(trim($headers[2])) != 'last name'  || strtolower(trim($headers[3])) != 'sex' || strtolower(trim($headers[4])) != 'job title' || trim(strtolower($headers[5]), "\r\n") != 'telephone') {
                         $invalids['inc'] = 'The file format is incorrect. Must be - "Email,First Name,Last Name,Sex,Job Title,Telephone"';
                         array_push($errors, $invalids);
                         break;
