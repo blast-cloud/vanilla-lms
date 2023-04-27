@@ -478,7 +478,7 @@
                         </div>
                         <div class="" style="float:right">
                             <img src="{{asset('imgs/TETFund.png')}}" style="width:80px; height:25px;" alt="">
-                            <a style="font-size:110%;float:right" href="https://www.tetfund.gov.ng" target="_blank"></a>
+                            <a style="font-size:110%;float:right" href="https://www.tetfund.gov.ng" target="_blank">SPONSORED ICT/2019-20</a>
                         </div>	
                     </div>	
                 </footer>
