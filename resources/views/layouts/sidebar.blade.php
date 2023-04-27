@@ -258,7 +258,7 @@ if ($current_user && $current_user->lecturer) {
             @if (isset($class_schedules))
 
                 <li class="navigation-header">
-                    <span> {{ Request::is('dashboard/archieves') ? 'Archieved Classes' : 'Online Classes' }}</span>
+                    <span> {{ Request::is('dashboard/archieves') ? 'Archived Classes' : 'Online Classes' }}</span>
                     <i class="zmdi zmdi-more"></i>
                 </li>
                 @foreach ($class_schedules as $class_schedule_item)
@@ -281,7 +281,7 @@ if ($current_user && $current_user->lecturer) {
                     $class_type = 'Online Classes';
                     $class = $class_schedules->first();
                     if ($class && $class->semester_id != optional($current_semester)->id) {
-                        $class_type = 'Archieved Classes';
+                        $class_type = 'Archived Classes';
                     }
                 @endphp
                 <li class="navigation-header">
@@ -376,7 +376,7 @@ if ($current_user && $current_user->lecturer) {
                     $class_type = 'Online Classes';
                     $class = $class_schedules->first();
                     if ($class && $class->semester_id != optional($current_semester)->id) {
-                        $class_type = 'Archieved Classes';
+                        $class_type = 'Archived Classes';
                     }
                 @endphp
                 <li class="navigation-header">

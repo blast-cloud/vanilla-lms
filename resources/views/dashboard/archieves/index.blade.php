@@ -17,12 +17,12 @@
 @php
     $title = '';
     if($current_user->lecturer_id != null){
-        $title = "Lecturer Course Class Achieves";
+        $title = "Lecturer Course Class Archives";
     }elseif ($current_user->manager_id != null) {
         # code...
-        $title = "Course Class Achieves";
+        $title = "Course Class Archives";
     }else{
-        $title = "Student Course Class Achieves";
+        $title = "Student Course Class Archives";
     }
 @endphp
 {{$current_user->department->name}} :: {{$title}}
@@ -47,7 +47,7 @@
                                 <div class="la-anim-1"></div>
                             </div>
                             <div class="panel-heading text-center mb-20 mt-10">
-                                <h4 class="text-danger">No Items found in Archieve</h4>
+                                <h4 class="text-danger">No Items found in Archive</h4>
                             </div>
                         </div>
                     </div>
