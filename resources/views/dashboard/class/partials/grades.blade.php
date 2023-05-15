@@ -20,7 +20,8 @@
                     @endif
                 </td>
                 <td class="text-center" style="font-size:80%">
-                    Final Grade
+                    Total Assignment Pts <br>
+                    <span class="text-info">{{$gradeManager->get_assignments_max_scores()}}pts</span> <br/>               
                 </td>
                 @foreach($gradeManager->get_assignment_list() as $idx=>$item)
                     @if ($item->course_class_id == $courseClass->id )
@@ -56,9 +57,9 @@
             </td>
             <td>
                 @php
-                    $score = null;
-                    $grade = isset($grade_item['final-grade']) ? $grade_item['final-grade'] : null;
-                    if ($grade != null){ $score = $grade->score; }
+                    $score = $grade_item['assignments']['total-score'] ;
+                    /* $grade = isset($grade_item['final-grade']) ? $grade_item['final-grade'] : null;
+                    if ($grade != null){ $score = $grade->score; } */
                 @endphp
                 {!! Form::number("txt_score_{$idx}", $score, ['id'=>"txt_score_{$idx}",'placeholder'=>"",'class'=>"form-control final-scores text-right fs-{$grade_item['student_id']}",'data-val-id'=>'final','data-val-matric'=>"{$grade_item['matric_num']}","disabled"=>'',"readonly"=>'']) !!}
             </td>

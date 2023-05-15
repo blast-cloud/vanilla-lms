@@ -87,6 +87,15 @@ class GradeManager{
                     'label'=>"Assignment {$assignment->assignment_number}",
                     'grade_contribution_pct'=>$assignment->grade_contribution_pct
                 );
+                $grade_score = $assignment_grade!=null?$assignment_grade->score:0;
+                $current_score = 0;
+                if(isset($this->gradeMap[$enrollment->student->id]['assignments']['total-score'])){
+                    $current_score = $this->gradeMap[$enrollment->student->id]['assignments']['total-score'];          
+                }else{
+                    $current_score  = 0 ;
+                }
+                $this->gradeMap[$enrollment->student->id]['assignments']['total-score'] =  $current_score + $grade_score;
+               
             }
     
             foreach($this->classExaminations as $idx=>$examination){
@@ -170,6 +179,10 @@ class GradeManager{
         }
 
         return $final_score;
+    }
+
+    public function get_assignments_max_scores(){
+        return $this->classAssignments->sum('grade_max_points');
     }
 
 }
