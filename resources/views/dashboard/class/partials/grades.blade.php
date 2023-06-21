@@ -57,7 +57,7 @@
             </td>
             <td>
                 @php
-                    $score = $grade_item['assignments']['total-score'] ;
+                    $score = $grade_item['assignments']['total-score'] ?? 0;
                     /* $grade = isset($grade_item['final-grade']) ? $grade_item['final-grade'] : null;
                     if ($grade != null){ $score = $grade->score; } */
                 @endphp
