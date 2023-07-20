@@ -96,10 +96,10 @@
                                             <div class="col-lg-12 text-center mt-10">
 
 
-                                                <form method="post" action="{{ url('/login') }}">
+                                                <form method="post" action="{{ route('password.update') }}">
                                                     @csrf
                                 
-                                                        
+                                                    <input type="hidden" name="token" value="{{ $token }}">
                                                         
                                                         <!-- Row -->
                                                         <div class="table-struct full-width ">
@@ -164,11 +164,6 @@
 
                                                                             <p class="login-box-msg">You are only one step a way from your new password, recover your password now.</p>
 
-                                                                            <form action="{{ route('password.update') }}" method="POST">
-                                                                                @csrf
-                                                                
-                                                                                <input type="hidden" name="token" value="{{ $token }}">
-                                                                
                                                                                 <div class="input-group mb-3">
                                                                                     <input type="email"
                                                                                            name="email"
@@ -176,7 +171,7 @@
                                                                                            class="form-control @error('email') is-invalid @enderror"
                                                                                            placeholder="Email">
                                                                                     <div class="input-group-append">
-                                                                                        <div class="input-group-text"><span class="fas fa-envelope"></span></div>
+                                                                                        <div class="input-group-text"><span class="fa fa-envelope"></span></div>
                                                                                     </div>
                                                                                     @error('email')
                                                                                     <span class="error invalid-feedback">{{ $message }}</span>
@@ -189,7 +184,7 @@
                                                                                            class="form-control @error('password') is-invalid @enderror"
                                                                                            placeholder="Password">
                                                                                     <div class="input-group-append">
-                                                                                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                                                                                        <div class="input-group-text"><span class="fa fa-lock"></span></div>
                                                                                     </div>
                                                                                     @error('password')
                                                                                     <span class="error invalid-feedback">{{ $message }}</span>
@@ -202,7 +197,7 @@
                                                                                            class="form-control"
                                                                                            placeholder="Confirm Password">
                                                                                     <div class="input-group-append">
-                                                                                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                                                                                        <div class="input-group-text"><span class="fa fa-lock"></span></div>
                                                                                     </div>
                                                                                 </div>
                                                                 
@@ -212,7 +207,6 @@
                                                                                     </div>
                                                                                     <!-- /.col -->
                                                                                 </div>
-                                                                            </form>
                                                                             
                                                                         </div>	
                                                                     </div>
