@@ -244,13 +244,17 @@
                                             </div>
 
                                             <div class="col-lg-12 text-center mt-20 auth-actions">
-                                                 @if (isset($app_settings['cbx_allow_lecturer_registration']) && $app_settings['cbx_allow_lecturer_registration']==1)
-                                                 <a class="btn btn-success btn-lg" href="{{ route('lecturer-register') }}">Lecturer Reg.</a>
-                                                 @endif
+                                               <div style="margin-bottom:20px;">
+                                                @if (isset($app_settings['cbx_allow_lecturer_registration']) && $app_settings['cbx_allow_lecturer_registration']==1)
+                                                <a class="btn btn-success btn-lg" href="{{ route('lecturer-register') }}">Lecturer Reg.</a>
+                                                @endif
+                                               </div>
 
+                                               <div>
                                                 @if (isset($app_settings['cbx_allow_student_registration']) && $app_settings['cbx_allow_student_registration']==1)
                                                 <a class="btn btn-success btn-lg" href="{{ route('student-register') }}">Student Reg.</a>
                                                 @endif
+                                               </div>
 
                                             </div>
                                             

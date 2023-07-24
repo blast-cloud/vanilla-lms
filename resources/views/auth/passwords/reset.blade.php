@@ -164,44 +164,48 @@
 
                                                                             <p class="login-box-msg">You are only one step a way from your new password, recover your password now.</p>
 
-                                                                                <div class="input-group mb-3">
+                                                                            <div class="input-group mb-3" style="margin-bottom:10px;">
                                                                                     <input type="email"
                                                                                            name="email"
                                                                                            value="{{ $email ?? old('email') }}"
                                                                                            class="form-control @error('email') is-invalid @enderror"
                                                                                            placeholder="Email">
-                                                                                    <div class="input-group-append">
+                                                                                    <div class="input-group-addon">
                                                                                         <div class="input-group-text"><span class="fa fa-envelope"></span></div>
                                                                                     </div>
+                                                                                </div>
+                                                                                <div class="" style="text-align:left;margin-left:0% !important;">
                                                                                     @error('email')
                                                                                     <span class="error invalid-feedback">{{ $message }}</span>
                                                                                     @enderror
-                                                                                </div>
+                                                                                   </div>
                                                                 
-                                                                                <div class="input-group mb-3">
+                                                                                <div class="input-group mb-3" style="margin-bottom:10px;">
                                                                                     <input type="password"
                                                                                            name="password"
                                                                                            class="form-control @error('password') is-invalid @enderror"
                                                                                            placeholder="Password">
-                                                                                    <div class="input-group-append">
+                                                                                    <div class="input-group-addon">
                                                                                         <div class="input-group-text"><span class="fa fa-lock"></span></div>
                                                                                     </div>
-                                                                                    @error('password')
-                                                                                    <span class="error invalid-feedback">{{ $message }}</span>
-                                                                                    @enderror
                                                                                 </div>
-                                                                
-                                                                                <div class="input-group mb-3">
+                                                                                <div class="" style="text-align:left;margin-left:0% !important;">
+                                                                                 @error('password')
+                                                                                 <span class="error invalid-feedback">{{ $message }}</span>
+                                                                                 @enderror
+                                                                                </div>
+                                                                                
+                                                                                <div class="input-group mb-3" style="margin-bottom:10px;">
                                                                                     <input type="password"
                                                                                            name="password_confirmation"
                                                                                            class="form-control"
                                                                                            placeholder="Confirm Password">
-                                                                                    <div class="input-group-append">
+                                                                                    <div class="input-group-addon">
                                                                                         <div class="input-group-text"><span class="fa fa-lock"></span></div>
                                                                                     </div>
                                                                                 </div>
                                                                 
-                                                                                <div class="row">
+                                                                                <div class="row mt-5" style="margin-left:0% !important; margin-right:0% !important;">
                                                                                     <div class="col-12">
                                                                                         <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
                                                                                     </div>
